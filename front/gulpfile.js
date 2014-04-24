@@ -1,8 +1,16 @@
-var gulp = require('gulp');
-var jade = require('gulp-jade');
-var watch = require('gulp-watch')
+var gulp = require('gulp'),
+    jade = require('gulp-jade'),
+    connect = require('gulp-connect'),
+    watch = require('gulp-watch');
 
-gulp.task('default', function () {
+gulp.task('connect', function() {
+  connect.server({
+      root: 'dist',
+      port: 9000
+  });
+});
+
+gulp.task('default', ['connect'], function () {
     gulp.src('src/**/*.jade')
         .pipe(watch(function(files) {
             return files.pipe(jade())
