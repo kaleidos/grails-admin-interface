@@ -28,3 +28,7 @@
 
 # "temporary" build files
 /target
+
+*.class
+*.log
+
