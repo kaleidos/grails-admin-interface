@@ -2,11 +2,10 @@ package net.kaleidos.plugins.admin.widget
 
 abstract class InputWidget extends Widget{
     String inputType
-    def value
+
 
     InputWidget(Object value, Map<String, String> attrs) {
-        super(attrs)
-        this.value = value
+        super(value, attrs)
     }
 
     String render() {
