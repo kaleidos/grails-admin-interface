@@ -6,8 +6,27 @@ head
     include includes/nav
 
     div.main-container.container
-      div.list-group
-        a.list-group-item(href="attendee.html") Attendee
-        a.list-group-item(href="") Talk
+      table.table.table-condensed.dashboard
+        tr
+          td Attendee
+          td
+            div.btn-group
+              a.btn.btn-link(href="attendee.html")
+                span.glyphicon.glyphicon-list
+                |  List
+              a.btn.btn-link(href="add.html")
+                span.glyphicon.glyphicon-plus
+                |  Add
+
+        tr
+          td Talk
+          td
+            div.btn-group
+              a.btn.btn-link(href="attendee.html")
+                span.glyphicon.glyphicon-list
+                |  List
+              a.btn.btn-link(href="add.html")
+                span.glyphicon.glyphicon-plus
+                |  Add
 
     include includes/footer

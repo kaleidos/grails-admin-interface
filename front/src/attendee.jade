@@ -6,6 +6,75 @@ head
     include includes/nav
 
     div.main-container.container
-      p dssdfds
+      table.table.table-bordered
+        thead
+          tr
+            th id
+            th First Name
+            th Username
+            th.list-actions-head Actions
+
+        tbody
+          tr
+            td 1
+            td Mark
+            td @mdo
+            td.list-actions
+             a.btn.btn-default.btn-sm(href="edit.html")
+               span.glyphicon.glyphicon-pencil
+               |  Edit
+             a.btn.btn-default.btn-sm(href="")
+               span.glyphicon.glyphicon-trash
+               |  Delete
+          tr
+            td 2
+            td Mark
+            td @TwBootstrap
+            td.list-actions
+             a.btn.btn-default.btn-sm(href="edit.html")
+               span.glyphicon.glyphicon-pencil
+               |  Edit
+             a.btn.btn-default.btn-sm(href="")
+               span.glyphicon.glyphicon-trash
+               |  Delete
+          tr
+            td 3
+            td Jacob
+            td @fat
+            td.list-actions
+             a.btn.btn-default.btn-sm(href="edit.html")
+               span.glyphicon.glyphicon-pencil
+               |  Edit
+             a.btn.btn-default.btn-sm(href="")
+               span.glyphicon.glyphicon-trash
+               |  Delete
+          tr
+            td 4
+            td Larry
+            td @twitter
+            td.list-actions
+             a.btn.btn-default.btn-sm(href="edit.html")
+               span.glyphicon.glyphicon-pencil
+               |  Edit
+             a.btn.btn-default.btn-sm(href="")
+               span.glyphicon.glyphicon-trash
+               |  Delete
+
+      ul.pagination
+        li.disabled
+          a(href="#") «
+        li.active
+          a(href='#') 1
+            span.sr-only (current)
+          li
+            a(href='#') 2
+          li
+            a(href='#') 3
+          li
+            a(href='#') 4
+          li
+            a(href='#') 5
+          li
+            a(href='#') »
 
     include includes/footer
