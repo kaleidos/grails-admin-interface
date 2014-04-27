@@ -1,69 +1,41 @@
+import grails.util.Holders
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
+
 class AdminGrailsPlugin {
-    // the plugin version
     def version = "0.1"
-    // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "2.3 > *"
-    // resources that are excluded from plugin packaging
+
+    def grailsVersion = "2.0.0 > *"
+
     def pluginExcludes = [
-        "grails-app/views/error.gsp"
+        "grails-app/domain/**"
     ]
 
-    // TODO Fill in these fields
-    def title = "Admin Plugin" // Headline display name of the plugin
-    def author = "Your name"
-    def authorEmail = ""
-    def description = '''\
-Brief summary/description of the plugin.
-'''
+    def title = "Grails Admin"
+    def author = "Kaleidos Open Source"
+    def authorEmail = "hello@kaleidos.net"
+    def description = "Administration backoffice for Grails applications"
 
-    // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/admin"
 
-    // Extra (optional) plugin metadata
+    def license = "APACHE"
 
-    // License: one of 'APACHE', 'GPL2', 'GPL3'
-//    def license = "APACHE"
+    def organization = [ name: "Kaleidos Open Source", url: "http://www.kaleidos.net" ]
 
-    // Details of company behind the plugin (if there is one)
-//    def organization = [ name: "My Company", url: "http://www.my-company.com/" ]
+    def developers = [
+        [ name: "Pablo Alba", email: "pablo.alba@kaleidos.net" ],
+        [ name: "Antonio de la Torre", email: "antonio.delatorre@kaleidos.net" ],
+        [ name: "Daniel Herrero", email: "daniel.herrero@kaleidos.net" ],
+        [ name: "Juan Francisco Alcantara", email: "juanfran.alcantara@kaleidos.net" ],
+        [ name: "Alonso Torres", email: "alonso.torres@kaleidos.net" ]
+    ]
 
-    // Any additional developers beyond the author specified above.
-//    def developers = [ [ name: "Joe Bloggs", email: "joe@bloggs.net" ]]
+    def issueManagement = [ system: "Github", url: "https://github.com/grails-admin/grails-admin" ]
 
-    // Location of the plugin's issue tracker.
-//    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
-
-    // Online location of the plugin's browseable source code.
-//    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
-
-    def doWithWebDescriptor = { xml ->
-        // TODO Implement additions to web.xml (optional), this event occurs before
-    }
+    def scm = [ url: "https://github.com/grails-admin/grails-admin.git" ]
 
     def doWithSpring = {
-        // TODO Implement runtime spring config (optional)
-    }
-
-    def doWithDynamicMethods = { ctx ->
-        // TODO Implement registering dynamic methods to classes (optional)
-    }
-
-    def doWithApplicationContext = { ctx ->
-        // TODO Implement post initialization spring config (optional)
-    }
-
-    def onChange = { event ->
-        // TODO Implement code that is executed when any artefact that this plugin is
-        // watching is modified and reloaded. The event contains: event.source,
-        // event.application, event.manager, event.ctx, and event.plugin.
-    }
-
-    def onConfigChange = { event ->
-        // TODO Implement code that is executed when the project configuration changes.
-        // The event is the same as for 'onChange'.
-    }
-
-    def onShutdown = { event ->
-        // TODO Implement code that is executed when the application shuts down (optional)
+        adminConfigHolder(AdminConfigHolder, Holders.config) {
+            grailsApplication = ref("grailsApplication")
+        }
     }
 }
