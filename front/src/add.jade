@@ -26,8 +26,6 @@ head
               span.glyphicon.glyphicon-list
               |  Return
 
-      h1 Edit: hola
-
       form.main-form
         div.form-group
           label(for="input1") Name
@@ -45,12 +43,9 @@ head
 
         .form-options.well
           div.btn-group
-            input.btn.btn-primary(type="submit", value="Update")
+            input.btn.btn-success(type="submit", value="Save")
 
           div.btn-group
-            input.btn.btn-default(type="submit", value="Update and close")
-
-          div.btn-group
-            a.btn.btn-danger(href="") Delete
+            input.btn.btn-default(type="submit", value="Save and return list")
 
     include includes/footer
