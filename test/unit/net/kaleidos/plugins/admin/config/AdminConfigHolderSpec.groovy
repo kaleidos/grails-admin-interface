@@ -5,6 +5,10 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.Specification
 
 import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
+import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
+import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingEvaluator
+import org.springframework.web.context.WebApplicationContext
+import org.springframework.context.ApplicationContext
 
 class AdminConfigHolderSpec extends Specification {
     def grailsApplication
@@ -71,5 +75,34 @@ class AdminConfigHolderSpec extends Specification {
 
         where:
             testDomains = [ "NOT.EXISTS" ]
+    }
+
+    void "Test changes in the URL mappings"() {
+        setup:
+            def configHolder = new AdminConfigHolder()
+            configHolder.grailsApplication = grailsApplication
+
+        and: "New url mappings holder"
+            def evaluator = new DefaultUrlMappingEvaluator((WebApplicationContext)null);
+            def mappingList = evaluator.evaluateMappings {
+                group "/grails-url-admin", {
+                    "/" { controller = "dashboard" ; action="index" }
+                    "/$adminController?/$adminAction?/$id?" { controller = "admin" ; action="adminMethod" }
+                }
+            }
+            def urlMappingsHolder = new DefaultUrlMappingsHolder(mappingList)
+
+        and: "Spring configuration"
+            grailsApplication.mainContext = Mock(ApplicationContext)
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+
+        when:
+            configHolder.afterPropertiesSet()
+
+        then:
+            urlMappingsHolder.match("/admin") != null
+            urlMappingsHolder.match("/admin/testDomain") != null
+            urlMappingsHolder.match("/admin/testDomain/list") != null
+            urlMappingsHolder.match("/admin/testDomain/show/1") != null
     }
 }

@@ -4,8 +4,9 @@ import java.util.regex.Pattern
 // import org.springframework.security.access.annotation.Secured
 
 // @Secured(['IS_AUTHENTICATED_REMEMBERED'])
-class DashboardController {
-    def index() {
-        render "DASHBOARD"
+class AdminController {
+    def adminMethod() {
+        log.debug ">> Execute: ${params}"
+        render "OK ${params}"
     }
 }
