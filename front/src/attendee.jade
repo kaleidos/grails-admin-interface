@@ -6,10 +6,18 @@ head
     include includes/nav
 
     div.main-container.container
-      ol.breadcrumb
-        li
-          a(href="/") Dashboard
-        li.active Attendee
+      div.row
+        div.col-md-7
+          ol.breadcrumb
+            li
+              a(href="/") Dashboard
+            li.active Attendee
+
+        div.col-md-3.col-md-offset-2.object-nav
+          div.btn-group
+            a.btn.btn-default(href="add.html")
+              span.glyphicon.glyphicon-plus
+              |  Add
 
       table.table.table-bordered
         thead
@@ -17,6 +25,7 @@ head
             th id
             th First Name
             th Username
+            th Enabled
             th.list-actions-head Actions
 
         tbody
@@ -24,6 +33,8 @@ head
             td 1
             td Mark
             td @mdo
+            td
+              span.label.label-success true
             td.list-actions
              a.btn.btn-default.btn-sm(href="edit.html")
                span.glyphicon.glyphicon-pencil
@@ -35,6 +46,8 @@ head
             td 2
             td Mark
             td @TwBootstrap
+            td
+             span.label.label-danger false
             td.list-actions
              a.btn.btn-default.btn-sm(href="edit.html")
                span.glyphicon.glyphicon-pencil
@@ -46,6 +59,8 @@ head
             td 3
             td Jacob
             td @fat
+            td
+              span.label.label-success true
             td.list-actions
              a.btn.btn-default.btn-sm(href="edit.html")
                span.glyphicon.glyphicon-pencil
@@ -57,6 +72,8 @@ head
             td 4
             td Larry
             td @twitter
+            td
+              span.label.label-success true
             td.list-actions
              a.btn.btn-default.btn-sm(href="edit.html")
                span.glyphicon.glyphicon-pencil
