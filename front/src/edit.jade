@@ -53,6 +53,19 @@ head
             input.btn.btn-default(type="submit", value="Update and close")
 
           div.btn-group
-            a.btn.btn-danger(href="") Delete
+            a.btn.btn-danger(href="", data-toggle="modal", data-target="#confirm") Delete
+
+    #confirm.modal.fade(tabindex='-1', role='dialog', aria-labelledby='confirmLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4#confirmLabel.modal-title Confirm deletion
+          .modal-body
+            | Are you sure you want to delete the selected element?
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+            button.btn.btn-danger(type='button') Delete
+
 
     include includes/footer
