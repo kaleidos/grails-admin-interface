@@ -1,7 +1,5 @@
 package net.kaleidos.plugins.admin.config
 
-import grails.test.mixin.TestMixin
-import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.Specification
 
 import org.codehaus.groovy.grails.commons.DefaultGrailsApplication

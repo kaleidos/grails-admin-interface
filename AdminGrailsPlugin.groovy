@@ -38,7 +38,6 @@ class AdminGrailsPlugin {
     def doWithSpring = {
         adminConfigHolder(AdminConfigHolder, Holders.config) {
             grailsApplication = ref("grailsApplication")
-            objectDefinitionSource = ref("objectDefinitionSource")
         }
     }
 

@@ -8,13 +8,12 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException
 @Log4j
 class AdminConfigHolder {
     def grailsApplication
-    def objectDefinitionSource
 
     List<String> domains = []
     String accessRoot = "admin"
     String role = "ROLE_ADMIN"
 
-    AdminConfigHolder(ConfigObject config=null) {
+    public AdminConfigHolder(ConfigObject config=null) {
         if (config != null) {
             this.domains = config.grails.plugin.admin.domains.collect { it }
 
@@ -38,12 +37,24 @@ class AdminConfigHolder {
         log.debug "Loading config. Role: ${this.role}"
     }
 
+    void initialize() {
+        _configureUrlMappings()
+        _configureAdminRole()
+    }
+
     void validateConfiguration() {
         _validateDomains(this.domains)
     }
 
+    DomainConfig getConfigForDomain(Class domainClass) {
+        if (!this.domains.contains(domainClass.name)) {
+            throw new RuntimeException ("The domain $domainClass has not been configured to administer")
+        }
+    }
 
-    void _validateDomains(List domains) {
+
+    /* Private methods */
+    private void _validateDomains(List domains) {
         domains.each { configuredDomain ->
             if (!grailsApplication.domainClasses.find { it.fullName == configuredDomain } ) {
                 throw new RuntimeException("The class ${configuredDomain} doesn't match with any domain class")
@@ -51,14 +62,7 @@ class AdminConfigHolder {
         }
     }
 
-
-    //void afterPropertiesSet() throws Exception {
-    void initialize() {
-        _configureUrlMappings()
-        _configureAdminRole()
-    }
-
-    void _configureUrlMappings() {
+    private void _configureUrlMappings() {
         log.debug "Trying to change de URL's to support the configured property"
 
         def holder
@@ -87,16 +91,20 @@ class AdminConfigHolder {
         }
     }
 
-    void _configureAdminRole() {
+    private void _configureAdminRole() {
         try {
             // We use reflection so it doesn't have a compile-time dependency
             def clazz = Class.forName("grails.plugin.springsecurity.InterceptedUrl")
             def httpMethodClass = Class.forName("org.springframework.http.HttpMethod")
             def constructor = clazz.getConstructor(String.class, Collection.class, httpMethodClass)
             def newUrl = constructor.&newInstance
+
+            def objectDefinitionSource = grailsApplication.mainContext.getBean("objectDefinitionSource")
             objectDefinitionSource.compiled << newUrl("/grailsadminplugin", [this.role], null)
             objectDefinitionSource.compiled << newUrl("/grailsadminplugin.*", [this.role], null)
             objectDefinitionSource.compiled << newUrl("/grailsadminplugin/**", [this.role], null)
+        } catch (NoSuchBeanDefinitionException e) {
+            log.error "No configured Spring Security"
         } catch (ClassNotFoundException e) {
             log.error "No configured Spring Security"
         }
