@@ -2,14 +2,13 @@ package net.kaleidos.plugins.admin.config
 
 import groovy.util.logging.Log4j
 import java.util.regex.Pattern
-import org.springframework.beans.factory.InitializingBean
 import org.codehaus.groovy.grails.web.mapping.RegexUrlMapping
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
-
 @Log4j
-class AdminConfigHolder implements InitializingBean{
+class AdminConfigHolder {
     def grailsApplication
+    def objectDefinitionSource
 
     List<String> domains = []
     String accessRoot = "admin"
@@ -18,13 +17,20 @@ class AdminConfigHolder implements InitializingBean{
     AdminConfigHolder(ConfigObject config=null) {
         if (config != null) {
             this.domains = config.grails.plugin.admin.domains.collect { it }
-            this.accessRoot = "${config.grails.plugin.admin.access_root}"
 
-            // Remove the starting slash for the access root
-            if (this.accessRoot.startsWith("/")) {
-                this.accessRoot = this.accessRoot.substring(1)
+            if (config.grails.plugin.admin.access_root) {
+                this.accessRoot = "${config.grails.plugin.admin.access_root}"
+
+                // Remove the starting slash for the access root
+                if (this.accessRoot.startsWith("/")) {
+                    this.accessRoot = this.accessRoot.substring(1)
+                }
             }
-            this.role = "${config.grails.plugin.admin.role}"
+
+            if (config.grails.plugin.admin.role) {
+                this.role = "${config.grails.plugin.admin.role}"
+            }
+
         }
 
         log.debug "Loading config. Domains: ${this.domains}"
@@ -46,7 +52,13 @@ class AdminConfigHolder implements InitializingBean{
     }
 
 
-    void afterPropertiesSet() throws Exception {
+    //void afterPropertiesSet() throws Exception {
+    void initialize() {
+        _configureUrlMappings()
+        _configureAdminRole()
+    }
+
+    void _configureUrlMappings() {
         log.debug "Trying to change de URL's to support the configured property"
 
         def holder
@@ -72,6 +84,21 @@ class AdminConfigHolder implements InitializingBean{
                     log.debug "${it.patterns}"
                 }
             }
+        }
+    }
+
+    void _configureAdminRole() {
+        try {
+            // We use reflection so it doesn't have a compile-time dependency
+            def clazz = Class.forName("grails.plugin.springsecurity.InterceptedUrl")
+            def httpMethodClass = Class.forName("org.springframework.http.HttpMethod")
+            def constructor = clazz.getConstructor(String.class, Collection.class, httpMethodClass)
+            def newUrl = constructor.&newInstance
+            objectDefinitionSource.compiled << newUrl("/grailsadminplugin", [this.role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminplugin.*", [this.role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminplugin/**", [this.role], null)
+        } catch (ClassNotFoundException e) {
+            log.error "No configured Spring Security"
         }
     }
 }

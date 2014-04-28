@@ -6,6 +6,8 @@ class AdminGrailsPlugin {
 
     def grailsVersion = "2.0.0 > *"
 
+    def loadAfter = ["springSecurityCore"]
+
     def pluginExcludes = [
         "grails-app/domain/**"
     ]
@@ -36,6 +38,12 @@ class AdminGrailsPlugin {
     def doWithSpring = {
         adminConfigHolder(AdminConfigHolder, Holders.config) {
             grailsApplication = ref("grailsApplication")
+            objectDefinitionSource = ref("objectDefinitionSource")
         }
+    }
+
+    def doWithApplicationContext = { ctx ->
+        // We should initialize the config here to load after spring security
+        ctx.adminConfigHolder.initialize()
     }
 }

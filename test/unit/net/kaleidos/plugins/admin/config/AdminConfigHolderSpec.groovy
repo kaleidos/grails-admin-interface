@@ -97,7 +97,7 @@ class AdminConfigHolderSpec extends Specification {
             grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
 
         when:
-            configHolder.afterPropertiesSet()
+            configHolder.initialize()
 
         then:
             urlMappingsHolder.match("/admin") != null
