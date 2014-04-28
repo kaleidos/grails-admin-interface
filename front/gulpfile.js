@@ -14,7 +14,9 @@ var path = {
     'jade': ['src/**/*.jade'],
     'html': 'dist/',
     'scss': 'src/scss/**/*.scss',
-    'mainStyle': 'dist/css/'
+    'mainStyle': 'dist/css/',
+    'js': 'src/js/**/*.js',
+    'mainJs': 'dist/js/',
 };
 
 gulp.task('scss', function () {
@@ -31,7 +33,13 @@ gulp.task('jade', function () {
         .pipe(gulp.dest(path.html));
 });
 
+gulp.task('js', function () {
+    gulp.src(path.js)
+        .pipe(gulp.dest(path.mainJs));
+});
+
 gulp.task('default', ['connect'], function () {
     gulp.watch(path.jade, ['jade']);
     gulp.watch(path.scss, ['scss']);
+    gulp.watch(path.js, ['js']);
 });
