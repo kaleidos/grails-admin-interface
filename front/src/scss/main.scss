@@ -27,3 +27,21 @@ body {
     }
   }
 }
+
+.main-form {
+  input[type='text'], select {
+    width: 650px;
+  }
+}
+
+.form-options {
+  .btn-group {
+    margin-right: 10px;
+  }
+}
+
+.object-nav {
+  .btn-group {
+    float: right;
+  }
+}

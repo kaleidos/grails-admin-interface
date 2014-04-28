@@ -1,0 +1,56 @@
+doctype html
+html(lang='en')
+head
+    include includes/head
+  body
+    include includes/nav
+
+    div.main-container.container
+      div.row
+        div.col-md-7
+          ol.breadcrumb
+            li
+              a(href="#") Dashboard
+            li
+              a(href="#") Attendee
+            li.active
+              | Edit: hola
+
+        div.col-md-3.col-md-offset-2.object-nav
+          div.btn-group
+            a.btn.btn-default(href="edit.html")
+              span.glyphicon.glyphicon-plus
+              |  Add
+
+            a.btn.btn-default(href="attendee.html")
+              span.glyphicon.glyphicon-list
+              |  Return
+
+      h1 Edit: hola
+
+      form.main-form
+        div.form-group
+          label(for="input1") Name
+          input#input1.form-control(type="text", value="test test")
+
+        div.form-group
+          label(for="input2") Last Name
+          input#input2.form-control(type="text")
+
+        div.form-group
+          label(for="select1") Country
+          select#select1.form-control
+            option Spain
+            option Usa
+
+        .form-options.well
+          div.btn-group
+            input.btn.btn-primary(type="submit", value="Update")
+
+          div.btn-group
+            input.btn.btn-default(type="submit", value="Update and close")
+
+          div.btn-group
+            a.btn.btn-danger(href="") Delete
+
+    include includes/footer
