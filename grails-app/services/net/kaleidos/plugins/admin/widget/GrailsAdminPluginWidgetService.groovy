@@ -49,7 +49,9 @@ class GrailsAdminPluginWidgetService {
                 case [Character, String]:
                     if (EmailConstraint.class in constraintsClasses) {
                         widgetClass = EmailInputWidget.class
-                    } else {
+                    } else if (UrlConstraint.class in constraintsClasses){
+                        widgetClass = UrlInputWidget.class
+                    }else {
                         widgetClass = TextInputWidget.class
                     }
                     break

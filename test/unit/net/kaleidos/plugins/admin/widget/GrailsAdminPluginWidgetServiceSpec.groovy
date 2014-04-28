@@ -50,6 +50,13 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
             widget.class == EmailInputWidget.class
     }
 
+    void 'get widget for url string class'() {
+        when:
+            def widget = widgetService.getWidget(adminDomainTest, "web", null, null)
+        then:
+            widget.class == UrlInputWidget.class
+    }
+
 
 
 }
