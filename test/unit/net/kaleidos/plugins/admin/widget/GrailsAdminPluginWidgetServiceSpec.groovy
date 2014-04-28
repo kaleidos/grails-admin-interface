@@ -29,11 +29,43 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
 
     }
 
-    void 'get widget for integer class'() {
+    void 'get widget for long class'() {
+        when:
+            def widget = widgetService.getWidget(adminDomainTest, "longNumber", null, null)
+        then:
+            widget.class == NumberInputWidget.class
+    }
+
+    void 'get widget for integer class with attribs (not nullable, min, max, required)'() {
         when:
             def widget = widgetService.getWidget(adminDomainTest, "age", null, null)
         then:
             widget.class == NumberInputWidget.class
+            widget.value == '25'
+            widget.attrs.min == '18'
+            widget.attrs.max == '100'
+            widget.attrs.required == 'true'
+            widget.attrs.name == 'age'
+    }
+
+    void 'get widget for integer class with attribs (range)'() {
+        when:
+            def widget = widgetService.getWidget(adminDomainTest, "year", null, null)
+        then:
+            widget.class == NumberInputWidget.class
+            widget.value == null
+            widget.attrs.min == '2014'
+            widget.attrs.max == '2020'
+            widget.attrs.name == 'year'
+    }
+
+    void 'get widget for string class with attribs (maxsize)'() {
+        when:
+            def widget = widgetService.getWidget(adminDomainTest, "surname", null, null)
+        then:
+            widget.class == TextInputWidget.class
+            widget.value == null
+            widget.attrs.maxlength == '100'
     }
 
     void 'get widget for plain string class'() {

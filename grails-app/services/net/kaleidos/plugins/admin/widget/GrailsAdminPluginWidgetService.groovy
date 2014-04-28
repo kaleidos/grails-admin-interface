@@ -13,11 +13,13 @@ import org.codehaus.groovy.grails.validation.MinConstraint
 import org.codehaus.groovy.grails.validation.MinSizeConstraint
 import org.codehaus.groovy.grails.validation.NotEqualConstraint
 import org.codehaus.groovy.grails.validation.NullableConstraint
+import org.codehaus.groovy.grails.validation.BlankConstraint
 import org.codehaus.groovy.grails.validation.RangeConstraint
 import org.codehaus.groovy.grails.validation.ScaleConstraint
 import org.codehaus.groovy.grails.validation.SizeConstraint
 import org.codehaus.groovy.grails.validation.UrlConstraint
 import org.codehaus.groovy.grails.validation.ValidatorConstraint
+import org.codehaus.groovy.grails.validation.AbstractConstraint
 
 
 
@@ -31,14 +33,18 @@ class GrailsAdminPluginWidgetService {
 
     Widget getWidget(Object object, String propertyName, String customWidget, Map<String, String> attributes) {
         def widgetClass
+        def attrs = [:]
+
+
+        def grailsDomainClass = getGrailsDomainClass(object)
         def property = object.metaClass.getProperties().find{it.name == propertyName}
+        def constraints = grailsDomainClass.constrainedProperties.get(propertyName, null).getAppliedConstraints()
 
         if (customWidget) {
             widgetClass = this.getClass().classLoader.loadClass( customWidget, true, false )
         } else {
-            //Get property type
-            def grailsDomainClass = getGrailsDomainClass(object)
-            def constraints = grailsDomainClass.constrainedProperties.get(propertyName, null).getAppliedConstraints()
+
+
             def constraintsClasses = constraints*.class
             def type = property.getType()
 
@@ -60,14 +66,47 @@ class GrailsAdminPluginWidgetService {
             }
         }
 
+        //Attribs from constraints
+        constraints.each{
+            def attr = getAttributeFromConstraint(it)
+            if (attr) {
+                attrs.putAll(attr)
+            }
+        }
+
         def widget = widgetClass?.newInstance()
+        def value = object."${propertyName}"
+        widget.value = value?"${value}":null
+        widget.attrs = attrs
+        widget.attrs.name = propertyName
 
-        widget.value = object."${propertyName}"
-
-
+        if (attributes) {
+            //Preference for user-defined attributes
+            widget.attrs.putAll(attributes)
+        }
 
         return widget
 
+    }
+
+    Map getAttributeFromConstraint(AbstractConstraint constraint){
+        //There is no html constraints for MinSizeConstraint
+
+        if (constraint instanceof MaxConstraint) {
+            return ['max':"${constraint.getMaxValue()}"]
+        } else if (constraint instanceof MinConstraint) {
+            return ['min':"${constraint.getMinValue()}"]
+        } else if (constraint instanceof RangeConstraint) {
+            return ['max':"${constraint.getRange().to}",
+                    'min':"${constraint.getRange().from}"]
+        } else if (constraint instanceof MaxSizeConstraint) {
+            return ['maxlength':"${constraint.getMaxSize()}"]
+        } else if (constraint instanceof NullableConstraint) {
+            //TODO: Also BlankConstraint??
+            if (!constraint.isNullable()) {
+                return ['required':"true"]
+            }
+        }
     }
 
 
