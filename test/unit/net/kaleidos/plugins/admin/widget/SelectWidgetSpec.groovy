@@ -24,6 +24,17 @@ class SelectWidgetSpec extends Specification {
             html == "<select></select>"
     }
 
+    void 'create nullable element without value without options without attribs'() {
+        setup:
+            def widget = new SelectWidget()
+            widget.nullable = true
+        when:
+            def html = widget.render()
+
+        then:
+            html == "<select><option value=\"\">--</option></select>"
+    }
+
 
     void 'create element with value without options without attribs'() {
         setup:
