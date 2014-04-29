@@ -11,17 +11,12 @@ class DomainConfig {
         this.domainClass = domainClass
 
         if (params) {
-            params.each { method, properties ->
-                println "$method, $properties"
-
-                if (['list', 'show', 'edit'].contains(method)) {
-                    if (properties['excludes']) {
-                        this.excludes[method] = properties['excludes']
-                    }
-
-                    if (properties['includes']) {
-                        this.includes[method] = properties['includes']
-                    }
+            _configureParams(params)
+            
+            if (params['adminClass']) {
+                def clazz = Class.forName(params['adminClass'])
+                if (clazz.metaClass.respondsTo(clazz, "getOptions")) {
+                    _configureParams(clazz.options)
                 }
             }
         }
@@ -33,5 +28,19 @@ class DomainConfig {
 
     List getIncludes(String method) {
         return this.includes[method]
+    }
+    
+    private _configureParams(params) {
+        params.each { method, properties ->
+            if (['list', 'show', 'edit'].contains(method)) {
+                if (properties['excludes']) {
+                    this.excludes[method] = properties['excludes']
+                }
+
+                if (properties['includes']) {
+                    this.includes[method] = properties['includes']
+                }
+            }
+        }
     }
 }

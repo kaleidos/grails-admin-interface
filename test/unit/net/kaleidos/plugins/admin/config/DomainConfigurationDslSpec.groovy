@@ -26,15 +26,16 @@ class DomainConfigurationDslSpec extends Specification {
 
         when:
             config.execute()
+            def result = config.domains["admin.test.TestOtherDomain"]
 
         then:
             config.domains.size() == 2
-            config.domains["admin.test.TestOtherDomain"] != null
-            config.domains["admin.test.TestOtherDomain"].domainClass != null
-            config.domains["admin.test.TestOtherDomain"].domainClass.clazz == admin.test.TestOtherDomain.class
-            config.domains["admin.test.TestOtherDomain"].getExcludes('list') == ['year']
-            config.domains["admin.test.TestOtherDomain"].getExcludes('show') == ['year']
-            config.domains["admin.test.TestOtherDomain"].getExcludes('edit') == ['year']
+            result != null
+            result.domainClass != null
+            result.domainClass.clazz == admin.test.TestOtherDomain.class
+            result.getExcludes('list') == ['year']
+            result.getExcludes('show') == ['year']
+            result.getExcludes('edit') == ['year']
 
     }
 
@@ -60,15 +61,16 @@ class DomainConfigurationDslSpec extends Specification {
 
         when:
             config.execute()
+            def result = config.domains["admin.test.TestOtherDomain"]
 
         then:
             config.domains.size() == 2
-            config.domains["admin.test.TestOtherDomain"] != null
-            config.domains["admin.test.TestOtherDomain"].domainClass != null
-            config.domains["admin.test.TestOtherDomain"].domainClass.clazz == admin.test.TestOtherDomain.class
-            config.domains["admin.test.TestOtherDomain"].getIncludes('list') == ['name', 'year']
-            config.domains["admin.test.TestOtherDomain"].getIncludes('show') == ['name', 'year']
-            config.domains["admin.test.TestOtherDomain"].getIncludes('edit') == ['name', 'year']
+            result != null
+            result.domainClass != null
+            result.domainClass.clazz == admin.test.TestOtherDomain.class
+            result.getIncludes('list') == ['name', 'year']
+            result.getIncludes('show') == ['name', 'year']
+            result.getIncludes('edit') == ['name', 'year']
 
     }
 
@@ -92,7 +94,34 @@ class DomainConfigurationDslSpec extends Specification {
 
         then:
             thrown(RuntimeException)
+    }
+    
+    void "Test config domain external admin"() {
+        setup:
+            def config = new DomainConfigurationDsl({
+                "admin.test.TestConfigDomain"(
+                    adminClass: "admin.test.TestConfigDomainAdmin"
+                )
+            })
+
+        and: "Grails application"
+            def grailsApplication = new DefaultGrailsApplication()
+            grailsApplication.configureLoadedClasses([
+                admin.test.TestConfigDomain.class] as Class[])
+            config.grailsApplication = grailsApplication
+
+        when:
+            config.execute()
+            def result = config.domains["admin.test.TestConfigDomain"]
+
+        then:
+            config.domains.size() == 1
+            result != null
+            result.domainClass != null
+            result.domainClass.clazz == admin.test.TestConfigDomain.class
+            result.getIncludes('list') == ['name', 'year']
+            result.getIncludes('show') == ['name', 'year']
+            result.getIncludes('edit') == ['name', 'year']
 
     }
-
 }

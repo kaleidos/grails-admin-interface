@@ -13,6 +13,7 @@
 	<classpathentry kind="src" path="grails-app/views"/>
 	<classpathentry kind="src" path="test/integration"/>
 	<classpathentry kind="src" path="test/unit"/>
+	<classpathentry kind="src" path="grails-app/admin"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path=".link_to_grails_plugins/release-3.0.1/src/groovy">
 		<attributes>
