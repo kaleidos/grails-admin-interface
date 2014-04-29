@@ -1,3 +1,18 @@
 language: groovy
+
 script: ./grailsw refresh-dependencies --non-interactive
     && ./grailsw test-app -coverage
+
+notifications:
+  email:
+    recipients:
+      - alonso.torres@kaleidos.net
+      - antonio.delatorre@kaleidos.net
+      - juanfran.alcantara@kaleidos.net
+      - daniel.herrero@kaleidos.net
+
+    on_success: change
+    on_failure: change
+
+after_success:
+  - coveralls
