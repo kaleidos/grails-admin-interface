@@ -12,6 +12,7 @@
         <link href="${resource(file: 'css/main.css', plugin: 'admin')}" rel="stylesheet" />
     </head>
     <body>
+        <g:include action="menu" />
         <g:layoutBody/>
         <script src="${resource(file: 'libs/jquery/dist/jquery.js', plugin: 'admin')}"></script>
         <script src="${resource(file: 'libs/bootstrap/dist/js/bootstrap.js', plugin: 'admin')}"></script>

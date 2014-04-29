@@ -13,4 +13,8 @@ class GrailsAdminPluginController {
         log.debug ">> Execute: ${params}"
         render "OK ${params}"
     }
+
+    def menu() {
+        render view:'/grailsAdmin/includes/menu',  model:[]
+    }
 }
