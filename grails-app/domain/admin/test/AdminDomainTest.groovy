@@ -9,6 +9,7 @@ class AdminDomainTest{
     String web
     Long longNumber
     Integer year
+    String country
 
     static constraints = {
         name nullable:true
@@ -17,6 +18,7 @@ class AdminDomainTest{
         email nullable:true, email:true
         web nullable:true, url:true
         year nullable:true, range:2014..2020
+        country nullable:true, inList: ["Canada", "Spain", "USA"]
     }
 
 

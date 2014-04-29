@@ -32,7 +32,7 @@ class GrailsAdminPluginWidgetService {
     }
 
     Widget getWidget(Object object, String propertyName, String customWidget, Map<String, String> attributes) {
-        def widgetClass
+        def widget
         def attrs = [:]
 
 
@@ -40,31 +40,33 @@ class GrailsAdminPluginWidgetService {
         def property = object.metaClass.getProperties().find{it.name == propertyName}
         def constraints = grailsDomainClass.constrainedProperties.get(propertyName, null).getAppliedConstraints()
 
+
         if (customWidget) {
-            widgetClass = this.getClass().classLoader.loadClass( customWidget, true, false )
+            def widgetClass = this.getClass().classLoader.loadClass( customWidget, true, false )
+            widget = widgetClass?.newInstance()
         } else {
-
-
-            def constraintsClasses = constraints*.class
-            def type = property.getType()
-
-            switch ( type ) {
-                case [Byte, Short, Integer, Long, Float, Double]:
-                    widgetClass = NumberInputWidget.class
-                    break
-                case [Character, String]:
-                    if (EmailConstraint.class in constraintsClasses) {
-                        widgetClass = EmailInputWidget.class
-                    } else if (UrlConstraint.class in constraintsClasses){
-                        widgetClass = UrlInputWidget.class
-                    }else {
-                        widgetClass = TextInputWidget.class
-                    }
-                    break
-                default:
-                    widgetClass = TextInputWidget.class
-            }
+            widget = getDefaultWidgetForType(property.getType(), constraints)
         }
+
+
+        //Add special properties for some widgets
+        //Select
+        if (widget instanceof SelectWidget){
+            def options = [:]
+
+            def inListConstraint = constraints.find { it instanceof InListConstraint }
+            inListConstraint.list.each {
+                options[it] = it
+            }
+
+            def nullableConstraint = constraints.find { it instanceof NullableConstraint }
+            if (nullableConstraint) {
+                widget.nullable = nullableConstraint.isNullable()
+            }
+
+            widget.options = options
+        }
+
 
         //Attribs from constraints
         constraints.each{
@@ -74,7 +76,6 @@ class GrailsAdminPluginWidgetService {
             }
         }
 
-        def widget = widgetClass?.newInstance()
         def value = object."${propertyName}"
         widget.value = value?"${value}":null
         widget.attrs = attrs
@@ -88,6 +89,35 @@ class GrailsAdminPluginWidgetService {
         return widget
 
     }
+
+
+    Widget getDefaultWidgetForType(def type, def constraints){
+        def widget
+        def constraintsClasses = constraints*.class
+
+        if (InListConstraint.class in constraintsClasses){
+            widget = new SelectWidget()
+        } else {
+            switch ( type ) {
+                case [Byte, Short, Integer, Long, Float, Double]:
+                    widget = new NumberInputWidget()
+                    break
+                case [Character, String]:
+                    if (EmailConstraint.class in constraintsClasses) {
+                        widget = new EmailInputWidget()
+                    } else if (UrlConstraint.class in constraintsClasses){
+                        widget = new UrlInputWidget()
+                    } else {
+                        widget = new TextInputWidget()
+                    }
+                    break
+                default:
+                    widget = new TextInputWidget()
+            }
+        }
+        return widget
+    }
+
 
     Map getAttributeFromConstraint(AbstractConstraint constraint){
         //There is no html constraints for MinSizeConstraint

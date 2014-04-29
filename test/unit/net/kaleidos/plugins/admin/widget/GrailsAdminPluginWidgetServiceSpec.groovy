@@ -89,6 +89,14 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
             widget.class == UrlInputWidget.class
     }
 
+    void 'get widget for inList string class'() {
+        when:
+            def widget = widgetService.getWidget(adminDomainTest, "country", null, null)
+        then:
+            widget.class == SelectWidget.class
+            widget.options == ["Canada":"Canada", "Spain":"Spain", "USA":"USA"]
+    }
+
 
 
 }
