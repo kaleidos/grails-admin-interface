@@ -1,9 +1,16 @@
 package net.kaleidos.plugins.admin.widget
 
 class SelectWidget extends Widget {
+    Map options = [:]
+    Boolean nullable = false
 
-    SelectWidget(Map<String, Object> value, Map<String, String> attrs) {
+    SelectWidget(Object value, Map attrs) {
         super(value, attrs)
+    }
+
+    SelectWidget(Object value, Map<String, String> attrs, Map options) {
+        super(value, attrs)
+        this.options = options
     }
 
     SelectWidget() {
@@ -17,10 +24,18 @@ class SelectWidget extends Widget {
         }
         html += ">"
 
+        if (nullable) {
+            html += "<option value=\"\">--</option>"
+        }
+
         // draw options values
-        if (value) {
-            value.each {value, text ->
-                html += "<option value=\"${value}\">${text}</option>"
+        if (options) {
+            options.each {val, text ->
+                html += "<option value=\"${val}\""
+                if (val == value) {
+                    html += " selected=\"selected\""
+                }
+                html += ">${text}</option>"
             }
         }
 
