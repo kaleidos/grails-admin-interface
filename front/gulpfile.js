@@ -27,7 +27,7 @@ gulp.task('scss', function () {
 
 gulp.task('jade', function () {
     gulp.src(path.jade.concat(['!src/includes/*.jade']))
-        .pipe(jade().on('error', function(err) {
+        .pipe(jade({pretty: true}).on('error', function(err) {
             console.log(err);
         }))
         .pipe(gulp.dest(path.html));
@@ -38,7 +38,7 @@ gulp.task('js', function () {
         .pipe(gulp.dest(path.mainJs));
 });
 
-gulp.task('default', ['connect'], function () {
+gulp.task('default', ['jade', 'scss', 'js', 'connect'], function () {
     gulp.watch(path.jade, ['jade']);
     gulp.watch(path.scss, ['scss']);
     gulp.watch(path.js, ['js']);

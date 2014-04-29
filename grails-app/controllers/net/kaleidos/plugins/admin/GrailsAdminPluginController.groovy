@@ -1,10 +1,12 @@
 package net.kaleidos.plugins.admin
 
+import org.codehaus.groovy.grails.web.sitemesh.GroovyPageLayoutFinder
+
 class GrailsAdminPluginController {
     def objectDefinitionSource
 
     def index() {
-        render "DASHBOARD"
+        render view:'/grailsAdmin/dashboard',  model:[]
     }
 
     def adminMethod() {

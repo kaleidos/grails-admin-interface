@@ -46,3 +46,7 @@ Session.vim
 
 *.orig
 cobertura.ser
+bower_components
+node_modules
+.sass-cache
+web-app/libs/

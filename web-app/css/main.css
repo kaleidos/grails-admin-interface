@@ -1,0 +1,31 @@
+body {
+  padding-top: 70px; }
+
+.list-actions-head {
+  width: 180px; }
+
+.list-actions .btn {
+  margin-right: 10px; }
+  .list-actions .btn:last-child {
+    margin-right: 0; }
+
+.dashboard span {
+  color: #000; }
+.dashboard tr td:first-child {
+  font-weight: bold; }
+
+.main-form input[type='text'], .main-form select, .main-form .select2-container {
+  display: block;
+  width: 650px; }
+
+.form-options .btn-group {
+  margin-right: 10px; }
+
+.object-nav .btn-group {
+  float: right; }
+
+.logout {
+  line-height: 50px;
+  float: right; }
+  .logout a {
+    margin-left: 10px; }

@@ -1,0 +1,13 @@
+{
+  "name": "front grails admin",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.1.1",
+    "select2": "~3.4.6"
+  }
+}
