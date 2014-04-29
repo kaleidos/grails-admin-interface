@@ -95,7 +95,7 @@ class DomainConfigurationDslSpec extends Specification {
         then:
             thrown(RuntimeException)
     }
-    
+
     void "Test config domain external admin"() {
         setup:
             def config = new DomainConfigurationDsl({

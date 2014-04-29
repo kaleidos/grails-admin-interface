@@ -12,7 +12,7 @@ class AdminConfigHolder {
     Map<String, DomainConfig> domains = [:]
     String accessRoot = "admin"
     String role = "ROLE_ADMIN"
-    
+
     Closure domainDsl = null
 
     public AdminConfigHolder(ConfigObject config=null) {
@@ -35,32 +35,24 @@ class AdminConfigHolder {
             }
 
         }
-
-        log.debug "Loading config. Domains: ${this.domains}"
-        log.debug "Loading config. Access Root: ${this.accessRoot}"
-        log.debug "Loading config. Role: ${this.role}"
     }
 
     void initialize() {
         _configureUrlMappings()
         _configureAdminRole()
         _configureDomainClasses()
+
+        log.debug "Loading config. Domains: ${this.domains}"
+        log.debug "Loading config. Access Root: ${this.accessRoot}"
+        log.debug "Loading config. Role: ${this.role}"
     }
-    
-//    DomainConfig getConfigForDomain(Class domainClass) {
-//        if (!this.domains.contains(domainClass.name)) {
-//            throw new RuntimeException ("The domain $domainClass has not been configured to administer")
-//        }
-//    }
 
+    public DomainConfig getDomainConfig(Object object) {
+        return this.domains[object.class.name]
+    }
 
-    /* Private methods */
-    private void _validateDomains(List domains) {
-        domains.each { configuredDomain ->
-            if (!grailsApplication.domainClasses.find { it.fullName == configuredDomain } ) {
-                throw new RuntimeException("The class ${configuredDomain} doesn't match with any domain class")
-            }
-        }
+    public DomainConfig getDomainConfig(Class objClass) {
+        return this.domains[objClass.name]
     }
 
     private void _configureUrlMappings() {
@@ -110,7 +102,7 @@ class AdminConfigHolder {
             log.error "No configured Spring Security"
         }
     }
-    
+
     private _configureDomainClasses(){
         if (!this.domainDsl) {
             return;
