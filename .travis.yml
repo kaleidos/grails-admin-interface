@@ -1,0 +1,3 @@
+language: groovy
+script: ./grailsw refresh-dependencies --non-interactive
+    && ./grailsw test-app -coverage
