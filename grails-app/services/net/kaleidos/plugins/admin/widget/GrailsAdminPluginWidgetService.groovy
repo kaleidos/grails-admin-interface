@@ -1,5 +1,4 @@
 package net.kaleidos.plugins.admin.widget
-import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 
@@ -24,74 +23,44 @@ import org.codehaus.groovy.grails.validation.AbstractConstraint
 
 
 class GrailsAdminPluginWidgetService {
-    def grailsApplication = ApplicationHolder.application
+    def grailsApplication
 
     DefaultGrailsDomainClass getGrailsDomainClass(Object object) {
         //return new DefaultGrailsDomainClass(object.class)
         return grailsApplication.mainContext.getBean("${object.class.name}DomainClass")
     }
 
-    Widget getWidget(Object object, String propertyName, String customWidget, Map<String, String> attributes) {
+    Widget getWidget(Object object, String propertyName, String customWidget, Map attributes) {
         def widget
-        def attrs = [:]
-
-
         def grailsDomainClass = getGrailsDomainClass(object)
         def property = object.metaClass.getProperties().find{it.name == propertyName}
         def constraints = grailsDomainClass.constrainedProperties.get(propertyName, null).getAppliedConstraints()
-
 
         if (customWidget) {
             def widgetClass = this.getClass().classLoader.loadClass( customWidget, true, false )
             widget = widgetClass?.newInstance()
         } else {
-            widget = getDefaultWidgetForType(property.getType(), constraints)
-        }
-
-
-        //Add special properties for some widgets
-        //Select
-        if (widget instanceof SelectWidget){
-            def options = [:]
-
-            def inListConstraint = constraints.find { it instanceof InListConstraint }
-            inListConstraint.list.each {
-                options[it] = it
-            }
-
-            def nullableConstraint = constraints.find { it instanceof NullableConstraint }
-            if (nullableConstraint) {
-                widget.nullable = nullableConstraint.isNullable()
-            }
-
-            widget.options = options
-        }
-
-
-        //Attribs from constraints
-        constraints.each{
-            def attr = getAttributeFromConstraint(it)
-            if (attr) {
-                attrs.putAll(attr)
-            }
+            widget = _getDefaultWidgetForType(property.getType(), constraints)
         }
 
         def value = object."${propertyName}"
         widget.value = value?"${value}":null
-        widget.attrs = attrs
-        widget.attrs.name = propertyName
 
+        widget.attrs = ["name":propertyName]
+        widget.attrs.putAll(_getAttrsFromConstraints(constraints))
+
+        //Preference for user-defined attributes
         if (attributes) {
-            //Preference for user-defined attributes
             widget.attrs.putAll(attributes)
         }
 
         return widget
-
     }
 
 
-    Widget getDefaultWidgetForType(def type, def constraints){
+
+
+    Widget _getDefaultWidgetForType(def type, def constraints){
         def widget
         def constraintsClasses = constraints*.class
 
@@ -118,8 +87,20 @@ class GrailsAdminPluginWidgetService {
         return widget
     }
 
+    Map _getAttrsFromConstraints(def constraints){
+        def attrs = [:]
+        //Attribs from constraints
+        constraints.each{
+            def attr = _getAttributeFromConstraint(it)
+            if (attr) {
+                attrs.putAll(attr)
+            }
+        }
+        return attrs
+    }
 
-    Map getAttributeFromConstraint(AbstractConstraint constraint){
+
+    Map _getAttributeFromConstraint(AbstractConstraint constraint){
         //There is no html constraints for MinSizeConstraint
 
         if (constraint instanceof MaxConstraint) {
@@ -136,6 +117,12 @@ class GrailsAdminPluginWidgetService {
             if (!constraint.isNullable()) {
                 return ['required':"true"]
             }
+        } else if (constraint instanceof InListConstraint) {
+            def options = [:]
+            constraint.list.each {
+                options[it] = it
+            }
+            return ['options':options]
         }
     }
 

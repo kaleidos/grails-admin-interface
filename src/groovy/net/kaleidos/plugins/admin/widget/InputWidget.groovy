@@ -4,7 +4,7 @@ abstract class InputWidget extends Widget{
     String inputType
 
 
-    InputWidget(Object value, Map<String, String> attrs) {
+    InputWidget(Object value, Map attrs) {
         super(value, attrs)
     }
 

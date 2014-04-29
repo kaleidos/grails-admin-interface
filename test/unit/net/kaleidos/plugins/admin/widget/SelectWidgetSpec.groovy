@@ -21,30 +21,30 @@ class SelectWidgetSpec extends Specification {
             def html = widget.render()
 
         then:
-            html == "<select></select>"
+            html == "<select><option value=\"\">--</option></select>"
     }
 
-    void 'create nullable element without value without options without attribs'() {
+    void 'create non nullable element without value without options without attribs'() {
         setup:
             def widget = new SelectWidget()
-            widget.nullable = true
+            widget.attrs.required = "true"
         when:
             def html = widget.render()
 
         then:
-            html == "<select><option value=\"\">--</option></select>"
+            html == "<select required=\"true\"></select>"
     }
 
 
     void 'create element with value without options without attribs'() {
         setup:
-            def widget = new SelectWidget(value, null)
+            def widget = new SelectWidget(value, [:])
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select></select>"
+            html == "<select><option value=\"\">--</option></select>"
 
         where:
             value = "Saab"
@@ -52,28 +52,30 @@ class SelectWidgetSpec extends Specification {
 
     void 'create element without value with options without attribs'() {
         setup:
-            def widget = new SelectWidget(null, null, options)
+            def widget = new SelectWidget(null, [options:options])
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            html == "<select><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
 
         where:
             options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
     }
 
 
+
+
     void 'create element with value with options without attribs'() {
         setup:
-            def widget = new SelectWidget(value, null, options)
+            def widget = new SelectWidget(value, [options:options])
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            html == "<select><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
 
         where:
             value = "Saab"
@@ -90,7 +92,7 @@ class SelectWidgetSpec extends Specification {
             def html = widget.render()
 
         then:
-            html == "<select name=\"selectName\" disabled=\"true\"></select>"
+            html == "<select name=\"selectName\" disabled=\"true\"><option value=\"\">--</option></select>"
 
         where:
             value = "Saab"
@@ -99,13 +101,14 @@ class SelectWidgetSpec extends Specification {
 
     void 'create element without value with options without attribs'() {
         setup:
-            def widget = new SelectWidget(null, attrs, options)
+            attrs.options = options
+            def widget = new SelectWidget(null, attrs)
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select name=\"selectName\" disabled=\"true\"><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            html == "<select name=\"selectName\" disabled=\"true\"><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
 
         where:
             options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
@@ -115,13 +118,14 @@ class SelectWidgetSpec extends Specification {
 
     void 'create element with value with options without attribs'() {
         setup:
-            def widget = new SelectWidget(value, attrs, options)
+            attrs.options = options
+            def widget = new SelectWidget(value, attrs)
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select name=\"selectName\" disabled=\"true\"><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            html == "<select name=\"selectName\" disabled=\"true\"><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
 
         where:
             value = "Saab"

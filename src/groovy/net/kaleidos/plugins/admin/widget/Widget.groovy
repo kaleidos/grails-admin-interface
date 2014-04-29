@@ -4,7 +4,7 @@ abstract class Widget {
     Map attrs = [:]
     def value
 
-    Widget(Object value, Map<String, String> attrs) {
+    Widget(Object value, Map attrs) {
         this.attrs = attrs
         this.value = value
     }

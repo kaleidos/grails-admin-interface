@@ -2,12 +2,12 @@ package net.kaleidos.plugins.admin.widget
 
 class PasswordInputWidget extends InputWidget{
 
-    PasswordInputWidget(String value, Map<String, String> attrs=[:]) {
+    PasswordInputWidget(String value, Map attrs=[:]) {
         super(value, attrs)
         inputType = "password"
     }
 
-    PasswordInputWidget(Map<String, String> attrs) {
+    PasswordInputWidget(Map attrs) {
         super(null, attrs)
         inputType = "password"
     }

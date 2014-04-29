@@ -2,12 +2,12 @@ package net.kaleidos.plugins.admin.widget
 
 class NumberInputWidget extends InputWidget{
 
-    NumberInputWidget(String value, Map<String, String> attrs=[:]) {
+    NumberInputWidget(String value, Map attrs=[:]) {
         super(value, attrs)
         inputType = "number"
     }
 
-    NumberInputWidget(Map<String, String> attrs) {
+    NumberInputWidget(Map attrs) {
         super(null, attrs)
         inputType = "number"
     }

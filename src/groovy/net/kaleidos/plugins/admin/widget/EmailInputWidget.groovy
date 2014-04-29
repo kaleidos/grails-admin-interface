@@ -2,12 +2,12 @@ package net.kaleidos.plugins.admin.widget
 
 class EmailInputWidget extends InputWidget{
 
-    EmailInputWidget(String value, Map<String, String> attrs=[:]) {
+    EmailInputWidget(String value, Map attrs=[:]) {
         super(value, attrs)
         inputType = "email"
     }
 
-    EmailInputWidget(Map<String, String> attrs) {
+    EmailInputWidget(Map attrs) {
         super(null, attrs)
         inputType = "email"
     }
