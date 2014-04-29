@@ -9,13 +9,17 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException
 class AdminConfigHolder {
     def grailsApplication
 
-    List<String> domains = []
+    Map<String, DomainConfig> domains = [:]
     String accessRoot = "admin"
     String role = "ROLE_ADMIN"
+    
+    Closure domainDsl = null
 
     public AdminConfigHolder(ConfigObject config=null) {
         if (config != null) {
-            this.domains = config.grails.plugin.admin.domains.collect { it }
+            if (config.grails.plugin.admin.domains) {
+                this.domainDsl = config.grails.plugin.admin.domains
+            }
 
             if (config.grails.plugin.admin.access_root) {
                 this.accessRoot = "${config.grails.plugin.admin.access_root}"
@@ -40,17 +44,14 @@ class AdminConfigHolder {
     void initialize() {
         _configureUrlMappings()
         _configureAdminRole()
+        _configureDomainClasses()
     }
-
-    void validateConfiguration() {
-        _validateDomains(this.domains)
-    }
-
-    DomainConfig getConfigForDomain(Class domainClass) {
-        if (!this.domains.contains(domainClass.name)) {
-            throw new RuntimeException ("The domain $domainClass has not been configured to administer")
-        }
-    }
+    
+//    DomainConfig getConfigForDomain(Class domainClass) {
+//        if (!this.domains.contains(domainClass.name)) {
+//            throw new RuntimeException ("The domain $domainClass has not been configured to administer")
+//        }
+//    }
 
 
     /* Private methods */
@@ -108,5 +109,17 @@ class AdminConfigHolder {
         } catch (ClassNotFoundException e) {
             log.error "No configured Spring Security"
         }
+    }
+    
+    private _configureDomainClasses(){
+        if (!this.domainDsl) {
+            return;
+        }
+        println "Configuring domain classes"
+        def dsl = new DomainConfigurationDsl(this.domainDsl)
+        dsl.grailsApplication = this.grailsApplication
+        dsl.execute()
+        this.domains = dsl.domains
+        println "DOMAIN: ${this.domains}"
     }
 }

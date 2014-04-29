@@ -13,7 +13,10 @@ class AdminConfigHolderSpec extends Specification {
 
     void setup() {
         grailsApplication = new DefaultGrailsApplication()
-        grailsApplication.configureLoadedClasses([admin.test.TestDomain.class] as Class[])
+        grailsApplication.configureLoadedClasses([
+            admin.test.TestDomain.class,
+            admin.test.TestOtherDomain.class
+        ] as Class[])
     }
 
     void "Obtain configuration"(){
@@ -26,19 +29,26 @@ class AdminConfigHolderSpec extends Specification {
         and: "Config holder"
             def configHolder = new AdminConfigHolder(config)
             configHolder.grailsApplication = grailsApplication
+            
+        and: "Url config"
+            grailsApplication.mainContext = Mock(ApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
 
         when:
-            configHolder.validateConfiguration()
+            configHolder.initialize()
 
         then:
-            notThrown(RuntimeException)
             configHolder.domains != null
-            configHolder.domains.size() == 1
+            configHolder.domains.size() == 2
             configHolder.accessRoot == testAccessRoot
             configHolder.role == testRole
 
         where:
-            testDomains = [ "admin.test.TestDomain" ]
+            testDomains = {
+                "admin.test.TestDomain"()
+                "admin.test.TestOtherDomain" list: [exclude: ['name']]
+            }
             testAccessRoot = "myadmin"
             testRole = "ROLE_SUPER"
     }
@@ -46,6 +56,11 @@ class AdminConfigHolderSpec extends Specification {
     void "Default configuration"(){
         setup: "configuration"
             def config = new ConfigObject()
+            
+        and: "Url config"
+            grailsApplication.mainContext = Mock(ApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
 
         when:
             def configHolder = new AdminConfigHolder(config)
@@ -64,15 +79,22 @@ class AdminConfigHolderSpec extends Specification {
         and: "Config holder"
             def configHolder = new AdminConfigHolder(config)
             configHolder.grailsApplication = grailsApplication
+            
+        and: "Url config"
+            grailsApplication.mainContext = Mock(ApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
 
         when:
-            configHolder.validateConfiguration()
+            configHolder.initialize()
 
         then:
             thrown(RuntimeException)
 
         where:
-            testDomains = [ "NOT.EXISTS" ]
+            testDomains = {
+                "NoExistsDomain"()
+            }
     }
 
     void "Test changes in the URL mappings"() {
