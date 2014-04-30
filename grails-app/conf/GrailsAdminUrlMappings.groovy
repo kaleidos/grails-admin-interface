@@ -5,7 +5,15 @@ class GrailsAdminUrlMappings {
     static mappings = {
         group "/grails-url-admin", {
             "/" { controller = "grailsAdminPlugin" ; action="index" }
-            "/$adminController?/$adminAction?/$id?" { controller = "grailsAdminPlugin" ; action="adminMethod" }
+            "/api" { controller = "grailsAdminPluginApi" ; action = "listDomains" }
+            "/api/$domain?/$id?" {
+                controller = "grailsAdminPluginApi"
+                action=[ GET:"getAdminAction",
+                         POST:"postAdminAction",
+                         DELETE:"deleteAdminAction",
+                         PUT:"putAdminAction"]
+            }
+            "/web/$adminController?/$adminAction?/$id?" { controller = "grailsAdminPlugin" ; action="adminMethod" }
         }
     }
 }

@@ -2,6 +2,9 @@ package net.kaleidos.plugins.admin
 
 import org.codehaus.groovy.grails.web.sitemesh.GroovyPageLayoutFinder
 
+import org.springframework.security.access.annotation.Secured
+
+@Secured(["ROLE_ADMIN"])
 class GrailsAdminPluginController {
     def objectDefinitionSource
 

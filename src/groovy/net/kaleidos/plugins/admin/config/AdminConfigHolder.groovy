@@ -47,6 +47,11 @@ class AdminConfigHolder {
         log.debug "Loading config. Role: ${this.role}"
     }
 
+
+    public List getDomainClasses() {
+        return this.domains.keySet() as List
+    }
+
     public DomainConfig getDomainConfig(Object object) {
         return this.domains[object.class.name]
     }
@@ -96,6 +101,9 @@ class AdminConfigHolder {
             objectDefinitionSource.compiled << newUrl("/grailsadminplugin", [this.role], null)
             objectDefinitionSource.compiled << newUrl("/grailsadminplugin.*", [this.role], null)
             objectDefinitionSource.compiled << newUrl("/grailsadminplugin/**", [this.role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginadmin", [this.role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginadmin.*", [this.role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginadmin/**", [this.role], null)
         } catch (NoSuchBeanDefinitionException e) {
             log.error "No configured Spring Security"
         } catch (ClassNotFoundException e) {
