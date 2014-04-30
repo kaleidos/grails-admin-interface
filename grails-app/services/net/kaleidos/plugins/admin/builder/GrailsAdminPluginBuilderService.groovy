@@ -4,18 +4,12 @@ class GrailsAdminPluginBuilderService {
     def adminConfigHolder
     def grailsAdminPluginWidgetService
 
-    static final DEFAULT_PROPERTIES_EDIT_FORM = ["class":"main-form"]
-    static final DEFAULT_PROPERTIES_EDIT_WIDGET = ["class":"form-control"]
-
     String renderEditForm(Object object, Map editFormProperties=[:], Map editWidgetProperties=[:]){
         List properties = adminConfigHolder.getDomainConfig(object).getProperties("edit")
         StringBuilder html = new StringBuilder()
 
-        def props = [:]
-        props.putAll(DEFAULT_PROPERTIES_EDIT_FORM)
-        props.putAll(editFormProperties)
         html.append("<form")
-        props.each {key, value ->
+        editFormProperties.each {key, value ->
             html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
         }
         html.append(">")
@@ -23,7 +17,7 @@ class GrailsAdminPluginBuilderService {
 
 
         properties.each{propertyName ->
-            def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, null, DEFAULT_PROPERTIES_EDIT_WIDGET)
+            def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, null, editWidgetProperties)
             html.append("<div class=\"form-group\">")
             html.append("<label for=\"${propertyName.encodeAsHTML()}\">${propertyName.capitalize().encodeAsHTML()}</label>")
             html.append(widget.render())
