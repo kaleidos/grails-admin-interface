@@ -17,4 +17,21 @@ class GrailsAdminPluginController {
     def menu() {
         render view:'/grailsAdmin/includes/menu',  model:[]
     }
+    
+    def dashboard() {
+        render view:'/grailsAdmin/dashboard',  model:[]
+    }
+    
+    def list() {
+        render view:'/grailsAdmin/list',  model:[]
+    }
+    
+    def edit() {
+        render view:'/grailsAdmin/edit',  model:[]
+    }
+    
+    def add() {
+        render view:'/grailsAdmin/add',  model:[]
+    }
+
 }

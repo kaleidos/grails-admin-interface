@@ -14,6 +14,12 @@ class GrailsAdminUrlMappings {
                          PUT:"putAdminAction"]
             }
             "/web/$adminController?/$adminAction?/$id?" { controller = "grailsAdminPlugin" ; action="adminMethod" }
+            "/$adminController?/$adminAction?/$id?" { controller = "grailsAdminPlugin" ; action="adminMethod" }
+            
+            name dashboard: "/dashboard" { controller = "grailsAdminPlugin" ; action="dashboard" }
+            name list: "/list" { controller = "grailsAdminPlugin" ; action="list" }
+            name edit: "/edit" { controller = "grailsAdminPlugin" ; action="edit" }
+            name edit: "/add" { controller = "grailsAdminPlugin" ; action="add" }            
         }
     }
 }
