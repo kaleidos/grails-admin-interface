@@ -30,11 +30,16 @@ class GrailsAdminPluginWidgetService {
         return grailsApplication.mainContext.getBean("${object.class.name}DomainClass")
     }
 
-    Widget getWidget(Object object, String propertyName, String customWidget, Map attributes) {
+    Widget getWidget(Object object, String propertyName, String customWidget=null, Map attributes=[:]) {
         def widget
         def grailsDomainClass = getGrailsDomainClass(object)
         def property = object.metaClass.getProperties().find{it.name == propertyName}
-        def constraints = grailsDomainClass.constrainedProperties.get(propertyName, null).getAppliedConstraints()
+        def constraints
+
+
+        constraints = grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints()
+        constraints = constraints?:[]
+
 
         if (customWidget) {
             def widgetClass = this.getClass().classLoader.loadClass( customWidget, true, false )
