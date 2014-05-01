@@ -2,9 +2,6 @@ package net.kaleidos.plugins.admin
 
 import grails.converters.JSON
 
-import org.springframework.security.access.annotation.Secured
-
-@Secured(["ROLE_ADMIN"])
 class GrailsAdminPluginApiController {
     def objectDefinitionSource
     def adminConfigHolder
@@ -36,23 +33,23 @@ class GrailsAdminPluginApiController {
         render result as JSON
     }
 
-    def postAdminAction(String domain, Long id) {
+    def putAdminAction(String domain) {
         def config = _resolve(domain)
+        def result = grailsAdminPluginGenericService.saveDomain(config.domainClass.clazz, request.JSON)
         render result as JSON
     }
 
-    def deleteAdminAction(String adminController, String adminAction, Long id) {
-        log.debug ">> DELETE: ${params}"
-        render "DELETE ${params}"
+    def postAdminAction(String domain, Long id) {
+        def config = _resolve(domain)
+        def result = grailsAdminPluginGenericService.updateDomain(config.domainClass.clazz, id, request.JSON)
+        render result as JSON
     }
 
-    def putAdminAction(String adminController, String adminAction, Long id) {
-        log.debug ">> PUT: ${params}"
-        render "PUT ${params}"
-    }
-
-    def menu() {
-        render view:'/grailsAdmin/includes/menu',  model:[]
+    def deleteAdminAction(String domain, Long id) {
+        def config = _resolve(domain)
+        grailsAdminPluginGenericService.deleteDomain(config.domainClass.clazz, id)
+        response.status = 204
+        render ""
     }
 
     private _resolve(String adminController) {

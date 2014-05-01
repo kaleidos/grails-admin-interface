@@ -29,7 +29,7 @@ class AdminConfigHolderSpec extends Specification {
         and: "Config holder"
             def configHolder = new AdminConfigHolder(config)
             configHolder.grailsApplication = grailsApplication
-            
+
         and: "Url config"
             grailsApplication.mainContext = Mock(ApplicationContext)
             def urlMappingsHolder = new DefaultUrlMappingsHolder([])
@@ -56,7 +56,7 @@ class AdminConfigHolderSpec extends Specification {
     void "Default configuration"(){
         setup: "configuration"
             def config = new ConfigObject()
-            
+
         and: "Url config"
             grailsApplication.mainContext = Mock(ApplicationContext)
             def urlMappingsHolder = new DefaultUrlMappingsHolder([])
@@ -79,7 +79,7 @@ class AdminConfigHolderSpec extends Specification {
         and: "Config holder"
             def configHolder = new AdminConfigHolder(config)
             configHolder.grailsApplication = grailsApplication
-            
+
         and: "Url config"
             grailsApplication.mainContext = Mock(ApplicationContext)
             def urlMappingsHolder = new DefaultUrlMappingsHolder([])
