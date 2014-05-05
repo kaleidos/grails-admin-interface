@@ -16,11 +16,7 @@ class GrailsAdminPluginController {
     }
 
     def menu() {
-        println adminConfigHolder.domains
-       
-        def domainClasses  = adminConfigHolder.slugDomainNames
-        println "========== > $domainClasses"
-        render view:'/grailsAdmin/includes/menu',  model:[domainClasses: domainClasses]
+        render view:'/grailsAdmin/includes/menu',  model:[domainClasses: adminConfigHolder.domains.values()]
     }
     
     def dashboard() {
