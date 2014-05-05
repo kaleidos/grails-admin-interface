@@ -54,6 +54,30 @@ class DomainConfigSpec extends Specification {
         then:
             thrown(RuntimeException)
     }
+    
+    def "Get short class names"(){
+        setup:
+            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
+            def domainConfig = new DomainConfig(domainClass, [:])
+
+        when:
+            def result = domainConfig.className
+
+        then:
+            domainConfig.className == "Test"
+    }
+    
+    def "Get lower and short class names"(){
+        setup:
+            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
+            def domainConfig = new DomainConfig(domainClass, [:])
+
+        when:
+            def result = domainConfig.slug
+
+        then:
+            result == "test"
+    }
 }
 
 class Test {

@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.web.sitemesh.GroovyPageLayoutFinder
 
 class GrailsAdminPluginController {
     def objectDefinitionSource
+    def adminConfigHolder    
 
     def index() {
         render view:'/grailsAdmin/dashboard',  model:[]
@@ -15,7 +16,11 @@ class GrailsAdminPluginController {
     }
 
     def menu() {
-        render view:'/grailsAdmin/includes/menu',  model:[]
+        println adminConfigHolder.domains
+       
+        def domainClasses  = adminConfigHolder.slugDomainNames
+        println "========== > $domainClasses"
+        render view:'/grailsAdmin/includes/menu',  model:[domainClasses: domainClasses]
     }
     
     def dashboard() {

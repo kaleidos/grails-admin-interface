@@ -51,6 +51,14 @@ class AdminConfigHolder {
     public List getDomainClasses() {
         return this.domains.keySet() as List
     }
+    
+    public List<String> getDomainNames() {
+        return this.domainClasses.collect{ this.domains[it].className }
+    }
+    
+    public List<String> getSlugDomainNames() {
+        return this.domainClasses.collect{ this.domains[it].slug }
+    }
 
     public DomainConfig getDomainConfig(Object object) {
         return this.domains[object.class.name]

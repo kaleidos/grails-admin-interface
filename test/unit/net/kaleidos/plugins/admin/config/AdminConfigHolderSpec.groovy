@@ -125,4 +125,58 @@ class AdminConfigHolderSpec extends Specification {
             urlMappingsHolder.match("/admin/testDomain/list") != null
             urlMappingsHolder.match("/admin/testDomain/show/1") != null
     }
+    
+    def "Get all domain names"() {
+        setup:
+            def config = new ConfigObject()
+            config.grails.plugin.admin.domains = testDomains
+
+            def configHolder = new AdminConfigHolder(config)
+            configHolder.grailsApplication = grailsApplication
+
+        and: "Url config"
+            grailsApplication.mainContext = Mock(ApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+
+        when:
+            configHolder.initialize()
+            def domainNames = configHolder.getDomainNames()
+
+        then:
+            domainNames == ["TestDomain", "TestOtherDomain"]
+
+        where:
+            testDomains = {
+                "admin.test.TestDomain"()
+                "admin.test.TestOtherDomain" list: [exclude: ['name']]
+            }
+    }
+    
+    def "Get all lower domain names"() {
+        setup:
+            def config = new ConfigObject()
+            config.grails.plugin.admin.domains = testDomains
+
+            def configHolder = new AdminConfigHolder(config)
+            configHolder.grailsApplication = grailsApplication
+
+        and: "Url config"
+            grailsApplication.mainContext = Mock(ApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+
+        when:
+            configHolder.initialize()
+            def domainNames = configHolder.slugDomainNames
+
+        then:
+            domainNames == ["testdomain", "testotherdomain"]
+
+        where:
+            testDomains = {
+                "admin.test.TestDomain"()
+                "admin.test.TestOtherDomain" list: [exclude: ['name']]
+            }
+    }
 }

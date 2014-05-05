@@ -60,4 +60,12 @@ class DomainConfig {
             }
         }
     }
+    
+    public String getClassName() {
+        return this.domainClass.name  
+    }
+    
+    public String getSlug() {
+        return this.domainClass.name.toLowerCase()
+    }    
 }
