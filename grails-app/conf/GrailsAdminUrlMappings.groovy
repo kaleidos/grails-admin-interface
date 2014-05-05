@@ -4,10 +4,9 @@ import grails.util.Holders
 class GrailsAdminUrlMappings {
     static mappings = {
         group "/grails-url-admin", {
-            "/" { controller = "grailsAdminPlugin" ; action="index" }
+            name dashboard: "/" { controller = "grailsAdminPlugin" ; action="index" }
             "/$adminController?/$adminAction?/$id?" { controller = "grailsAdminPlugin" ; action="adminMethod" }
             
-            name dashboard: "/dashboard" { controller = "grailsAdminPlugin" ; action="dashboard" }
             name list: "/list/$slug" { controller = "grailsAdminPlugin" ; action="list" }
             name edit: "/edit" { controller = "grailsAdminPlugin" ; action="edit" }
             name add: "/add" { controller = "grailsAdminPlugin" ; action="add" }

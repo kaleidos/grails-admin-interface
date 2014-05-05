@@ -1,5 +1,5 @@
 <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
-    <a href="/" class="navbar-brand">Grails admin</a>
+    <g:link mapping="dashboard" class="navbar-brand"><g:message code="grailsAdminPlugin.name" /></g:link>
     <div class="container-fluid">
         <ul class="nav navbar-nav">
             <g:each var="domainClass" in="${domainClasses}">
