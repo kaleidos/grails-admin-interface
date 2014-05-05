@@ -8,6 +8,8 @@
             </g:each>
         </ul>
 
-        <div class="nav-text logout">admin<a href="#">Logout</a></div>
+        <div class="nav-text logout">
+            <sec:loggedInUserInfo field="username" />
+        </div>
     </div>
 </nav>
