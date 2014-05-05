@@ -6,10 +6,6 @@ class GrailsAdminPluginController {
     def objectDefinitionSource
     def adminConfigHolder    
 
-    def index() {
-        render view:'/grailsAdmin/dashboard',  model:[]
-    }
-
     def adminMethod() {
         log.debug ">> Execute: ${params}"
         render "OK ${params}"
@@ -20,7 +16,7 @@ class GrailsAdminPluginController {
     }
     
     def dashboard() {
-        render view:'/grailsAdmin/dashboard',  model:[]
+        render view:'/grailsAdmin/dashboard',  model:[domainClasses: adminConfigHolder.domains.values()]
     }
     
     def list() {
