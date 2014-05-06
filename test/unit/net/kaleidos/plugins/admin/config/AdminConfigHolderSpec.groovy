@@ -179,4 +179,61 @@ class AdminConfigHolderSpec extends Specification {
                 "admin.test.TestOtherDomain" list: [exclude: ['name']]
             }
     }
+    
+    def "Given a slug, recover the DomainConfig object"() {
+        setup:
+            def config = new ConfigObject()
+            config.grails.plugin.admin.domains = testDomains
+
+            def configHolder = new AdminConfigHolder(config)
+            configHolder.grailsApplication = grailsApplication
+
+        and: "Url config"
+            grailsApplication.mainContext = Mock(ApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+
+        when:
+            configHolder.initialize()
+            DomainConfig testDomainConfig = configHolder.getDomainConfigBySlug(testDomainSlug)        
+
+        then:
+            testDomainConfig == configHolder.domains[testDomainClassName]
+
+        where:
+            testDomains = {
+                "admin.test.TestDomain"()
+            }
+            testDomainSlug = "testdomain"
+            testDomainClassName = "admin.test.TestDomain"
+    }
+    
+    def "Given a non existant slug, don't recover any DomainConfig object"() {
+        setup:
+            def config = new ConfigObject()
+            config.grails.plugin.admin.domains = testDomains
+
+            def configHolder = new AdminConfigHolder(config)
+            configHolder.grailsApplication = grailsApplication
+
+        and: "Url config"
+            grailsApplication.mainContext = Mock(ApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+
+        when:
+            configHolder.initialize()
+            DomainConfig testDomainConfig = configHolder.getDomainConfigBySlug(testDomainSlug)
+
+        then:
+            testDomainConfig == null
+
+        where:
+            testDomains = {
+                "admin.test.TestDomain"()
+            }
+            testDomainSlug = "testdomainBadSlug"
+            testDomainClassName = "admin.test.TestDomain"
+    }
+ 
 }

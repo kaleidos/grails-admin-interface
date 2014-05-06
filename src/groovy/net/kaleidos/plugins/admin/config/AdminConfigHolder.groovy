@@ -67,6 +67,10 @@ class AdminConfigHolder {
     public DomainConfig getDomainConfig(Class objClass) {
         return this.domains[objClass.name]
     }
+    
+    public DomainConfig getDomainConfigBySlug(String slug) {        
+        return this.domains.find { it.value.slug == slug }?.value
+    }
 
     private void _configureUrlMappings() {
         log.debug "Trying to change de URL's to support the configured property"
