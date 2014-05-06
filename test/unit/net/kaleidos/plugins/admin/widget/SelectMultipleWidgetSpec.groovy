@@ -6,6 +6,8 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 
 import spock.lang.*
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+
 // <select multiple multiple>
 //     <option value="Volvo">Volvo</option>
 //     <option value="Saab" selected="selected">Saab</option>
@@ -13,7 +15,16 @@ import spock.lang.*
 //     <option value="Audi">Audi</option>
 // </select>
 
+
 class SelectMultipleWidgetSpec extends Specification {
+	
+	void setup() {
+		Object.metaClass.encodeAsHTML = {
+			def encoder = new HTMLCodec().getEncoder()
+			return encoder.encode(delegate)
+		}
+	}
+		
     void 'create element without value without options without attribs'() {
         setup:
             def widget = new SelectMultipleWidget()

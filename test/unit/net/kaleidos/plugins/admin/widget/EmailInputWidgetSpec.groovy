@@ -6,7 +6,18 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 
 import spock.lang.*
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+
+
 class EmailInputWidgetSpec extends Specification {
+	
+	void setup() {
+		Object.metaClass.encodeAsHTML = {
+			def encoder = new HTMLCodec().getEncoder()
+			return encoder.encode(delegate)
+		}
+	}
+	
     void 'create input email without value nor attribs'() {
         setup:
             def emailInputWidget = new EmailInputWidget()
@@ -18,7 +29,6 @@ class EmailInputWidgetSpec extends Specification {
             html == "<input type=\"email\" />"
     }
 
-
     void 'create input email with value without attribs'() {
         setup:
             def emailInputWidget = new EmailInputWidget(value)
@@ -27,9 +37,9 @@ class EmailInputWidgetSpec extends Specification {
             def html = emailInputWidget.render()
 
         then:
-            html == "<input type=\"email\" value=\"${value}\" />"
+            html == "<input type=\"email\" value=\"${value.encodeAsHTML()}\" />"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
     }
 
     void 'create input email without value with attribs'() {
@@ -54,9 +64,9 @@ class EmailInputWidgetSpec extends Specification {
             def html = emailInputWidget.render()
 
         then:
-            html == "<input type=\"email\" value=\"1234\" size=\"10\" name=\"test\" />"
+            html == "<input type=\"email\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\" />"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'test']
     }
 }

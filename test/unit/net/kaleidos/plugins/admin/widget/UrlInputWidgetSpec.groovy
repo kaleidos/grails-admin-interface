@@ -6,7 +6,18 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 
 import spock.lang.*
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+
+
 class UrlInputWidgetSpec extends Specification {
+	
+	void setup() {
+		Object.metaClass.encodeAsHTML = {
+			def encoder = new HTMLCodec().getEncoder()
+			return encoder.encode(delegate)
+		}
+	}
+	
     void 'create input url without value nor attribs'() {
         setup:
             def urlInputWidget = new UrlInputWidget()
@@ -18,7 +29,6 @@ class UrlInputWidgetSpec extends Specification {
             html == "<input type=\"url\" />"
     }
 
-
     void 'create input url with value without attribs'() {
         setup:
             def urlInputWidget = new UrlInputWidget(value)
@@ -27,9 +37,9 @@ class UrlInputWidgetSpec extends Specification {
             def html = urlInputWidget.render()
 
         then:
-            html == "<input type=\"url\" value=\"${value}\" />"
+            html == "<input type=\"url\" value=\"${value.encodeAsHTML()}\" />"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
     }
 
     void 'create input url without value with attribs'() {
@@ -54,9 +64,9 @@ class UrlInputWidgetSpec extends Specification {
             def html = urlInputWidget.render()
 
         then:
-            html == "<input type=\"url\" value=\"1234\" size=\"10\" name=\"test\" />"
+            html == "<input type=\"url\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\" />"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'test']
     }
 }

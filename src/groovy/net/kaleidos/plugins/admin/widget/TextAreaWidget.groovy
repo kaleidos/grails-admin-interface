@@ -17,11 +17,11 @@ class TextAreaWidget extends Widget {
     String render() {
         String html = "<textarea"
         attrs.each {key, value ->
-            html += " ${key}=\"${value}\""
+            html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""
         }
         html += ">"
         if (value) {
-            html += "${value}"
+            html += "${value.encodeAsHTML()}"
         }
         html += "</textarea>"
         return html

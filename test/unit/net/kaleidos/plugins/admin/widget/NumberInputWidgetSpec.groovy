@@ -6,7 +6,18 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 
 import spock.lang.*
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+
+
 class NumberInputWidgetSpec extends Specification {
+	
+	void setup() {
+		Object.metaClass.encodeAsHTML = {
+			def encoder = new HTMLCodec().getEncoder()
+			return encoder.encode(delegate)
+		}
+	}
+	
     void 'create input number without value nor attribs'() {
         setup:
             def numberInputWidget = new NumberInputWidget()
@@ -18,7 +29,6 @@ class NumberInputWidgetSpec extends Specification {
             html == "<input type=\"number\" />"
     }
 
-
     void 'create input number with value without attribs'() {
         setup:
             def numberInputWidget = new NumberInputWidget(value)
@@ -27,9 +37,9 @@ class NumberInputWidgetSpec extends Specification {
             def html = numberInputWidget.render()
 
         then:
-            html == "<input type=\"number\" value=\"${value}\" />"
+            html == "<input type=\"number\" value=\"${value.encodeAsHTML()}\" />"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
     }
 
     void 'create input number without value with attribs'() {
@@ -54,9 +64,9 @@ class NumberInputWidgetSpec extends Specification {
             def html = numberInputWidget.render()
 
         then:
-            html == "<input type=\"number\" value=\"1234\" size=\"10\" name=\"test\" />"
+            html == "<input type=\"number\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\" />"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'test']
     }
 }
