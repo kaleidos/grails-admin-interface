@@ -1,2 +1,8 @@
 introduction:
     title: Introduction
+
+structure:
+    title: Plugin Structure
+
+configuration:
+    title: Plugin Configuration

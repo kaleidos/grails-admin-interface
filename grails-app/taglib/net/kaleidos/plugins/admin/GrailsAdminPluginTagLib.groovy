@@ -40,6 +40,22 @@ class GrailsAdminPluginTagLib {
         out << grailsAdminPluginBuilderService.renderEditForm(attrs.object, editFormProperties, editWidgetProperties)
     }
 
+    def createForm = { attrs ->
+        def createFormProperties = [:]
+        def createWidgetProperties = [:]
+
+        if (attrs.createFormProperties instanceof Map) {
+            createFormProperties = attrs.createFormProperties
+        }
+
+        if (attrs.createWidgetProperties instanceof Map) {
+            createWidgetProperties = attrs.createWidgetProperties
+        }
+
+
+        out << grailsAdminPluginBuilderService.renderCreateForm(attrs.className, createFormProperties, createWidgetProperties)
+    }
+
     def listLine = { attrs ->
         out << grailsAdminPluginBuilderService.renderListLine(attrs.object)
     }
