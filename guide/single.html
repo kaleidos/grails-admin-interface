@@ -25,6 +25,10 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
                             
+                            <div class="toc-item" style="margin-left:0"><a href="#structure"><strong>2</strong><span>Plugin Structure</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#configuration"><strong>3</strong><span>Plugin Configuration</span></a></div>
+                            
                         </div>
                     </div>
                 </li>
@@ -62,6 +66,10 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
                             
+                            <div class="toc-item" style="margin-left:0px"><a href="#structure"><strong>2</strong><span>Plugin Structure</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#configuration"><strong>3</strong><span>Plugin Configuration</span></a></div>
+                            
                             <div style="clear:both" ></div>
                         </div>
                         
@@ -76,6 +84,27 @@ This plugin depends on <a href="http://grails-plugins.github.io/grails-spring-se
 <ul class="star">
 <li>To be released</li>
 </ul></ul><p class="paragraph"/>
+
+
+<h1 id="structure">2 Plugin Structure</h1>
+The Grails plugin integrates seamlessly with your application<p class="paragraph"/><img border="0" class="center" src="../img/GrailsAdminPluginOverview.png"></img>
+
+
+
+<h1 id="configuration">3 Plugin Configuration</h1>
+The power of the grails admin plugin is that you can create a full-fleshed grails administration page
+only by configuration.<p class="paragraph"/>In order to be flexible enough the plugin provides several configuration for tunning your application.<p class="paragraph"/><h2>Global configuration</h2><p class="paragraph"/><div class="code"><pre>grails.plugin.admin.access_root = <span class="java&#45;quote">"/admin"</span></pre></div><p class="paragraph"/><div class="code"><pre>grails.plugin.admin.role = <span class="java&#45;quote">"ROLE_ADMIN"</span></pre></div><p class="paragraph"/><h2>Per domain configuration</h2><p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#123;
+    <span class="java&#45;quote">"conferences.Room"</span>()
+    <span class="java&#45;quote">"conferences.Attendee"</span> list: &#91;exclude: &#91;'attendeeService'&#93;&#93;
+    <span class="java&#45;quote">"conferences.Conference"</span> adminClass: <span class="java&#45;quote">"conferences.ConferenceAdmin"</span>
+&#125;</pre></div><p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> conferences<p class="paragraph"/>class ConferenceAdmin &#123;
+    <span class="java&#45;keyword">static</span> options = &#91;
+        list: &#91;excludes: &#91;'startDate', 'endDate'&#93;&#93;,
+        show: &#91;excludes: &#91;'startDate', 'endDate'&#93;&#93;,
+        edit: &#91;excludes: &#91;'startDate', 'endDate'&#93;&#93;,
+    &#93;
+&#125;</pre></div>
+
 
                     </div>
                 </td>

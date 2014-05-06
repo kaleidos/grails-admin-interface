@@ -1,5 +1,6 @@
 DefaultPackage
 admin.test
 net.kaleidos.plugins.admin
+net.kaleidos.plugins.admin.builder
 net.kaleidos.plugins.admin.config
 net.kaleidos.plugins.admin.widget
