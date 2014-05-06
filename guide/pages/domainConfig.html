@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>3 Plugin Configuration 0.1</title>
+    <title>3.2 Per Domain Configuration 0.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -20,26 +20,26 @@ function addJsClass() {
     <ul>
         <li>
             <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
-                <a href="../guide/index.html" class="button">Table of contents</a>
+                <a href="../../guide/index.html" class="button">Table of contents</a>
 
                 <div id="nav-summary-childs" style="display:none;">
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/structure.html"><strong>2</strong><span>Plugin Structure</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/structure.html"><strong>2</strong><span>Plugin Structure</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Plugin Configuration</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/configuration.html"><strong>3</strong><span>Plugin Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tutorial.html"><strong>4</strong><span>Tutorial</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tutorial.html"><strong>4</strong><span>Tutorial</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/widgets.html"><strong>5</strong><span>Widgets</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/widgets.html"><strong>5</strong><span>Widgets</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>6</strong><span>FAQ</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>6</strong><span>FAQ</span></a>
                     </div>
                     
                 </div>
@@ -65,18 +65,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/structure.html">&lt;&lt; <strong>2</strong><span>Plugin Structure</span></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/structure.html">&lt;&lt; <strong>2</strong><span>Plugin Structure</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/tutorial.html"><strong>4</strong><span>Tutorial</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/tutorial.html"><strong>4</strong><span>Tutorial</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>3 Plugin Configuration - Reference Documentation</h1>
+                    <h1>3.2 Per Domain Configuration - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
@@ -86,32 +86,8 @@ function addJsClass() {
                 </div>
 
                 
-                <div id="table-of-content">
-                    <h2>Table of Contents</h2>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#globalConfig"><strong>3.1</strong><span>Global Configuration</span></a>
-                    </div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#domainConfig"><strong>3.2</strong><span>Per Domain Configuration</span></a>
-                    </div>
-                    
-                </div>
-                
 
                 
-
-<h1 id="configuration">3 Plugin Configuration</h1>
-The power of the grails admin plugin is that you can create a full-fleshed grails administration page
-only by configuration.<p class="paragraph"/>In order to be flexible enough the plugin provides several configuration for tunning your application.<p class="paragraph"/>
-
-
-<h2 id="globalConfig">3.1 Global Configuration</h2>
-<h4>Admin access root</h4>
-A good security practice is not to use the "standard" /admin URI to access your admin backend.<p class="paragraph"/>Grails admin allows you to customize your admin endpoint so it uses a custom one.<p class="paragraph"/>By default the value is /admin<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.access_root = <span class="java&#45;quote">"/admin"</span></pre></div><p class="paragraph"/><h4>Security access role</h4>
-The default role required for a user to access the admin is "ROLE_ADMIN" but you can customize
-to use any role defined with your application.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.role = <span class="java&#45;quote">"ROLE_ADMIN"</span></pre></div>
-
-
 
 <h2 id="domainConfig">3.2 Per Domain Configuration</h2>
 <h4>Domains list</h4><p class="paragraph"/>By default the admin plugin doesn't manage any domains inside your application.<p class="paragraph"/>You should add the domains that will be managed by the admin-plugin:<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#123;
@@ -137,9 +113,9 @@ to use any role defined with your application.<p class="paragraph"/><div class="
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/structure.html">&lt;&lt; <strong>2</strong><span>Plugin Structure</span></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/structure.html">&lt;&lt; <strong>2</strong><span>Plugin Structure</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/tutorial.html"><strong>4</strong><span>Tutorial</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/tutorial.html"><strong>4</strong><span>Tutorial</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
@@ -147,7 +123,7 @@ to use any role defined with your application.<p class="paragraph"/><div class="
         <td id="col2">
             <div class="local clearfix">
                 <div class="local-title">
-                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <a href="../../guide/index.html" target="mainFrame">Quick Reference</a>
                     <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
                 </div>
                 <div class="menu">
