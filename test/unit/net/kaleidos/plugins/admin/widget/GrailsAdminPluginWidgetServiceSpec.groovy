@@ -104,6 +104,23 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
             widget.class == DateInputWidget.class
     }
 
+    void 'error in an inexistent property'() {
+        given: 'not exist property'
+            def property = "notExistProperty"
+        when:
+            def widget = widgetService.getWidget(adminDomainTest,property, null, null)
+        then:
+            thrown(RuntimeException)
+    }
+
+    void 'error in an inexistent custom widget'() {
+        given:
+            def customWidget ="NotExistCustomWidget"
+        when:
+            def widget = widgetService.getWidget(adminDomainTest, "birthday",customWidget, null)
+        then:
+            thrown(RuntimeException)
+    }
 
     // void 'get widget for datetime class'() {
     //     when:

@@ -34,6 +34,11 @@ class GrailsAdminPluginWidgetService {
         def widget
         def grailsDomainClass = getGrailsDomainClass(object)
         def property = object.metaClass.getProperties().find{it.name == propertyName}
+
+        if (!property) {
+            throw new RuntimeException("$propertyName not exists in ${object.class}")
+        }
+
         def constraints
 
 
@@ -42,8 +47,12 @@ class GrailsAdminPluginWidgetService {
 
 
         if (customWidget) {
-            def widgetClass = this.getClass().classLoader.loadClass( customWidget, true, false )
-            widget = widgetClass?.newInstance()
+            try {
+                def widgetClass = this.getClass().classLoader.loadClass( customWidget, true, false )
+                widget = widgetClass?.newInstance()
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("Class $customWidget not found or not implemented")
+            }
         } else {
             widget = _getDefaultWidgetForType(property.getType(), constraints)
         }
