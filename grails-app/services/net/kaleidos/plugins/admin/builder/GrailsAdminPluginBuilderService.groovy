@@ -4,25 +4,18 @@ class GrailsAdminPluginBuilderService {
     def adminConfigHolder
     def grailsAdminPluginWidgetService
 
-    String renderEditForm(Object object, Map editFormProperties=[:], Map editWidgetProperties=[:]){
-        return _renderForm("edit", object, editFormProperties, editWidgetProperties)
+    String renderEditFormFields(Object object, Map editWidgetProperties=[:]){
+        return _renderFormFields("edit", object, editWidgetProperties)
     }
 
-    String renderCreateForm(String className, Map createFormProperties=[:], Map createWidgetProperties=[:]){
+    String renderCreateFormFields(String className, Map createWidgetProperties=[:]){
         def objectClass = this.getClass().classLoader.loadClass(className)
         def object = objectClass?.newInstance()
-        return _renderForm("create", object, createFormProperties, createWidgetProperties)
+        return _renderFormFields("create", object, createWidgetProperties)
     }
 
-    String _renderForm(String formType, Object object, Map formProperties, Map widgetProperties){
+    String _renderFormFields(String formType, Object object, Map widgetProperties){
         StringBuilder html = new StringBuilder()
-
-        html.append("<form")
-        formProperties.each {key, value ->
-            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
-        }
-        html.append(">")
-
         if (object) {
             List properties = adminConfigHolder.getDomainConfig(object).getProperties(formType)
             properties.each{propertyName ->
@@ -30,12 +23,9 @@ class GrailsAdminPluginBuilderService {
                 html.append("<div class=\"form-group\">")
                 html.append("<label for=\"${propertyName.encodeAsHTML()}\">${propertyName.capitalize().encodeAsHTML()}</label>")
                 html.append(widget.render())
-                html.append("<div>")
+                html.append("</div>")
             }
         }
-
-        html.append("</form>")
-
         return html
     }
 

@@ -31,8 +31,19 @@ class GrailsAdminPluginController {
         render view:'/grailsAdmin/edit',  model:[]
     }
 
-    def add() {
-        render view:'/grailsAdmin/add',  model:[]
+    def add(String slug) {
+        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        render view:'/grailsAdmin/add',  model:[domain: domain]
+    }
+
+    def addAction(String slug) {
+        def config = adminConfigHolder.getDomainConfigBySlug(slug)
+        def result = grailsAdminPluginGenericService.saveDomain(config.domainClass.clazz, params)
+        if (params["saveAndReturn"]){
+            redirect mapping:'list', params:['slug':slug]
+            return
+        }
+        redirect mapping:'add', params:['slug':slug]
     }
 
 }

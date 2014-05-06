@@ -6,11 +6,11 @@ class GrailsAdminUrlMappings {
         group "/grails-url-admin", {
             name dashboard: "/" { controller = "grailsAdminPlugin" ; action="dashboard" }
             "/$adminController?/$adminAction?/$id?" { controller = "grailsAdminPlugin" ; action="adminMethod" }
-            
+
             name list: "/list/$slug" { controller = "grailsAdminPlugin" ; action="list" }
             name edit: "/edit" { controller = "grailsAdminPlugin" ; action="edit" }
-            name add: "/add/$slug" { controller = "grailsAdminPlugin" ; action="add" }
-                    
+            name add: "/add/$slug" { controller = "grailsAdminPlugin" ; action=[GET:"add", POST:"addAction"] }
+
             "/api" { controller = "grailsAdminPluginApi" ; action = "listDomains" }
             "/api/$domain?/$id?" {
                 controller = "grailsAdminPluginApi"
