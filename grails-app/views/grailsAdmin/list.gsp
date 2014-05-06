@@ -3,42 +3,27 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Dashboard</title>
+        <title>${domain.className} - <g:message code="grailsAdminPlugin.list.title" /></title>
         <meta name="layout" content="grailsAdmin/main" />
     </head>
     <body>
         <div class="main-container container">
-            <table class="table table-condensed dashboard">
-                <tr>
-                    <td>Attendee</td>
-                    <td>
-                        <div class="btn-group">
-                            <g:link class="btn btn-link" mapping="list">
-                                <span class="glyphicon glyphicon-list"></span>
-                                List
-                            </g:link>
-                            <g:link class="btn btn-link" mapping="add">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                Add
-                            </g:link>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Talk</td>
-                    <td>
-                        <div class="btn-group">
-                            <g:link class="btn btn-link" mapping="list">
-                                <span class="glyphicon glyphicon-list"></span>
-                                List
-                            </g:link>
-                            <g:link class="btn btn-link" mapping="add">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                Add
-                            </g:link>
-                        </div>
-                    </td>
-                </tr>
+            <table class="table table-bordered">
+                <tbody>
+                <g:each in="${objs}">
+                    <tr>
+                        <gap:listLine object="${it}" />
+                        <td class="list-actions">
+                            <a class="btn btn-default btn-sm" href="edit.html">
+                                <span class="glyphicon glyphicon-pencil"></span> <g:message code="grailsAdminPlugin.action.edit" />
+                            </a>
+                            <a class="btn btn-default btn-sm" href="edit.html">
+                                <span class="glyphicon glyphicon-trash"></span> <g:message code="grailsAdminPlugin.action.delete" />
+                            </a>
+                        </td>
+                    </tr>
+                </g:each>
+                </tbody>
             </table>
         </div>
     </body>

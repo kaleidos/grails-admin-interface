@@ -148,4 +148,29 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
             find == null
 
     }
+
+    void "Return list objects"() {
+        setup:
+            mockDomain(TestDomain,[
+                           [id: 1, name: 'The Matrix', year: 2001],
+                           [id: 2, name: 'The Matrix 2', year: 2002],
+                           [id: 3, name: 'The Matrix 3', year: 2002],
+                           [id: 4, name: 'The Matrix 5', year: 2002]])
+
+        when:
+            def result = service.list(TestDomain)
+            def resultoff = service.list(TestDomain, limit, offset)
+
+        then:
+            result.size() == size
+            resultoff.size() == resultsize
+            resultoff[0].id == firstId
+
+        where:
+           size = 4
+           resultsize | limit | offset | firstId
+           3          |     3 |      0 |       1
+           1          |     3 |      3 |       4
+
+    }
 }
