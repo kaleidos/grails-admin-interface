@@ -66,6 +66,9 @@ class GrailsAdminPluginWidgetService {
 
 
     Widget _getDefaultWidgetForType(def type, def constraints){
+
+        // TODO : how is SelectMultiple implemented?
+
         def widget
         def constraintsClasses = constraints*.class
 
@@ -84,7 +87,13 @@ class GrailsAdminPluginWidgetService {
                     } else {
                         widget = new TextInputWidget()
                     }
+                break
+                case Date:
+                    widget = new DateInputWidget()
                     break
+                // case DateTime:
+                //     widget = new DateTimeInputWidget()
+                //     break
                 default:
                     widget = new TextInputWidget()
             }

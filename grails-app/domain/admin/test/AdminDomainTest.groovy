@@ -10,6 +10,8 @@ class AdminDomainTest{
     Long longNumber
     Integer year
     String country
+    Date birthday
+//    DateTime lastAccess
 
     static constraints = {
         name nullable:true

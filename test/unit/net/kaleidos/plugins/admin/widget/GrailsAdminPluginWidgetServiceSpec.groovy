@@ -97,6 +97,19 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
             widget.attrs.options == ["Canada":"Canada", "Spain":"Spain", "USA":"USA"]
     }
 
+    void 'get widget for date class'() {
+        when:
+            def widget = widgetService.getWidget(adminDomainTest, "birthday", null, null)
+        then:
+            widget.class == DateInputWidget.class
+    }
 
+
+    // void 'get widget for datetime class'() {
+    //     when:
+    //         def widget = widgetService.getWidget(adminDomainTest, "lastAccess", null, null)
+    //     then:
+    //         widget.class == DateTimeInputWidget.class
+    // }
 
 }
