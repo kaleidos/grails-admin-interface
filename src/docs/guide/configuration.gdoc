@@ -1,0 +1,36 @@
+The power of the grails admin plugin is that you can create a full-fleshed grails administration page
+only by configuration.
+
+In order to be flexible enough the plugin provides several configuration for tunning your application.
+
+h2. Global configuration
+
+{code}
+grails.plugin.admin.access_root = "/admin"
+{code}
+
+{code}
+grails.plugin.admin.role = "ROLE_ADMIN"
+{code}
+
+h2. Per domain configuration
+
+{code}
+grails.plugin.admin.domains = {
+    "conferences.Room"()
+    "conferences.Attendee" list: [exclude: ['attendeeService']]
+    "conferences.Conference" adminClass: "conferences.ConferenceAdmin"
+}
+{code}
+
+{code}
+package conferences
+
+class ConferenceAdmin {
+    static options = [
+        list: [excludes: ['startDate', 'endDate']],
+        show: [excludes: ['startDate', 'endDate']],
+        edit: [excludes: ['startDate', 'endDate']],
+    ]
+}
+{code}
