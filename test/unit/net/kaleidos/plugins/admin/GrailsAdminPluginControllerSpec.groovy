@@ -30,4 +30,20 @@ class GrailsAdminPluginControllerSpec extends Specification {
             model.domainClasses.size() == 0
             model.slug == 'slug'
     }
+
+    void 'dashboard'() {
+        setup:
+            controller.adminConfigHolder.domains >> {
+                [:]
+            }
+
+        when:
+            controller.dashboard()
+
+        then:
+            response.status == 200
+            view == '/grailsAdmin/dashboard'
+            model.domainClasses.size() == 0
+    }
+
 }
