@@ -85,4 +85,29 @@ class GrailsAdminPluginControllerSpec extends Specification {
             id = 2
     }
 
+    void 'list'() {
+        setup:
+            def domain = adminConfigHolder.domains['admin.test.TestDomain']
+
+            controller.grailsAdminPluginGenericService.count(domain.domainClass.clazz) >> 10
+
+            1 * controller.grailsAdminPluginGenericService.list(domain.domainClass.clazz, 10, 5) >> {
+                [[:]]
+            }
+
+        when:
+            params.slug = domain.slug
+            params.page = 3
+            controller.list()
+
+        then:
+            response.status == 200
+            view == '/grailsAdmin/list'
+            model.objs.size() == 1
+            model.domain == domain
+            model.currentPage == 3
+            model.totalPages == 2
+
+    }
+
 }
