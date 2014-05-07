@@ -69,4 +69,12 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
         then:
             html == "<td>25</td><td>&nbsp;</td><td>paul@example.com</td><td>&nbsp;</td><td>&nbsp;</td><td>&lt;alert&gt;0&lt;/alert&gt;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>"
     }
+
+    void "test render list titles"() {
+        when:
+            def html = grailsAdminPluginBuilderService.renderListTitle("admin.test.AdminDomainTest")
+
+        then:
+            html == "<th>age</th><th>country</th><th>email</th><th>id</th><th>longNumber</th><th>name</th><th>surname</th><th>version</th><th>web</th><th>year</th>"
+    }
 }

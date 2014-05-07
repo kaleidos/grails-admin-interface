@@ -50,4 +50,7 @@ class GrailsAdminPluginTagLib {
         out << grailsAdminPluginBuilderService.renderListLine(attrs.object)
     }
 
+    def listTitles = { attrs ->
+        out << grailsAdminPluginBuilderService.renderListTitle(attrs.className)
+    }
 }

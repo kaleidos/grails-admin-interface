@@ -9,6 +9,12 @@
     <body>
         <div class="main-container container">
             <table class="table table-bordered">
+                <thead>
+                    <gap:listTitles className="${domain.domainClass.clazz.name}" />
+                    <th class="list-actions-head">
+                        Actions
+                    </th>
+                </thead>
                 <tbody>
                 <g:each in="${objs}">
                     <tr>
