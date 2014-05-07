@@ -27,6 +27,8 @@
         <script src="${resource(file: 'libs/jquery/dist/jquery.js', plugin: 'admin')}"></script>
         <script src="${resource(file: 'libs/bootstrap/dist/js/bootstrap.js', plugin: 'admin')}"></script>
         <script src="${resource(file: 'libs/select2/select2.js', plugin: 'admin')}"></script>
+        <script src="${resource(file: 'libs/parsleyjs/dist/parsley.js', plugin: 'admin')}"></script>
+        <script src="${resource(file: 'libs/parsleyjs/dist/parsley.remote.js', plugin: 'admin')}"></script>
         <script src="${resource(file: 'js/main.js', plugin: 'admin')}"></script>
     </body>
 </html>

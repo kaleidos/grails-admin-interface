@@ -15,3 +15,12 @@ $('#confirm').on('show.bs.modal', function (e) {
         }, 5000);
     }
 }($("#msg")));
+
+$('.main-form').parsley({
+    errorClass: "has-error",
+    classHandler: function(el) {
+        return el.$element.closest(".form-group");
+    },
+    errorsWrapper: "<span class='help-block'></span>",
+    errorTemplate: "<span></span>"
+});
