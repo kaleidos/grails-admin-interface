@@ -37,7 +37,20 @@ class GrailsAdminPluginBuilderService {
             def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
             html.append("<td>")
             def val = object."${propertyName}"
-            html.append(val?val.encodeAsHTML():'&nbsp;')
+
+            if (val instanceof Boolean) {
+                def label = 'label-success'
+                if (!val) {
+                    label = 'label-danger'
+                }
+
+                html.append("<span class=\"label ${label}\">")
+                html.append(val.encodeAsHTML())
+                html.append("</span>")
+            } else {
+                html.append(val?val.encodeAsHTML():'&nbsp;')
+            }
+
             html.append("</td>")
         }
         return html
