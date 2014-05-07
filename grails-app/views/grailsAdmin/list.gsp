@@ -8,6 +8,21 @@
     </head>
     <body>
         <div class="main-container container">
+            <div class="row">
+                <div class="col-md-7">
+                    <ol class="breadcrumb">
+                        <li><g:link mapping="dashboard"><g:message code='grailsAdminPlugin.dashboard.title'/></g:link></li>
+                        <li class="active">${domain.className}</li>
+                    </ol>
+                </div>
+                <div class="col-md-3 col-md-offset-2 object-nav">
+                    <div class="btn-group">
+                        <g:link mapping="add" params="[slug: domain.slug]" class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus"></span> <g:message code='grailsAdminPlugin.add.title' />
+                        </g:link>
+                    </div>
+                </div>
+            </div>
             <table class="table table-bordered">
                 <thead>
                     <gap:listTitles className="${domain.domainClass.clazz.name}" />
