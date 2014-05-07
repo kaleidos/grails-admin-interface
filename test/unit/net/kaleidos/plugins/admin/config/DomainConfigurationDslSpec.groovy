@@ -10,7 +10,7 @@ class DomainConfigurationDslSpec extends Specification {
                 "admin.test.TestDomain"()
                 "admin.test.TestOtherDomain"(
                     list: [ excludes: ['year'] ],
-                    show: [ excludes: ['year'] ],
+                    create: [ excludes: ['year'] ],
                     edit: [ excludes: ['year'] ]
                 )
             })
@@ -34,7 +34,7 @@ class DomainConfigurationDslSpec extends Specification {
             result.domainClass != null
             result.domainClass.clazz == admin.test.TestOtherDomain.class
             result.getExcludes('list') == ['year']
-            result.getExcludes('show') == ['year']
+            result.getExcludes('create') == ['year']
             result.getExcludes('edit') == ['year']
 
     }
@@ -45,7 +45,7 @@ class DomainConfigurationDslSpec extends Specification {
                 "admin.test.TestDomain"()
                 "admin.test.TestOtherDomain"(
                     list: [ includes: ['name', 'year'] ],
-                    show: [ includes: ['name', 'year'] ],
+                    create: [ includes: ['name', 'year'] ],
                     edit: [ includes: ['name', 'year'] ]
                 )
             })
@@ -69,7 +69,7 @@ class DomainConfigurationDslSpec extends Specification {
             result.domainClass != null
             result.domainClass.clazz == admin.test.TestOtherDomain.class
             result.getIncludes('list') == ['name', 'year']
-            result.getIncludes('show') == ['name', 'year']
+            result.getIncludes('create') == ['name', 'year']
             result.getIncludes('edit') == ['name', 'year']
 
     }
@@ -120,7 +120,7 @@ class DomainConfigurationDslSpec extends Specification {
             result.domainClass != null
             result.domainClass.clazz == admin.test.TestConfigDomain.class
             result.getIncludes('list') == ['name', 'year']
-            result.getIncludes('show') == ['name', 'year']
+            result.getIncludes('create') == ['name', 'year']
             result.getIncludes('edit') == ['name', 'year']
 
     }

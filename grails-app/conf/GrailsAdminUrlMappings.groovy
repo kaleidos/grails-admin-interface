@@ -9,7 +9,7 @@ class GrailsAdminUrlMappings {
 
             name delete: "/delete/$slug" { controller = "grailsAdminPlugin" ; action="delete" }
             name list: "/list/$slug/$page?" { controller = "grailsAdminPlugin" ; action="list" }
-            name edit: "/edit/$slug/$id" { controller = "grailsAdminPlugin" ; action="edit" }
+            name edit: "/edit/$slug/$id" { controller = "grailsAdminPlugin" ; action=[GET:"edit", POST:"editAction"] }
             name add: "/add/$slug" { controller = "grailsAdminPlugin" ; action=[GET:"add", POST:"addAction"] }
 
             "/api" { controller = "grailsAdminPluginApi" ; action = "listDomains" }

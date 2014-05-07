@@ -53,8 +53,40 @@ class GrailsAdminPluginController {
                                                  totalPages: totalPages]
     }
 
-    def edit() {
-        render view:'/grailsAdmin/edit',  model:[]
+    def edit(String slug, Long id) {
+        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        def object = domain.domainClass.clazz.get(id)
+
+        if (object) {
+            render view:'/grailsAdmin/edit',  model:[domain: domain, object: object]
+            return
+        } else {
+            redirect mapping:'list', params:['slug':slug]
+            return
+        }
+    }
+
+    def editAction(String slug, Long id) {
+        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        def object = domain.domainClass.clazz.get(id)
+        if (object) {
+            def result = grailsAdminPluginGenericService.updateDomain(domain.domainClass.clazz, id, params)
+
+            if (!result.hasErrors()) {
+                flash.success = g.message(code:"grailsAdminPlugin.edit.success")
+                if (params["saveAndReturn"]){
+                    redirect mapping:'list', params:['slug':slug]
+                    return
+                }
+                redirect mapping:'edit', params:['slug':slug, 'id':id]
+            } else {
+                flash.error = g.message(code:"grailsAdminPlugin.edit.error")
+                render view:'/grailsAdmin/edit',  model:[domain: domain, object: result]
+            }
+        } else {
+            redirect mapping:'list', params:['slug':slug]
+            return
+        }
     }
 
     def add(String slug) {
@@ -63,13 +95,21 @@ class GrailsAdminPluginController {
     }
 
     def addAction(String slug) {
-        def config = adminConfigHolder.getDomainConfigBySlug(slug)
-        def result = grailsAdminPluginGenericService.saveDomain(config.domainClass.clazz, params)
-        if (params["saveAndReturn"]){
-            redirect mapping:'list', params:['slug':slug]
-            return
+        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        def result = grailsAdminPluginGenericService.saveDomain(domain.domainClass.clazz, params)
+
+        if (!result.hasErrors()) {
+            flash.success = g.message(code:"grailsAdminPlugin.add.success")
+            if (params["saveAndReturn"]){
+                redirect mapping:'list', params:['slug':slug]
+                return
+            }
+            redirect mapping:'add', params:['slug':slug]
+        } else {
+            flash.error = g.message(code:"grailsAdminPlugin.add.error")
+            render view:'/grailsAdmin/add',  model:[domain: domain]
         }
-        redirect mapping:'add', params:['slug':slug]
+
     }
 
 }

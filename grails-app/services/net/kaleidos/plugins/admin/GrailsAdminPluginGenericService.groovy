@@ -29,7 +29,7 @@ class GrailsAdminPluginGenericService {
         }
 
         params.each { key, val ->
-            if (key != "id" && result.hasProperty(key)) {
+            if ((!(key in ["id", "version"])) && result.hasProperty(key)) {
                 result."$key" = val
             }
         }
