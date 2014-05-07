@@ -7,7 +7,7 @@ class GrailsAdminPluginGenericService {
     def grailsApplication
     def grailsAdminPluginWidgetService
 
-    List listDomains(Class<?> domainClass){
+    List listDomain(Class<?> domainClass){
         return domainClass.list()
     }
 

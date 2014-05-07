@@ -1,5 +1,7 @@
 package net.kaleidos.plugins.admin.builder
 
+import groovy.json.JsonBuilder
+
 class GrailsAdminPluginBuilderService {
     def adminConfigHolder
     def grailsAdminPluginWidgetService
@@ -30,6 +32,8 @@ class GrailsAdminPluginBuilderService {
     }
 
 
+    //list
+
     String renderListLine(Object object){
         List properties = adminConfigHolder.getDomainConfig(object).getProperties("list")
         StringBuilder html = new StringBuilder()
@@ -50,6 +54,10 @@ class GrailsAdminPluginBuilderService {
             } else {
                 html.append(val?val.encodeAsHTML():'&nbsp;')
             }
+
+
+            // TODO: Who has to decide how to encode? Widget or this method?
+
 
             html.append("</td>")
         }
@@ -73,4 +81,39 @@ class GrailsAdminPluginBuilderService {
 
         return html
     }
+
+
+
+    // JSON
+
+    String renderListAsJson(List list) {
+        def resultList = []
+        list.each { element ->
+            resultList << _getInfoForJson(element)
+        }
+
+        println resultList
+        return new JsonBuilder(resultList).toString()
+    }
+
+    def _getInfoForJson(object) {
+        List properties = adminConfigHolder.getDomainConfig(object).getProperties("list")
+        def result = [:]
+        properties.each { propertyName ->
+            def val = object."${propertyName}"
+            if (val) {
+                def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
+                result << ["$propertyName":widget.renderAsJson()]
+            }
+        }
+
+        println result
+        return result
+    }
+
+    String renderObjectAsJson(Object object) {
+        def result = _getInfoForJson(object)
+        return new JsonBuilder(result).toString()
+    }
+
 }

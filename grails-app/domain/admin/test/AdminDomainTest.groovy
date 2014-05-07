@@ -13,6 +13,8 @@ class AdminDomainTest{
     Date birthday
 //    DateTime lastAccess
 
+    Date birthday
+
     static constraints = {
         name nullable:true
         surname nullable:true, maxSize:100

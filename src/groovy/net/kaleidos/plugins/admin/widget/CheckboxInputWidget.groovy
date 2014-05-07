@@ -14,6 +14,7 @@ class CheckboxInputWidget extends InputWidget{
         inputType = "checkbox"
     }
 
+    @Override
     String render() {
         String html = "<input type=\"${inputType.encodeAsHTML()}\""
         if (value) {

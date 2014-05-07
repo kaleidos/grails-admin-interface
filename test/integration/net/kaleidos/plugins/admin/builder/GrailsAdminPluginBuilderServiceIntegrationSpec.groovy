@@ -12,8 +12,6 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
     def grailsApplication
 
     def setup() {
-        adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
-
         grailsApplication.configureLoadedClasses([
             admin.test.AdminDomainTest.class
         ] as Class[])
@@ -39,6 +37,8 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
     }
 
     void "test renderEditForm"() {
+        setup:
+            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
         when:
             def html = grailsAdminPluginBuilderService.renderEditFormFields(adminDomainTest)
         then:
@@ -46,6 +46,8 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
     }
 
     void "test renderCreateForm"() {
+        setup:
+            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
         when:
             def html = grailsAdminPluginBuilderService.renderCreateFormFields("admin.test.AdminDomainTest")
         then:
@@ -54,6 +56,8 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
 
 
     void "test render list line"() {
+        setup:
+            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
         when:
             def html = grailsAdminPluginBuilderService.renderListLine(adminDomainTest)
         then:
@@ -61,6 +65,8 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
     }
 
     void "test render list line injection"() {
+        setup:
+            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
         when:
             adminDomainTest.name = "<alert>0</alert>"
             def html = grailsAdminPluginBuilderService.renderListLine(adminDomainTest)
@@ -69,10 +75,52 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
     }
 
     void "test render list titles"() {
+        setup:
+            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
         when:
             def html = grailsAdminPluginBuilderService.renderListTitle("admin.test.AdminDomainTest")
 
         then:
             html == "<th>age</th><th>birthday</th><th>country</th><th>email</th><th>longNumber</th><th>name</th><th>surname</th><th>web</th><th>year</th>"
+    }
+
+    void 'render single object as json'() {
+        given: 'an object'
+            adminDomainTest = new AdminDomainTest(name:'a')
+
+        when: 'ask to render as json'
+            def json = grailsAdminPluginBuilderService.renderObjectAsJson(adminDomainTest)
+
+        then: 'should return a json response'
+            json == "{\"name\":\"a\"}"
+    }
+
+    void 'render object as json'() {
+        given: 'an object'
+            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'p@ex.com')
+
+        when: 'ask to render as json'
+            def json = grailsAdminPluginBuilderService.renderObjectAsJson(adminDomainTest)
+
+        then: 'should return a json response'
+            json == "{\"age\":\"25\",\"email\":\"p@ex.com\",\"name\":\"Paul\"}"
+    }
+
+    void 'render object with date as json'() {
+        given: 'an object'
+            def dateValue = new Date()
+            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'p@ex.com',birthday:dateValue)
+
+        when: 'ask to render as json'
+            def json = grailsAdminPluginBuilderService.renderObjectAsJson(adminDomainTest)
+
+        then: 'should return a json response'
+            json == "{\"age\":\"25\",\"birthday\":\"${dateValue.toString()}\",\"email\":\"p@ex.com\",\"name\":\"Paul\"}"
+    }
+
+    void 'render list as json'() {
+
+        expect:
+            false
     }
 }

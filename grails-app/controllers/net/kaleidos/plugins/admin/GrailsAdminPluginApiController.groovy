@@ -29,9 +29,16 @@ class GrailsAdminPluginApiController {
                 return
             }
         } else {
-            result = grailsAdminPluginGenericService.listDomains(config.domainClass.clazz)
+            result = grailsAdminPluginGenericService.listDomain(config.domainClass.clazz)
         }
+
+        // def renderedResult = grailsAdminPluginBuilderService.renderListAsJson()
+        // render renderedResult
+
         render result as JSON
+
+
+
     }
 
     def putAdminAction(String slug) {

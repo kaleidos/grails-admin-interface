@@ -10,4 +10,8 @@ abstract class Widget {
     }
 
     abstract String render()
+
+    String renderAsJson() {
+        return value.toString()
+    }
 }
