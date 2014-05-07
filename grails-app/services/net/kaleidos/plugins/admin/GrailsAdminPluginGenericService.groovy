@@ -41,8 +41,12 @@ class GrailsAdminPluginGenericService {
         return result
     }
 
-    def list(Class<?> domainClass, Long limit = 10, Long offset = 0) {
+    def list(Class<?> domainClass, Long offset = 0, Long limit = 10) {
         return domainClass.list(offset: offset, max: limit, sort: 'id', order: 'asc')
+    }
+
+    def count(Class<?> domainClass) {
+        return domainClass.count()
     }
 
     void deleteDomain(Class<?> domainClass, Long objectId){

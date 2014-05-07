@@ -6,6 +6,7 @@ class GrailsAdminPluginController {
     def objectDefinitionSource
     def adminConfigHolder
     def grailsAdminPluginGenericService
+    private static int ITEMS_BY_PAGE = 5
 
     def adminMethod() {
         log.debug ">> Execute: ${params}"
@@ -20,11 +21,20 @@ class GrailsAdminPluginController {
         render view:'/grailsAdmin/dashboard',  model:[domainClasses: adminConfigHolder.domains.values()]
     }
 
-    def list(String slug) {
-        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
-        def objs = grailsAdminPluginGenericService.list(domain.domainClass.clazz)
+    def list(String slug, int page) {
+        if (!page) {
+            page = 1
+        }
 
-        render view:'/grailsAdmin/list',  model:[objs: objs, domain: domain]
+        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        def objs = grailsAdminPluginGenericService.list(domain.domainClass.clazz, (page -1) * ITEMS_BY_PAGE, ITEMS_BY_PAGE)
+        def total = grailsAdminPluginGenericService.count(domain.domainClass.clazz)
+        def totalPages = (Math.floor(total / ITEMS_BY_PAGE) as Integer) + 1
+
+        render view:'/grailsAdmin/list',  model:[objs: objs,
+                                                 domain: domain,
+                                                 currentPage: page,
+                                                 totalPages: totalPages]
     }
 
     def edit() {

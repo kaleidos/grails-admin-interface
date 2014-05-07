@@ -159,7 +159,7 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
 
         when:
             def result = service.list(TestDomain)
-            def resultoff = service.list(TestDomain, limit, offset)
+            def resultoff = service.list(TestDomain, offset, limit)
 
         then:
             result.size() == size
@@ -172,5 +172,19 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
            3          |     3 |      0 |       1
            1          |     3 |      3 |       4
 
+    }
+
+    void "Return the number of total objects"() {
+        setup:
+            mockDomain(TestDomain,[
+                           [id: 1, name: 'The Matrix', year: 2001],
+                           [id: 2, name: 'The Matrix 2', year: 2002],
+                           [id: 3, name: 'The Matrix 3', year: 2002],
+                           [id: 4, name: 'The Matrix 5', year: 2002]])
+
+        when:
+            def result = service.count(TestDomain)
+        then:
+            result == 4
     }
 }
