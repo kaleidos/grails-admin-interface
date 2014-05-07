@@ -12,7 +12,7 @@
                 <thead>
                     <gap:listTitles className="${domain.domainClass.clazz.name}" />
                     <th class="list-actions-head">
-                        Actions
+                        <g:message code="grailsAdminPlugin.list.actions" />
                     </th>
                 </thead>
                 <tbody>
@@ -23,7 +23,7 @@
                             <g:link mapping="edit" params="[slug: domain.slug, id: it.id]" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span> <g:message code="grailsAdminPlugin.action.edit" />
                             </g:link>
-                            <a class="btn btn-default btn-sm" href="edit.html">
+                            <a data-id="${it.id}" data-toggle="modal" data-target="#confirm" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-trash"></span> <g:message code="grailsAdminPlugin.action.delete" />
                             </a>
                         </td>
@@ -53,6 +53,25 @@
                 </g:if>
             </ul>
             </g:if>
+        </div>
+
+        <div id="confirm" tabindex="-1" role="dialog" aria-labelledby="confirmLabel" aria-hidden="true" class="modal fade">
+            <g:form mapping="delete" params="[slug: domain.slug]">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
+                            <h4 id="confirmLabel" class="modal-title"><g:message code="grailsAdminPlugin.confirm.delete.title" /></h4>
+                        </div>
+                        <div class="modal-body"><g:message code="grailsAdminPlugin.confirm.delete.body" /></div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-default"><g:message code="grailsAdminPlugin.action.close" /></button>
+                            <button type="submit" class="btn btn-danger"><g:message code="grailsAdminPlugin.action.delete" /></button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="" />
+            </g:form>
         </div>
     </body>
 </html>
