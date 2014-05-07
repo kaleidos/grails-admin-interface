@@ -1,7 +1,14 @@
 package net.kaleidos.plugins.admin
 
-import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
+import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
+import org.springframework.context.ApplicationContext
 
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.config.DomainConfig
+import net.kaleidos.plugins.admin.GrailsAdminPluginGenericService
+
+import spock.lang.Shared
 import spock.lang.Specification
 import grails.test.mixin.TestFor
 
@@ -9,17 +16,37 @@ import admin.test.TestDomain
 
 @TestFor(GrailsAdminPluginController)
 class GrailsAdminPluginControllerSpec extends Specification {
+    @Shared
+    def adminConfigHolder
+
+    def setupSpec() {
+        def grailsApplication = new DefaultGrailsApplication()
+        grailsApplication.configureLoadedClasses([
+            admin.test.TestDomain.class,
+        ] as Class[])
+
+        grailsApplication.mainContext = Mock(ApplicationContext)
+        def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+        grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+
+        def config = new ConfigObject()
+        config.grails.plugin.admin.domains ={
+            "admin.test.TestDomain"()
+        }
+
+        adminConfigHolder = new AdminConfigHolder(config)
+        adminConfigHolder.grailsApplication = grailsApplication
+        adminConfigHolder.initialize()
+    }
 
     def setup() {
-        controller.adminConfigHolder = Mock(AdminConfigHolder)
+        controller.adminConfigHolder = adminConfigHolder
+        controller.grailsAdminPluginGenericService = Mock(GrailsAdminPluginGenericService)
     }
 
     void 'menu'() {
         setup:
             params.slug = 'slug'
-            controller.adminConfigHolder.domains >> {
-                [:]
-            }
 
         when:
             controller.menu()
@@ -27,23 +54,35 @@ class GrailsAdminPluginControllerSpec extends Specification {
         then:
             response.status == 200
             view == '/grailsAdmin/includes/menu'
-            model.domainClasses.size() == 0
+            model.domainClasses.size() == 1
             model.slug == 'slug'
     }
 
     void 'dashboard'() {
-        setup:
-            controller.adminConfigHolder.domains >> {
-                [:]
-            }
-
         when:
             controller.dashboard()
 
         then:
             response.status == 200
             view == '/grailsAdmin/dashboard'
-            model.domainClasses.size() == 0
+    }
+
+    void 'delete'() {
+        setup:
+            def domain = adminConfigHolder.domains['admin.test.TestDomain']
+
+        when:
+            params.slug = domain.slug
+            params.id = id
+            controller.delete()
+
+        then:
+            response.status == 302
+            flash.success != null
+            1 * controller.grailsAdminPluginGenericService.deleteDomain(domain.domainClass.clazz, id)
+
+        where:
+            id = 2
     }
 
 }
