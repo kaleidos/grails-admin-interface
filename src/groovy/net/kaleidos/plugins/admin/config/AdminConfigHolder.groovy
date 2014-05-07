@@ -118,9 +118,9 @@ class AdminConfigHolder {
             objectDefinitionSource.compiled << newUrl("/grailsadminplugin", [this.role], null)
             objectDefinitionSource.compiled << newUrl("/grailsadminplugin.*", [this.role], null)
             objectDefinitionSource.compiled << newUrl("/grailsadminplugin/**", [this.role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminpluginadmin", [this.role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminpluginadmin.*", [this.role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminpluginadmin/**", [this.role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi", [this.role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi.*", [this.role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi/**", [this.role], null)
         } catch (NoSuchBeanDefinitionException e) {
             log.error "No configured Spring Security"
         } catch (ClassNotFoundException e) {
