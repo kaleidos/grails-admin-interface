@@ -24,3 +24,5 @@ $('.main-form').parsley({
     errorsWrapper: "<span class='help-block'></span>",
     errorTemplate: "<span></span>"
 });
+
+$('.datepicker').datepicker();

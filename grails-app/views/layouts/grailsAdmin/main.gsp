@@ -9,6 +9,7 @@
         <link href="${resource(file: 'libs/bootstrap/dist/css/bootstrap-theme.css', plugin: 'admin')}" rel="stylesheet" />
         <link href="${resource(file: 'libs/select2/select2.css', plugin: 'admin')}" rel="stylesheet" />
         <link href="${resource(file: 'libs/select2/select2-bootstrap.css', plugin: 'admin')}" rel="stylesheet" />
+        <link href="${resource(file: 'libs/bootstrap-datepicker/css/datepicker3.css', plugin: 'admin')}" rel="stylesheet" />
         <link href="${resource(file: 'css/main.css', plugin: 'admin')}" rel="stylesheet" />
     </head>
     <body>
@@ -26,6 +27,7 @@
 
         <script src="${resource(file: 'libs/jquery/dist/jquery.js', plugin: 'admin')}"></script>
         <script src="${resource(file: 'libs/bootstrap/dist/js/bootstrap.js', plugin: 'admin')}"></script>
+        <script src="${resource(file: 'libs/bootstrap-datepicker/js/bootstrap-datepicker.js', plugin: 'admin')}"></script>
         <script src="${resource(file: 'libs/select2/select2.js', plugin: 'admin')}"></script>
         <script src="${resource(file: 'libs/parsleyjs/dist/parsley.js', plugin: 'admin')}"></script>
         <script src="${resource(file: 'libs/parsleyjs/dist/parsley.remote.js', plugin: 'admin')}"></script>
