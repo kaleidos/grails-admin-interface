@@ -13,8 +13,8 @@ class GrailsAdminPluginController {
         render "OK ${params}"
     }
 
-    def menu() {
-        render view:'/grailsAdmin/includes/menu',  model:[domainClasses: adminConfigHolder.domains.values()]
+    def menu(String slug) {
+        render view:'/grailsAdmin/includes/menu',  model:[domainClasses: adminConfigHolder.domains.values(), slug: slug]
     }
 
     def dashboard() {

@@ -3,8 +3,8 @@
     <div class="container-fluid">
         <ul class="nav navbar-nav">
             <g:each var="domainClass" in="${domainClasses}">
-                <!--  <li class="active"> --> 
-                <li><g:link mapping="list" params="[slug: domainClass.slug]">${domainClass.className}</g:link></li>
+                <!--  <li > -->
+                <li <g:if test="${domainClass.slug == slug}">class="active"</g:if>><g:link mapping="list" params="[slug: domainClass.slug]">${domainClass.className}</g:link></li>
             </g:each>
         </ul>
 
