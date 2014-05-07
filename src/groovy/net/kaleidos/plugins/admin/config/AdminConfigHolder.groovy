@@ -5,6 +5,11 @@ import java.util.regex.Pattern
 import org.codehaus.groovy.grails.web.mapping.RegexUrlMapping
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
+import org.codehaus.groovy.grails.web.mapping.*
+import grails.util.Holders
+
+import org.springframework.web.context.WebApplicationContext
+
 @Log4j
 class AdminConfigHolder {
     def grailsApplication
@@ -74,16 +79,28 @@ class AdminConfigHolder {
             holder = grailsApplication.mainContext.getBean("grailsUrlMappingsHolder")
         }
 
-        holder.cachedMatches.clear()
-        holder.mappings.each {
-            if (it instanceof RegexUrlMapping) {
-                if (it.urlData.urlPattern.startsWith("/grails-url-admin/")) {
-                    it.patterns.eachWithIndex { value, index ->
-                        log.debug "$index -> $value"
-                        it.patterns[index] =
-                            Pattern.compile(value.toString().replace("grails-url-admin", this.accessRoot))
+        // Find Admin Url mappings
+        def mappings = grailsApplication.urlMappingsClasses
+        def artifact = mappings.find { it.fullName == "GrailsAdminUrlMappings" }
+
+        if (artifact) {
+            def GrailsAdminUrlMappings = artifact.clazz
+
+            // Changes the root uri
+            def mappingClosure = GrailsAdminUrlMappings.getDynamicUrlMapping(this.accessRoot)
+
+            // Re-evaluate url mappings closure
+            UrlMappingEvaluator evaluator = new DefaultUrlMappingEvaluator(grailsApplication.mainContext);
+            List<UrlMapping> newMappings = evaluator.evaluateMappings(mappingClosure);
+
+            // Remove old mappings and replace with the new re-evaluated
+            holder.cachedMatches.clear()
+            holder.mappings.eachWithIndex { it, idx ->
+                if (it instanceof RegexUrlMapping) {
+                    if (it.urlData.urlPattern.startsWith("/${GrailsAdminUrlMappings.INTERNAL_URI}/")) {
+                        def elem = newMappings.remove(0)
+                        holder.mappings[idx] = elem
                     }
-                    log.debug "${it.patterns}"
                 }
             }
         }
