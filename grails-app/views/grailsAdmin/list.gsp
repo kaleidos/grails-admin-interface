@@ -20,9 +20,9 @@
                     <tr>
                         <gap:listLine object="${it}" />
                         <td class="list-actions">
-                            <a class="btn btn-default btn-sm" href="edit.html">
+                            <g:link mapping="edit" params="[slug: domain.slug, id: it.id]" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span> <g:message code="grailsAdminPlugin.action.edit" />
-                            </a>
+                            </g:link>
                             <a class="btn btn-default btn-sm" href="edit.html">
                                 <span class="glyphicon glyphicon-trash"></span> <g:message code="grailsAdminPlugin.action.delete" />
                             </a>
