@@ -14,7 +14,7 @@ body {
 .dashboard tr td:first-child {
   font-weight: bold; }
 
-.main-form input[type='text'], .main-form select, .main-form .select2-container {
+.main-form input:not([type='submit']), .main-form select, .main-form .select2-container {
   display: block;
   width: 650px; }
 

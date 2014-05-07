@@ -29,7 +29,7 @@ body {
 }
 
 .main-form {
-  input[type='text'], select, .select2-container {
+  input:not([type='submit']), select, .select2-container {
     display: block;
     width: 650px;
   }
