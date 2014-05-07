@@ -7,3 +7,11 @@ $('#confirm').on('show.bs.modal', function (e) {
         $(this).find('[name="id"]').val(id);
     }
 });
+
+(function (msg) {
+    if (msg.length) {
+        setTimeout(function () {
+            msg.fadeOut();
+        }, 5000);
+    }
+}($("#msg")));

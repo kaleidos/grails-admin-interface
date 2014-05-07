@@ -13,7 +13,17 @@
     </head>
     <body>
         <g:include action="menu" params="[slug: params.slug]"/>
+
+        <g:if test="${flash.success}">
+            <div id="msg" class="container">
+              <div class="alert alert-success">
+                  ${flash.success}
+              </div>
+            </div>
+        </g:if>
+
         <g:layoutBody/>
+
         <script src="${resource(file: 'libs/jquery/dist/jquery.js', plugin: 'admin')}"></script>
         <script src="${resource(file: 'libs/bootstrap/dist/js/bootstrap.js', plugin: 'admin')}"></script>
         <script src="${resource(file: 'libs/select2/select2.js', plugin: 'admin')}"></script>
