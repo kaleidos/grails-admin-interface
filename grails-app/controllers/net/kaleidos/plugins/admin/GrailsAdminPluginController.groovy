@@ -59,13 +59,19 @@ class GrailsAdminPluginController {
 
     def edit(String slug, Long id) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+
+        if (!domain) {
+            response.status = 404
+            return
+        }
+
         def object = domain.domainClass.clazz.get(id)
 
         if (object) {
             render view:'/grailsAdmin/edit',  model:[domain: domain, object: object]
             return
         } else {
-            redirect mapping:'list', params:['slug':slug]
+            response.status = 404
             return
         }
     }
@@ -75,7 +81,7 @@ class GrailsAdminPluginController {
         def object = domain.domainClass.clazz.get(id)
         if (object) {
             def result = grailsAdminPluginGenericService.updateDomain(domain.domainClass.clazz, id, params)
-
+            
             if (!result.hasErrors()) {
                 flash.success = g.message(code:"grailsAdminPlugin.edit.success")
                 if (params["saveAndReturn"]){

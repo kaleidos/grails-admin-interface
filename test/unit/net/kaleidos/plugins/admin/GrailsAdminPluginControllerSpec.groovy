@@ -15,6 +15,7 @@ import grails.test.mixin.TestFor
 import admin.test.TestDomain
 
 @TestFor(GrailsAdminPluginController)
+@Mock(TestDomain)
 class GrailsAdminPluginControllerSpec extends Specification {
     @Shared
     def adminConfigHolder
@@ -114,6 +115,29 @@ class GrailsAdminPluginControllerSpec extends Specification {
         when:
             params.slug = "Bad slug"
             controller.list()
+
+        then:
+            response.status == 404
+    }
+    
+    void 'try to access a non existant object when editting'() {
+        
+        setup:
+            def domain = adminConfigHolder.domains['admin.test.TestDomain']
+        when:
+            params.slug = domain.slug
+            params.id = 9999
+            
+            controller.edit()
+
+        then:
+            response.status == 404
+    }
+    
+    void 'try to access a wrong domain url when editting'() {
+        when:
+            params.slug = "Bad slug"
+            controller.edit()
 
         then:
             response.status == 404
