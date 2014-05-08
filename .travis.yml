@@ -6,10 +6,7 @@ script: ./grailsw refresh-dependencies --non-interactive
 notifications:
   email:
     recipients:
-      - alonso.torres@kaleidos.net
-      - antonio.delatorre@kaleidos.net
-      - juanfran.alcantara@kaleidos.net
-      - daniel.herrero@kaleidos.net
+      - grails-admin@kaleidos.net
 
     on_success: change
     on_failure: change
