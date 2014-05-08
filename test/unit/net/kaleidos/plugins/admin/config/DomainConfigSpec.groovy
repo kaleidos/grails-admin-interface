@@ -14,8 +14,8 @@ class DomainConfigSpec extends Specification {
             def result = domainConfig.getProperties("list")
 
         then:
-            result.size() == 7
-            result.containsAll(['id', 'version', 't1', 't2', 't3', 't4', 't5'] as Object[])
+            result != null
+            result == ['t1', 't2', 't3', 't4', 't5']
     }
 
     void "Get properties. Exclude some"(){
@@ -27,8 +27,8 @@ class DomainConfigSpec extends Specification {
             def result = domainConfig.getProperties("list")
 
         then:
-            result.size() == 5
-            result.containsAll(['id', 'version', 't1', 't4', 't5'] as Object[])
+            result.size() == 3
+            result == ['t1', 't4', 't5']
     }
 
     void "Get properties. Include some"(){
@@ -41,7 +41,20 @@ class DomainConfigSpec extends Specification {
 
         then:
             result.size() == 2
-            result.containsAll(['t2', 't3'] as Object[])
+            result == ['t2', 't3']
+    }
+
+    void "Get properties. Include some. Respect my sort"(){
+        setup:
+            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
+            def domainConfig = new DomainConfig(domainClass, [list:[includes:['t5', 't4', 't3']]])
+
+        when:
+            def result = domainConfig.getProperties("list")
+
+        then:
+            result.size() == 3
+            result == ['t5', 't4', 't3']
     }
 
     void "Get properties. Exception if includes and exludes"(){
@@ -54,7 +67,7 @@ class DomainConfigSpec extends Specification {
         then:
             thrown(RuntimeException)
     }
-    
+
     def "Get short class names"(){
         setup:
             def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
@@ -66,7 +79,7 @@ class DomainConfigSpec extends Specification {
         then:
             domainConfig.className == "Test"
     }
-    
+
     def "Get lower and short class names"(){
         setup:
             def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
@@ -83,9 +96,9 @@ class DomainConfigSpec extends Specification {
 class Test {
     Long id
     Long version
-    String t1
-    String t2
+    String t5
     String t3
     String t4
-    String t5
+    String t1
+    String t2
 }

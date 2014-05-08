@@ -16,16 +16,20 @@ class DomainConfig {
     }
 
     List getProperties(String method) {
+        def defaultExclude = ['id','version']
         def result = domainClass.getProperties()
             .findAll{ it.isPersistent() }
             .collect { it.name }
+            .sort()
 
         if (includes[method]) {
-            result = result.findAll{ includes[method].contains(it) }
+            result = includes[method].findAll { result.contains(it) }
         } else if (excludes[method]) {
-            result = result.findAll{ !excludes[method].contains(it) }
+            result = result.findAll{ !excludes[method].contains(it) && !defaultExclude.contains(it) }
+        } else {
+            result = result.findAll{ !defaultExclude.contains(it) }
         }
-        return result.sort()
+        return result
     }
 
     List getExcludes(String method) {
