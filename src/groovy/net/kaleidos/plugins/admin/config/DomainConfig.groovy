@@ -12,13 +12,6 @@ class DomainConfig {
 
         if (params) {
             _configureParams(params)
-
-            if (params['adminClass']) {
-                def clazz = Class.forName(params['adminClass'])
-                if (clazz.metaClass.respondsTo(clazz, "getOptions")) {
-                    _configureParams(clazz.options)
-                }
-            }
         }
     }
 
@@ -47,7 +40,7 @@ class DomainConfig {
         params.each { method, properties ->
             if (['list', 'create', 'edit'].contains(method)) {
                 if (properties['excludes'] && properties['includes']) {
-                    throw new RuntimeException("The includes and exludes configuration is setted for domain: ${domainClass.name}. Only should be defined")
+                    throw new RuntimeException("The includes and exludes configuration is setted for domain: ${domainClass.name}. Only one can be defined")
                 }
 
                 if (properties['excludes']) {

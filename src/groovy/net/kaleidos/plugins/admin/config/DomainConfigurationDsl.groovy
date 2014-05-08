@@ -4,7 +4,7 @@ class DomainConfigurationDsl {
     def grailsApplication
 
     Closure closure
-    Map domains = [:]
+    Map params = [:]
 
     public DomainConfigurationDsl(Closure closure) {
         closure.resolveStrategy = Closure.DELEGATE_ONLY
@@ -12,20 +12,17 @@ class DomainConfigurationDsl {
         this.closure = closure
     }
 
-    public void execute() {
+    public Map execute() {
+        this.params = [:]
         this.closure()
+        return this.params
     }
 
     def methodMissing(String name, args) {
-        def domainClass = grailsApplication.domainClasses.find { it.fullName == name }
-        if (!domainClass) {
-            throw new RuntimeException("The class ${name} doesn't match with any domain class")
-        }
+        assert ['list', 'create', 'edit'].contains(name), "$name is not a valid property"
+        assert args.size() == 1, "$args is not valid"
+        assert args[0] instanceof Map, "${ args[0] } is not valid"
 
-        Map params = null
-        if (args.length > 0 && args[0] instanceof Map) {
-            params = (Map)args[0]
-        }
-        domains[name] = new DomainConfig(domainClass, params)
+        this.params[name] = args[0]
     }
 }

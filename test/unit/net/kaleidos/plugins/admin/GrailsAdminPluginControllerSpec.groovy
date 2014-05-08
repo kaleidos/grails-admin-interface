@@ -31,9 +31,7 @@ class GrailsAdminPluginControllerSpec extends Specification {
         grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
 
         def config = new ConfigObject()
-        config.grails.plugin.admin.domains ={
-            "admin.test.TestDomain"()
-        }
+        config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
 
         adminConfigHolder = new AdminConfigHolder(config)
         adminConfigHolder.grailsApplication = grailsApplication

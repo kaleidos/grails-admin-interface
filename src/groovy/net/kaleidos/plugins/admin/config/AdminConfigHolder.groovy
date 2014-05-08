@@ -18,12 +18,15 @@ class AdminConfigHolder {
     String accessRoot = "admin"
     String role = "ROLE_ADMIN"
 
-    Closure domainDsl = null
+    ConfigObject config
+    List domainList = null
 
     public AdminConfigHolder(ConfigObject config=null) {
         if (config != null) {
+            this.config =  config
+
             if (config.grails.plugin.admin.domains) {
-                this.domainDsl = config.grails.plugin.admin.domains
+                this.domainList = config.grails.plugin.admin.domains
             }
 
             if (config.grails.plugin.admin.access_root) {
@@ -56,11 +59,11 @@ class AdminConfigHolder {
     public List getDomainClasses() {
         return this.domains.keySet() as List
     }
-    
+
     public List<String> getDomainNames() {
         return this.domainClasses.collect{ this.domains[it].className }
     }
-    
+
     public List<String> getSlugDomainNames() {
         return this.domainClasses.collect{ this.domains[it].slug }
     }
@@ -72,8 +75,8 @@ class AdminConfigHolder {
     public DomainConfig getDomainConfig(Class objClass) {
         return this.domains[objClass.name]
     }
-    
-    public DomainConfig getDomainConfigBySlug(String slug) {        
+
+    public DomainConfig getDomainConfigBySlug(String slug) {
         return this.domains.find { it.value.slug == slug }?.value
     }
 
@@ -141,14 +144,40 @@ class AdminConfigHolder {
     }
 
     private _configureDomainClasses(){
-        if (!this.domainDsl) {
+        if (!this.domainList) {
             return;
         }
-        println "Configuring domain classes"
-        def dsl = new DomainConfigurationDsl(this.domainDsl)
-        dsl.grailsApplication = this.grailsApplication
-        dsl.execute()
-        this.domains = dsl.domains
-        println "DOMAIN: ${this.domains}"
+        log.debug "Configuring domain classes"
+
+        this.domains = [:]
+        this.domainList.each { name ->
+            def domainClass = grailsApplication.domainClasses.find { it.fullName == name }
+
+            if (!domainClass) {
+                throw new RuntimeException("Configured class ${name} is not a domain class")
+            }
+
+            def className = name.tokenize(".")[-1]
+            def domainConfig = config.grails.plugin.admin.domain."$className"
+
+            if (domainConfig && domainConfig instanceof Closure) {
+                def dsl = new DomainConfigurationDsl(domainConfig)
+                dsl.grailsApplication = this.grailsApplication
+                def params = dsl.execute()
+                domains[name] = new DomainConfig(domainClass, params)
+            } else if (domainConfig && domainConfig instanceof String) {
+                def clazz = Class.forName(domainConfig)
+                if (!clazz.metaClass.respondsTo(clazz, "getOptions")) {
+                    throw new RuntimeException("Class $domainConfig doesn't have a static attribute 'options'")
+                }
+                def dsl = new DomainConfigurationDsl(clazz.options)
+                dsl.grailsApplication = this.grailsApplication
+                def params = dsl.execute()
+                domains[name] = new DomainConfig(domainClass, params)
+            } else {
+                domains[name] = new DomainConfig(domainClass, null)
+            }
+        }
+        log.debug "DOMAIN: ${this.domains}"
     }
 }

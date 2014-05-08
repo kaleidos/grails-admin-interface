@@ -1,6 +1,7 @@
 package net.kaleidos.plugins.admin.config
 
 import spock.lang.Specification
+import spock.lang.IgnoreRest
 
 import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
@@ -21,12 +22,58 @@ class AdminConfigHolderSpec extends Specification {
         ] as Class[])
     }
 
-    void "Obtain configuration"(){
+    void "Obtain configuration (Access root)"(){
+        setup: "configuration"
+            def config = new ConfigObject()
+            config.grails.plugin.admin.access_root = testAccessRoot
+
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder(config)
+            configHolder.grailsApplication = grailsApplication
+
+        and: "Url config"
+            grailsApplication.mainContext = Mock(WebApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+
+        when:
+            configHolder.initialize()
+
+        then:
+            configHolder.accessRoot == testAccessRoot
+
+        where:
+            testAccessRoot = "myadmin"
+    }
+
+    void "Obtain configuration (Role)"(){
+        setup: "configuration"
+            def config = new ConfigObject()
+            config.grails.plugin.admin.role = testRole
+
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder(config)
+            configHolder.grailsApplication = grailsApplication
+
+        and: "Url config"
+            grailsApplication.mainContext = Mock(WebApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+
+        when:
+            configHolder.initialize()
+
+        then:
+            configHolder.role == testRole
+
+        where:
+            testRole = "ROLE_SUPER"
+    }
+
+    void "Obtain configuration (Domain list)"(){
         setup: "configuration"
             def config = new ConfigObject()
             config.grails.plugin.admin.domains = testDomains
-            config.grails.plugin.admin.access_root = testAccessRoot
-            config.grails.plugin.admin.role = testRole
 
         and: "Config holder"
             def configHolder = new AdminConfigHolder(config)
@@ -43,16 +90,69 @@ class AdminConfigHolderSpec extends Specification {
         then:
             configHolder.domains != null
             configHolder.domains.size() == 2
-            configHolder.accessRoot == testAccessRoot
-            configHolder.role == testRole
 
         where:
-            testDomains = {
-                "admin.test.TestDomain"()
-                "admin.test.TestOtherDomain" list: [exclude: ['name']]
+            testDomains = [
+                "admin.test.TestDomain",
+                "admin.test.TestOtherDomain"
+            ]
+    }
+
+    @IgnoreRest
+    void "Obtain configuration (Domain closure configuration)"(){
+        setup: "configuration"
+            def config = new ConfigObject()
+            config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
+            config.grails.plugin.admin.domain.TestDomain = {
+                list excludes: ['name', 'year']
             }
-            testAccessRoot = "myadmin"
-            testRole = "ROLE_SUPER"
+
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder(config)
+            configHolder.grailsApplication = grailsApplication
+
+        and: "Url config"
+            grailsApplication.mainContext = Mock(WebApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+
+        when:
+            configHolder.initialize()
+
+        then:
+            configHolder.domains != null
+            configHolder.domains.size() == 1
+            configHolder.domains["admin.test.TestDomain"] != null
+            configHolder.domains["admin.test.TestDomain"].getExcludes('list') != null
+            configHolder.domains["admin.test.TestDomain"].getExcludes('list').size() == 2
+
+    }
+
+    @IgnoreRest
+    void "Obtain configuration (Domain admin file)"(){
+        setup: "configuration"
+            def config = new ConfigObject()
+            config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
+            config.grails.plugin.admin.domain.TestDomain = "admin.test.TestDomainAdmin"
+
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder(config)
+            configHolder.grailsApplication = grailsApplication
+
+        and: "Url config"
+            grailsApplication.mainContext = Mock(WebApplicationContext)
+            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
+            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+
+        when:
+            configHolder.initialize()
+
+        then:
+            configHolder.domains != null
+            configHolder.domains.size() == 1
+            configHolder.domains["admin.test.TestDomain"] != null
+            configHolder.domains["admin.test.TestDomain"].getExcludes('list') != null
+            configHolder.domains["admin.test.TestDomain"].getExcludes('list').size() == 2
     }
 
     void "Default configuration"(){
@@ -94,9 +194,7 @@ class AdminConfigHolderSpec extends Specification {
             thrown(RuntimeException)
 
         where:
-            testDomains = {
-                "NoExistsDomain"()
-            }
+            testDomains = [ "NoExistsDomain" ]
     }
 
     void "Test changes in the URL mappings"() {
@@ -145,10 +243,10 @@ class AdminConfigHolderSpec extends Specification {
             domainNames == ["TestDomain", "TestOtherDomain"]
 
         where:
-            testDomains = {
-                "admin.test.TestDomain"()
-                "admin.test.TestOtherDomain" list: [exclude: ['name']]
-            }
+            testDomains = [
+                "admin.test.TestDomain",
+                "admin.test.TestOtherDomain"
+            ]
     }
 
     def "Get all lower domain names"() {
@@ -172,10 +270,10 @@ class AdminConfigHolderSpec extends Specification {
             domainNames == ["testdomain", "testotherdomain"]
 
         where:
-            testDomains = {
-                "admin.test.TestDomain"()
-                "admin.test.TestOtherDomain" list: [exclude: ['name']]
-            }
+            testDomains = [
+                "admin.test.TestDomain",
+                "admin.test.TestOtherDomain"
+            ]
     }
 
     def "Given a slug, recover the DomainConfig object"() {
@@ -199,9 +297,7 @@ class AdminConfigHolderSpec extends Specification {
             testDomainConfig == configHolder.domains[testDomainClassName]
 
         where:
-            testDomains = {
-                "admin.test.TestDomain"()
-            }
+            testDomains = [ "admin.test.TestDomain" ]
             testDomainSlug = "testdomain"
             testDomainClassName = "admin.test.TestDomain"
     }
@@ -227,11 +323,8 @@ class AdminConfigHolderSpec extends Specification {
             testDomainConfig == null
 
         where:
-            testDomains = {
-                "admin.test.TestDomain"()
-            }
+            testDomains = [ "admin.test.TestDomain" ]
             testDomainSlug = "testdomainBadSlug"
             testDomainClassName = "admin.test.TestDomain"
     }
-
 }

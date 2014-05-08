@@ -18,9 +18,7 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
             admin.test.AdminDomainTest.class
         ] as Class[])
 
-        def testDomains = {
-            "admin.test.AdminDomainTest"()
-        }
+        def testDomains = [ "admin.test.AdminDomainTest" ]
 
         def config = new ConfigObject()
         config.grails.plugin.admin.domains = testDomains
