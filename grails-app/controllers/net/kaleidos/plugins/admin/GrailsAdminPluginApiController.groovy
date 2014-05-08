@@ -54,7 +54,8 @@ class GrailsAdminPluginApiController {
             response.status = 500
             result = e.getErrors()
         }
-        render result as JSON
+        
+        render grailsAdminPluginBuilderService.renderObjectAsJson(result)
     }
 
     def postAdminAction(String slug, Long id) {
@@ -75,7 +76,8 @@ class GrailsAdminPluginApiController {
             response.status = 500
             result = [error: e.message]
         }
-        render result as JSON
+        
+        render grailsAdminPluginBuilderService.renderObjectAsJson(result)
     }
 
     def deleteAdminAction(String slug, Long id) {
