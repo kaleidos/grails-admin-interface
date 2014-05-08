@@ -111,6 +111,12 @@ class GrailsAdminPluginController {
 
     def add(String slug) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        
+        if (!domain) {
+            response.status = 404
+            return
+        }
+                
         render view:'/grailsAdmin/add',  model:[domain: domain]
     }
 
