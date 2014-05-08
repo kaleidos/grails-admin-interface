@@ -4,6 +4,9 @@ import grails.transaction.Transactional
 
 @Transactional
 class GrailsAdminPluginGenericService {
+    def grailsApplication
+    def grailsAdminPluginWidgetService
+
     List listDomains(Class<?> domainClass){
         return domainClass.list()
     }
@@ -28,7 +31,7 @@ class GrailsAdminPluginGenericService {
 
         params.each { key, val ->
             if ((!(key in ["id", "version"])) && result.hasProperty(key)) {
-                result."$key" = val
+                result."$key" = _getValueByType(domainClass, key, val)
             }
         }
 
@@ -53,5 +56,24 @@ class GrailsAdminPluginGenericService {
             result = true
         }
         return result
+    }
+
+    def _getValueByType(def domainClass, def propertyName, def val){
+        if (val) {
+            def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)
+            switch ( property.type ) {
+                case Date:
+                    return Date.parse("MM/dd/yyyy", testDate)
+                    break
+                default:
+                    if (grailsApplication.isDomainClass(property.type)){
+                        return retrieveDomain(property.type, val as Long)
+                    }
+                    return val
+
+            }
+            return val
+        }
+        return null
     }
 }

@@ -19,6 +19,7 @@ import org.codehaus.groovy.grails.validation.SizeConstraint
 import org.codehaus.groovy.grails.validation.UrlConstraint
 import org.codehaus.groovy.grails.validation.ValidatorConstraint
 import org.codehaus.groovy.grails.validation.AbstractConstraint
+import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
 
 
@@ -27,13 +28,25 @@ class GrailsAdminPluginWidgetService {
 
     DefaultGrailsDomainClass getGrailsDomainClass(Object object) {
         //return new DefaultGrailsDomainClass(object.class)
-        return grailsApplication.mainContext.getBean("${object.class.name}DomainClass")
+        try {
+            return grailsApplication.mainContext.getBean("${object.class.name}DomainClass")
+        } catch (NoSuchBeanDefinitionException e){
+            return null
+        }
+    }
+
+    DefaultGrailsDomainClass getGrailsDomainClass(Class c) {
+        try{
+            return grailsApplication.mainContext.getBean("${c.name}DomainClass")
+        } catch (NoSuchBeanDefinitionException e){
+            return null
+        }
     }
 
     Widget getWidget(Object object, String propertyName, String customWidget=null, Map attributes=[:]) {
         def widget
         def grailsDomainClass = getGrailsDomainClass(object)
-        def property = object.metaClass.getProperties().find{it.name == propertyName}
+        def property = grailsDomainClass.getPropertyByName(propertyName)
 
         if (!property) {
             throw new RuntimeException("$propertyName not exists in ${object.class}")
@@ -57,10 +70,10 @@ class GrailsAdminPluginWidgetService {
             widget = _getDefaultWidgetForType(property.getType(), constraints)
         }
 
-        def value = object."${propertyName}"
-        widget.value = value?"${value}":null
 
-        widget.attrs = ["name":propertyName]
+        widget.value = _getValueForWidget(object, property)
+
+        widget.attrs.putAll(["name":propertyName])
         widget.attrs.putAll(_getAttrsFromConstraints(constraints))
 
         //Preference for user-defined attributes
@@ -103,8 +116,22 @@ class GrailsAdminPluginWidgetService {
                 // case DateTime:
                 //     widget = new DateTimeInputWidget()
                 //     break
+                case Set:
+                    widget = new SelectWidget()
+                    break
                 default:
-                    widget = new TextInputWidget()
+                    //It is another domain class?
+                    def domain = getGrailsDomainClass(type)
+                    if (domain) {
+                        widget = new SelectWidget()
+                        def options = [:]
+                        type.list().each {
+                            options[it.id] = it.toString()
+                        }
+                        widget.attrs = ['options':options]
+                    } else {
+                        widget = new TextInputWidget()
+                    }
             }
         }
         return widget
@@ -149,6 +176,20 @@ class GrailsAdminPluginWidgetService {
         }
     }
 
+    def _getValueForWidget(def object, def property){
+
+        def value = object."${property.name}"
+
+        if (value) {
+            if (grailsApplication.isDomainClass(property.getType())) {
+                //It is a domain class
+                value = value.id
+            }
+            return value as String
+        }
+        return null
+
+    }
 
 
 }

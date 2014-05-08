@@ -11,7 +11,8 @@ class SelectWidget extends Widget {
     }
 
     String render() {
-        String html = "<select"
+
+        String html = "<select "
         attrs.each {key, value ->
             if (key != "options") {
                 html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""
@@ -26,8 +27,9 @@ class SelectWidget extends Widget {
         // draw options values
         if (attrs.options) {
             attrs.options.each {val, text ->
+                println "---->${val as String} ${value as String} ${(val as String) == (value as String)}"
                 html += "<option value=\"${val.encodeAsHTML()}\""
-                if (val == value) {
+                if ((val as String) == (value as String)) {
                     html += " selected=\"selected\""
                 }
                 html += ">${text.encodeAsHTML()}</option>"
