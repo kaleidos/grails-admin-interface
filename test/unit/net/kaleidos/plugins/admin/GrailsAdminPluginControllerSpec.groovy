@@ -65,7 +65,7 @@ class GrailsAdminPluginControllerSpec extends Specification {
             response.status == 200
             view == '/grailsAdmin/dashboard'
     }
-    
+
     void 'delete an existant object'() {
         setup:
             def domain = adminConfigHolder.domains['admin.test.TestDomain']
@@ -125,7 +125,7 @@ class GrailsAdminPluginControllerSpec extends Specification {
             model.totalPages == 2
 
     }
-    
+
     void 'try to access a wrong domain url to list'() {
         when:
             params.slug = "Bad slug"
@@ -134,7 +134,7 @@ class GrailsAdminPluginControllerSpec extends Specification {
         then:
             response.status == 404
     }
-    
+
     void 'try to access a wrong domain url when editting'() {
         when:
             params.slug = "Bad slug"
@@ -143,21 +143,21 @@ class GrailsAdminPluginControllerSpec extends Specification {
         then:
             response.status == 404
     }
-    
+
     void 'try to access a non existant object when editting'() {
-        
+
         setup:
             def domain = adminConfigHolder.domains['admin.test.TestDomain']
         when:
             params.slug = domain.slug
             params.id = 9999
-            
+
             controller.edit()
 
         then:
             response.status == 404
     }
-    
+
     void 'try to access a wrong domain url when deletting'() {
         when:
             params.slug = "Bad slug"
@@ -166,7 +166,7 @@ class GrailsAdminPluginControllerSpec extends Specification {
         then:
             response.status == 404
     }
-    
+
     void 'try to access a wrong domain url when adding a new object'() {
         when:
             params.slug = "Bad slug"
