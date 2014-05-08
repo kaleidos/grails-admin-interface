@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <g:form class="main-form" mapping="grailsAdminEdit" params="[slug: domain.slug, id:object.id]">
+            <g:form class="main-form" grailsadmin-remote="enabled" mapping="grailsAdminEdit" params="[slug: domain.slug, id:object.id]">
                 <gap:editFormFields
                     object="${object}"
 
@@ -37,10 +37,10 @@
 
                 <div class="form-options well">
                     <div class="btn-group">
-                      <input type="submit" name="save" value="Save" class="btn btn-success">
+                      <input type="button" value="Update" class="btn btn-primary form-action">
                     </div>
                     <div class="btn-group">
-                      <input type="submit" name="saveAndReturn" value="Save and return list" class="btn btn-default">
+                      <input type="button" data-url="${createLink(mapping: 'list', params: [slug: domain.slug])}" value="Update and close" class="btn btn-default form-action">
                     </div>
                 </div>
             </g:form>

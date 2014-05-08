@@ -100,7 +100,7 @@ class GrailsAdminPluginController {
             if (!result.hasErrors()) {
                 flash.success = g.message(code:"grailsAdminPlugin.edit.success")
                 response.status = 200
-                render ""
+                render [:] as JSON
             } catch (ValidationException e) {
                 flash.error = g.message(code:"grailsAdminPlugin.add.error")
                 response.status = 500
@@ -109,7 +109,7 @@ class GrailsAdminPluginController {
         } else {
             flash.error = g.message(code:"grailsAdminPlugin.add.error")
             response.status = 500
-            render [] as JSON
+            render [:] as JSON
         }
     }
     */
@@ -133,7 +133,11 @@ class GrailsAdminPluginController {
             def result = grailsAdminPluginGenericService.saveDomain(domain.domainClass.clazz, params)
             flash.success = g.message(code:"grailsAdminPlugin.add.success")
             response.status = 200
-            render ""
+
+            def data = [:]
+            data.url = g.createLink(mapping: 'edit', params: [slug: slug, id: result.id])
+
+            render data as JSON
             return
 
 
