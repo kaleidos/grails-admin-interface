@@ -18,16 +18,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class SelectWidgetSpec extends Specification {
-	
-	void setup() {
-		//println "Setup"
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
-	void 'create element without value without options without attribs'() {
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = { def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
+    void 'create element without value without options without attribs'() {
         setup:
             def widget = new SelectWidget()
         when:
@@ -37,7 +35,7 @@ class SelectWidgetSpec extends Specification {
             html == "<select><option value=\"\">--</option></select>"
     }
 
-	
+
     void 'create non nullable element without value without options without attribs'() {
         setup:
             def widget = new SelectWidget()

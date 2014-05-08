@@ -92,7 +92,6 @@ class GrailsAdminPluginBuilderService {
             resultList << _getInfoForJson(element)
         }
 
-        println resultList
         return new JsonBuilder(resultList).toString()
     }
 
@@ -107,7 +106,6 @@ class GrailsAdminPluginBuilderService {
             }
         }
 
-        println result
         return result
     }
 

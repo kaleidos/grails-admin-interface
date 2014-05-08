@@ -52,14 +52,14 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
                 new TestDomain(name:"test2", year:2001),
                 new TestDomain(name:"test3", year:2002),
             ]
-            
+
             controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
             controller.grailsAdminPluginBuilderService.renderListAsJson(_) >> "[{\"name\":\"test1\"}, {\"name\":\"test2\"}, {\"name\":\"test3\"}]"
 
         when:
             controller.getAdminAction(domain, null)
             def result = response.json
-            
+
         then:
             response.status == 200
             result.size() == 3
@@ -79,7 +79,7 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
         when:
             controller.getAdminAction(domain, 1)
             def result = response.json
-            println result
+
         then:
             response.status == 200
             result.name == name
