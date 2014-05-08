@@ -6,7 +6,19 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 
 import spock.lang.*
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+
+
 class TextAreaWidgetSpec extends Specification {
+	
+	
+	void setup() {
+		Object.metaClass.encodeAsHTML = {
+			def encoder = new HTMLCodec().getEncoder()
+			return encoder.encode(delegate)
+		}
+	}
+	
     void 'create text area without value nor attribs'() {
         setup:
             def textAreaWidget = new TextAreaWidget()
@@ -26,10 +38,10 @@ class TextAreaWidgetSpec extends Specification {
             def html = textAreaWidget.render()
 
         then:
-            html == "<textarea>${value}</textarea>"
+            html == "<textarea>${value.encodeAsHTML()}</textarea>"
 
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
     }
 
     void 'create text area without value with attribs'() {
@@ -55,9 +67,9 @@ class TextAreaWidgetSpec extends Specification {
             def html = textAreaWidget.render()
 
         then:
-            html == "<textarea rows=\"4\" cols=\"50\">${value}</textarea>"
+            html == "<textarea rows=\"4\" cols=\"50\">${value.encodeAsHTML()}</textarea>"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
             attrs = ['rows':4, 'cols':50]
     }
 }

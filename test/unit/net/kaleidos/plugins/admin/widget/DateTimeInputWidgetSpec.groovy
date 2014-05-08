@@ -6,8 +6,18 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 
 import spock.lang.*
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+
+
 class DateTimeInputWidgetSpec extends Specification {
 	
+    void setup() {
+		Object.metaClass.encodeAsHTML = {
+			def encoder = new HTMLCodec().getEncoder()
+			return encoder.encode(delegate)
+		}
+	}    
+    
     void 'create input datetime without value nor attribs'() {
         setup:
             def dateTimeInputWidget = new DateTimeInputWidget()
@@ -28,10 +38,10 @@ class DateTimeInputWidgetSpec extends Specification {
             def html = dateTimeInputWidget.render()
 
         then:
-            html == "<input type=\"datetime\" value=\"${value}\" />"
+            html == "<input type=\"datetime\" value=\"${value.encodeAsHTML()}\" />"
             
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
     }
 
     void 'create input dateTime without value with attribs'() {
@@ -57,10 +67,10 @@ class DateTimeInputWidgetSpec extends Specification {
             def html = dateTimeInputWidget.render()
 
         then:
-            html == "<input type=\"datetime\" value=\"1234\" size=\"10\" name=\"datetime\" />"
+            html == "<input type=\"datetime\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"datetime\" />"
             
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'datetime']
     }
 }

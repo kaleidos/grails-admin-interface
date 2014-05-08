@@ -1,0 +1,18 @@
+h4. Admin access root
+A good security practice is not to use the "standard" /admin URI to access your admin backend.
+
+Grails admin allows you to customize your admin endpoint so it uses a custom one.
+
+By default the value is /admin
+
+{code}
+grails.plugin.admin.access_root = "/admin"
+{code}
+
+h4. Security access role
+The default role required for a user to access the admin is "ROLE_ADMIN" but you can customize
+to use any role defined with your application.
+
+{code}
+grails.plugin.admin.role = "ROLE_ADMIN"
+{code}

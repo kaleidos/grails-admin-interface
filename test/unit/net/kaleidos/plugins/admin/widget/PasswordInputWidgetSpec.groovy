@@ -6,7 +6,18 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 
 import spock.lang.*
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+
+
 class PasswordInputWidgetSpec extends Specification {
+	
+	void setup() {
+		Object.metaClass.encodeAsHTML = {
+			def encoder = new HTMLCodec().getEncoder()
+			return encoder.encode(delegate)
+		}
+	}
+	
     void 'create input password without value nor attribs'() {
         setup:
             def passwordInputWidget = new PasswordInputWidget()
@@ -18,7 +29,6 @@ class PasswordInputWidgetSpec extends Specification {
             html == "<input type=\"password\" />"
     }
 
-
     void 'create input password with value without attribs'() {
         setup:
             def passwordInputWidget = new PasswordInputWidget(value)
@@ -27,9 +37,9 @@ class PasswordInputWidgetSpec extends Specification {
             def html = passwordInputWidget.render()
 
         then:
-            html == "<input type=\"password\" value=\"${value}\" />"
+            html == "<input type=\"password\" value=\"${value.encodeAsHTML()}\" />"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
     }
 
     void 'create input password without value with attribs'() {
@@ -54,9 +64,9 @@ class PasswordInputWidgetSpec extends Specification {
             def html = passwordInputWidget.render()
 
         then:
-            html == "<input type=\"password\" value=\"1234\" size=\"10\" name=\"test\" />"
+            html == "<input type=\"password\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\" />"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'test']
     }
 }

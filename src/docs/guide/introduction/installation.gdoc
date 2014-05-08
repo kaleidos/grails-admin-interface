@@ -1,0 +1,11 @@
+To install you should include in your BuildConfig.groovy
+
+{code}
+plugins {
+    runtime "\:admin\:0.1"
+
+    // Plugin dependencies
+    compile "\:spring-security-core\:2.0-RC2"
+    runtime "\:resources\:1.2.7"
+}
+{code}

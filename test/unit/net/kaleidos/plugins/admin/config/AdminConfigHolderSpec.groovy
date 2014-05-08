@@ -6,16 +6,18 @@ import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
 import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingEvaluator
 import org.springframework.web.context.WebApplicationContext
-import org.springframework.context.ApplicationContext
 
 class AdminConfigHolderSpec extends Specification {
     def grailsApplication
+
+    static GrailsAdminUrlMappings = Class.forName("GrailsAdminUrlMappings")
 
     void setup() {
         grailsApplication = new DefaultGrailsApplication()
         grailsApplication.configureLoadedClasses([
             admin.test.TestDomain.class,
-            admin.test.TestOtherDomain.class
+            admin.test.TestOtherDomain.class,
+            GrailsAdminUrlMappings
         ] as Class[])
     }
 
@@ -31,7 +33,7 @@ class AdminConfigHolderSpec extends Specification {
             configHolder.grailsApplication = grailsApplication
 
         and: "Url config"
-            grailsApplication.mainContext = Mock(ApplicationContext)
+            grailsApplication.mainContext = Mock(WebApplicationContext)
             def urlMappingsHolder = new DefaultUrlMappingsHolder([])
             grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
 
@@ -58,7 +60,7 @@ class AdminConfigHolderSpec extends Specification {
             def config = new ConfigObject()
 
         and: "Url config"
-            grailsApplication.mainContext = Mock(ApplicationContext)
+            grailsApplication.mainContext = Mock(WebApplicationContext)
             def urlMappingsHolder = new DefaultUrlMappingsHolder([])
             grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
 
@@ -81,7 +83,7 @@ class AdminConfigHolderSpec extends Specification {
             configHolder.grailsApplication = grailsApplication
 
         and: "Url config"
-            grailsApplication.mainContext = Mock(ApplicationContext)
+            grailsApplication.mainContext = Mock(WebApplicationContext)
             def urlMappingsHolder = new DefaultUrlMappingsHolder([])
             grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
 
@@ -104,16 +106,11 @@ class AdminConfigHolderSpec extends Specification {
 
         and: "New url mappings holder"
             def evaluator = new DefaultUrlMappingEvaluator((WebApplicationContext)null);
-            def mappingList = evaluator.evaluateMappings {
-                group "/grails-url-admin", {
-                    "/" { controller = "dashboard" ; action="index" }
-                    "/$adminController?/$adminAction?/$id?" { controller = "admin" ; action="adminMethod" }
-                }
-            }
+            def mappingList = evaluator.evaluateMappings(GrailsAdminUrlMappings.getDynamicUrlMapping(GrailsAdminUrlMappings.INTERNAL_URI))
             def urlMappingsHolder = new DefaultUrlMappingsHolder(mappingList)
 
         and: "Spring configuration"
-            grailsApplication.mainContext = Mock(ApplicationContext)
+            grailsApplication.mainContext = Mock(WebApplicationContext)
             grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
 
         when:
@@ -121,9 +118,10 @@ class AdminConfigHolderSpec extends Specification {
 
         then:
             urlMappingsHolder.match("/admin") != null
-            urlMappingsHolder.match("/admin/testDomain") != null
-            urlMappingsHolder.match("/admin/testDomain/list") != null
-            urlMappingsHolder.match("/admin/testDomain/show/1") != null
+            urlMappingsHolder.match("/admin/api/testDomain") != null
+            urlMappingsHolder.match("/admin/api/testDomain/1") != null
+            urlMappingsHolder.match("/admin/web/testDomain") != null
+            urlMappingsHolder.match("/admin/web/testDomain/1") != null
     }
     
     def "Get all domain names"() {

@@ -6,7 +6,21 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 
 import spock.lang.*
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+
+
+
+//value << ["1234", "<script>alert(0)</script>"]
+
 class CheckboxInputWidgetSpec extends Specification {
+	
+	void setup() {
+		Object.metaClass.encodeAsHTML = {
+			def encoder = new HTMLCodec().getEncoder()
+			return encoder.encode(delegate)
+		}
+	}
+	
     void 'create input checkbox without value nor attribs'() {
         setup:
             def checkboxInputWidget = new CheckboxInputWidget()
@@ -27,11 +41,11 @@ class CheckboxInputWidgetSpec extends Specification {
             def html = checkboxInputWidget.render()
 
         then:
-            html == "<input type=\"checkbox\" value=\"${value}\">${text?:''}</input>"
+            html == "<input type=\"checkbox\" value=\"${value.encodeAsHTML()}\">${text?text.encodeAsHTML():''}</input>"
 
         where:
-            value = "1234"
-            text << ["el valor es 1234", null]
+            value = "<script>alert(1234)</script>"
+            text << ["el valor es 1234", null, "<script>alert(0)</script>"]
     }
 
     @Unroll
@@ -43,11 +57,11 @@ class CheckboxInputWidgetSpec extends Specification {
             def html = checkboxInputWidget.render()
 
         then:
-            html == "<input type=\"checkbox\">${text?:''}</input>"
+            html == "<input type=\"checkbox\">${text?text.encodeAsHTML():''}</input>"
 
         where:
             value = null
-            text << ["el valor es 1234", null]
+            text << ["el valor es 1234", null, "<script>alert(0)</script>"]
     }
 
     @Unroll
@@ -59,12 +73,12 @@ class CheckboxInputWidgetSpec extends Specification {
             def html = checkboxInputWidget.render()
 
         then:
-            html == "<input type=\"checkbox\" value=\"${value}\" size=\"10\" name=\"test\">${text?:''}</input>"
+            html == "<input type=\"checkbox\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\">${text?text.encodeAsHTML():''}</input>"
 
         where:
             attrs = ['size':10, 'name': 'test']
-            value = "1234"
-            text << ["el valor es 1234", null]
+            value = "<script>alert(1234)</script>"
+            text << ["el valor es 1234", null, "<script>alert(0)</script>"]
     }
 
     @Unroll
@@ -76,11 +90,11 @@ class CheckboxInputWidgetSpec extends Specification {
             def html = checkboxInputWidget.render()
 
         then:
-            html == "<input type=\"checkbox\" size=\"10\" name=\"test\">${text?:''}</input>"
+            html == "<input type=\"checkbox\" size=\"10\" name=\"test\">${text?text.encodeAsHTML():''}</input>"
 
         where:
             attrs = ['size':10, 'name': 'test']
             value = null
-            text << ["el valor es 1234", null]
+            text << ["el valor es 1234", null, "<script>alert(0)</script>"]
     }
 }

@@ -14,7 +14,7 @@ class SelectMultipleWidget extends Widget {
         String html = "<select multiple"
         attrs.each {key, value ->
             if (key != "options") {
-                html += " ${key}=\"${value}\""
+                html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""
             }
         }
         html += ">"
@@ -26,11 +26,11 @@ class SelectMultipleWidget extends Widget {
         // draw options values
         if (attrs.options) {
             attrs.options.each {val, text ->
-                html += "<option value=\"${val}\""
+                html += "<option value=\"${val.encodeAsHTML()}\""
                 if (val == value) {
                     html += " selected=\"selected\""
                 }
-                html += ">${text}</option>"
+                html += ">${text.encodeAsHTML()}</option>"
             }
         }
 

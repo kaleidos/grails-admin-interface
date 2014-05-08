@@ -1,9 +1,1 @@
 The Grails Admin plugin provides and easy and secure backend to administer out-of-the-box your Grails applications.
-
-{note}
-This plugin depends on [Spring Security Core 2.x|http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html].
-{note}
-
-h4. Release history
-* X May 2014
-** To be released

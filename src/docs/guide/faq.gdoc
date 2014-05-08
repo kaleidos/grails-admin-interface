@@ -1,0 +1,11 @@
+h4. Why should I use this instead of "scaffolding"?
+The scaffolding is better as a code-generation tool that "bootstrap" a new application with a base
+application. The aim of the plugin is to provide a customizable backend to extend the administration.
+
+We don't want to override scaffolding but to use this configuration-based alternative.
+
+Also, this plugin has some other added features such as:
+
+* Integrated with security
+* Configurables views
+* Integrates easily as a plugin

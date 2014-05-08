@@ -6,7 +6,18 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 
 import spock.lang.*
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+
+
 class TimeInputWidgetSpec extends Specification {
+	
+	void setup() {
+		Object.metaClass.encodeAsHTML = {
+			def encoder = new HTMLCodec().getEncoder()
+			return encoder.encode(delegate)
+		}
+	}
+	
     void 'create input time without value nor attribs'() {
         setup:
             def timeInputWidget = new TimeInputWidget()
@@ -27,9 +38,9 @@ class TimeInputWidgetSpec extends Specification {
             def html = timeInputWidget.render()
 
         then:
-            html == "<input type=\"time\" value=\"${value}\" />"
+            html == "<input type=\"time\" value=\"${value.encodeAsHTML()}\" />"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
     }
 
     void 'create input time without value with attribs'() {
@@ -54,9 +65,9 @@ class TimeInputWidgetSpec extends Specification {
             def html = timeInputWidget.render()
 
         then:
-            html == "<input type=\"time\" value=\"1234\" size=\"10\" name=\"time\" />"
+            html == "<input type=\"time\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"time\" />"
         where:
-            value = "1234"
+            value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'time']
     }
 }

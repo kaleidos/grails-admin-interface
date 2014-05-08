@@ -1,0 +1,42 @@
+h4. Domains list
+
+By default the admin plugin doesn't manage any domains inside your application.
+
+You should add the domains that will be managed by the admin-plugin:
+
+{code}
+grails.plugin.admin.domains = {
+    "conferences.Room"()
+    "conferences.Attendee"()
+    "conferences.Conference"()
+}
+{code}
+
+This will enable the plugin to manage those three entities.
+
+You can add custom configuration to the entries in the same DSL
+
+{code}
+grails.plugin.admin.domains = {
+    ...
+    "conferences.Conference" {
+        list: [excludes: ['startDate', 'endDate']],
+        show: [excludes: ['startDate', 'endDate']],
+        edit: [excludes: ['startDate', 'endDate']],
+    }
+}
+{code}
+
+Or you can externalize this configuration to an external "Admin file"
+
+{code}
+package conferences
+
+class ConferenceAdmin {
+    static options = [
+        list: [excludes: ['startDate', 'endDate']],
+        show: [excludes: ['startDate', 'endDate']],
+        edit: [excludes: ['startDate', 'endDate']],
+    ]
+}
+{code}

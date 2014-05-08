@@ -8,6 +8,13 @@ class AdminGrailsPlugin {
 
     def loadAfter = ["springSecurityCore"]
 
+    def watchedResources = [
+        "file:./grails-app/controllers/**/*Controller.groovy",
+        "file:./grails-app/domain/**/*.groovy",
+        "file:./grails-app/admin/**/*.groovy",
+        "file:./grails-app/conf/Config.groovy",
+    ]
+
     def pluginExcludes = [
         "grails-app/domain/**"
     ]
@@ -44,5 +51,9 @@ class AdminGrailsPlugin {
     def doWithApplicationContext = { ctx ->
         // We should initialize the config here to load after spring security
         ctx.adminConfigHolder.initialize()
+    }
+
+    def onChange = { event->
+        event.ctx.adminConfigHolder.initialize()
     }
 }

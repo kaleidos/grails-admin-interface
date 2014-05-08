@@ -6,6 +6,8 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 
 import spock.lang.*
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+
 // <select>
 //     <option value="Volvo">Volvo</option>
 //     <option value="Saab" selected="selected">Saab</option>
@@ -13,8 +15,19 @@ import spock.lang.*
 //     <option value="Audi">Audi</option>
 // </select>
 
+
+
 class SelectWidgetSpec extends Specification {
-    void 'create element without value without options without attribs'() {
+	
+	void setup() {
+		//println "Setup"
+		Object.metaClass.encodeAsHTML = {
+			def encoder = new HTMLCodec().getEncoder()
+			return encoder.encode(delegate)
+		}
+	}
+	
+	void 'create element without value without options without attribs'() {
         setup:
             def widget = new SelectWidget()
         when:
@@ -24,6 +37,7 @@ class SelectWidgetSpec extends Specification {
             html == "<select><option value=\"\">--</option></select>"
     }
 
+	
     void 'create non nullable element without value without options without attribs'() {
         setup:
             def widget = new SelectWidget()

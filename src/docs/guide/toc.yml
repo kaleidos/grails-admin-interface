@@ -1,8 +1,23 @@
 introduction:
     title: Introduction
+    versions: Release history and changelog
+    contributors: Contributors
+    dependencies: Dependencies
+    installation: Installation
 
 structure:
     title: Plugin Structure
 
 configuration:
     title: Plugin Configuration
+    globalConfig: Global Configuration
+    domainConfig: Per Domain Configuration
+
+tutorial:
+    title: Tutorial
+
+widgets:
+    title: Widgets
+
+faq:
+    title: FAQ

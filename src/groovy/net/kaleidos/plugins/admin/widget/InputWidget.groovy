@@ -9,12 +9,12 @@ abstract class InputWidget extends Widget{
     }
 
     String render() {
-        String html = "<input type=\"${inputType}\""
+        String html = "<input type=\"${inputType.encodeAsHTML()}\""
         if (value) {
-            html += " value=\"${value}\""
+            html += " value=\"${value.encodeAsHTML()}\""
         }
         attrs.each {key, value ->
-            html += " ${key}=\"${value}\""
+            html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""
         }
         html +=" />"
         return html
