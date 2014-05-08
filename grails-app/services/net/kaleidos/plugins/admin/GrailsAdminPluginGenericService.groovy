@@ -35,6 +35,7 @@ class GrailsAdminPluginGenericService {
             }
         }
 
+        // Need to throw validation exception
         result.save(failOnError:true)
 
         return result

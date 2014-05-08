@@ -25,7 +25,7 @@ class GrailsAdminPluginController {
 
     def delete(String slug, Long id) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
-        
+
         if (!domain) {
             response.status = 404
             return
@@ -39,7 +39,7 @@ class GrailsAdminPluginController {
             redirect(uri: request.getHeader('referer') )
         } else {
             response.status = 404
-        
+
         }
     }
 
@@ -49,12 +49,12 @@ class GrailsAdminPluginController {
         }
 
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
-        
+
         if (!domain) {
             response.status = 404
             return
         }
-        
+
         def objs = grailsAdminPluginGenericService.list(domain.domainClass.clazz, (page -1) * ITEMS_BY_PAGE, ITEMS_BY_PAGE)
 
         if (!objs.size() && page > 1) {
@@ -90,6 +90,7 @@ class GrailsAdminPluginController {
         }
     }
 
+    /*
     def editAction(String slug, Long id) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
         def object = domain.domainClass.clazz.get(id)
@@ -111,18 +112,20 @@ class GrailsAdminPluginController {
             render [] as JSON
         }
     }
+    */
 
     def add(String slug) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
-        
+
         if (!domain) {
             response.status = 404
             return
         }
-                
+
         render view:'/grailsAdmin/add',  model:[domain: domain]
     }
 
+    /*
     def addAction(String slug) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
 
@@ -141,5 +144,6 @@ class GrailsAdminPluginController {
         }
 
     }
+    */
 
 }

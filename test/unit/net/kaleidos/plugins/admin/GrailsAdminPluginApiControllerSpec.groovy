@@ -61,7 +61,7 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             result.size() == 3
 
         where:
-            domain = 'testDomain'
+            domain = 'testdomain'
     }
 
     void 'Retrieve domain detail'() {
@@ -81,7 +81,7 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
         where:
             name = "test"
             year = 2000
-            domain = 'testDomain'
+            domain = 'testdomain'
     }
 
     void 'Save domain'() {
@@ -104,7 +104,7 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
         where:
             name = "TEST"
             year = 2000
-            domain = 'testDomain'
+            domain = 'testdomain'
     }
 
     void 'Update domain'() {
@@ -127,7 +127,7 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
         where:
             name = "TEST"
             year = 2003
-            domain = 'testDomain'
+            domain = 'testdomain'
     }
 
     void 'Delete domain'() {
@@ -142,6 +142,6 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             response.status == 204
 
         where:
-            domain = 'testDomain'
+            domain = 'testdomain'
     }
 }
