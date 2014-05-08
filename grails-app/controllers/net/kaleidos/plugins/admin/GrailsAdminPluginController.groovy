@@ -1,5 +1,9 @@
 package net.kaleidos.plugins.admin
 
+import org.codehaus.groovy.grails.web.sitemesh.GroovyPageLayoutFinder
+import grails.validation.ValidationException
+import grails.converters.JSON
+
 class GrailsAdminPluginController {
     def objectDefinitionSource
     def adminConfigHolder
@@ -90,22 +94,21 @@ class GrailsAdminPluginController {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
         def object = domain.domainClass.clazz.get(id)
         if (object) {
-            def result = grailsAdminPluginGenericService.updateDomain(domain.domainClass.clazz, id, params)
-            
-            if (!result.hasErrors()) {
+            try {
+                def result = grailsAdminPluginGenericService.updateDomain(domain.domainClass.clazz, id, params)
+
                 flash.success = g.message(code:"grailsAdminPlugin.edit.success")
-                if (params["saveAndReturn"]){
-                    redirect mapping:'list', params:['slug':slug]
-                    return
-                }
-                redirect mapping:'edit', params:['slug':slug, 'id':id]
-            } else {
-                flash.error = g.message(code:"grailsAdminPlugin.edit.error")
-                render view:'/grailsAdmin/edit',  model:[domain: domain, object: result]
+                response.status = 200
+                render ""
+            } catch (ValidationException e) {
+                flash.error = g.message(code:"grailsAdminPlugin.add.error")
+                response.status = 500
+                render e.getErrors() as JSON
             }
         } else {
-            redirect mapping:'list', params:['slug':slug]
-            return
+            flash.error = g.message(code:"grailsAdminPlugin.add.error")
+            response.status = 500
+            render [] as JSON
         }
     }
 
@@ -122,18 +125,20 @@ class GrailsAdminPluginController {
 
     def addAction(String slug) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
-        def result = grailsAdminPluginGenericService.saveDomain(domain.domainClass.clazz, params)
 
-        if (!result.hasErrors()) {
+
+        try {
+            def result = grailsAdminPluginGenericService.saveDomain(domain.domainClass.clazz, params)
             flash.success = g.message(code:"grailsAdminPlugin.add.success")
-            if (params["saveAndReturn"]){
-                redirect mapping:'list', params:['slug':slug]
-                return
-            }
-            redirect mapping:'add', params:['slug':slug]
-        } else {
+            response.status = 200
+            render ""
+            return
+
+
+        } catch (ValidationException e) {
             flash.error = g.message(code:"grailsAdminPlugin.add.error")
-            render view:'/grailsAdmin/add',  model:[domain: domain]
+            response.status = 500
+            render e.getErrors() as JSON
         }
 
     }

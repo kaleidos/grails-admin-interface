@@ -15,9 +15,7 @@ class GrailsAdminPluginGenericService {
     def saveDomain(Class<?> domainClass, Map params){
         def domainObj = domainClass.newInstance()
         domainObj.properties = params
-        if (!domainObj.save()) {
-            throw new RuntimeException("Couldn't save the domain object: ${domainObj.errors}")
-        }
+        domainObj.save(failOnError:true)
         return domainObj
     }
 
@@ -34,9 +32,7 @@ class GrailsAdminPluginGenericService {
             }
         }
 
-        if (!result.save()) {
-            throw new RuntimeException("Couldn't save the domain object: ${result.errors}")
-        }
+        result.save(failOnError:true)
 
         return result
     }
