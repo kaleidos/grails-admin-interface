@@ -9,17 +9,22 @@ import spock.lang.Unroll
 
 import admin.test.TestDomain
 
+import net.kaleidos.plugins.admin.widget.GrailsAdminPluginWidgetService
+
+import spock.util.mop.ConfineMetaClassChanges
+
 @TestFor(GrailsAdminPluginGenericService)
 @TestMixin(DomainClassUnitTestMixin)
+@ConfineMetaClassChanges([GrailsAdminPluginGenericService])
 class GrailsAdminPluginGenericServiceSpec extends Specification {
-    void "List domains without filters"() {
+    void "List objects of a domain without filters"() {
         setup:
             mockDomain(TestDomain, [
                 [name: movie1, year: year1],
                 [name: movie2, year: year2],
                 [name: movie3, year: year3] ])
         when:
-            def result = service.listDomains(TestDomain)
+            def result = service.listDomain(TestDomain)
 
         then:
             result != null
@@ -100,6 +105,8 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
             mockDomain(TestDomain,[
                 [id: 1, name: 'The Matrix', year: 2001]])
 
+            service.metaClass._getValueByType = { a,b,c -> 3 }
+
         when:
             def result = service.updateDomain(TestDomain, 1, ['year': 2014])
             def find = TestDomain.get(1)
@@ -148,7 +155,7 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
             result == true
             find == null
     }
-    
+
     void "Remove a non existant object"() {
         setup:
             mockDomain(TestDomain,[
@@ -156,7 +163,7 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
 
         when:
             def result = service.deleteDomain(TestDomain, 3)
-            
+
         then:
             result == false
 

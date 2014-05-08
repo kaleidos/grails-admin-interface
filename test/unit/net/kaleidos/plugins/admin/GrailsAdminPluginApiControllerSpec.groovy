@@ -97,6 +97,9 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.request.contentType = "application/json"
             controller.request.content = '{"name":"TEST", year: 2000}'
 
+            controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
+            controller.grailsAdminPluginBuilderService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${yearToString}\"}"}
+
         when:
             controller.putAdminAction(domain)
             def result = response.json
@@ -106,11 +109,12 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
 
             response.status == 200
             result.name == name
-            result.year == year
+            result.year == yearToString
 
         where:
             name = "TEST"
             year = 2000
+            yearToString = year.toString()
             domain = 'testdomain'
     }
 
@@ -119,6 +123,9 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.grailsAdminPluginGenericService = Mock(GrailsAdminPluginGenericService)
             controller.request.contentType = "application/json"
             controller.request.content = '{year: 2003}'
+
+            controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
+            controller.grailsAdminPluginBuilderService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${yearToString}\"}"}
 
         when:
             controller.postAdminAction(domain,1)
@@ -129,11 +136,12 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
 
             response.status == 200
             result.name == name
-            result.year == year
+            result.year == yearToString
 
         where:
             name = "TEST"
             year = 2003
+            yearToString = year.toString()
             domain = 'testdomain'
     }
 
