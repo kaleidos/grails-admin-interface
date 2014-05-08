@@ -145,7 +145,20 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
             def find = TestDomain.findByName('The Matrix')
 
         then:
+            result == true
             find == null
+    }
+    
+    void "Remove a non existant object"() {
+        setup:
+            mockDomain(TestDomain,[
+                [id: 1, name: 'The Matrix', year: 2001]])
+
+        when:
+            def result = service.deleteDomain(TestDomain, 3)
+            
+        then:
+            result == false
 
     }
 

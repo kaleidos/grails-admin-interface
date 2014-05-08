@@ -49,8 +49,13 @@ class GrailsAdminPluginGenericService {
         return domainClass.count()
     }
 
-    void deleteDomain(Class<?> domainClass, Long objectId){
+    Boolean deleteDomain(Class<?> domainClass, Long objectId){
+        def result = false
         def domainObj = domainClass.get(objectId)
-        domainObj.delete()
+        if (domainObj) {
+            domainObj.delete()
+            result = true
+        }
+        return result
     }
 }

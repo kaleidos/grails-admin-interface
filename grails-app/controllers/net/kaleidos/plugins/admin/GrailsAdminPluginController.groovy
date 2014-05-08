@@ -21,12 +21,22 @@ class GrailsAdminPluginController {
 
     def delete(String slug, Long id) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        
+        if (!domain) {
+            response.status = 404
+            return
+        }
 
-        grailsAdminPluginGenericService.deleteDomain(domain.domainClass.clazz, id)
+        def success = grailsAdminPluginGenericService.deleteDomain(domain.domainClass.clazz, id)
 
-        flash.success = g.message(code:'grailsAdminPlugin.action.delete.success')
+        if (success) {
+            flash.success = g.message(code:'grailsAdminPlugin.action.delete.success')
 
-        redirect(uri: request.getHeader('referer') )
+            redirect(uri: request.getHeader('referer') )
+        } else {
+            response.status = 404
+        
+        }
     }
 
     def list(String slug, int page) {

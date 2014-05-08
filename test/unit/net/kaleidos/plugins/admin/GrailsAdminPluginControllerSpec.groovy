@@ -120,6 +120,15 @@ class GrailsAdminPluginControllerSpec extends Specification {
             response.status == 404
     }
     
+    void 'try to access a wrong domain url when editting'() {
+        when:
+            params.slug = "Bad slug"
+            controller.edit()
+
+        then:
+            response.status == 404
+    }
+    
     void 'try to access a non existant object when editting'() {
         
         setup:
@@ -134,14 +143,12 @@ class GrailsAdminPluginControllerSpec extends Specification {
             response.status == 404
     }
     
-    void 'try to access a wrong domain url when editting'() {
+    void 'try to access a wrong domain url when deletting'() {
         when:
             params.slug = "Bad slug"
-            controller.edit()
+            controller.delete()
 
         then:
             response.status == 404
     }
-
-
 }
