@@ -10,6 +10,9 @@ import grails.util.Holders
 
 import org.springframework.web.context.WebApplicationContext
 
+import org.codehaus.groovy.grails.validation.ConstrainedProperty;
+import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
+
 @Log4j
 class AdminConfigHolder {
     def grailsApplication
@@ -110,11 +113,16 @@ class AdminConfigHolder {
 
             // Remove old mappings and replace with the new re-evaluated
             holder.cachedMatches.clear()
-            holder.mappings.eachWithIndex { it, idx ->
+            holder.urlMappings.eachWithIndex { it, idx ->
                 if (it instanceof RegexUrlMapping) {
                     if (it.urlData.urlPattern.startsWith("/${GrailsAdminUrlMappings.INTERNAL_URI}/")) {
-                        def elem = newMappings.remove(0)
-                        holder.mappings[idx] = elem
+                        def mapping = newMappings.remove(0)
+                        holder.urlMappings[idx] = mapping
+
+                        // Restore the link builder
+                        if (mapping.getMappingName()) {
+                            holder.namedMappings.put(mapping.getMappingName(), mapping);
+                        }
                     }
                 }
             }
