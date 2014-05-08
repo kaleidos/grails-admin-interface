@@ -94,7 +94,7 @@ class GrailsAdminPluginController {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
         def object = domain.domainClass.clazz.get(id)
         if (object) {
-             try {
+            try {
                 def result = grailsAdminPluginGenericService.updateDomain(domain.domainClass.clazz, id, params)
 
                 flash.success = g.message(code:"grailsAdminPlugin.edit.success")
@@ -114,6 +114,12 @@ class GrailsAdminPluginController {
 
     def add(String slug) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        
+        if (!domain) {
+            response.status = 404
+            return
+        }
+                
         render view:'/grailsAdmin/add',  model:[domain: domain]
     }
 
