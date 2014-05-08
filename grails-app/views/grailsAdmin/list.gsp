@@ -11,13 +11,13 @@
             <div class="row">
                 <div class="col-md-7">
                     <ol class="breadcrumb">
-                        <li><g:link mapping="dashboard"><g:message code='grailsAdminPlugin.dashboard.title'/></g:link></li>
+                        <li><g:link mapping="grailsAdminDashboard"><g:message code='grailsAdminPlugin.dashboard.title'/></g:link></li>
                         <li class="active">${domain.className}</li>
                     </ol>
                 </div>
                 <div class="col-md-3 col-md-offset-2 object-nav">
                     <div class="btn-group">
-                        <g:link mapping="add" params="[slug: domain.slug]" class="btn btn-default">
+                        <g:link mapping="grailsAdminAdd" params="[slug: domain.slug]" class="btn btn-default">
                             <span class="glyphicon glyphicon-plus"></span> <g:message code='grailsAdminPlugin.add.title' />
                         </g:link>
                     </div>
@@ -35,7 +35,7 @@
                     <tr>
                         <gap:listLine object="${it}" />
                         <td class="list-actions">
-                            <g:link mapping="edit" params="[slug: domain.slug, id: it.id]" class="btn btn-default btn-sm">
+                            <g:link mapping="grailsAdminEdit" params="[slug: domain.slug, id: it.id]" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span> <g:message code="grailsAdminPlugin.action.edit" />
                             </g:link>
                             <a data-id="${it.id}" data-toggle="modal" data-target="#confirm" class="btn btn-default btn-sm">
@@ -51,19 +51,19 @@
             <ul class="pagination">
                 <g:if test="${currentPage > 1}">
                 <li>
-                    <g:link mapping="list" params="[slug: domain.slug, page: currentPage - 1]">«</g:link>
+                    <g:link mapping="grailsAdminList" params="[slug: domain.slug, page: currentPage - 1]">«</g:link>
                 </li>
                 </g:if>
 
                 <g:each var="page" in="${ (1..totalPages) }">
                 <li <g:if test="${page == currentPage}">class="active"</g:if>>
-                    <g:link mapping="list" params="[slug: domain.slug, page: page]">${page}</g:link>
+                    <g:link mapping="grailsAdminList" params="[slug: domain.slug, page: page]">${page}</g:link>
                 </li>
                 </g:each>
 
                 <g:if test="${currentPage < totalPages}">
                 <li>
-                    <g:link mapping="list" params="[slug: domain.slug, page: currentPage + 1]">»</g:link>
+                    <g:link mapping="grailsAdminList" params="[slug: domain.slug, page: currentPage + 1]">»</g:link>
                 </li>
                 </g:if>
             </ul>
