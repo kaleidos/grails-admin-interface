@@ -119,8 +119,18 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
     }
 
     void 'render list as json'() {
+        given: 'an list object'
+            def list = [
+                    new AdminDomainTest(name:'Paul1'),
+                    new AdminDomainTest(name:'Paul2'),
+                    new AdminDomainTest(name:'Paul3'),
+                    new AdminDomainTest(name:'Paul4')
+                ]
 
-        expect:
-            false
+        when: 'ask to render list as json'
+            def json = grailsAdminPluginBuilderService.renderListAsJson(list)
+
+        then: 'should return a json response'
+            json == "[{\"name\":\"Paul1\"},{\"name\":\"Paul2\"},{\"name\":\"Paul3\"},{\"name\":\"Paul4\"}]"
     }
 }

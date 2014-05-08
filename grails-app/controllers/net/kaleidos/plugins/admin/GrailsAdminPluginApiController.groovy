@@ -7,6 +7,7 @@ class GrailsAdminPluginApiController {
     def objectDefinitionSource
     def adminConfigHolder
     def grailsAdminPluginGenericService
+    def grailsAdminPluginBuilderService
 
     def listDomains() {
         render adminConfigHolder.domainClasses as JSON
@@ -21,6 +22,7 @@ class GrailsAdminPluginApiController {
         }
 
         def result
+        def renderedResult
         if (id) {
             result = grailsAdminPluginGenericService.retrieveDomain(config.domainClass.clazz, id)
             if (!result) {
@@ -28,17 +30,13 @@ class GrailsAdminPluginApiController {
                 render(["error":"Entity not found"] as JSON)
                 return
             }
+            renderedResult = grailsAdminPluginBuilderService.renderObjectAsJson(result)
         } else {
             result = grailsAdminPluginGenericService.listDomain(config.domainClass.clazz)
+            renderedResult = grailsAdminPluginBuilderService.renderListAsJson(result)
         }
 
-        // def renderedResult = grailsAdminPluginBuilderService.renderListAsJson()
-        // render renderedResult
-
-        render result as JSON
-
-
-
+        render renderedResult
     }
 
     def putAdminAction(String slug) {

@@ -17,5 +17,10 @@ class NumberInputWidget extends InputWidget{
         inputType = "number"
     }
 
+    @Override
+    String renderAsJson() {
+        println ">>>>> Number widget"
+        return value
+    }
 
 }
