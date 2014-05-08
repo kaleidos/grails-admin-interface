@@ -54,7 +54,7 @@ class GrailsAdminPluginApiController {
             response.status = 500
             result = e.getErrors()
         }
-        
+
         render grailsAdminPluginBuilderService.renderObjectAsJson(result)
     }
 
@@ -76,7 +76,7 @@ class GrailsAdminPluginApiController {
             response.status = 500
             result = [error: e.message]
         }
-        
+
         render grailsAdminPluginBuilderService.renderObjectAsJson(result)
     }
 
