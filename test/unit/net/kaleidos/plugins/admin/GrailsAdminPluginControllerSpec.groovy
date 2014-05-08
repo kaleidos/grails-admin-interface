@@ -109,5 +109,15 @@ class GrailsAdminPluginControllerSpec extends Specification {
             model.totalPages == 2
 
     }
+    
+    void 'try to access a wrong domain url to list'() {
+        when:
+            params.slug = "Bad slug"
+            controller.list()
+
+        then:
+            response.status == 404
+    }
+
 
 }

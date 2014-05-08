@@ -1,7 +1,5 @@
 package net.kaleidos.plugins.admin
 
-import org.codehaus.groovy.grails.web.sitemesh.GroovyPageLayoutFinder
-
 class GrailsAdminPluginController {
     def objectDefinitionSource
     def adminConfigHolder
@@ -37,6 +35,12 @@ class GrailsAdminPluginController {
         }
 
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        
+        if (!domain) {
+            response.status = 404
+            return
+        }
+        
         def objs = grailsAdminPluginGenericService.list(domain.domainClass.clazz, (page -1) * ITEMS_BY_PAGE, ITEMS_BY_PAGE)
 
         if (!objs.size() && page > 1) {
