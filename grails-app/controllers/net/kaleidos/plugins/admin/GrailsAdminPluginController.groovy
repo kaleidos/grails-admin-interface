@@ -95,9 +95,9 @@ class GrailsAdminPluginController {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
         def object = domain.domainClass.clazz.get(id)
         if (object) {
-            try {
-                def result = grailsAdminPluginGenericService.updateDomain(domain.domainClass.clazz, id, params)
+            def result = grailsAdminPluginGenericService.updateDomain(domain.domainClass.clazz, id, params)
 
+            if (!result.hasErrors()) {
                 flash.success = g.message(code:"grailsAdminPlugin.edit.success")
                 response.status = 200
                 render ""
