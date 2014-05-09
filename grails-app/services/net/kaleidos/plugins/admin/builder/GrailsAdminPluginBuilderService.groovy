@@ -35,7 +35,8 @@ class GrailsAdminPluginBuilderService {
     //list
 
     String renderListLine(Object object){
-        List properties = adminConfigHolder.getDomainConfig(object).getProperties("list")
+        def config = adminConfigHolder.getDomainConfig(object)
+        List properties = config.getProperties("list")
         StringBuilder html = new StringBuilder()
         properties.each{propertyName ->
             def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)

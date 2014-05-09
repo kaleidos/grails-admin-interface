@@ -22,6 +22,7 @@ import org.codehaus.groovy.grails.validation.AbstractConstraint
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
 
+import org.springframework.util.ClassUtils
 
 class GrailsAdminPluginWidgetService {
     def grailsApplication
@@ -29,7 +30,8 @@ class GrailsAdminPluginWidgetService {
     DefaultGrailsDomainClass getGrailsDomainClass(Object object) {
         //return new DefaultGrailsDomainClass(object.class)
         try {
-            return grailsApplication.mainContext.getBean("${object.class.name}DomainClass")
+            def className = ClassUtils.getUserClass(object.getClass()).name
+            return grailsApplication.mainContext.getBean("${className}DomainClass")
         } catch (NoSuchBeanDefinitionException e){
             return null
         }

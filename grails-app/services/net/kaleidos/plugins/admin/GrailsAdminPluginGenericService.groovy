@@ -1,9 +1,8 @@
 package net.kaleidos.plugins.admin
 
-import grails.transaction.Transactional
-
-@Transactional
 class GrailsAdminPluginGenericService {
+    static transactional = true
+
     def grailsApplication
     def grailsAdminPluginWidgetService
 
