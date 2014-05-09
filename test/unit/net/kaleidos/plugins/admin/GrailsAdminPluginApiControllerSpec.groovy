@@ -13,6 +13,7 @@ import spock.lang.Unroll
 import spock.lang.Shared
 
 import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.builder.GrailsAdminPluginBuilderService
 
 import admin.test.TestDomain
 
@@ -46,11 +47,14 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
     void 'Retrieve domain list'() {
         setup:
             controller.grailsAdminPluginGenericService = Mock(GrailsAdminPluginGenericService)
-            controller.grailsAdminPluginGenericService.listDomains(TestDomain.class) >> [
+            controller.grailsAdminPluginGenericService.listDomain(TestDomain.class) >> [
                 new TestDomain(name:"test1", year:2000),
                 new TestDomain(name:"test2", year:2001),
                 new TestDomain(name:"test3", year:2002),
             ]
+
+            controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
+            controller.grailsAdminPluginBuilderService.renderListAsJson(_) >> "[{\"name\":\"test1\"}, {\"name\":\"test2\"}, {\"name\":\"test3\"}]"
 
         when:
             controller.getAdminAction(domain, null)
@@ -69,6 +73,9 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.grailsAdminPluginGenericService = Mock(GrailsAdminPluginGenericService)
             controller.grailsAdminPluginGenericService.retrieveDomain(TestDomain.class, 1) >> new TestDomain(name:name, year:year)
 
+            controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
+            controller.grailsAdminPluginBuilderService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${year}\"}"}
+
         when:
             controller.getAdminAction(domain, 1)
             def result = response.json
@@ -80,7 +87,7 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
 
         where:
             name = "test"
-            year = 2000
+            year = "2000"
             domain = 'testdomain'
     }
 
@@ -89,6 +96,9 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.grailsAdminPluginGenericService = Mock(GrailsAdminPluginGenericService)
             controller.request.contentType = "application/json"
             controller.request.content = '{"name":"TEST", year: 2000}'
+
+            controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
+            controller.grailsAdminPluginBuilderService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${yearToString}\"}"}
 
         when:
             controller.putAdminAction(domain)
@@ -99,11 +109,12 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
 
             response.status == 200
             result.name == name
-            result.year == year
+            result.year == yearToString
 
         where:
             name = "TEST"
             year = 2000
+            yearToString = year.toString()
             domain = 'testdomain'
     }
 
@@ -112,6 +123,9 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.grailsAdminPluginGenericService = Mock(GrailsAdminPluginGenericService)
             controller.request.contentType = "application/json"
             controller.request.content = '{year: 2003}'
+
+            controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
+            controller.grailsAdminPluginBuilderService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${yearToString}\"}"}
 
         when:
             controller.postAdminAction(domain,1)
@@ -122,11 +136,12 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
 
             response.status == 200
             result.name == name
-            result.year == year
+            result.year == yearToString
 
         where:
             name = "TEST"
             year = 2003
+            yearToString = year.toString()
             domain = 'testdomain'
     }
 

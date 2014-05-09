@@ -10,9 +10,10 @@ class SelectWidget extends Widget {
         super(null, [:])
     }
 
+    @Override
     String render() {
 
-        String html = "<select "
+        String html = "<select"
         attrs.each {key, value ->
             if (key != "options") {
                 html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""

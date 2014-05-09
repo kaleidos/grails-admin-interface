@@ -8,6 +8,7 @@ abstract class InputWidget extends Widget{
         super(value, attrs)
     }
 
+    @Override
     String render() {
         String html = "<input type=\"${inputType.encodeAsHTML()}\""
         if (value) {

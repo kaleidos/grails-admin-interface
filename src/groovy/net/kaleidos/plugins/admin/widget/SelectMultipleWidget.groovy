@@ -10,6 +10,7 @@ class SelectMultipleWidget extends Widget {
         super(null, [:])
     }
 
+    @Override
     String render() {
         String html = "<select multiple"
         attrs.each {key, value ->

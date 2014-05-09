@@ -7,7 +7,7 @@ class GrailsAdminPluginGenericService {
     def grailsApplication
     def grailsAdminPluginWidgetService
 
-    List listDomains(Class<?> domainClass){
+    List listDomain(Class<?> domainClass){
         return domainClass.list()
     }
 
@@ -34,6 +34,9 @@ class GrailsAdminPluginGenericService {
                 result."$key" = _getValueByType(domainClass, key, val)
             }
         }
+
+        println result
+        println result.name
 
         // Need to throw validation exception
         result.save(failOnError:true)

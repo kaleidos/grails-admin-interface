@@ -14,6 +14,7 @@ class TextAreaWidget extends Widget {
         super(null, [:])
     }
 
+    @Override
     String render() {
         String html = "<textarea"
         attrs.each {key, value ->
