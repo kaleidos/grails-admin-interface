@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-3 col-md-offset-2 object-nav">
                     <div class="btn-group">
-                        <g:link mapping="add" params="[slug: domain.slug]" class="btn btn-default">
+                        <g:link mapping="grailsAdminAdd" params="[slug: domain.slug]" class="btn btn-default">
                             <span class="glyphicon glyphicon-plus"></span> <g:message code='grailsAdminPlugin.add.title' />
                         </g:link>
                         <g:link mapping="grailsAdminList" params="[slug: domain.slug]" class="btn btn-default">
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <g:form class="main-form" grailsadmin-remote="enabled" mapping="grailsAdminEdit" params="[slug: domain.slug, id:object.id]">
+            <g:form data-method="POST" class="main-form" grailsadmin-remote="enabled" mapping="grailsAdminApiAction" params="[slug: domain.slug, id:object.id]">
                 <gap:editFormFields
                     object="${object}"
 
@@ -43,7 +43,7 @@
                       <input type="button" value="${message(code: 'grailsAdminPlugin.form.action.update')}" class="btn btn-primary form-action">
                     </div>
                     <div class="btn-group">
-                      <input type="button" data-url="${createLink(mapping: 'list', params: [slug: domain.slug])}" value="${message(code: 'grailsAdminPlugin.form.action.update.close')}" class="btn btn-default form-action">
+                      <input type="button" data-url="${createLink(mapping: 'grailsAdminList', params: [slug: domain.slug])}" value="${message(code: 'grailsAdminPlugin.form.action.update.close')}" class="btn btn-default form-action">
                     </div>
                 </div>
             </g:form>

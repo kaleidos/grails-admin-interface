@@ -20,16 +20,17 @@ $('input[type=date]').datepicker();
 
 $('.form-action').on('click', function () {
     var form = $(this).closest('form');
-    var dataUrl = $(this).data('url');
+    var btnUrl = $(this).data('url');
 
     form.submit();
 
     form.off('grailsadmin:validated');
-    form.on('grailsadmin:validated', function (event, url) {
-        var redirectUrl = dataUrl || url;
-
-        if (redirectUrl) {
-            window.location.href = redirectUrl;
+    form.on('grailsadmin:validated', function (event, result) {
+        if (btnUrl) {
+            window.location.href = btnUrl;
+        } else if (result.id && form.data('method') === 'PUT') {
+            var editUrl = form.data('url').replace(/\/0$/, '/' + result.id);
+            window.location.href = editUrl;
         } else {
             window.location.reload();
         }
@@ -43,6 +44,23 @@ function searchFieldInstance(form, fieldName) {
         }
     }
 }
+
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
 
 //override parsley remote
 window.ParsleyExtend = $.extend(window.ParsleyExtend, {
@@ -72,9 +90,15 @@ window.ParsleyExtend = $.extend(window.ParsleyExtend, {
                     that.reset();
 
                     //ajax submit
-                    $.ajax({method: 'post', url: form.attr('action'), dataType: "json", data: form.serialize()})
+                    $.ajax({
+                        method: form.data('method'),
+                        url: form.attr('action'),
+                        dataType: "JSON",
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify(form.serializeObject())
+                    })
                         .done(function (result) {
-                            deferred.resolve(result.url);
+                            deferred.resolve(result);
                         })
                         .fail(function (result) {
                             var errors = result.responseJSON.errors;
@@ -91,9 +115,9 @@ window.ParsleyExtend = $.extend(window.ParsleyExtend, {
 
                 return deferred.promise();
             })
-            .done(function (url) {
+            .done(function (result) {
                 if (grailsadminRemote) {
-                    form.trigger('grailsadmin:validated', url);
+                    form.trigger('grailsadmin:validated', result);
                 } else {
                     // If user do not have prevented the event, re-submit form
                     if (!that.submitEvent.isDefaultPrevented())

@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <g:form class="main-form" grailsadmin-remote="enabled" mapping="grailsAdminAdd" params="[slug: domain.slug]">
+            <g:form data-method="PUT" data-url="${createLink(mapping: 'grailsAdminEdit', params: [slug: domain.slug, id: 0])}" class="main-form" grailsadmin-remote="enabled" mapping="grailsAdminApiAction" params="[slug: domain.slug]">
                 <gap:createFormFields
                     className="${domain.classFullName}"
 
@@ -40,10 +40,10 @@
                       <input type="button" value="${message(code: 'grailsAdminPlugin.form.action.save')}" class="btn btn-success form-action">
                     </div>
                     <div class="btn-group">
-                      <input type="button" value="${message(code: 'grailsAdminPlugin.form.action.save.return')}" class="btn btn-default form-action" data-url="${createLink(mapping: 'list', params: [slug: domain.slug])}" >
+                      <input type="button" value="${message(code: 'grailsAdminPlugin.form.action.save.return')}" class="btn btn-default form-action" data-url="${createLink(mapping: 'grailsAdminList', params: [slug: domain.slug])}" >
                     </div>
                     <div class="btn-group">
-                      <input type="button" value="${message(code: 'grailsAdminPlugin.form.action.save.add')}" class="btn btn-default form-action" data-url="${createLink(mapping: 'add', params: [slug: domain.slug])}" >
+                      <input type="button" value="${message(code: 'grailsAdminPlugin.form.action.save.add')}" class="btn btn-default form-action" data-url="${createLink(mapping: 'grailsAdminAdd', params: [slug: domain.slug])}" >
                     </div>
                 </div>
             </g:form>
