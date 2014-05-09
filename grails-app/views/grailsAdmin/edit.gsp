@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <g:form data-method="POST" data-url="${createLink(mapping: 'grailsAdminSuccess', params: [slug: domain.slug])}" class="main-form" grailsadmin-remote="enabled" mapping="grailsAdminApiAction" params="[slug: domain.slug, id:object.id]">
+            <g:form data-method="POST" data-url="${createLink(mapping: 'grailsAdminSuccess', params: [slug: domain.slug])}" class="validate-form main-form" grailsadmin-remote="enabled" mapping="grailsAdminApiAction" params="[slug: domain.slug, id:object.id]">
                 <gap:editFormFields
                     object="${object}"
 

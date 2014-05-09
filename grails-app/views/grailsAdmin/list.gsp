@@ -38,7 +38,7 @@
                             <g:link mapping="grailsAdminEdit" params="[slug: domain.slug, id: it.id]" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span> <g:message code="grailsAdminPlugin.action.edit" />
                             </g:link>
-                            <a data-id="${it.id}" data-toggle="modal" data-target="#confirm" class="btn btn-default btn-sm">
+                            <a data-url="${createLink(mapping: 'grailsAdminApiAction', params: [slug: domain.slug, id: it.id])}" data-toggle="modal" data-target="#confirm" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-trash"></span> <g:message code="grailsAdminPlugin.action.delete" />
                             </a>
                         </td>

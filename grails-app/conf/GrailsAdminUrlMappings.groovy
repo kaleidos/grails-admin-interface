@@ -15,6 +15,7 @@ class GrailsAdminUrlMappings {
                 name grailsAdminSuccessEdit: "/success-edit/$slug" { controller = "grailsAdminPluginCallbackApi" ; action="successSave"}
                 name grailsAdminSuccessList: "/success-list/$slug" { controller = "grailsAdminPluginCallbackApi" ; action="successList"}
                 name grailsAdminSuccessNew: "/success-list/$slug" { controller = "grailsAdminPluginCallbackApi" ; action="successNew"}
+                name grailsAdminSuccessDelete: "/success-delete/$slug" { controller = "grailsAdminPluginCallbackApi" ; action="successDelete"}
 
                 // API
                 name grailsAdminApiDashboard: "/api" { controller = "grailsAdminPluginApi" ; action = "listDomains" }

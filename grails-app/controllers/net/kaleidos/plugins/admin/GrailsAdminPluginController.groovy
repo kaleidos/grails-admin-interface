@@ -23,26 +23,6 @@ class GrailsAdminPluginController {
         render view:'/grailsAdmin/dashboard',  model:[domainClasses: adminConfigHolder.domains.values()]
     }
 
-    def delete(String slug, Long id) {
-        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
-
-        if (!domain) {
-            response.status = 404
-            return
-        }
-
-        def success = grailsAdminPluginGenericService.deleteDomain(domain.domainClass.clazz, id)
-
-        if (success) {
-            flash.success = g.message(code:'grailsAdminPlugin.action.delete.success')
-
-            redirect(uri: request.getHeader('referer') )
-        } else {
-            response.status = 404
-
-        }
-    }
-
     def list(String slug, int page) {
         if (!page) {
             page = 1

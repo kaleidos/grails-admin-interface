@@ -33,4 +33,12 @@ class GrailsAdminPluginCallbackApiController {
 
         redirect(mapping: 'grailsAdminAdd', params: [slug: slug] )
     }
+
+    def successDelete(String slug) {
+        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+
+        flash.success = g.message(code:"grailsAdminPlugin.action.delete.success")
+
+        redirect(mapping: 'grailsAdminList', params: [slug: slug] )
+    }
 }

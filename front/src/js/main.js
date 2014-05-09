@@ -1,10 +1,10 @@
 $('.select2-choice').select2();
 
 $('#confirm').on('show.bs.modal', function (e) {
-    var id = $(e.relatedTarget).data('id');
+    var url = $(e.relatedTarget).data('url');
 
-    if (id) {
-        $(this).find('[name="id"]').val(id);
+    if (url) {
+        $(this).find('form').attr('action', url);
     }
 });
 
@@ -27,7 +27,11 @@ $('.form-action').on('click', function () {
     form.off('grailsadmin:validated');
     form.on('grailsadmin:validated', function (event, result) {
         if (btnUrl) {
-            window.location.href = btnUrl+ '?id=' + result.id;
+            if (result && result.id) {
+                window.location.href = btnUrl+ '?id=' + result.id;
+            } else {
+                window.location.href = btnUrl;
+            }
         } else {
             window.location.reload();
         }
@@ -124,7 +128,7 @@ window.ParsleyExtend = $.extend(window.ParsleyExtend, {
     }
 });
 
-$('.main-form').parsley({
+$('.validate-form').parsley({
     errorClass: "has-error",
     classHandler: function(el) {
         return el.$element.closest(".form-group");
