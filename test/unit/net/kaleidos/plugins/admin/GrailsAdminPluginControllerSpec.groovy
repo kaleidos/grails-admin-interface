@@ -66,41 +66,6 @@ class GrailsAdminPluginControllerSpec extends Specification {
             view == '/grailsAdmin/dashboard'
     }
 
-    void 'delete an existant object'() {
-        setup:
-            def domain = adminConfigHolder.domains['admin.test.TestDomain']
-
-        when:
-            params.slug = domain.slug
-            params.id = id
-            controller.delete()
-
-        then:
-            response.status == 302
-            flash.success != null
-            1 * controller.grailsAdminPluginGenericService.deleteDomain(domain.domainClass.clazz, id) >> true
-
-        where:
-            id = 2
-    }
-
-    void 'delete a non existant object'() {
-        setup:
-            def domain = adminConfigHolder.domains['admin.test.TestDomain']
-
-        when:
-            params.slug = domain.slug
-            params.id = id
-            controller.delete()
-
-        then:
-            response.status == 404
-            1 * controller.grailsAdminPluginGenericService.deleteDomain(domain.domainClass.clazz, id)
-
-        where:
-            id = 2
-    }
-
     void 'list'() {
         setup:
             def domain = adminConfigHolder.domains['admin.test.TestDomain']
@@ -134,21 +99,21 @@ class GrailsAdminPluginControllerSpec extends Specification {
         then:
             response.status == 404
     }
-    
+
     void 'try to access a non existant object when editting'() {
-        
+
         setup:
             def domain = adminConfigHolder.domains['admin.test.TestDomain']
         when:
             params.slug = domain.slug
             params.id = 9999
-            
+
             controller.edit()
 
         then:
             response.status == 404
     }
-    
+
     void 'try to access a wrong domain url when editting'() {
         when:
             params.slug = "Bad slug"
@@ -176,15 +141,6 @@ class GrailsAdminPluginControllerSpec extends Specification {
             params.id = 9999
 
             controller.edit()
-
-        then:
-            response.status == 404
-    }
-
-    void 'try to access a wrong domain url when deletting'() {
-        when:
-            params.slug = "Bad slug"
-            controller.delete()
 
         then:
             response.status == 404
