@@ -45,10 +45,14 @@
                     <div class="btn-group">
                       <input type="button" data-url="${createLink(mapping: 'grailsAdminSuccessList', params: [slug: domain.slug])}" value="${message(code: 'grailsAdminPlugin.form.action.update.close')}" class="btn btn-default form-action">
                     </div>
+                    <div class="btn-group">
+                        <a data-url="${createLink(mapping: 'grailsAdminApiAction', params: [slug: domain.slug, id: object.id])}" data-toggle="modal" data-target="#confirm" class="btn btn-danger">
+                            <g:message code="grailsAdminPlugin.action.delete" />
+                        </a>
+                    </div>
                 </div>
             </g:form>
-
-
+            <g:render plugin="grailsAdmin" template="/grailsAdmin/includes/delete" />
         </div>
     </body>
 </html>

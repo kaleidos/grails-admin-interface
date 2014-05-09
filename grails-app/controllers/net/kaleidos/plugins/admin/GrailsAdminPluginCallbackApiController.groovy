@@ -19,7 +19,6 @@ class GrailsAdminPluginCallbackApiController {
 
     def successList(String slug) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
-
         flash.success = g.message(code:"grailsAdminPlugin.add.success")
 
         redirect(mapping: 'grailsAdminList', params: [slug: slug] )

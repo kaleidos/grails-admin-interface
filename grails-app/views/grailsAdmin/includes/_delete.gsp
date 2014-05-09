@@ -1,5 +1,5 @@
 <div id="confirm" tabindex="-1" role="dialog" aria-labelledby="confirmLabel" aria-hidden="true" class="modal fade">
-    <g:form data-method="DELETE" class="validate-form" grailsadmin-remote="enabled">
+    <form action="" data-method="DELETE" class="validate-form" grailsadmin-remote="enabled">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -13,5 +13,5 @@
                 </div>
             </div>
         </div>
-    </g:form>
+    </form>
 </div>
