@@ -111,6 +111,7 @@ class GrailsAdminPluginBuilderService {
 
     String renderObjectAsJson(Object object) {
         def result = _getInfoForJson(object)
+        result.id = object.id
         return new JsonBuilder(result).toString()
     }
 
