@@ -12,6 +12,9 @@ class GrailsAdminUrlMappings {
                 name grailsAdminList: "/list/$slug/$page?" { controller = "grailsAdminPlugin" ; action="list" }
                 name grailsAdminEdit: "/edit/$slug/$id" { controller = "grailsAdminPlugin" ; action=[GET:"edit", POST:"editAction"] }
                 name grailsAdminAdd: "/add/$slug" { controller = "grailsAdminPlugin" ; action=[GET:"add", POST:"addAction"] }
+                name grailsAdminSuccessEdit: "/success-edit/$slug" { controller = "grailsAdminPluginCallbackApi" ; action="successSave"}
+                name grailsAdminSuccessList: "/success-list/$slug" { controller = "grailsAdminPluginCallbackApi" ; action="successList"}
+                name grailsAdminSuccessNew: "/success-list/$slug" { controller = "grailsAdminPluginCallbackApi" ; action="successNew"}
 
                 // API
                 name grailsAdminApiDashboard: "/api" { controller = "grailsAdminPluginApi" ; action = "listDomains" }

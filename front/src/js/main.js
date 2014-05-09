@@ -27,10 +27,7 @@ $('.form-action').on('click', function () {
     form.off('grailsadmin:validated');
     form.on('grailsadmin:validated', function (event, result) {
         if (btnUrl) {
-            window.location.href = btnUrl;
-        } else if (result.id && form.data('method') === 'PUT') {
-            var editUrl = form.data('url').replace(/\/0$/, '/' + result.id);
-            window.location.href = editUrl;
+            window.location.href = btnUrl+ '?id=' + result.id;
         } else {
             window.location.reload();
         }

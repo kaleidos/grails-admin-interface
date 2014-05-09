@@ -90,30 +90,6 @@ class GrailsAdminPluginController {
         }
     }
 
-    /*
-    def editAction(String slug, Long id) {
-        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
-        def object = domain.domainClass.clazz.get(id)
-        if (object) {
-            def result = grailsAdminPluginGenericService.updateDomain(domain.domainClass.clazz, id, params)
-
-            if (!result.hasErrors()) {
-                flash.success = g.message(code:"grailsAdminPlugin.edit.success")
-                response.status = 200
-                render [:] as JSON
-            } catch (ValidationException e) {
-                flash.error = g.message(code:"grailsAdminPlugin.add.error")
-                response.status = 500
-                render e.getErrors() as JSON
-            }
-        } else {
-            flash.error = g.message(code:"grailsAdminPlugin.add.error")
-            response.status = 500
-            render [:] as JSON
-        }
-    }
-    */
-
     def add(String slug) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
 
@@ -124,30 +100,5 @@ class GrailsAdminPluginController {
 
         render view:'/grailsAdmin/add',  model:[domain: domain]
     }
-
-    /*
-    def addAction(String slug) {
-        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
-
-        try {
-            def result = grailsAdminPluginGenericService.saveDomain(domain.domainClass.clazz, params)
-            flash.success = g.message(code:"grailsAdminPlugin.add.success")
-            response.status = 200
-
-            def data = [:]
-            data.url = g.createLink(mapping: 'edit', params: [slug: slug, id: result.id])
-
-            render data as JSON
-            return
-
-
-        } catch (ValidationException e) {
-            flash.error = g.message(code:"grailsAdminPlugin.add.error")
-            response.status = 500
-            render e.getErrors() as JSON
-        }
-
-    }
-    */
 
 }
