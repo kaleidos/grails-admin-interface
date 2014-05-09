@@ -35,7 +35,8 @@ class AdminGrailsPlugin {
         [ name: "Antonio de la Torre", email: "antonio.delatorre@kaleidos.net" ],
         [ name: "Daniel Herrero", email: "daniel.herrero@kaleidos.net" ],
         [ name: "Juan Francisco Alcantara", email: "juanfran.alcantara@kaleidos.net" ],
-        [ name: "Alonso Torres", email: "alonso.torres@kaleidos.net" ]
+        [ name: "Alonso Torres", email: "alonso.torres@kaleidos.net" ],
+        [ name: "Sandra Alarcon", email: "alejandra.alarconh@gmail.com" ]
     ]
 
     def issueManagement = [ system: "Github", url: "https://github.com/grails-admin/grails-admin" ]

@@ -8,7 +8,7 @@ abstract class Widget {
 
     abstract String render()
 
-    String renderAsJson() {
+    def getValueForJson() {
         return value.toString()
     }
 

@@ -7,7 +7,8 @@ class NumberInputWidget extends InputWidget{
     }
 
     @Override
-    String renderAsJson() {
+    def getValueForJson() {
+
         return value
     }
 

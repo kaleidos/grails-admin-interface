@@ -197,7 +197,8 @@ class GrailsAdminPluginWidgetService {
             } else if (property.isOneToMany()){
                 return value*.id
             }
-            return value as String
+
+            return value
         }
         return null
 

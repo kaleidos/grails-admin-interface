@@ -41,7 +41,7 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
             def widget = widgetService.getWidget(adminDomainTest, "age", null, null)
         then:
             widget.class == NumberInputWidget.class
-            widget.value == '25'
+            widget.value == 25
             widget.htmlAttrs.min == '18'
             widget.htmlAttrs.max == '100'
             widget.htmlAttrs.required == 'true'

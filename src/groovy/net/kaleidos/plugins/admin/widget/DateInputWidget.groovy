@@ -7,7 +7,7 @@ class DateInputWidget extends InputWidget{
     }
 
     @Override
-    String renderAsJson() {
+    def getValueForJson() {
         println ">>>>> Date widget"
         // if (value instanceof Date /* && attrs.format*/) {
             // return value.format(attrs.format)
@@ -21,7 +21,7 @@ class DateInputWidget extends InputWidget{
 
 
         // } else {
-            super.renderAsJson()
+            super.getValueForJson()
         // }
     }
 

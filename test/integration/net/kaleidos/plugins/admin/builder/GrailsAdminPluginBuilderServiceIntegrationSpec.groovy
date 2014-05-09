@@ -103,7 +103,7 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
             def json = grailsAdminPluginBuilderService.renderObjectAsJson(adminDomainTest)
 
         then: 'should return a json response'
-            json == "{\"id\":1,\"age\":\"25\",\"email\":\"p@ex.com\",\"name\":\"Paul\"}"
+            json == "{\"id\":1,\"age\":25,\"email\":\"p@ex.com\",\"name\":\"Paul\"}"
     }
 
     void 'render object with date as json'() {
@@ -115,7 +115,7 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
             def json = grailsAdminPluginBuilderService.renderObjectAsJson(adminDomainTest)
 
         then: 'should return a json response'
-            json == "{\"id\":1,\"age\":\"25\",\"birthday\":\"${dateValue.toString()}\",\"email\":\"p@ex.com\",\"name\":\"Paul\"}"
+            json == "{\"id\":1,\"age\":25,\"birthday\":\"${dateValue.toString()}\",\"email\":\"p@ex.com\",\"name\":\"Paul\"}"
     }
 
     void 'render list as json'() {
