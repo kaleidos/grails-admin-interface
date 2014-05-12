@@ -29,7 +29,6 @@ class SelectWidget extends Widget {
         // draw options values
         if (attrs.options) {
             attrs.options.each {val, text ->
-                println "---->${val as String} ${value as String} ${(val as String) == (value as String)}"
                 html.append("<option value=\"${val.encodeAsHTML()}\"")
                 if ((val as String) == (value as String)) {
                     html.append(" selected=\"selected\"")
