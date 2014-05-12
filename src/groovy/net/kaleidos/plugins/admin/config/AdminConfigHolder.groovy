@@ -74,11 +74,7 @@ class AdminConfigHolder {
     }
 
     public DomainConfig getDomainConfig(Object object) {
-        println "## Domains >> ${this.domains}"
-        println "## Name >> ${object.getClass().name}"
-
         def className = ClassUtils.getUserClass(object.getClass()).name
-        println "## ClassName >> $className"
         return this.domains[className]
     }
 
