@@ -21,6 +21,9 @@ import org.codehaus.groovy.grails.validation.ValidatorConstraint
 import org.codehaus.groovy.grails.validation.AbstractConstraint
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
+import net.kaleidos.plugins.admin.widget.relation.RelationSelectWidget
+import net.kaleidos.plugins.admin.widget.relation.RelationSelectMultipleWidget
+
 
 import org.springframework.util.ClassUtils
 
@@ -119,18 +122,14 @@ class GrailsAdminPluginWidgetService {
                 //     widget = new DateTimeInputWidget()
                 //     break
                 case Set:
-                    widget = new SelectMultipleWidget()
+                    widget = new RelationSelectMultipleWidget()
                     break
                 default:
                     //It is another domain class?
                     def domain = getGrailsDomainClass(type)
                     if (domain) {
-                        widget = new SelectWidget()
-                        def options = [:]
-                        type.list().each {
-                            options[it.id] = it.toString()
-                        }
-                        widget.internalAttrs = ['options':options]
+                        widget = new RelationSelectWidget()
+                        widget.internalAttrs["relatedDomainClass"] = domain
                     } else {
                         widget = new TextInputWidget()
                     }
@@ -177,12 +176,7 @@ class GrailsAdminPluginWidgetService {
     def _setAttrsForRelations(def widget, def property){
 
         if (property.isOneToMany()){
-            def domainClass = property.getReferencedDomainClass()
-            def options = [:]
-            domainClass.clazz.list().each {
-                options[it.id] = it.toString()
-            }
-            widget.internalAttrs.putAll(['options':options])
+            widget.internalAttrs["relatedDomainClass"] = property.getReferencedDomainClass()
         }
     }
 

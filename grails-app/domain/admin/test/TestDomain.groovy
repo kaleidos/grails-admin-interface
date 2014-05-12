@@ -8,4 +8,8 @@ class TestDomain {
         name nullable:false
         year nullable:true
     }
+
+    String toString(){
+        return name
+    }
 }
