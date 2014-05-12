@@ -11,31 +11,33 @@ class SelectMultipleWidget extends Widget {
     }
 
     @Override
+   
     String render() {
-        String html = "<select multiple"
+		StringBuilder html = new StringBuilder()
+        html.append("<select multiple")
         attrs.each {key, value ->
             if (key != "options") {
-                html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""
+                html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
             }
         }
-        html += ">"
+        html.append(">")
 
         if (!attrs['required']) {
-            html += "<option value=\"\">--</option>"
+            html.append("<option value=\"\">--</option>")
         }
 
         // draw options values
         if (attrs.options) {
             attrs.options.each {val, text ->
-                html += "<option value=\"${val.encodeAsHTML()}\""
+                html.append("<option value=\"${val.encodeAsHTML()}\"")
                 if (val == value) {
-                    html += " selected=\"selected\""
+                    html.append(" selected=\"selected\"")
                 }
-                html += ">${text.encodeAsHTML()}</option>"
+                html.append(">${text.encodeAsHTML()}</option>")
             }
         }
 
-        html += "</select>"
+        html.append("</select>")
         return html
     }
 }

@@ -10,14 +10,15 @@ abstract class InputWidget extends Widget{
 
     @Override
     String render() {
-        String html = "<input type=\"${inputType.encodeAsHTML()}\""
+		StringBuilder html = new StringBuilder()
+        html.append("<input type=\"${inputType.encodeAsHTML()}\"")
         if (value) {
-            html += " value=\"${value.encodeAsHTML()}\""
+            html.append(" value=\"${value.encodeAsHTML()}\"")
         }
         attrs.each {key, value ->
-            html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""
+            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
         }
-        html +=" />"
+        html.append(" />")
         return html
     }
 }

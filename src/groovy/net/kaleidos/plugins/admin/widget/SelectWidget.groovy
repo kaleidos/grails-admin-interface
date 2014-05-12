@@ -12,31 +12,33 @@ class SelectWidget extends Widget {
 
     @Override
     String render() {
+		StringBuilder html = new StringBuilder()
 
-        String html = "<select"
+        html.append("<select")
         attrs.each {key, value ->
             if (key != "options") {
-                html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""
+                html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
             }
         }
-        html += ">"
+        html.append(">")
 
         if (!attrs['required']) {
-            html += "<option value=\"\">--</option>"
+            html.append("<option value=\"\">--</option>")
         }
 
         // draw options values
         if (attrs.options) {
             attrs.options.each {val, text ->
-                html += "<option value=\"${val.encodeAsHTML()}\""
+                println "---->${val as String} ${value as String} ${(val as String) == (value as String)}"
+                html.append("<option value=\"${val.encodeAsHTML()}\"")
                 if ((val as String) == (value as String)) {
-                    html += " selected=\"selected\""
+                    html.append(" selected=\"selected\"")
                 }
-                html += ">${text.encodeAsHTML()}</option>"
+                html.append(">${text.encodeAsHTML()}</option>")
             }
         }
 
-        html += "</select>"
+        html.append("</select>")
         return html
     }
 }

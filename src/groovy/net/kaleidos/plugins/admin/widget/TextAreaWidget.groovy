@@ -16,15 +16,16 @@ class TextAreaWidget extends Widget {
 
     @Override
     String render() {
-        String html = "<textarea"
+		StringBuilder html = new StringBuilder()
+        html.append("<textarea")
         attrs.each {key, value ->
-            html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""
+            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
         }
-        html += ">"
+        html.append(">")
         if (value) {
-            html += "${value.encodeAsHTML()}"
+            html.append("${value.encodeAsHTML()}")
         }
-        html += "</textarea>"
+        html.append("</textarea>")
         return html
     }
 }
