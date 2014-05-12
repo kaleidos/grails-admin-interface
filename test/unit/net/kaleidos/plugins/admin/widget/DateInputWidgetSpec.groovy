@@ -10,14 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class DateInputWidgetSpec extends Specification {
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create input text without value nor attribs'() {
         setup:
             def textInputWidget = new DateInputWidget()
@@ -32,28 +32,28 @@ class DateInputWidgetSpec extends Specification {
 
     void 'create input text with value without attribs'() {
         setup:
-            def textInputWidget = new DateInputWidget(value)
-            
+            def textInputWidget = new DateInputWidget(value:value)
+
         when:
             def html = textInputWidget.render()
 
         then:
             html == "<input type=\"date\" value=\"${value.encodeAsHTML()}\" />"
-            
+
         where:
             value = "<script>alert(1234)</script>"
     }
 
     void 'create input text without value with attribs'() {
         setup:
-            def textInputWidget = new DateInputWidget(attrs)
+            def textInputWidget = new DateInputWidget(htmlAttrs:attrs)
 
         when:
             def html = textInputWidget.render()
 
         then:
             html == "<input type=\"date\" size=\"10\" name=\"test\" />"
-            
+
         where:
             attrs = ['size':10, 'name': 'test']
     }
@@ -61,14 +61,14 @@ class DateInputWidgetSpec extends Specification {
 
     void 'create input text with value and attribs'() {
         setup:
-            def textInputWidget = new DateInputWidget(value, attrs)
+            def textInputWidget = new DateInputWidget(value:value, htmlAttrs:attrs)
 
         when:
             def html = textInputWidget.render()
 
         then:
             html == "<input type=\"date\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\" />"
-            
+
         where:
             value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'test']

@@ -10,14 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class PasswordInputWidgetSpec extends Specification {
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create input password without value nor attribs'() {
         setup:
             def passwordInputWidget = new PasswordInputWidget()
@@ -31,7 +31,7 @@ class PasswordInputWidgetSpec extends Specification {
 
     void 'create input password with value without attribs'() {
         setup:
-            def passwordInputWidget = new PasswordInputWidget(value)
+            def passwordInputWidget = new PasswordInputWidget(value:value)
 
         when:
             def html = passwordInputWidget.render()
@@ -44,7 +44,7 @@ class PasswordInputWidgetSpec extends Specification {
 
     void 'create input password without value with attribs'() {
         setup:
-            def passwordInputWidget = new PasswordInputWidget(attrs)
+            def passwordInputWidget = new PasswordInputWidget(htmlAttrs:attrs)
 
         when:
             def html = passwordInputWidget.render()
@@ -58,7 +58,7 @@ class PasswordInputWidgetSpec extends Specification {
 
     void 'create input password with value and attribs'() {
         setup:
-            def passwordInputWidget = new PasswordInputWidget(value, attrs)
+            def passwordInputWidget = new PasswordInputWidget(value:value, htmlAttrs:attrs)
 
         when:
             def html = passwordInputWidget.render()

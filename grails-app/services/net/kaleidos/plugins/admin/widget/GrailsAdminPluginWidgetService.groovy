@@ -76,13 +76,13 @@ class GrailsAdminPluginWidgetService {
         widget.value = _getValueForWidget(object, property)
 
 
-        widget.attrs.putAll(["name":propertyName])
-        widget.attrs.putAll(_getAttrsFromConstraints(constraints))
-        widget.attrs.putAll(_getAttrsForRelations(object, property))
+        widget.htmlAttrs.putAll(["name":propertyName])
+        _setAttrsFromConstraints(widget, constraints)
+        _setAttrsForRelations(widget, property)
 
         //Preference for user-defined attributes
         if (attributes) {
-            widget.attrs.putAll(attributes)
+            widget.htmlAttrs.putAll(attributes)
         }
 
         return widget
@@ -92,8 +92,6 @@ class GrailsAdminPluginWidgetService {
 
 
     Widget _getDefaultWidgetForType(def type, def constraints){
-
-        // TODO : how is SelectMultiple implemented?
 
         def widget
         def constraintsClasses = constraints*.class
@@ -132,7 +130,7 @@ class GrailsAdminPluginWidgetService {
                         type.list().each {
                             options[it.id] = it.toString()
                         }
-                        widget.attrs = ['options':options]
+                        widget.internalAttrs = ['options':options]
                     } else {
                         widget = new TextInputWidget()
                     }
@@ -141,44 +139,53 @@ class GrailsAdminPluginWidgetService {
         return widget
     }
 
-    Map _getAttrsFromConstraints(def constraints){
+    void _setAttrsFromConstraints(def widget, def constraints){
         def attrs = [:]
         //Attribs from constraints
         constraints.each{
-            def attr = _getAttributeFromConstraint(it)
-            if (attr) {
-                attrs.putAll(attr)
-            }
+            _setAttributeFromConstraint(widget, it)
         }
-        return attrs
     }
 
 
-    Map _getAttributeFromConstraint(AbstractConstraint constraint){
+    void _setAttributeFromConstraint(def widget, AbstractConstraint constraint){
         //There is no html constraints for MinSizeConstraint
 
         if (constraint instanceof MaxConstraint) {
-            return ['max':"${constraint.getMaxValue()}"]
+            widget.htmlAttrs.putAll(['max':"${constraint.getMaxValue()}"])
         } else if (constraint instanceof MinConstraint) {
-            return ['min':"${constraint.getMinValue()}"]
+            widget.htmlAttrs.putAll(['min':"${constraint.getMinValue()}"])
         } else if (constraint instanceof RangeConstraint) {
-            return ['max':"${constraint.getRange().to}",
-                    'min':"${constraint.getRange().from}"]
+            widget.htmlAttrs.putAll(['max':"${constraint.getRange().to}",
+                    'min':"${constraint.getRange().from}"])
         } else if (constraint instanceof MaxSizeConstraint) {
-            return ['maxlength':"${constraint.getMaxSize()}"]
+            widget.htmlAttrs.putAll(['maxlength':"${constraint.getMaxSize()}"])
         } else if (constraint instanceof NullableConstraint) {
             //TODO: Also BlankConstraint??
             if (!constraint.isNullable()) {
-                return ['required':"true"]
+                widget.htmlAttrs.putAll(['required':"true"])
             }
         } else if (constraint instanceof InListConstraint) {
             def options = [:]
             constraint.list.each {
                 options[it] = it
             }
-            return ['options':options]
+            widget.internalAttrs.putAll(['options':options])
         }
     }
+
+    def _setAttrsForRelations(def widget, def property){
+
+        if (property.isOneToMany()){
+            def domainClass = property.getReferencedDomainClass()
+            def options = [:]
+            domainClass.clazz.list().each {
+                options[it.id] = it.toString()
+            }
+            widget.internalAttrs.putAll(['options':options])
+        }
+    }
+
 
     def _getValueForWidget(def object, def property){
 
@@ -194,21 +201,6 @@ class GrailsAdminPluginWidgetService {
             return value as String
         }
         return null
-
-    }
-
-
-    def _getAttrsForRelations(def object, def property){
-
-        if (property.isOneToMany()){
-            def domainClass = property.getReferencedDomainClass()
-            def options = [:]
-            domainClass.clazz.list().each {
-                options[it.id] = it.toString()
-            }
-            return ['options':options]
-        }
-        return [:]
 
     }
 

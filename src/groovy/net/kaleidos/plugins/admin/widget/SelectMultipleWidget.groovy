@@ -2,29 +2,19 @@ package net.kaleidos.plugins.admin.widget
 
 class SelectMultipleWidget extends Widget {
 
-    SelectMultipleWidget(Object value, Map attrs=[:]) {
-        super(value, attrs)
-    }
-
-    SelectMultipleWidget() {
-        super(null, [:])
-    }
-
     @Override
-   
+
     String render() {
-		StringBuilder html = new StringBuilder()
+        StringBuilder html = new StringBuilder()
         html.append("<select multiple")
-        attrs.each {key, value ->
-            if (key != "options") {
-                html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
-            }
+        htmlAttrs.each {key, value ->
+            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
         }
         html.append(">")
 
         // draw options values
-        if (attrs.options) {
-            attrs.options.each {val, text ->
+        if (internalAttrs.options) {
+            internalAttrs.options.each {val, text ->
                 html.append("<option value=\"${val.encodeAsHTML()}\"")
                 if (val in value) {
                     html.append(" selected=\"selected\"")

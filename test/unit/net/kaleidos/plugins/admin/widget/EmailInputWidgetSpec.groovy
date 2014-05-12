@@ -10,14 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class EmailInputWidgetSpec extends Specification {
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create input email without value nor attribs'() {
         setup:
             def emailInputWidget = new EmailInputWidget()
@@ -31,7 +31,7 @@ class EmailInputWidgetSpec extends Specification {
 
     void 'create input email with value without attribs'() {
         setup:
-            def emailInputWidget = new EmailInputWidget(value)
+            def emailInputWidget = new EmailInputWidget(value:value)
 
         when:
             def html = emailInputWidget.render()
@@ -44,7 +44,7 @@ class EmailInputWidgetSpec extends Specification {
 
     void 'create input email without value with attribs'() {
         setup:
-            def emailInputWidget = new EmailInputWidget(attrs)
+            def emailInputWidget = new EmailInputWidget(htmlAttrs:attrs)
 
         when:
             def html = emailInputWidget.render()
@@ -58,7 +58,7 @@ class EmailInputWidgetSpec extends Specification {
 
     void 'create input email with value and attribs'() {
         setup:
-            def emailInputWidget = new EmailInputWidget(value, attrs)
+            def emailInputWidget = new EmailInputWidget(value:value, htmlAttrs:attrs)
 
         when:
             def html = emailInputWidget.render()
