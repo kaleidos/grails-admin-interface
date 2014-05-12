@@ -39,7 +39,6 @@ class GrailsAdminPluginBuilderService {
         List properties = config.getProperties("list")
         StringBuilder html = new StringBuilder()
         properties.each{propertyName ->
-            def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
             html.append("<td>")
             def val = object."${propertyName}"
 
@@ -73,8 +72,6 @@ class GrailsAdminPluginBuilderService {
         StringBuilder html = new StringBuilder()
 
         properties.each{ propertyName ->
-            def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
-
             html.append("<th>")
             html.append(propertyName)
             html.append("</th>")
