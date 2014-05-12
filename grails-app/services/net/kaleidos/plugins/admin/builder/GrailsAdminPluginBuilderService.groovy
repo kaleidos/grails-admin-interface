@@ -99,6 +99,11 @@ class GrailsAdminPluginBuilderService {
     def _getInfoForJson(object) {
         List properties = adminConfigHolder.getDomainConfig(object).getProperties("list")
         def result = [:]
+
+        if (object.id) {
+            result.id = object.id
+        }
+
         properties.each { propertyName ->
             def val = object."${propertyName}"
             if (val) {
@@ -112,7 +117,6 @@ class GrailsAdminPluginBuilderService {
 
     String renderObjectAsJson(Object object) {
         def result = _getInfoForJson(object)
-        result.id = object.id
         return new JsonBuilder(result).toString()
     }
 
