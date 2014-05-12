@@ -149,11 +149,17 @@ class AdminConfigHolder {
 
     private void _configureAdminRoleSecurity1() {
         try {
+            def clazz =  Class.forName("org.springframework.security.access.SecurityConfig")
+            def constructor = clazz.getConstructor(String.class)
+            def newConfig = constructor.&newInstance
+
             def objectDefinitionSource = grailsApplication.mainContext.getBean("objectDefinitionSource")
-            objectDefinitionSource.storeMapping("/grailsadminplugin/**", [new org.springframework.security.access.SecurityConfig(this.role)] as Set)
-            objectDefinitionSource.storeMapping("/grailsadminpluginapi/**", [new org.springframework.security.access.SecurityConfig(this.role)] as Set)
-            objectDefinitionSource.storeMapping("/grailsadminplugincallbackapi/**", [new org.springframework.security.access.SecurityConfig(this.role)] as Set)
+            objectDefinitionSource.storeMapping("/grailsadminplugin/**", [newConfig(this.role)] as Set)
+            objectDefinitionSource.storeMapping("/grailsadminpluginapi/**", [newConfig(this.role)] as Set)
+            objectDefinitionSource.storeMapping("/grailsadminplugincallbackapi/**", [newConfig(this.role)] as Set)
         } catch (NoSuchBeanDefinitionException e) {
+            log.error "No configured Spring Security"
+        } catch (ClassNotFoundException e) {
             log.error "No configured Spring Security"
         }
     }

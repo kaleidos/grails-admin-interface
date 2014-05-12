@@ -15,10 +15,15 @@ class DomainConfig {
         }
     }
 
+    private _isTransient(Class clazz, String property) {
+        def field = clazz.getDeclaredField(property)
+        return java.lang.reflect.Modifier.isTransient(field.modifiers)
+    }
+
     List getProperties(String method) {
         def defaultExclude = ['id','version']
         def result = domainClass.getProperties()
-            .findAll{ it.isPersistent() }
+            .findAll{ it.isPersistent() && !_isTransient(domainClass.clazz, it.name)}
             .collect { it.name }
             .sort()
 

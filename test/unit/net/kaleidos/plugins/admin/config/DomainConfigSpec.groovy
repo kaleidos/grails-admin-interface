@@ -94,6 +94,7 @@ class DomainConfigSpec extends Specification {
 }
 
 class Test {
+    transient testTransient
     Long id
     Long version
     String t5
