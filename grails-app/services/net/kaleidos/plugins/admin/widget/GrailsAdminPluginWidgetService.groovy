@@ -75,8 +75,10 @@ class GrailsAdminPluginWidgetService {
 
         widget.value = _getValueForWidget(object, property)
 
+
         widget.attrs.putAll(["name":propertyName])
         widget.attrs.putAll(_getAttrsFromConstraints(constraints))
+        widget.attrs.putAll(_getAttrsForRelations(object, property))
 
         //Preference for user-defined attributes
         if (attributes) {
@@ -119,7 +121,7 @@ class GrailsAdminPluginWidgetService {
                 //     widget = new DateTimeInputWidget()
                 //     break
                 case Set:
-                    widget = new SelectWidget()
+                    widget = new SelectMultipleWidget()
                     break
                 default:
                     //It is another domain class?
@@ -186,10 +188,27 @@ class GrailsAdminPluginWidgetService {
             if (grailsApplication.isDomainClass(property.getType())) {
                 //It is a domain class
                 value = value.id
+            } else if (property.isOneToMany()){
+                return value*.id
             }
             return value as String
         }
         return null
+
+    }
+
+
+    def _getAttrsForRelations(def object, def property){
+
+        if (property.isOneToMany()){
+            def domainClass = property.getReferencedDomainClass()
+            def options = [:]
+            domainClass.clazz.list().each {
+                options[it.id] = it.toString()
+            }
+            return ['options':options]
+        }
+        return [:]
 
     }
 

@@ -5,6 +5,7 @@ class GrailsAdminPluginGenericService {
 
     def grailsApplication
     def grailsAdminPluginWidgetService
+    def adminConfigHolder
 
     List listDomain(Class<?> domainClass){
         return domainClass.list()
@@ -27,16 +28,12 @@ class GrailsAdminPluginGenericService {
         if (!result) {
             throw new RuntimeException("Object with id $id doesn't exist")
         }
-
-        params.each { key, val ->
-            if ((!(key in ["id", "version"])) && result.hasProperty(key)) {
-                result."$key" = _getValueByType(domainClass, key, val)
-            }
+        List properties = adminConfigHolder.getDomainConfig(domainClass).getProperties("edit")
+        properties.each{key ->
+            _setValueByType(result, domainClass, key, params["$key"])
         }
-
         // Need to throw validation exception
         result.save(failOnError:true)
-
         return result
     }
 
@@ -58,22 +55,45 @@ class GrailsAdminPluginGenericService {
         return result
     }
 
-    def _getValueByType(def domainClass, def propertyName, def val){
-        if (val) {
-            def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)
-            switch ( property.type ) {
-                case Date:
-                    return Date.parse("MM/dd/yyyy", testDate)
-                    break
-                default:
-                    if (grailsApplication.isDomainClass(property.type)){
-                        return retrieveDomain(property.type, val as Long)
-                    }
-                    return val
+    def _setValueByType(def object, def domainClass, def propertyName, def val){
+        def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)
 
+        if (property.isOneToMany()){
+            def domains = []
+
+            if (val) {
+                if (val instanceof List) {
+                    val.each {
+                        domains << retrieveDomain(property.getReferencedDomainClass().clazz, it as Long)
+                    }
+                } else {
+                    domains << retrieveDomain(property.getReferencedDomainClass().clazz, val as Long)
+                }
             }
-            return val
+
+            def cap = propertyName.capitalize()
+
+            def current = []
+            current.addAll(object."${propertyName}")
+            current.each {
+                object."removeFrom$cap"(it)
+            }
+
+            domains.each{
+                object."addTo$cap"(it)
+            }
+
+            return domains
+        } else if (grailsApplication.isDomainClass(property.type)){
+            if (val) {
+                object."$propertyName" =  retrieveDomain(property.type, val as Long)
+            } else {
+                object."$propertyName" =  null
+            }
+        } else if (property.type == Date) {
+            object."$propertyName" =  Date.parse("MM/dd/yyyy", val)
+        } else {
+            object."$propertyName" =   val
         }
-        return null
     }
 }
