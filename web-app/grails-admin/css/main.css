@@ -29,3 +29,8 @@ body {
   float: right; }
   .logout a {
     margin-left: 10px; }
+
+thead .up span:after {
+  content: "\25B2"; }
+thead .down span:after {
+  content: "\25BC"; }

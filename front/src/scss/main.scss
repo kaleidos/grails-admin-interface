@@ -54,3 +54,16 @@ body {
     margin-left: 10px;
   }
 }
+
+thead {
+  .up {
+    span:after {
+      content: "\25B2";
+    }
+  }
+  .down {
+    span:after {
+      content: "\25BC";
+    }
+  }
+}
