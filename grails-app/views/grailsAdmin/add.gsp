@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <g:form data-method="PUT" class="validate-form main-form" grailsadmin-remote="enabled" mapping="grailsAdminApiAction" params="[slug: domain.slug]">
+            <g:form view="formView" data-method="PUT" class="validate-form main-form" grailsadmin-remote="enabled" mapping="grailsAdminApiAction" params="[slug: domain.slug]">
                 <gap:createFormFields
                     className="${domain.classFullName}"
 

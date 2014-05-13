@@ -4,7 +4,7 @@ sass = require('gulp-ruby-sass');
 
 var path = {
     'scss': 'front/src/scss/**/*.scss',
-    'mainStyle': 'web-app/css/'
+    'mainStyle': 'web-app/grails-admin/css/'
 };
 
 gulp.task('scss', function () {
