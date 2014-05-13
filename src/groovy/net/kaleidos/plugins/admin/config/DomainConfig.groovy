@@ -58,6 +58,15 @@ class DomainConfig {
         return result
     }
 
+    List getSortableProperties(String method) {
+        def properties = getProperties(method)
+
+        return properties.findAll {
+            return !domainClass.getPropertyByName(it).isAssociation()
+        }
+    }
+
+
     List getExcludes(String method) {
         return this.excludes[method]
     }

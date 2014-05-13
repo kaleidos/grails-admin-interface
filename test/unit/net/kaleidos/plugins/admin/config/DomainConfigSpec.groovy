@@ -57,6 +57,34 @@ class DomainConfigSpec extends Specification {
             result == ['t5', 't4', 't3']
     }
 
+    void "Get properties. Include some. Respect my sort"(){
+        setup:
+            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
+            def domainConfig = new DomainConfig(domainClass, [list:[includes:['t5', 't4', 't3']]])
+
+        when:
+            def result = domainConfig.getProperties("list")
+
+        then:
+            result.size() == 3
+            result == ['t5', 't4', 't3']
+    }
+
+
+    void "Get sortable properties"(){
+        setup:
+            def domainClass = new DefaultGrailsDomainClass(Test2.class, [:])
+            def domainConfig = new DomainConfig(domainClass, [:])
+
+        when:
+            def result = domainConfig.getSortableProperties("list")
+
+        then:
+            result.size() == 2
+            result == ['t3', 't5']
+    }
+
+
     void "Get properties. Exception if includes and exludes"(){
         setup:
             def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
@@ -102,4 +130,13 @@ class Test {
     String t4
     String t1
     String t2
+}
+
+class Test2 {
+    transient testTransient
+    Long id
+    Long version
+    Test test
+    String t5
+    String t3
 }
