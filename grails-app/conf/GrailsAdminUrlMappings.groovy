@@ -24,6 +24,7 @@ class GrailsAdminUrlMappings {
             // API
             name grailsAdminApiDashboard: "/${baseUrl}/api" { controller = "grailsAdminPluginApi" ; action = "listDomains" }
             name grailsAdminApiAction: "/${baseUrl}/api/$slug?/$id?" { controller = "grailsAdminPluginApi" ; action=[ GET:"getAdminAction", POST:"postAdminAction", DELETE:"deleteAdminAction", PUT:"putAdminAction"] }
+            name grailsAdminDeleteRelatedApiAction: "/${baseUrl}/api/$slug/$id/$propertyName/$id2" { controller = "grailsAdminPluginApi" ; action=[ DELETE:"deleteRelatedAdminAction" ] }
         }
     }
 }

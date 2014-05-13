@@ -24,6 +24,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
 import net.kaleidos.plugins.admin.widget.relation.RelationSelectWidget
 import net.kaleidos.plugins.admin.widget.relation.RelationSelectMultipleWidget
+import net.kaleidos.plugins.admin.widget.relation.RelationTableWidget
 
 
 import org.springframework.util.ClassUtils
@@ -82,6 +83,8 @@ class GrailsAdminPluginWidgetService {
         def constraints = (grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints())?:[]
 
         widget.value = _getValueForWidget(object, property)
+        widget.internalAttrs["domainObject"] = object
+        widget.internalAttrs["propertyName"] = propertyName
 
 
         widget.htmlAttrs.putAll(["name":propertyName])
@@ -127,7 +130,7 @@ class GrailsAdminPluginWidgetService {
                 //     widget = new DateTimeInputWidget()
                 //     break
                 case Set:
-                    widget = new RelationSelectMultipleWidget()
+                    widget = new RelationTableWidget()
                     break
                 default:
                     //It is another domain class?
