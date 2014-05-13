@@ -2,29 +2,18 @@ package net.kaleidos.plugins.admin.widget
 
 class TextAreaWidget extends Widget {
 
-    TextAreaWidget(String value, Map attrs = [:]) {
-        super(value, attrs)
-    }
-
-    TextAreaWidget(Map attrs) {
-        super(null, attrs)
-    }
-
-    TextAreaWidget() {
-        super(null, [:])
-    }
-
     @Override
     String render() {
-        String html = "<textarea"
-        attrs.each {key, value ->
-            html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""
+        StringBuilder html = new StringBuilder()
+        html.append("<textarea")
+        htmlAttrs.each {key, value ->
+            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
         }
-        html += ">"
+        html.append(">")
         if (value) {
-            html += "${value.encodeAsHTML()}"
+            html.append("${value.encodeAsHTML()}")
         }
-        html += "</textarea>"
+        html.append("</textarea>")
         return html
     }
 }

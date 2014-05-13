@@ -17,14 +17,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class SelectMultipleWidgetSpec extends Specification {
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-		
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create element without value without options without attribs'() {
         setup:
             def widget = new SelectMultipleWidget()
@@ -33,13 +33,13 @@ class SelectMultipleWidgetSpec extends Specification {
             def html = widget.render()
 
         then:
-            html == "<select multiple><option value=\"\">--</option></select>"
+            html == "<select multiple></select>"
     }
 
     void 'create non nullable element without value without options without attribs'() {
         setup:
             def widget = new SelectMultipleWidget()
-            widget.attrs.required = "true"
+            widget.htmlAttrs.required = "true"
 
         when:
             def html = widget.render()
@@ -51,27 +51,28 @@ class SelectMultipleWidgetSpec extends Specification {
 
     void 'create element with value without options without attribs'() {
         setup:
-            def widget = new SelectMultipleWidget(value, [:])
+            def widget = new SelectMultipleWidget(value:value)
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select multiple><option value=\"\">--</option></select>"
+            html == "<select multiple></select>"
 
         where:
-            value = "Saab"
+            value = ["Saab"]
     }
+
 
     void 'create element without value with options without attribs'() {
         setup:
-            def widget = new SelectMultipleWidget(null, [options:options])
+            def widget = new SelectMultipleWidget(internalAttrs:[options:options])
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select multiple><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            html == "<select multiple><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
 
         where:
             options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
@@ -82,16 +83,31 @@ class SelectMultipleWidgetSpec extends Specification {
 
     void 'create element with value with options without attribs'() {
         setup:
-            def widget = new SelectMultipleWidget(value, [options:options])
+            def widget = new SelectMultipleWidget(value:value, internalAttrs:[options:options])
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select multiple><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            html == "<select multiple><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
 
         where:
-            value = "Saab"
+            value = ["Saab"]
+            options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
+    }
+
+    void 'create element with multiple values with options without attribs'() {
+        setup:
+            def widget = new SelectMultipleWidget(value:value, internalAttrs:[options:options])
+
+        when:
+            def html = widget.render()
+
+        then:
+            html == "<select multiple><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\" selected=\"selected\">Audi</option></select>"
+
+        where:
+            value = ["Saab", "Audi"]
             options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
     }
 
@@ -99,51 +115,47 @@ class SelectMultipleWidgetSpec extends Specification {
 
     void 'create element with value without options with attribs'() {
         setup:
-            def widget = new SelectMultipleWidget(value, attrs)
+            def widget = new SelectMultipleWidget(value:value, htmlAttrs:attrs)
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select multiple name=\"selectName\" disabled=\"true\"><option value=\"\">--</option></select>"
+            html == "<select multiple name=\"selectName\" disabled=\"true\"></select>"
 
         where:
-            value = "Saab"
+            value = ["Saab"]
             attrs = ['name':"selectName", 'disabled':true]
     }
 
     void 'create element without value with options without attribs'() {
         setup:
-            attrs.options = options
-            def widget = new SelectMultipleWidget(null, attrs)
+            def widget = new SelectMultipleWidget(internalAttrs:[options:options])
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select multiple name=\"selectName\" disabled=\"true\"><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            html == "<select multiple><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
 
         where:
             options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
-            attrs = ['name':"selectName", 'disabled':true]
     }
 
 
     void 'create element with value with options without attribs'() {
         setup:
-            attrs.options = options
-            def widget = new SelectMultipleWidget(value, attrs)
+            def widget = new SelectMultipleWidget(value:value, internalAttrs:[options:options])
 
         when:
             def html = widget.render()
 
         then:
-            html == "<select multiple name=\"selectName\" disabled=\"true\"><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            html == "<select multiple><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
 
         where:
-            value = "Saab"
+            value = ["Saab"]
             options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
-            attrs = ['name':"selectName", 'disabled':true]
     }
 
 

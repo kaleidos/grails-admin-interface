@@ -10,14 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class HiddenInputWidgetSpec extends Specification {
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create input hidden without value nor attribs'() {
         setup:
             def hiddenInputWidget = new HiddenInputWidget()
@@ -31,7 +31,7 @@ class HiddenInputWidgetSpec extends Specification {
 
     void 'create input hidden with value without attribs'() {
         setup:
-            def hiddenInputWidget = new HiddenInputWidget(value)
+            def hiddenInputWidget = new HiddenInputWidget(value:value)
 
         when:
             def html = hiddenInputWidget.render()
@@ -44,7 +44,7 @@ class HiddenInputWidgetSpec extends Specification {
 
     void 'create input hidden without value with attribs'() {
         setup:
-            def hiddenInputWidget = new HiddenInputWidget(attrs)
+            def hiddenInputWidget = new HiddenInputWidget(htmlAttrs:attrs)
 
         when:
             def html = hiddenInputWidget.render()
@@ -58,7 +58,7 @@ class HiddenInputWidgetSpec extends Specification {
 
     void 'create input hidden with value and attribs'() {
         setup:
-            def hiddenInputWidget = new HiddenInputWidget(value, attrs)
+            def hiddenInputWidget = new HiddenInputWidget(value:value, htmlAttrs:attrs)
 
         when:
             def html = hiddenInputWidget.render()

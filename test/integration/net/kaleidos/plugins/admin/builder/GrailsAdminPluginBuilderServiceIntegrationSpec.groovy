@@ -86,51 +86,51 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
 
     void 'render single object as json'() {
         given: 'an object'
-            adminDomainTest = new AdminDomainTest(name:'a')
+            adminDomainTest = new AdminDomainTest(id:1, name:'a')
 
         when: 'ask to render as json'
             def json = grailsAdminPluginBuilderService.renderObjectAsJson(adminDomainTest)
 
         then: 'should return a json response'
-            json == "{\"name\":\"a\"}"
+            json == "{\"id\":1,\"name\":\"a\"}"
     }
 
     void 'render object as json'() {
         given: 'an object'
-            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'p@ex.com')
+            adminDomainTest = new AdminDomainTest(id:1,name:'Paul', age:25, email:'p@ex.com')
 
         when: 'ask to render as json'
             def json = grailsAdminPluginBuilderService.renderObjectAsJson(adminDomainTest)
 
         then: 'should return a json response'
-            json == "{\"age\":\"25\",\"email\":\"p@ex.com\",\"name\":\"Paul\"}"
+            json == "{\"id\":1,\"age\":\"25\",\"email\":\"p@ex.com\",\"name\":\"Paul\"}"
     }
 
     void 'render object with date as json'() {
         given: 'an object'
             def dateValue = new Date()
-            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'p@ex.com',birthday:dateValue)
+            adminDomainTest = new AdminDomainTest(id:1,name:'Paul', age:25, email:'p@ex.com',birthday:dateValue)
 
         when: 'ask to render as json'
             def json = grailsAdminPluginBuilderService.renderObjectAsJson(adminDomainTest)
 
         then: 'should return a json response'
-            json == "{\"age\":\"25\",\"birthday\":\"${dateValue.toString()}\",\"email\":\"p@ex.com\",\"name\":\"Paul\"}"
+            json == "{\"id\":1,\"age\":\"25\",\"birthday\":\"${dateValue.toString()}\",\"email\":\"p@ex.com\",\"name\":\"Paul\"}"
     }
 
     void 'render list as json'() {
         given: 'an list object'
             def list = [
-                    new AdminDomainTest(name:'Paul1'),
-                    new AdminDomainTest(name:'Paul2'),
-                    new AdminDomainTest(name:'Paul3'),
-                    new AdminDomainTest(name:'Paul4')
+                    new AdminDomainTest(id:1, name:'Paul1'),
+                    new AdminDomainTest(id:2, name:'Paul2'),
+                    new AdminDomainTest(id:3, name:'Paul3'),
+                    new AdminDomainTest(id:4, name:'Paul4')
                 ]
 
         when: 'ask to render list as json'
             def json = grailsAdminPluginBuilderService.renderListAsJson(list)
 
         then: 'should return a json response'
-            json == "[{\"name\":\"Paul1\"},{\"name\":\"Paul2\"},{\"name\":\"Paul3\"},{\"name\":\"Paul4\"}]"
+            json == "[{\"id\":1,\"name\":\"Paul1\"},{\"id\":2,\"name\":\"Paul2\"},{\"id\":3,\"name\":\"Paul3\"},{\"id\":4,\"name\":\"Paul4\"}]"
     }
 }

@@ -10,14 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class UrlInputWidgetSpec extends Specification {
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create input url without value nor attribs'() {
         setup:
             def urlInputWidget = new UrlInputWidget()
@@ -31,7 +31,7 @@ class UrlInputWidgetSpec extends Specification {
 
     void 'create input url with value without attribs'() {
         setup:
-            def urlInputWidget = new UrlInputWidget(value)
+            def urlInputWidget = new UrlInputWidget(value:value)
 
         when:
             def html = urlInputWidget.render()
@@ -44,7 +44,7 @@ class UrlInputWidgetSpec extends Specification {
 
     void 'create input url without value with attribs'() {
         setup:
-            def urlInputWidget = new UrlInputWidget(attrs)
+            def urlInputWidget = new UrlInputWidget(htmlAttrs:attrs)
 
         when:
             def html = urlInputWidget.render()
@@ -58,7 +58,7 @@ class UrlInputWidgetSpec extends Specification {
 
     void 'create input url with value and attribs'() {
         setup:
-            def urlInputWidget = new UrlInputWidget(value, attrs)
+            def urlInputWidget = new UrlInputWidget(value:value, htmlAttrs:attrs)
 
         when:
             def html = urlInputWidget.render()

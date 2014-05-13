@@ -13,14 +13,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 //value << ["1234", "<script>alert(0)</script>"]
 
 class CheckboxInputWidgetSpec extends Specification {
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create input checkbox without value nor attribs'() {
         setup:
             def checkboxInputWidget = new CheckboxInputWidget()
@@ -35,7 +35,7 @@ class CheckboxInputWidgetSpec extends Specification {
     @Unroll
     void 'create input checkbox with value and text:#text and without attribs'() {
         setup:
-            def checkboxInputWidget = new CheckboxInputWidget(value, text, null)
+            def checkboxInputWidget = new CheckboxInputWidget(value:value, text:text)
 
         when:
             def html = checkboxInputWidget.render()
@@ -51,7 +51,7 @@ class CheckboxInputWidgetSpec extends Specification {
     @Unroll
     void 'create input checkbox without value and text:#text and without attribs'() {
         setup:
-            def checkboxInputWidget = new CheckboxInputWidget(value, text, null)
+            def checkboxInputWidget = new CheckboxInputWidget(value:value, text:text)
 
         when:
             def html = checkboxInputWidget.render()
@@ -67,7 +67,7 @@ class CheckboxInputWidgetSpec extends Specification {
     @Unroll
     void 'create input checkbox with value and text:#text and with attribs'() {
         setup:
-            def checkboxInputWidget = new CheckboxInputWidget(value, text, attrs)
+            def checkboxInputWidget = new CheckboxInputWidget(value:value, text:text, htmlAttrs:attrs)
 
         when:
             def html = checkboxInputWidget.render()
@@ -84,7 +84,7 @@ class CheckboxInputWidgetSpec extends Specification {
     @Unroll
     void 'create input checkbox without value and text:#text and with attribs'() {
         setup:
-            def checkboxInputWidget = new CheckboxInputWidget(value, text, attrs)
+            def checkboxInputWidget = new CheckboxInputWidget(value:value, text:text, htmlAttrs:attrs)
 
         when:
             def html = checkboxInputWidget.render()

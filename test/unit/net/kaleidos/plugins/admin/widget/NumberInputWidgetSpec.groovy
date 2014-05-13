@@ -10,14 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class NumberInputWidgetSpec extends Specification {
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create input number without value nor attribs'() {
         setup:
             def numberInputWidget = new NumberInputWidget()
@@ -31,7 +31,7 @@ class NumberInputWidgetSpec extends Specification {
 
     void 'create input number with value without attribs'() {
         setup:
-            def numberInputWidget = new NumberInputWidget(value)
+            def numberInputWidget = new NumberInputWidget(value:value)
 
         when:
             def html = numberInputWidget.render()
@@ -44,7 +44,7 @@ class NumberInputWidgetSpec extends Specification {
 
     void 'create input number without value with attribs'() {
         setup:
-            def numberInputWidget = new NumberInputWidget(attrs)
+            def numberInputWidget = new NumberInputWidget(htmlAttrs:attrs)
 
         when:
             def html = numberInputWidget.render()
@@ -58,7 +58,7 @@ class NumberInputWidgetSpec extends Specification {
 
     void 'create input number with value and attribs'() {
         setup:
-            def numberInputWidget = new NumberInputWidget(value, attrs)
+            def numberInputWidget = new NumberInputWidget(value:value, htmlAttrs:attrs)
 
         when:
             def html = numberInputWidget.render()

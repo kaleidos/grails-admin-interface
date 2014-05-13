@@ -13,6 +13,10 @@ import net.kaleidos.plugins.admin.widget.GrailsAdminPluginWidgetService
 
 import spock.util.mop.ConfineMetaClassChanges
 
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.config.DomainConfig
+import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
+
 @TestFor(GrailsAdminPluginGenericService)
 @TestMixin(DomainClassUnitTestMixin)
 @ConfineMetaClassChanges([GrailsAdminPluginGenericService])
@@ -107,8 +111,22 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
 
             service.metaClass._getValueByType = { a,b,c -> 3 }
 
+            def adminConfigHolder = Mock(AdminConfigHolder)
+            def domainConfig = Mock(DomainConfig)
+            domainConfig.getProperties(_) >> {["name", "year"]}
+            adminConfigHolder.getDomainConfig(_) >> {
+                return domainConfig
+            }
+            service.adminConfigHolder = adminConfigHolder
+
+
+
+            def grailsAdminPluginWidgetService = Mock(GrailsAdminPluginWidgetService)
+            grailsAdminPluginWidgetService.getGrailsDomainClass(_) >> { return new DefaultGrailsDomainClass(TestDomain.class) }
+            service.grailsAdminPluginWidgetService = grailsAdminPluginWidgetService
+
         when:
-            def result = service.updateDomain(TestDomain, 1, ['year': 2014])
+            def result = service.updateDomain(TestDomain, 1, ['name':'The Matrix', 'year': 2014])
             def find = TestDomain.get(1)
 
         then:

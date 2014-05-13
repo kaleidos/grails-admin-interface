@@ -10,14 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class TextInputWidgetSpec extends Specification {
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create input text without value nor attribs'() {
         setup:
             def textInputWidget = new TextInputWidget()
@@ -28,10 +28,10 @@ class TextInputWidgetSpec extends Specification {
         then:
             html == "<input type=\"text\" />"
     }
-    
+
     void 'create input text with value without attribs'() {
         setup:
-            def textInputWidget = new TextInputWidget(value)
+            def textInputWidget = new TextInputWidget(value:value)
 
         when:
             def html = textInputWidget.render()
@@ -44,7 +44,7 @@ class TextInputWidgetSpec extends Specification {
 
     void 'create input text without value with attribs'() {
         setup:
-            def textInputWidget = new TextInputWidget(attrs)
+            def textInputWidget = new TextInputWidget(htmlAttrs:attrs)
 
         when:
             def html = textInputWidget.render()
@@ -58,7 +58,7 @@ class TextInputWidgetSpec extends Specification {
 
     void 'create input text with value and attribs'() {
         setup:
-            def textInputWidget = new TextInputWidget(value, attrs)
+            def textInputWidget = new TextInputWidget(value:value, htmlAttrs:attrs)
 
         when:
             def html = textInputWidget.render()

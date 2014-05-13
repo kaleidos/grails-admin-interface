@@ -42,10 +42,10 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
         then:
             widget.class == NumberInputWidget.class
             widget.value == '25'
-            widget.attrs.min == '18'
-            widget.attrs.max == '100'
-            widget.attrs.required == 'true'
-            widget.attrs.name == 'age'
+            widget.htmlAttrs.min == '18'
+            widget.htmlAttrs.max == '100'
+            widget.htmlAttrs.required == 'true'
+            widget.htmlAttrs.name == 'age'
     }
 
     void 'get widget for integer class with attribs (range)'() {
@@ -54,9 +54,9 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
         then:
             widget.class == NumberInputWidget.class
             widget.value == null
-            widget.attrs.min == '2014'
-            widget.attrs.max == '2020'
-            widget.attrs.name == 'year'
+            widget.htmlAttrs.min == '2014'
+            widget.htmlAttrs.max == '2020'
+            widget.htmlAttrs.name == 'year'
     }
 
     void 'get widget for string class with attribs (maxsize)'() {
@@ -65,7 +65,7 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
         then:
             widget.class == TextInputWidget.class
             widget.value == null
-            widget.attrs.maxlength == '100'
+            widget.htmlAttrs.maxlength == '100'
     }
 
     void 'get widget for plain string class'() {
@@ -94,7 +94,7 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
             def widget = widgetService.getWidget(adminDomainTest, "country", null, null)
         then:
             widget.class == SelectWidget.class
-            widget.attrs.options == ["Canada":"Canada", "Spain":"Spain", "USA":"USA"]
+            widget.internalAttrs.options == ["Canada":"Canada", "Spain":"Spain", "USA":"USA"]
     }
 
     void 'get widget for date class'() {

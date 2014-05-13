@@ -10,15 +10,15 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class TextAreaWidgetSpec extends Specification {
-	
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
+
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create text area without value nor attribs'() {
         setup:
             def textAreaWidget = new TextAreaWidget()
@@ -32,7 +32,7 @@ class TextAreaWidgetSpec extends Specification {
 
     void 'create text area with value without attribs'() {
         setup:
-            def textAreaWidget = new TextAreaWidget(value)
+            def textAreaWidget = new TextAreaWidget(value:value)
 
         when:
             def html = textAreaWidget.render()
@@ -46,7 +46,7 @@ class TextAreaWidgetSpec extends Specification {
 
     void 'create text area without value with attribs'() {
         setup:
-            def textAreaWidget = new TextAreaWidget(attrs)
+            def textAreaWidget = new TextAreaWidget(htmlAttrs:attrs)
 
         when:
             def html = textAreaWidget.render()
@@ -61,7 +61,7 @@ class TextAreaWidgetSpec extends Specification {
 
     void 'create text area with value and attribs'() {
         setup:
-            def textAreaWidget = new TextAreaWidget(value, attrs)
+            def textAreaWidget = new TextAreaWidget(value:value, htmlAttrs:attrs)
 
         when:
             def html = textAreaWidget.render()

@@ -13,7 +13,12 @@ class AdminDomainTest{
     Date birthday
 //    DateTime lastAccess
 
+    static mapping = {
+        id generator:'assigned'
+    }
+
     static constraints = {
+        id nullable: false, bindable: true
         name nullable:true
         surname nullable:true, maxSize:100
         age min:18, max:100

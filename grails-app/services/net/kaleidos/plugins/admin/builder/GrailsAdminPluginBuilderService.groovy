@@ -35,10 +35,10 @@ class GrailsAdminPluginBuilderService {
     //list
 
     String renderListLine(Object object){
-        List properties = adminConfigHolder.getDomainConfig(object).getProperties("list")
+        def config = adminConfigHolder.getDomainConfig(object)
+        List properties = config.getProperties("list")
         StringBuilder html = new StringBuilder()
         properties.each{propertyName ->
-            def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
             html.append("<td>")
             def val = object."${propertyName}"
 
@@ -72,8 +72,6 @@ class GrailsAdminPluginBuilderService {
         StringBuilder html = new StringBuilder()
 
         properties.each{ propertyName ->
-            def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
-
             html.append("<th>")
             html.append(propertyName)
             html.append("</th>")
@@ -98,6 +96,11 @@ class GrailsAdminPluginBuilderService {
     def _getInfoForJson(object) {
         List properties = adminConfigHolder.getDomainConfig(object).getProperties("list")
         def result = [:]
+
+        if (object.id) {
+            result.id = object.id
+        }
+
         properties.each { propertyName ->
             def val = object."${propertyName}"
             if (val) {
@@ -111,7 +114,6 @@ class GrailsAdminPluginBuilderService {
 
     String renderObjectAsJson(Object object) {
         def result = _getInfoForJson(object)
-        result.id = object.id
         return new JsonBuilder(result).toString()
     }
 

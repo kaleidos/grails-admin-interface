@@ -2,42 +2,32 @@ package net.kaleidos.plugins.admin.widget
 
 class SelectWidget extends Widget {
 
-    SelectWidget(Object value, Map attrs=[:]) {
-        super(value, attrs)
-    }
-
-    SelectWidget() {
-        super(null, [:])
-    }
-
     @Override
     String render() {
+        StringBuilder html = new StringBuilder()
 
-        String html = "<select"
-        attrs.each {key, value ->
-            if (key != "options") {
-                html += " ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\""
-            }
+        html.append("<select")
+        htmlAttrs.each {key, value ->
+            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
         }
-        html += ">"
+        html.append(">")
 
-        if (!attrs['required']) {
-            html += "<option value=\"\">--</option>"
+        if (!htmlAttrs['required']) {
+            html.append("<option value=\"\">--</option>")
         }
 
         // draw options values
-        if (attrs.options) {
-            attrs.options.each {val, text ->
-                println "---->${val as String} ${value as String} ${(val as String) == (value as String)}"
-                html += "<option value=\"${val.encodeAsHTML()}\""
+        if (internalAttrs.options) {
+            internalAttrs.options.each {val, text ->
+                html.append("<option value=\"${val.encodeAsHTML()}\"")
                 if ((val as String) == (value as String)) {
-                    html += " selected=\"selected\""
+                    html.append(" selected=\"selected\"")
                 }
-                html += ">${text.encodeAsHTML()}</option>"
+                html.append(">${text.encodeAsHTML()}</option>")
             }
         }
 
-        html += "</select>"
+        html.append("</select>")
         return html
     }
 }

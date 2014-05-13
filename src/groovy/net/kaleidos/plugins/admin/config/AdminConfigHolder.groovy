@@ -9,9 +9,11 @@ import org.codehaus.groovy.grails.web.mapping.*
 import grails.util.Holders
 
 import org.springframework.web.context.WebApplicationContext
+import org.springframework.util.ClassUtils
 
 import org.codehaus.groovy.grails.validation.ConstrainedProperty;
 import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
+
 
 @Log4j
 class AdminConfigHolder {
@@ -49,7 +51,7 @@ class AdminConfigHolder {
     }
 
     void initialize() {
-        _configureUrlMappings()
+        //_configureUrlMappings()
         _configureAdminRole()
         _configureDomainClasses()
 
@@ -72,7 +74,8 @@ class AdminConfigHolder {
     }
 
     public DomainConfig getDomainConfig(Object object) {
-        return this.domains[object.class.name]
+        def className = ClassUtils.getUserClass(object.getClass()).name
+        return this.domains[className]
     }
 
     public DomainConfig getDomainConfig(Class objClass) {
@@ -129,7 +132,35 @@ class AdminConfigHolder {
         }
     }
 
-    private void _configureAdminRole() {
+    private _configureAdminRole() {
+        try {
+            // try to get the Secured annotation of Spring security 2
+            Class.forName("grails.plugin.springsecurity.annotation.Secured")
+            _configureAdminRoleSecurity2()
+        } catch (Throwable e) {
+            // If it fails we configure for spring security core 1.x
+            _configureAdminRoleSecurity1()
+        }
+    }
+
+    private void _configureAdminRoleSecurity1() {
+        try {
+            def clazz =  Class.forName("org.springframework.security.access.SecurityConfig")
+            def constructor = clazz.getConstructor(String.class)
+            def newConfig = constructor.&newInstance
+
+            def objectDefinitionSource = grailsApplication.mainContext.getBean("objectDefinitionSource")
+            objectDefinitionSource.storeMapping("/grailsadminplugin/**", [newConfig(this.role)] as Set)
+            objectDefinitionSource.storeMapping("/grailsadminpluginapi/**", [newConfig(this.role)] as Set)
+            objectDefinitionSource.storeMapping("/grailsadminplugincallbackapi/**", [newConfig(this.role)] as Set)
+        } catch (NoSuchBeanDefinitionException e) {
+            log.error "No configured Spring Security"
+        } catch (ClassNotFoundException e) {
+            log.error "No configured Spring Security"
+        }
+    }
+
+    private void _configureAdminRoleSecurity2() {
         try {
             // We use reflection so it doesn't have a compile-time dependency
             def clazz = Class.forName("grails.plugin.springsecurity.InterceptedUrl")

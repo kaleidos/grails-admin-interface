@@ -10,14 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class TimeInputWidgetSpec extends Specification {
-	
-	void setup() {
-		Object.metaClass.encodeAsHTML = {
-			def encoder = new HTMLCodec().getEncoder()
-			return encoder.encode(delegate)
-		}
-	}
-	
+
+    void setup() {
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
+            return encoder.encode(delegate)
+        }
+    }
+
     void 'create input time without value nor attribs'() {
         setup:
             def timeInputWidget = new TimeInputWidget()
@@ -32,7 +32,7 @@ class TimeInputWidgetSpec extends Specification {
 
     void 'create input time with value without attribs'() {
         setup:
-            def timeInputWidget = new TimeInputWidget(value)
+            def timeInputWidget = new TimeInputWidget(value:value)
 
         when:
             def html = timeInputWidget.render()
@@ -45,7 +45,7 @@ class TimeInputWidgetSpec extends Specification {
 
     void 'create input time without value with attribs'() {
         setup:
-            def timeInputWidget = new TimeInputWidget(attrs)
+            def timeInputWidget = new TimeInputWidget(htmlAttrs:attrs)
 
         when:
             def html = timeInputWidget.render()
@@ -59,7 +59,7 @@ class TimeInputWidgetSpec extends Specification {
 
     void 'create input time with value and attribs'() {
         setup:
-            def timeInputWidget = new TimeInputWidget(value, attrs)
+            def timeInputWidget = new TimeInputWidget(value:value, htmlAttrs:attrs)
 
         when:
             def html = timeInputWidget.render()
