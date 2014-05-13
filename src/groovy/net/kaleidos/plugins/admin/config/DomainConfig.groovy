@@ -6,6 +6,7 @@ class DomainConfig {
     GrailsDomainClass domainClass
     Map excludes = [:]
     Map includes = [:]
+    Map customWidgets = [:]
 
     public DomainConfig(GrailsDomainClass domainClass, Map params) {
         this.domainClass = domainClass
@@ -45,6 +46,10 @@ class DomainConfig {
         return this.includes[method]
     }
 
+    Map getCustomWidgets(String method) {
+        return this.customWidgets[method]
+    }
+
     private _configureParams(params) {
         params.each { method, properties ->
             if (['list', 'create', 'edit'].contains(method)) {
@@ -58,6 +63,10 @@ class DomainConfig {
 
                 if (properties['includes']) {
                     this.includes[method] = properties['includes']
+                }
+
+                if (properties['customWidgets']) {
+                    this.customWidgets[method] = properties['customWidgets']
                 }
             }
         }

@@ -53,4 +53,28 @@ class DomainConfigurationDslSpec extends Specification {
             result.getIncludes('create') == ['name', 'year']
             result.getIncludes('edit') == ['name', 'year']
     }
+
+    void "Customize widget for attribute"() {
+        setup:
+            def config = new DomainConfigurationDsl({
+                list customWidgets: ['name': 'test.MyWidget']
+            })
+
+        and: "Grails application"
+            def grailsApplication = new DefaultGrailsApplication()
+            grailsApplication.configureLoadedClasses([admin.test.TestOtherDomain.class] as Class[])
+            config.grailsApplication = grailsApplication
+
+        and: "Grails domain class"
+            def grailsDomainClass = grailsApplication.domainClasses[0]
+
+        when:
+            def result = new DomainConfig(grailsDomainClass, config.execute())
+            def widgetMap = result.getCustomWidgets("list")
+
+        then:
+            result != null
+            result.getCustomWidgets("list") != null
+            result.getCustomWidgets("list").name != null
+    }
 }

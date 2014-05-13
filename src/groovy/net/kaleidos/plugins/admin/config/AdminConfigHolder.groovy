@@ -15,7 +15,6 @@ import org.codehaus.groovy.grails.validation.ConstrainedProperty;
 import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
 
 import net.kaleidos.plugins.admin.widget.Widget
-import org.reflections.Reflections
 
 @Log4j
 class AdminConfigHolder {

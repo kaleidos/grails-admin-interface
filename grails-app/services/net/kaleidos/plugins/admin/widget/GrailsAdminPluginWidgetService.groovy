@@ -34,7 +34,8 @@ class GrailsAdminPluginWidgetService {
     DefaultGrailsDomainClass getGrailsDomainClass(Object object) {
         //return new DefaultGrailsDomainClass(object.class)
         try {
-            def className = ClassUtils.getUserClass(object.getClass()).name
+            def realClass = ClassUtils.getUserClass(object.getClass())
+            def className = realClass.name
             return grailsApplication.mainContext.getBean("${className}DomainClass")
         } catch (NoSuchBeanDefinitionException e){
             return null

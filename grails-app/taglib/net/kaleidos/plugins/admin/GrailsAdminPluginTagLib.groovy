@@ -5,6 +5,7 @@ class GrailsAdminPluginTagLib {
 
     def grailsAdminPluginBuilderService
     def adminConfigHolder
+    def grailsResourceLocator
 
 
     /*
@@ -57,8 +58,11 @@ class GrailsAdminPluginTagLib {
     }
 
     def layoutCss = { attrs ->
+
         def buildClosure = {
-            out << "<link href=\"${g.resource(file: it, plugin: 'admin')}\" rel=\"stylesheet\"></link>"
+            if (grailsResourceLocator.findResourceForURI(it)) {
+                out << "<link href=\"${request.contextPath}${grailsResourceLocator.findResourceForURI(it).getPath()}\" rel=\"stylesheet\"></link>"
+            }
         }
         adminConfigHolder.getViewResources("css").each(buildClosure)
         grailsAdminPluginBuilderService.doWithAssetType(attrs.formType, attrs.className, "css", buildClosure)
@@ -66,7 +70,9 @@ class GrailsAdminPluginTagLib {
 
     def layoutJs = { attrs->
         def buildClosure = {
-            out << "<script src=\"${g.resource(file: it, plugin: 'admin')}\"></script>"
+            if (grailsResourceLocator.findResourceForURI(it)) {
+                out << "<script src=\"${request.contextPath}${grailsResourceLocator.findResourceForURI(it).getPath()}\"></script>"
+            }
         }
         adminConfigHolder.getViewResources("js").each(buildClosure)
         grailsAdminPluginBuilderService.doWithAssetType(attrs.formType, attrs.className, "js", buildClosure)

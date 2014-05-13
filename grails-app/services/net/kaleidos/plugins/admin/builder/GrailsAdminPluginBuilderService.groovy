@@ -19,9 +19,12 @@ class GrailsAdminPluginBuilderService {
     String _renderFormFields(String formType, Object object, Map widgetProperties){
         StringBuilder html = new StringBuilder()
         if (object) {
-            List properties = adminConfigHolder.getDomainConfig(object).getProperties(formType)
+            def domainConfig = adminConfigHolder.getDomainConfig(object)
+            List properties = domainConfig.getProperties(formType)
+            Map customWidgets = domainConfig.getCustomWidgets(formType)
+
             properties.each{propertyName ->
-                def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, null, widgetProperties)
+                def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidgets?."$propertyName", widgetProperties)
                 html.append("<div class=\"form-group\">")
                 html.append("<label for=\"${propertyName.encodeAsHTML()}\">${propertyName.capitalize().encodeAsHTML()}</label>")
                 html.append(widget.render())
@@ -123,11 +126,22 @@ class GrailsAdminPluginBuilderService {
         }
         def domainConfig = adminConfigHolder.getDomainConfig(Class.forName(className))
         List properties = domainConfig.getProperties(formType)
+        Map customWidgets = domainConfig.getCustomWidgets(formType)
+
         def builder = new StringBuilder()
         def widgetAssets = []
-        properties.each{propertyName ->
-            def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName)
-            assets << widget.assets.findAll { it.endsWith(".$type")}
+
+        properties.each{ propertyName ->
+            def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName")
+            if (widget) {
+                def currentWidgetAssets = widget.assets.findAll { it.endsWith(".$type")}
+                if (currentWidgetAssets) {
+                    widgetAssets.addAll(currentWidgetAssets)
+                } else {
+                    def slug = widget.class.simpleName.toLowerCase()
+                    widgetAssets << "$type/admin/$slug.$type"
+                }
+            }
         }
         widgetAssets.unique().each(closure)
     }
