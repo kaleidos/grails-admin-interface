@@ -37,8 +37,11 @@ class GrailsAdminPluginGenericService {
         return result
     }
 
-    def list(Class<?> domainClass, Long offset = 0, Long limit = 10) {
-        return domainClass.list(offset: offset, max: limit, sort: 'id', order: 'asc')
+    def list(Class<?> domainClass, Long offset = 0, Long limit = 10, String sort = 'id', String order = 'asc') {
+        return domainClass.list(offset: offset,
+                                max: limit,
+                                sort: sort,
+                                order: order)
     }
 
     def count(Class<?> domainClass) {

@@ -192,12 +192,12 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
             mockDomain(TestDomain,[
                            [id: 1, name: 'The Matrix', year: 2001],
                            [id: 2, name: 'The Matrix 2', year: 2002],
-                           [id: 3, name: 'The Matrix 3', year: 2002],
-                           [id: 4, name: 'The Matrix 5', year: 2002]])
+                           [id: 3, name: 'The Matrix 3', year: 2003],
+                           [id: 4, name: 'The Matrix 5', year: 2004]])
 
         when:
             def result = service.list(TestDomain)
-            def resultoff = service.list(TestDomain, offset, limit)
+            def resultoff = service.list(TestDomain, offset, limit, sort, order)
 
         then:
             result.size() == size
@@ -206,9 +206,10 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
 
         where:
            size = 4
-           resultsize | limit | offset | firstId
-           3          |     3 |      0 |       1
-           1          |     3 |      3 |       4
+           resultsize | limit | offset | firstId | sort   | order
+           3          |     3 |      0 |       1 | 'year' | 'asc'
+           1          |     3 |      3 |       4 | 'year' | 'asc'
+           3          |     3 |      0 |       4 | 'year' | 'desc'
 
     }
 
