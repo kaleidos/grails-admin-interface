@@ -25,4 +25,8 @@ class DateInputWidget extends InputWidget{
         // }
     }
 
+
+    List<String> getAssets() {
+        return [ 'libs/bootstrap-datepicker/css/datepicker3.css', 'libs/bootstrap-datepicker/js/bootstrap-datepicker.js']
+    }
 }

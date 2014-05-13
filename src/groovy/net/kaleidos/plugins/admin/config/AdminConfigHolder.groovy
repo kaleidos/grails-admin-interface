@@ -14,6 +14,8 @@ import org.springframework.util.ClassUtils
 import org.codehaus.groovy.grails.validation.ConstrainedProperty;
 import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
 
+import net.kaleidos.plugins.admin.widget.Widget
+import org.reflections.Reflections
 
 @Log4j
 class AdminConfigHolder {
@@ -25,6 +27,8 @@ class AdminConfigHolder {
 
     ConfigObject config
     List domainList = null
+
+    Set widgetsClasses
 
     public AdminConfigHolder(ConfigObject config=null) {
         if (config != null) {
@@ -51,7 +55,6 @@ class AdminConfigHolder {
     }
 
     void initialize() {
-        //_configureUrlMappings()
         _configureAdminRole()
         _configureDomainClasses()
 
@@ -86,50 +89,27 @@ class AdminConfigHolder {
         return this.domains.find { it.value.slug == slug }?.value
     }
 
-    private void _configureUrlMappings() {
-        log.debug "Trying to change de URL's to support the configured property"
-
-        def holder
-        try {
-            holder = grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER")
-        } catch(NoSuchBeanDefinitionException e){
-            log.debug "${e.message}"
+    List<String> getViewResources(String type){
+        def result = []
+        if (type == "css") {
+            result << 'grails-admin/libs/bootstrap/css/bootstrap.css'
+            result << 'grails-admin/libs/bootstrap/css/bootstrap-theme.css'
+            result << 'grails-admin/css/main.css'
         }
 
-        if (!holder) {
-            holder = grailsApplication.mainContext.getBean("grailsUrlMappingsHolder")
+        if (type == "js") {
+            result << 'grails-admin/libs/jquery/jquery.js'
+            result << 'grails-admin/libs/bootstrap/js/bootstrap.js'
+            result << 'grails-admin/libs/injectorJS/injector.js'
+            result << 'grails-admin/libs/parsleyjs/parsley.remote.js'
+            result << 'grails-admin/libs/serializeObject.js'
+            result << 'grails-admin/js/main.js'
+            result << 'grails-admin/js/views/formView.js'
+            result << 'grails-admin/js/views/deleteModalView.js'
+            result << 'grails-admin/js/general.js'
         }
 
-        // Find Admin Url mappings
-        def mappings = grailsApplication.urlMappingsClasses
-        def artifact = mappings.find { it.fullName == "GrailsAdminUrlMappings" }
-
-        if (artifact) {
-            def GrailsAdminUrlMappings = artifact.clazz
-
-            // Changes the root uri
-            def mappingClosure = GrailsAdminUrlMappings.getDynamicUrlMapping(this.accessRoot)
-
-            // Re-evaluate url mappings closure
-            UrlMappingEvaluator evaluator = new DefaultUrlMappingEvaluator(grailsApplication.mainContext);
-            List<UrlMapping> newMappings = evaluator.evaluateMappings(mappingClosure);
-
-            // Remove old mappings and replace with the new re-evaluated
-            holder.cachedMatches.clear()
-            holder.urlMappings.eachWithIndex { it, idx ->
-                if (it instanceof RegexUrlMapping) {
-                    if (it.urlData.urlPattern.startsWith("/${GrailsAdminUrlMappings.INTERNAL_URI}/")) {
-                        def mapping = newMappings.remove(0)
-                        holder.urlMappings[idx] = mapping
-
-                        // Restore the link builder
-                        if (mapping.getMappingName()) {
-                            holder.namedMappings.put(mapping.getMappingName(), mapping);
-                        }
-                    }
-                }
-            }
-        }
+        return result
     }
 
     private _configureAdminRole() {
@@ -222,4 +202,6 @@ class AdminConfigHolder {
         }
         log.debug "DOMAIN: ${this.domains}"
     }
+
+
 }

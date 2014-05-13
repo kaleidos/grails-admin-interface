@@ -2,7 +2,9 @@ package net.kaleidos.plugins.admin
 
 class GrailsAdminPluginTagLib {
     static namespace = 'gap'
+
     def grailsAdminPluginBuilderService
+    def adminConfigHolder
 
 
     /*
@@ -52,5 +54,21 @@ class GrailsAdminPluginTagLib {
 
     def listTitles = { attrs ->
         out << grailsAdminPluginBuilderService.renderListTitle(attrs.className)
+    }
+
+    def layoutCss = { attrs ->
+        def buildClosure = {
+            out << "<link href=\"${g.resource(file: it, plugin: 'admin')}\" rel=\"stylesheet\"></link>"
+        }
+        adminConfigHolder.getViewResources("css").each(buildClosure)
+        grailsAdminPluginBuilderService.doWithAssetType(attrs.formType, attrs.className, "css", buildClosure)
+    }
+
+    def layoutJs = { attrs->
+        def buildClosure = {
+            out << "<script src=\"${g.resource(file: it, plugin: 'admin')}\"></script>"
+        }
+        adminConfigHolder.getViewResources("js").each(buildClosure)
+        grailsAdminPluginBuilderService.doWithAssetType(attrs.formType, attrs.className, "js", buildClosure)
     }
 }

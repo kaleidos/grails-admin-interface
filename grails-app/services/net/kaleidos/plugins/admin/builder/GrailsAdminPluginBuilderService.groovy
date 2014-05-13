@@ -117,4 +117,18 @@ class GrailsAdminPluginBuilderService {
         return new JsonBuilder(result).toString()
     }
 
+    void doWithAssetType(String formType, String className, String type, Closure closure) {
+        if (!formType || !className) {
+            return
+        }
+        def domainConfig = adminConfigHolder.getDomainConfig(Class.forName(className))
+        List properties = domainConfig.getProperties(formType)
+        def builder = new StringBuilder()
+        def widgetAssets = []
+        properties.each{propertyName ->
+            def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName)
+            assets << widget.assets.findAll { it.endsWith(".$type")}
+        }
+        widgetAssets.unique().each(closure)
+    }
 }

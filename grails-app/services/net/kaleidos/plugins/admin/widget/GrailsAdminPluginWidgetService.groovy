@@ -1,6 +1,7 @@
 package net.kaleidos.plugins.admin.widget
 import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
+import org.codehaus.groovy.grails.commons.GrailsDomainClass
 
 import org.codehaus.groovy.grails.validation.CreditCardConstraint
 import org.codehaus.groovy.grails.validation.EmailConstraint
@@ -48,21 +49,16 @@ class GrailsAdminPluginWidgetService {
         }
     }
 
-    Widget getWidget(Object object, String propertyName, String customWidget=null, Map attributes=[:]) {
+
+    Widget getWidgetForClass(GrailsDomainClass grailsDomainClass, String propertyName, String customWidget=null, Map attributes=[:]) {
         def widget
-        def grailsDomainClass = getGrailsDomainClass(object)
         def property = grailsDomainClass.getPropertyByName(propertyName)
 
         if (!property) {
-            throw new RuntimeException("$propertyName not exists in ${object.class}")
+            throw new RuntimeException("$propertyName not exists in ${grailsDomainClass}")
         }
 
-        def constraints
-
-
-        constraints = grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints()
-        constraints = constraints?:[]
-
+        def constraints = (grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints())?:[]
 
         if (customWidget) {
             try {
@@ -75,6 +71,14 @@ class GrailsAdminPluginWidgetService {
             widget = _getDefaultWidgetForType(property.getType(), constraints)
         }
 
+        return widget
+    }
+
+    Widget getWidget(Object object, String propertyName, String customWidget=null, Map attributes=[:]) {
+        def grailsDomainClass = getGrailsDomainClass(object)
+        def widget = getWidgetForClass(grailsDomainClass, propertyName, customWidget, attributes)
+        def property = grailsDomainClass.getPropertyByName(propertyName)
+        def constraints = (grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints())?:[]
 
         widget.value = _getValueForWidget(object, property)
 

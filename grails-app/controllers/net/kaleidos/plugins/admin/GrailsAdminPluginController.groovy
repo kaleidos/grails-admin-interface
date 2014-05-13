@@ -45,10 +45,14 @@ class GrailsAdminPluginController {
         def total = grailsAdminPluginGenericService.count(domain.domainClass.clazz)
         def totalPages = (Math.ceil(total / ITEMS_BY_PAGE) as Integer)
 
-        render view:'/grailsAdmin/list',  model:[objs: objs,
-                                                 domain: domain,
-                                                 currentPage: page,
-                                                 totalPages: totalPages]
+        def model = [:]
+        model << [objs:objs]
+        model << [domain:domain]
+        model << [currentPage:page]
+        model << [totalPages:totalPages]
+        model << [formType:"list"]
+        model << [className:domain.classFullName]
+        render view:'/grailsAdmin/list',  model:model
     }
 
     def edit(String slug, Long id) {
@@ -62,8 +66,12 @@ class GrailsAdminPluginController {
         def object = domain.domainClass.clazz.get(id)
 
         if (object) {
-            render view:'/grailsAdmin/edit',  model:[domain: domain, object: object]
-            return
+            def model = [:]
+            model << [domain:domain]
+            model << [object:object]
+            model << [formType:"edit"]
+            model << [className:domain.classFullName]
+            render view:'/grailsAdmin/edit',  model:model
         } else {
             response.status = 404
             return
@@ -78,7 +86,11 @@ class GrailsAdminPluginController {
             return
         }
 
-        render view:'/grailsAdmin/add',  model:[domain: domain]
+        def model = [:]
+        model << [domain:domain]
+        model << [formType:"create"]
+        model << [className:domain.classFullName]
+        render view:'/grailsAdmin/add', model:model
     }
 
 }

@@ -30,4 +30,11 @@ class SelectWidget extends Widget {
         html.append("</select>")
         return html
     }
+
+    List<String> getAssets() {
+        [ 'libs/select2/select2.css',
+          'libs/select2/select2-bootstrap.css',
+          'libs/select2/select2.js'
+        ]
+    }
 }

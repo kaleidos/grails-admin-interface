@@ -11,4 +11,8 @@ abstract class Widget {
     String renderAsJson() {
         return value.toString()
     }
+
+    List<String> getAssets() {
+        return []
+    }
 }
