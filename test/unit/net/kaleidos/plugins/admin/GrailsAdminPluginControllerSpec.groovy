@@ -70,9 +70,9 @@ class GrailsAdminPluginControllerSpec extends Specification {
         setup:
             def domain = adminConfigHolder.domains['admin.test.TestDomain']
 
-            controller.grailsAdminPluginGenericService.count(domain.domainClass.clazz) >> 10
+            controller.grailsAdminPluginGenericService.count(domain.domainClass.clazz) >> 30
 
-            1 * controller.grailsAdminPluginGenericService.list(domain.domainClass.clazz, 10, 5) >> {
+            1 * controller.grailsAdminPluginGenericService.list(domain.domainClass.clazz, _, _) >> {
                 [[:]]
             }
 

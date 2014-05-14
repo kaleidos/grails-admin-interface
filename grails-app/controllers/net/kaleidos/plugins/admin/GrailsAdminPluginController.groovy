@@ -5,10 +5,11 @@ import grails.validation.ValidationException
 import grails.converters.JSON
 
 class GrailsAdminPluginController {
+    static final int ITEMS_BY_PAGE = 20
+
     def objectDefinitionSource
     def adminConfigHolder
     def grailsAdminPluginGenericService
-    private static int ITEMS_BY_PAGE = 5
 
     def adminMethod() {
         log.debug ">> Execute: ${params}"
@@ -37,12 +38,13 @@ class GrailsAdminPluginController {
 
         def objs = grailsAdminPluginGenericService.list(domain.domainClass.clazz, (page -1) * ITEMS_BY_PAGE, ITEMS_BY_PAGE)
 
-        if (!objs.size() && page > 1) {
+        if (!objs?.size() && page > 1) {
             redirect(mapping: 'list', params: [slug: slug, page: page - 1])
             return
         }
 
         def total = grailsAdminPluginGenericService.count(domain.domainClass.clazz)
+
         def totalPages = (Math.ceil(total / ITEMS_BY_PAGE) as Integer)
 
         def model = [:]

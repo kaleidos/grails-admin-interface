@@ -47,27 +47,7 @@
                 </tbody>
             </table>
 
-            <g:if test="${totalPages > 1}">
-            <ul class="pagination">
-                <g:if test="${currentPage > 1}">
-                <li>
-                    <g:link mapping="grailsAdminList" params="[slug: domain.slug, page: currentPage - 1]">«</g:link>
-                </li>
-                </g:if>
-
-                <g:each var="page" in="${ (1..totalPages) }">
-                <li <g:if test="${page == currentPage}">class="active"</g:if>>
-                    <g:link mapping="grailsAdminList" params="[slug: domain.slug, page: page]">${page}</g:link>
-                </li>
-                </g:each>
-
-                <g:if test="${currentPage < totalPages}">
-                <li>
-                    <g:link mapping="grailsAdminList" params="[slug: domain.slug, page: currentPage + 1]">»</g:link>
-                </li>
-                </g:if>
-            </ul>
-            </g:if>
+            <gap:pagination domain="${domain}" totalPages="${totalPages}" currentPage="${currentPage}"/>
         </div>
         <g:render plugin="grailsAdmin" template="/grailsAdmin/includes/delete" />
     </body>
