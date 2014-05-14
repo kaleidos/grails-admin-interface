@@ -1,8 +1,10 @@
 package net.kaleidos.plugins.admin.config
 
 import org.codehaus.groovy.grails.commons.GrailsDomainClass
+import java.util.concurrent.ConcurrentHashMap
 
 class DomainConfig {
+    private static final ConcurrentHashMap<String,Boolean> transientPropertiesCache = new ConcurrentHashMap()
     GrailsDomainClass domainClass
     Map excludes = [:]
     Map includes = [:]
@@ -10,23 +12,41 @@ class DomainConfig {
 
     public DomainConfig(GrailsDomainClass domainClass, Map params) {
         this.domainClass = domainClass
-
         if (params) {
             _configureParams(params)
         }
     }
 
     private _isTransient(Class clazz, String property) {
-        def field = clazz.getDeclaredField(property)
-        return java.lang.reflect.Modifier.isTransient(field.modifiers)
+        def field = null
+        def curClazz = clazz
+
+        String key = "${clazz}_${property}"
+
+        if (!transientPropertiesCache.containsKey(key)) {
+            while (curClazz && !field) {
+                try {
+                    field = curClazz.getDeclaredField(property)
+                } catch(java.lang.NoSuchFieldException e) {
+                    curClazz = curClazz.getSuperclass()
+                }
+            }
+            if (field) {
+                transientPropertiesCache.putIfAbsent(key, java.lang.reflect.Modifier.isTransient(field.modifiers))
+            } else {
+                transientPropertiesCache.putIfAbsent(key, false)
+            }
+        }
+        return transientPropertiesCache.get(key)
+
     }
 
     List getProperties(String method) {
         def defaultExclude = ['id','version']
+
         def result = domainClass.getProperties()
             .findAll{ it.isPersistent() && !_isTransient(domainClass.clazz, it.name)}
             .collect { it.name }
-            .sort()
 
         if (includes[method]) {
             result = includes[method].findAll { result.contains(it) }

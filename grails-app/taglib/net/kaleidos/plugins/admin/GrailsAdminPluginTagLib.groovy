@@ -58,7 +58,6 @@ class GrailsAdminPluginTagLib {
     }
 
     def layoutCss = { attrs ->
-
         def buildClosure = {
             if (grailsResourceLocator.findResourceForURI(it)) {
                 out << "<link href=\"${request.contextPath}${grailsResourceLocator.findResourceForURI(it).getPath()}\" rel=\"stylesheet\"></link>"

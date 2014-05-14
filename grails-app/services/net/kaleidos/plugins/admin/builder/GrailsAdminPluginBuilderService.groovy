@@ -5,6 +5,7 @@ import groovy.json.JsonBuilder
 class GrailsAdminPluginBuilderService {
     def adminConfigHolder
     def grailsAdminPluginWidgetService
+    def grailsApplication
 
     String renderEditFormFields(Object object, Map editWidgetProperties=[:]){
         return _renderFormFields("edit", object, editWidgetProperties)
@@ -39,6 +40,7 @@ class GrailsAdminPluginBuilderService {
 
     String renderListLine(Object object){
         def config = adminConfigHolder.getDomainConfig(object)
+
         List properties = config.getProperties("list")
         StringBuilder html = new StringBuilder()
         properties.each{propertyName ->
@@ -72,6 +74,7 @@ class GrailsAdminPluginBuilderService {
         def object = objectClass?.newInstance()
 
         List properties = adminConfigHolder.getDomainConfig(object).getProperties("list")
+
         StringBuilder html = new StringBuilder()
 
         properties.each{ propertyName ->
@@ -125,25 +128,35 @@ class GrailsAdminPluginBuilderService {
         if (!formType || !className) {
             return
         }
-        def domainConfig = adminConfigHolder.getDomainConfig(Class.forName(className))
-        List properties = domainConfig.getProperties(formType)
-        Map customWidgets = domainConfig.getCustomWidgets(formType)
+        def domainConfig
 
-        def builder = new StringBuilder()
-        def widgetAssets = []
+        try {
+            domainConfig = adminConfigHolder.getDomainConfig(Class.forName(className), true, Thread.currentThread().contextClassLoader)
+        } catch (ClassNotFoundException e) {
+            // Sometimes Domain classes throws a ClassNotFoundException. We shoudl fall-back to the grails implementation
+            domainConfig = adminConfigHolder.getDomainConfig(grailsApplication.getClassForName(className))
+        }
 
-        properties.each{ propertyName ->
-            def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName")
-            if (widget) {
-                def currentWidgetAssets = widget.assets.findAll { it.endsWith(".$type")}
-                if (currentWidgetAssets) {
-                    widgetAssets.addAll(currentWidgetAssets)
-                } else {
-                    def slug = widget.class.simpleName.toLowerCase()
-                    widgetAssets << "$type/admin/$slug.$type"
+        if (domainConfig) {
+            List properties = domainConfig.getProperties(formType)
+            Map customWidgets = domainConfig.getCustomWidgets(formType)
+
+            def builder = new StringBuilder()
+            def widgetAssets = []
+
+            properties.each{ propertyName ->
+                def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName")
+                if (widget) {
+                    def currentWidgetAssets = widget.assets.findAll { it.endsWith(".$type")}
+                    if (currentWidgetAssets) {
+                        widgetAssets.addAll(currentWidgetAssets)
+                    } else {
+                        def slug = widget.class.simpleName.toLowerCase()
+                        widgetAssets << "$type/admin/$slug.$type"
+                    }
                 }
             }
+            widgetAssets.unique().each(closure)
         }
-        widgetAssets.unique().each(closure)
     }
 }
