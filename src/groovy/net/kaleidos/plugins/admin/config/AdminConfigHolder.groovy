@@ -76,12 +76,21 @@ class AdminConfigHolder {
     }
 
     public DomainConfig getDomainConfig(Object object) {
-        def className = ClassUtils.getUserClass(object.getClass()).name
-        return this.domains[className]
+        def clazz = ClassUtils.getUserClass(object.getClass())
+        return getDomainConfig(clazz)
     }
 
     public DomainConfig getDomainConfig(Class objClass) {
-        return this.domains[objClass.name]
+        if (!objClass) {
+            return null
+        }
+        def config = this.domains[objClass.name]
+
+        if (!config) {
+            config = getDomainConfig(objClass.getSuperclass())
+        }
+
+        return config
     }
 
     public DomainConfig getDomainConfigBySlug(String slug) {

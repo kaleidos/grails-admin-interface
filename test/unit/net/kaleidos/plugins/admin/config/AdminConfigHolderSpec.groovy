@@ -8,6 +8,8 @@ import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
 import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingEvaluator
 import org.springframework.web.context.WebApplicationContext
 
+import admin.test.*
+
 class AdminConfigHolderSpec extends Specification {
     def grailsApplication
 
@@ -18,6 +20,7 @@ class AdminConfigHolderSpec extends Specification {
         grailsApplication.configureLoadedClasses([
             admin.test.TestDomain.class,
             admin.test.TestOtherDomain.class,
+            admin.test.TestExtendsDomain.class,
             GrailsAdminUrlMappings
         ] as Class[])
     }
@@ -326,5 +329,26 @@ class AdminConfigHolderSpec extends Specification {
             testDomains = [ "admin.test.TestDomain" ]
             testDomainSlug = "testdomainBadSlug"
             testDomainClassName = "admin.test.TestDomain"
+    }
+
+    def "Get the domain config of a super class"() {
+        setup:
+            def config = new ConfigObject()
+            config.grails.plugin.admin.domains = testDomains
+
+            def configHolder = new AdminConfigHolder(config)
+            configHolder.grailsApplication = grailsApplication
+
+            def obj =  new TestExtendsDomain()
+
+        when:
+            configHolder.initialize()
+            DomainConfig testDomainConfig = configHolder.getDomainConfig(obj)
+
+        then:
+            testDomainConfig != null
+
+        where:
+            testDomains = [ "admin.test.TestDomain" ]
     }
 }
