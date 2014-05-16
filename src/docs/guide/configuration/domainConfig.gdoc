@@ -1,42 +1,70 @@
-h4. Domains list
+You can configure the administration screens with a specific DSL that can be configure either in your
+Config.groovy or in classes of type "Admin" that also allows the redefinition of some methods.
 
-By default the admin plugin doesn't manage any domains inside your application.
-
-You should add the domains that will be managed by the admin-plugin:
+h3. Configuration on Config.groovy file
 
 {code}
-grails.plugin.admin.domains = {
-    "conferences.Room"()
-    "conferences.Attendee"()
-    "conferences.Conference"()
+grails.plugin.admin.domain.Test = {
+    create includes: ["name", "description", "dateCreated", "endDate"],
+           customWidgets: ["name": "test.MyTestWidget"]
 }
 {code}
 
-This will enable the plugin to manage those three entities.
-
-You can add custom configuration to the entries in the same DSL
+h3. Configuration on "Admin" entities
 
 {code}
-grails.plugin.admin.domains = {
-    ...
-    "conferences.Conference" {
-        list: [excludes: ['startDate', 'endDate']],
-        show: [excludes: ['startDate', 'endDate']],
-        edit: [excludes: ['startDate', 'endDate']],
+package test
+
+class TestAdmin {
+    static options = {
+        create includes: ["name", "description", "dateCreated", "endDate"],
+               customWidgets: ["name": "test.MyTestWidget"]
     }
+
 }
 {code}
 
-Or you can externalize this configuration to an external "Admin file"
+Then you should associate your admin class with the domain entity that manage.
 
 {code}
-package conferences
+grails.plugin.admin.domain.Test = "test.TestAdmin"
+{code}
 
-class ConferenceAdmin {
-    static options = [
-        list: [excludes: ['startDate', 'endDate']],
-        show: [excludes: ['startDate', 'endDate']],
-        edit: [excludes: ['startDate', 'endDate']],
-    ]
+h4. Include properties
+
+You can select which properties the administration will display on a specific operation.
+
+The order will be preserved in the form.
+
+{code}
+grails.plugin.admin.domain.Test = {
+    list includes: ["name", "description", "dateCreated", "endDate"]
+    create includes: ["name", "description"]
+    edit includes: ["name", "description"]
 }
 {code}
+
+
+h4. Exclude Properties
+
+You can customize which properties will be exluded from the administration screens.
+
+{code}
+grails.plugin.admin.domain.Test = {
+    list excludes: ["startDate", "endDate"]
+    create excludes: ["startDate", "endDate"]
+    edit excludes: ["startDate", "endDate"]
+}
+{code}
+
+h4. Custom widgets
+
+For some properties the default editor/renderer may not be enough. You can customize this behaviour
+writing your own widget. Further documentation on the "widgets" sections.
+
+{code}
+grails.plugin.admin.domain.Test = {
+    edit customWidgets: ["name": "test.MyTestWidget"]
+}
+{code}
+
