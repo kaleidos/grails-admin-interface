@@ -128,4 +128,25 @@ class GrailsAdminPluginApiController {
         render ""
     }
 
+
+    def putRelatedAdminAction(String slug, Long id, String propertyName, Long id2) {
+        def config = adminConfigHolder.getDomainConfigBySlug(slug)
+        if (!config) {
+            response.status = 404
+            render(["error":"Domain no configured"] as JSON)
+            return
+        }
+
+        try {
+            grailsAdminPluginGenericService.putRelatedDomain(config.domainClass.clazz, id, propertyName, id2)
+        } catch (RuntimeException e) {
+            response.status = 500
+            def result = [error: e.message]
+            render result as JSON
+            return
+        }
+        response.status = 204
+        render ""
+    }
+
 }

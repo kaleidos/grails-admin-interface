@@ -151,6 +151,8 @@ class GrailsAdminPluginBuilderService {
             }
         }
 
+        result["__text__"] = object.toString()
+
         return result
     }
 
