@@ -83,6 +83,7 @@ class GrailsAdminPluginWidgetService {
         def constraints = (grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints())?:[]
 
         widget.value = _getValueForWidget(object, property)
+        widget.internalAttrs["domainClass"] = grailsDomainClass.clazz
         widget.internalAttrs["domainObject"] = object
         widget.internalAttrs["grailsDomainClass"] = grailsDomainClass
         widget.internalAttrs["propertyName"] = propertyName

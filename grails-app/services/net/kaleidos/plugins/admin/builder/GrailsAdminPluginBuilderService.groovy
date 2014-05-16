@@ -135,20 +135,26 @@ class GrailsAdminPluginBuilderService {
     }
 
     def _getInfoForJson(object) {
-        List properties = adminConfigHolder.getDomainConfig(object).getProperties("list")
+        def config = adminConfigHolder.getDomainConfig(object)
         def result = [:]
 
-        if (object.id) {
-            result.id = object.id
-        }
+        if (config) {
+            def properties = config.getProperties("list")
 
-        properties.each { propertyName ->
-            def val = object."${propertyName}"
-            if (val) {
-                def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
+            if (object.id) {
+                result.id = object.id
+            }
+
+            properties.each { propertyName ->
+                def val = object."${propertyName}"
+                if (val) {
+                    def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
 
                 result << ["$propertyName":widget.getValueForJson()]
+                }
             }
+        } else {
+            result = object
         }
 
         result["__text__"] = object.toString()

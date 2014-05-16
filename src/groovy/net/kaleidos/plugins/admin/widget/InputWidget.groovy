@@ -1,19 +1,23 @@
 package net.kaleidos.plugins.admin.widget
 
+import groovy.xml.MarkupBuilder
+
 abstract class InputWidget extends Widget{
     String inputType
 
     @Override
     String render() {
-        StringBuilder html = new StringBuilder()
-        html.append("<input type=\"${inputType.encodeAsHTML()}\"")
-        if (value) {
-            html.append(" value=\"${value.encodeAsHTML()}\"")
+        def writer = new StringWriter()
+        def builder = new MarkupBuilder(writer)
+
+        def attrs = htmlAttrs.clone()
+        attrs << ["type": inputType]
+        attrs << ["value": value.encodeAsHTML()]
+
+        builder.div {
+            input(attrs)
         }
-        htmlAttrs.each {key, value ->
-            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
-        }
-        html.append(" />")
-        return html
+
+        return writer
     }
 }

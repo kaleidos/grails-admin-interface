@@ -59,7 +59,8 @@ class GrailsAdminPluginApiController {
             result = grailsAdminPluginGenericService.saveDomain(config.domainClass.clazz, request.JSON)
         } catch (ValidationException e) {
             response.status = 500
-            result = e.getErrors()
+            render e.getErrors() as JSON
+            return
         }
 
         render grailsAdminPluginBuilderService.renderObjectAsJson(result)
@@ -78,10 +79,13 @@ class GrailsAdminPluginApiController {
             result = grailsAdminPluginGenericService.updateDomain(config.domainClass.clazz, id, request.JSON)
         } catch (ValidationException e) {
             response.status = 500
-            result = e.getErrors()
+            render e.getErrors() as JSON
+            return
         } catch (RuntimeException e) {
             response.status = 500
             result = [error: e.message]
+            render result as JSON
+            return
         }
 
         render grailsAdminPluginBuilderService.renderObjectAsJson(result)

@@ -93,6 +93,19 @@ class AdminConfigHolder {
         return config
     }
 
+    public DomainConfig getDomainConfigForProperty(Object object, String property) {
+        def clazz = ClassUtils.getUserClass(object.getClass())
+        return getDomainConfigForProperty(clazz, property)
+    }
+
+    public DomainConfig getDomainConfigForProperty(Class objClass, String property) {
+        println ">> $objClass, $property"
+        def field = objClass.getDeclaredFields().find { it.name == property }
+        println ">> $field"
+        def propertyClass = field.type
+        return getDomainConfig(propertyClass)
+    }
+
     public DomainConfig getDomainConfigBySlug(String slug) {
         return this.domains.find { it.value.slug == slug }?.value
     }
