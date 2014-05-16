@@ -131,7 +131,7 @@ class GrailsAdminPluginBuilderService {
         def domainConfig
 
         try {
-            domainConfig = adminConfigHolder.getDomainConfig(Class.forName(className), true, Thread.currentThread().contextClassLoader)
+            domainConfig = adminConfigHolder.getDomainConfig(Class.forName(className, true, Thread.currentThread().contextClassLoader))
         } catch (ClassNotFoundException e) {
             // Sometimes Domain classes throws a ClassNotFoundException. We shoudl fall-back to the grails implementation
             domainConfig = adminConfigHolder.getDomainConfig(grailsApplication.getClassForName(className))
