@@ -14,7 +14,7 @@ class RelationPopupOneWidget extends AbstractRelationPopup {
     }
 
     @Override
-    String doRenderWithParent(Closure parent) {
+    String doRenderWithParent(String uuid, Closure parent) {
         def writer = new StringWriter()
         def builder = new MarkupBuilder(writer)
 
@@ -29,7 +29,7 @@ class RelationPopupOneWidget extends AbstractRelationPopup {
             input type:'hidden', class:'js-one-rel-value', name:"${internalAttrs.propertyName}"
 
             _detailLink(slug, relationObject, builder)
-            _buttons(slug, relationObject, delegate)
+            _buttons(slug, relationObject, uuid, delegate)
 
             parent(delegate)
         }
@@ -51,7 +51,7 @@ class RelationPopupOneWidget extends AbstractRelationPopup {
         }
     }
 
-    def _buttons(slug, relationObject, builder) {
+    def _buttons(slug, relationObject, uuid, builder) {
         def listApi = ''
         if (slug) {
             listApi = grailsLinkGenerator.link(mapping:"grailsAdminApiAction", method:"get", params:[slug:slug])
@@ -60,7 +60,7 @@ class RelationPopupOneWidget extends AbstractRelationPopup {
         String display = (relationObject)?"block":"none"
 
         builder.div class:"btn-group", {
-            a href:"#", class:"btn btn-default js-relationpopuponewidget-list", "data-toggle":"modal", "data-url":listApi, {
+            a href:"#", class:"btn btn-default js-relationpopuponewidget-list", "data-toggle":"modal", "data-url":listApi, "data-target":"#add-$uuid", {
                 span class:"glyphicon glyphicon-list", {
                     mkp.yield "List"
                 }
