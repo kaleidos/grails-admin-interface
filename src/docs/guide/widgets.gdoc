@@ -1,0 +1,1 @@
+A widget is Grails Admin's HTML representation of a property from a domain object instance. The widget handles the rendering of the HTML for that property.

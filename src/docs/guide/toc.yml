@@ -18,6 +18,24 @@ tutorial:
 
 widgets:
     title: Widgets
+    stylingWidgets: Styling widget instances
+    builtInWidgets:
+        title: Built in widgets
+        checkboxInputWidget: CheckboxInputWidget
+        dateInputWidget: DateInputWidget
+        dateTimeInputWidget: DateTimeInputWidget
+        emailInputWidget: EmailInputWidget
+        hiddenInputWidget: HiddenInputWidget
+        numberInputWidget: NumberInputWidget
+        passwordInputWidget: PasswordInputWidget
+        selectMultipleWidget: SelectMultipleWidget
+        selectWidget: SelectWidget
+        textAreaInputWidget: TextAreaWidget
+        textInputWidget: TextInputWidget
+        timeInputWidget: TimeInputWidget
+        urlInputWidget: UrlInputWidget
+    customWidgets: Custom widgets
+
 
 faq:
     title: FAQ
