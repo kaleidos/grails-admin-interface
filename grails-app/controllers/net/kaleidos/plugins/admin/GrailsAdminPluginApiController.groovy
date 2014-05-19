@@ -8,6 +8,7 @@ class GrailsAdminPluginApiController {
     def adminConfigHolder
     def grailsAdminPluginGenericService
     def grailsAdminPluginBuilderService
+    private static int ITEMS_BY_PAGE = 20
 
     def listDomains() {
         render adminConfigHolder.domainClasses as JSON
@@ -32,7 +33,13 @@ class GrailsAdminPluginApiController {
             }
             renderedResult = grailsAdminPluginBuilderService.renderObjectAsJson(result)
         } else {
-            result = grailsAdminPluginGenericService.listDomain(config.domainClass.clazz)
+            def page = params.page
+
+            if (!page) {
+                page = 1
+            }
+
+            result = grailsAdminPluginGenericService.list(config.domainClass.clazz, (page -1) * ITEMS_BY_PAGE, ITEMS_BY_PAGE, params.sort,  params.sort_order)
             renderedResult = grailsAdminPluginBuilderService.renderListAsJson(result)
         }
 
