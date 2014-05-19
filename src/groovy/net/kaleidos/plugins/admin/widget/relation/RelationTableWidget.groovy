@@ -14,6 +14,7 @@ class RelationTableWidget extends Widget{
         def uuid =  UUID.randomUUID().toString()
         if (internalAttrs["relatedDomainClass"]) {
             def domainClass = internalAttrs["relatedDomainClass"].clazz
+            def otherSideProperty = internalAttrs["grailsDomainClass"].getPropertyByName(internalAttrs['propertyName']).getOtherSide()
             value.each {id ->
                 def element = domainClass.get(id)
                 options[id] = element.toString()
@@ -26,16 +27,20 @@ class RelationTableWidget extends Widget{
             def detailUrl = Holders.applicationContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib').createLink(mapping: 'grailsAdminEdit', params:['slug':domainClass.simpleName.toLowerCase(), 'id':0])
 
 
-            html.append("<table data-detailurl=\"$detailUrl\" data-property-name=\"${internalAttrs["propertyName"]}\" class=\"table table-bordered\">")
+            html.append("<table data-detailurl=\"$detailUrl\" data-property-name=\"${internalAttrs["propertyName"]}\" data-optional=\"${otherSideProperty.isOptional()}\"class=\"table table-bordered\">")
             options.each{key, value ->
 
                 def url = Holders.applicationContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib').createLink(mapping: 'grailsAdminEdit', params:['slug':domainClass.simpleName.toLowerCase(), 'id':key])
 
                 html.append("<tr>")
                 html.append("<td><a href=\"$url\">$value</a></td>")
-                html.append("<td class=\"list-actions\">")
-                html.append("<a class=\"btn btn-default btn-sm js-relationtablewidget-delete\" data-value=\"$key\" href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</a></td>")
-                html.append("</tr>")
+
+                if (otherSideProperty.isOptional()) {
+                    html.append("<td class=\"list-actions\">")
+                    html.append("<a class=\"btn btn-default btn-sm js-relationtablewidget-delete\" data-value=\"$key\" href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</a></td>")
+                    html.append("</tr>")
+                }
+
 
 
                 }

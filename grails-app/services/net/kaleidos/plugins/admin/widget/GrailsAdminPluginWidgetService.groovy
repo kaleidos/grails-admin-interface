@@ -84,6 +84,7 @@ class GrailsAdminPluginWidgetService {
 
         widget.value = _getValueForWidget(object, property)
         widget.internalAttrs["domainObject"] = object
+        widget.internalAttrs["grailsDomainClass"] = grailsDomainClass
         widget.internalAttrs["propertyName"] = propertyName
 
 

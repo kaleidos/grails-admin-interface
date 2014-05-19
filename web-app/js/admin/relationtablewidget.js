@@ -49,7 +49,13 @@ $( ".js-relationtablewidget-add-action").click(function(event) {
     var propertyName = $(".relationtablewidget").find("table").data('property-name');
     detailUrl = detailUrl.replace("0", val);
 
-    $(".relationtablewidget").find("tbody").append("<tr><td><a href=\""+detailUrl+"\">"+txt+"</a></td><td><a class=\"btn btn-default btn-sm js-relationtablewidget-delete\" data-value=\""+val+"\" href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</a></td></td></tr>")
+    var newLine = "<tr><td><a href=\""+detailUrl+"\">"+txt+"</a></td>";
+    if ($(".relationtablewidget").find("table").data('optional')) {
+        newLine += "<td><a class=\"btn btn-default btn-sm js-relationtablewidget-delete\" data-value=\""+val+"\" href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</a></td>"
+    }
+    newLine += "</tr>"
+
+    $(".relationtablewidget").find("tbody").append(newLine)
 
     $(".relationtablewidget").find("input[type='hidden']:last").after("<input type=\"hidden\" name=\""+propertyName+"\"  value=\""+val+"\" />")
 
