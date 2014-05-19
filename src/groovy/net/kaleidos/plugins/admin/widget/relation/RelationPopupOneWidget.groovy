@@ -19,7 +19,8 @@ class RelationPopupOneWidget extends AbstractRelationPopup {
         def builder = new MarkupBuilder(writer)
 
         def relationObject = internalAttrs.domainObject?."${internalAttrs.propertyName}"
-        def slug = adminConfigHolder.getDomainConfigForProperty(internalAttrs.domainClass, internalAttrs.propertyName).slug
+        def relationConfig = adminConfigHolder.getDomainConfigForProperty(internalAttrs.domainClass, internalAttrs.propertyName)
+        def slug = relationConfig?.slug
         def action = grailsLinkGenerator.link(mapping:"grailsAdminApiAction", method: "put", params:[slug:slug])
 
         // Links
@@ -36,7 +37,11 @@ class RelationPopupOneWidget extends AbstractRelationPopup {
     }
 
     def _detailLink(slug, relationObject, builder) {
-        def editLink = grailsLinkGenerator.link(mapping:"grailsAdminEdit", params:[slug:slug, id: (relationObject?.id)?:0])
+        def editLink = ''
+        if (slug) {
+            editLink = grailsLinkGenerator.link(mapping:"grailsAdminEdit", params:[slug:slug, id: (relationObject?.id)?:0])
+        }
+
         builder.a href:editLink, class:'js-one-rel-text', {
             if (value) {
                 mkp.yield "${relationObject}".encodeAsHTML()
@@ -47,7 +52,10 @@ class RelationPopupOneWidget extends AbstractRelationPopup {
     }
 
     def _buttons(slug, relationObject, builder) {
-        def listApi = grailsLinkGenerator.link(mapping:"grailsAdminApiAction", method:"get", params:[slug:slug])
+        def listApi = ''
+        if (slug) {
+            listApi = grailsLinkGenerator.link(mapping:"grailsAdminApiAction", method:"get", params:[slug:slug])
+        }
 
         String display = (relationObject)?"block":"none"
 

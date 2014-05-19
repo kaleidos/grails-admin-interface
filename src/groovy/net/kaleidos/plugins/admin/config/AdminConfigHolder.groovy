@@ -76,12 +76,15 @@ class AdminConfigHolder {
     }
 
     public DomainConfig getDomainConfig(Object object) {
-        def clazz = ClassUtils.getUserClass(object.getClass())
+        if (!object) {
+            return null
+        }
+        def clazz = ClassUtils.getUserClass(object?.getClass())
         return getDomainConfig(clazz)
     }
 
     public DomainConfig getDomainConfig(Class objClass) {
-        if (!objClass) {
+        if (!objClass || Object.class == objClass) {
             return null
         }
         def config = this.domains[objClass.name]
@@ -100,6 +103,12 @@ class AdminConfigHolder {
 
     public DomainConfig getDomainConfigForProperty(Class objClass, String property) {
         def field = objClass.getDeclaredFields().find { it.name == property }
+
+        if (!field && objClass.getSuperclass() && objClass != Object.class) {
+            // check superclass
+            return getDomainConfigForProperty(objClass.getSuperclass(), property)
+        }
+
         def propertyClass = field.type
         return getDomainConfig(propertyClass)
     }

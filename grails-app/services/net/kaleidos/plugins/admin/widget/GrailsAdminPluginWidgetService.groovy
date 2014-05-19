@@ -22,9 +22,9 @@ import org.codehaus.groovy.grails.validation.ValidatorConstraint
 import org.codehaus.groovy.grails.validation.AbstractConstraint
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
-import net.kaleidos.plugins.admin.widget.relation.RelationSelectWidget
 import net.kaleidos.plugins.admin.widget.relation.RelationSelectMultipleWidget
 import net.kaleidos.plugins.admin.widget.relation.RelationTableWidget
+import net.kaleidos.plugins.admin.widget.relation.RelationPopupOneWidget
 
 
 import org.springframework.util.ClassUtils
@@ -138,8 +138,8 @@ class GrailsAdminPluginWidgetService {
                     //It is another domain class?
                     def domain = getGrailsDomainClass(type)
                     if (domain) {
-                        widget = new RelationSelectWidget()
-                        widget.internalAttrs["relatedDomainClass"] = domain
+                        widget = new RelationPopupOneWidget()
+                        //widget.internalAttrs["relatedDomainClass"] = domain
                     } else {
                         widget = new TextInputWidget()
                     }
