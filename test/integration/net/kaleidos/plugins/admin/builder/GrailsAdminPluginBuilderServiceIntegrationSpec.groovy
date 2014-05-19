@@ -78,10 +78,10 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
         setup:
             adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
         when:
-            def html = grailsAdminPluginBuilderService.renderListTitle("admin.test.AdminDomainTest")
+        def html = grailsAdminPluginBuilderService.renderListTitle("admin.test.AdminDomainTest", 'name', 'asc')
 
         then:
-            html == "<th>age</th><th>birthday</th><th>country</th><th>email</th><th>longNumber</th><th>name</th><th>surname</th><th>web</th><th>year</th>"
+            html == "<th class='sortable no-sorted'><a href='/admin/list/admindomaintest?sort=age&sort_order=desc'>age<span></span></a></th><th class='sortable no-sorted'><a href='/admin/list/admindomaintest?sort=birthday&sort_order=desc'>birthday<span></span></a></th><th class='sortable no-sorted'><a href='/admin/list/admindomaintest?sort=country&sort_order=desc'>country<span></span></a></th><th class='sortable no-sorted'><a href='/admin/list/admindomaintest?sort=email&sort_order=desc'>email<span></span></a></th><th class='sortable no-sorted'><a href='/admin/list/admindomaintest?sort=longNumber&sort_order=desc'>longNumber<span></span></a></th><th class='sortable up'><a href='/admin/list/admindomaintest?sort=name&sort_order=desc'>name<span></span></a></th><th class='sortable no-sorted'><a href='/admin/list/admindomaintest?sort=surname&sort_order=desc'>surname<span></span></a></th><th class='sortable no-sorted'><a href='/admin/list/admindomaintest?sort=web&sort_order=desc'>web<span></span></a></th><th class='sortable no-sorted'><a href='/admin/list/admindomaintest?sort=year&sort_order=desc'>year<span></span></a></th>"
     }
 
     void 'render single object as json'() {

@@ -6,6 +6,7 @@ class GrailsAdminPluginBuilderService {
     def adminConfigHolder
     def grailsAdminPluginWidgetService
     def grailsApplication
+    def grailsLinkGenerator
 
     String renderEditFormFields(Object object, Map editWidgetProperties=[:]){
         return _renderFormFields("edit", object, editWidgetProperties)
@@ -69,17 +70,51 @@ class GrailsAdminPluginBuilderService {
         return html
     }
 
-    String renderListTitle(String className){
+    String renderListTitle(String className, String sort, String sortOrder){
         def objectClass = this.getClass().classLoader.loadClass(className)
         def object = objectClass?.newInstance()
 
-        List properties = adminConfigHolder.getDomainConfig(object).getProperties("list")
+        def domain = adminConfigHolder.getDomainConfig(object)
+        List properties = domain.getProperties("list")
+        List sortable = domain.getSortableProperties("list")
 
         StringBuilder html = new StringBuilder()
 
         properties.each{ propertyName ->
-            html.append("<th>")
+            def sortLink = ''
+            def theClassName = ''
+
+            if (propertyName in sortable) {
+                theClassName = 'sortable'
+                def order = 'desc'
+
+                if (propertyName == sort) {
+                    if (sortOrder == 'asc') {
+                        theClassName += " up"
+                        order = 'desc'
+                    } else {
+                        theClassName += " down"
+                        order = 'asc'
+                    }
+                } else {
+                    theClassName += " no-sorted"
+                }
+
+                sortLink = grailsLinkGenerator.link(mapping: 'grailsAdminList',
+                                                    params: ['slug': domain.slug,
+                                                             'sort': propertyName,
+                                                             'sort_order': order])
+            }
+
+            html.append("<th class='${theClassName}'>")
+            if (sortLink) {
+                html.append("<a href='${sortLink}'>")
+            }
             html.append(propertyName)
+            html.append("<span></span>")
+            if (sortLink) {
+                html.append("</a>")
+            }
             html.append("</th>")
         }
 
