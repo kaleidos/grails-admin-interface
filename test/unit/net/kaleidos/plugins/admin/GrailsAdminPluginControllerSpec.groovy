@@ -72,7 +72,7 @@ class GrailsAdminPluginControllerSpec extends Specification {
 
             controller.grailsAdminPluginGenericService.count(domain.domainClass.clazz) >> 30
 
-            1 * controller.grailsAdminPluginGenericService.list(domain.domainClass.clazz, 10, 5, 'sortmy', 'asc') >> {
+            1 * controller.grailsAdminPluginGenericService.list(domain.domainClass.clazz, _, _, 'sortmy', 'asc') >> {
                 [[:]]
             }
 

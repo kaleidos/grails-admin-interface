@@ -53,7 +53,7 @@ class GrailsAdminPluginController {
         model << [currentPage:page]
         model << [totalPages:totalPages]
         model << [formType:"list"]
-        model << [className:domain.classFullName
+        model << [className:domain.classFullName]
         model << [sort:params.sort]
         model << [sortOrder:params.sort_order]
         render view:'/grailsAdmin/list',  model:model
