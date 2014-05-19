@@ -99,9 +99,7 @@ class AdminConfigHolder {
     }
 
     public DomainConfig getDomainConfigForProperty(Class objClass, String property) {
-        println ">> $objClass, $property"
         def field = objClass.getDeclaredFields().find { it.name == property }
-        println ">> $field"
         def propertyClass = field.type
         return getDomainConfig(propertyClass)
     }
