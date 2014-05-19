@@ -36,7 +36,7 @@ class GrailsAdminPluginController {
             return
         }
 
-        def objs = grailsAdminPluginGenericService.list(domain.domainClass.clazz, (page -1) * ITEMS_BY_PAGE, ITEMS_BY_PAGE)
+        def objs = grailsAdminPluginGenericService.list(domain.domainClass.clazz, (page -1) * ITEMS_BY_PAGE, ITEMS_BY_PAGE, params.sort,  params.sort_order)
 
         if (!objs?.size() && page > 1) {
             redirect(mapping: 'list', params: [slug: slug, page: page - 1])
@@ -53,7 +53,9 @@ class GrailsAdminPluginController {
         model << [currentPage:page]
         model << [totalPages:totalPages]
         model << [formType:"list"]
-        model << [className:domain.classFullName]
+        model << [className:domain.classFullName
+        model << [sort:params.sort]
+        model << [sortOrder:params.sort_order]
         render view:'/grailsAdmin/list',  model:model
     }
 

@@ -56,14 +56,21 @@ body {
 }
 
 thead {
-  .up {
+  .up, .down:hover {
     span:after {
       content: "\25B2";
     }
   }
-  .down {
+  .down, .up:hover, .no-sorted:hover {
     span:after {
       content: "\25BC";
+    }
+  }
+  a {
+    color: #000;
+    &:hover {
+      color: #000;
+      text-decoration: none;
     }
   }
 }

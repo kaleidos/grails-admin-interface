@@ -25,7 +25,7 @@
             </div>
             <table class="table table-bordered">
                 <thead>
-                    <gap:listTitles className="${domain.domainClass.clazz.name}" />
+                    <gap:listTitles className="${domain.domainClass.clazz.name}" sort="${sort}" sortOrder="${sortOrder}" />
                     <th class="list-actions-head">
                         <g:message code="grailsAdminPlugin.list.actions" />
                     </th>

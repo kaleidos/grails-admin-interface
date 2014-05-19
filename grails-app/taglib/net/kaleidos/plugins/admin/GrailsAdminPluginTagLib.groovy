@@ -54,7 +54,7 @@ class GrailsAdminPluginTagLib {
     }
 
     def listTitles = { attrs ->
-        out << grailsAdminPluginBuilderService.renderListTitle(attrs.className)
+        out << grailsAdminPluginBuilderService.renderListTitle(attrs.className, attrs.sort, attrs.sortOrder)
     }
 
     def layoutCss = { attrs ->

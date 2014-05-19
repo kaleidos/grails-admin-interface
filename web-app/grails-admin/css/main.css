@@ -30,7 +30,12 @@ body {
   .logout a {
     margin-left: 10px; }
 
-thead .up span:after {
+thead .up span:after, thead .down:hover span:after {
   content: "\25B2"; }
-thead .down span:after {
+thead .down span:after, thead .up:hover span:after, thead .no-sorted:hover span:after {
   content: "\25BC"; }
+thead a {
+  color: #000; }
+  thead a:hover {
+    color: #000;
+    text-decoration: none; }
