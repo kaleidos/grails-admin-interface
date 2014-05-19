@@ -50,10 +50,18 @@ $( ".js-relationtablewidget-add-action").click(function(event) {
 
 
 function createRelationTableWidgetPopupBody(json) {
+
+    var values = $( ".relationtablewidget" ).find("input[type='hidden']").map(function(i,v) {
+        return $(this).val();
+    }).toArray();
+
+
     var html = "<table class=\"table table-bordered\">";
     html += createRelationTableWidgetPopupHeader(json[0]);
     $.each( json, function( key, value ) {
-        html += createRelationTableWidgetPopupLine(value);
+        if (values.indexOf(value['id'].toString()) == -1) {
+            html += createRelationTableWidgetPopupLine(value);
+        }
     });
     html += "</table>";
     return html;
