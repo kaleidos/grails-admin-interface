@@ -77,6 +77,10 @@ class GrailsAdminPluginWidgetService {
         widget.internalAttrs["domainClass"] = grailsDomainClass.clazz
         widget.internalAttrs["propertyName"] = propertyName
 
+        if (attributes) {
+            widget.htmlAttrs.putAll(attributes)
+        }
+
         return widget
     }
 

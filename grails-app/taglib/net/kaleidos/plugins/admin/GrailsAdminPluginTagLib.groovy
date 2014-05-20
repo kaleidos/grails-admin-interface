@@ -33,6 +33,7 @@ class GrailsAdminPluginTagLib {
         if (attrs.editWidgetProperties instanceof Map) {
             editWidgetProperties = attrs.editWidgetProperties
         }
+        editWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
 
         out << grailsAdminPluginBuilderService.renderEditFormFields(attrs.object, editWidgetProperties)
     }

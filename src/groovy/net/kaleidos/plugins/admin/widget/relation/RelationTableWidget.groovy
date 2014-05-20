@@ -13,6 +13,10 @@ class RelationTableWidget extends Widget{
     }
 
     String render() {
+        if (htmlAttrs.disallowRelationships) {
+            return "<p>Disabled relationship due to be inside an embedded dialog</p>"
+        }
+
         def writer = new StringWriter()
         def builder = new MarkupBuilder(writer)
 
