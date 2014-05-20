@@ -36,6 +36,31 @@ class GrailsAdminPluginBuilderService {
         return html
     }
 
+    String renderBeforeForm(String className, Map createWidgetProperties=[:]){
+        return _genericRenderMethod("renderBeforeForm", 'create', className, createWidgetProperties)
+    }
+
+    String renderAfterForm(String className, Map createWidgetProperties=[:]){
+        return _genericRenderMethod("renderAfterForm", 'create', className, createWidgetProperties)
+    }
+
+    String _genericRenderMethod(String method, String formType, String className, Map widgetProperties){
+        def result = new StringBuilder()
+
+        def domainConfig = adminConfigHolder.getDomainConfig(className)
+        List properties = domainConfig.getProperties("create")
+        Map customWidgets = domainConfig.getCustomWidgets(formType)
+
+        properties.each { propertyName ->
+            def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName", widgetProperties)
+            def toRender = widget."$method"()
+
+            if (toRender) {
+                result << toRender
+            }
+        }
+        return result
+    }
 
     //list
 
@@ -135,21 +160,30 @@ class GrailsAdminPluginBuilderService {
     }
 
     def _getInfoForJson(object) {
-        List properties = adminConfigHolder.getDomainConfig(object).getProperties("list")
+        def config = adminConfigHolder.getDomainConfig(object)
         def result = [:]
 
-        if (object.id) {
-            result.id = object.id
-        }
+        if (config) {
+            def properties = config.getProperties("list")
 
-        properties.each { propertyName ->
-            def val = object."${propertyName}"
-            if (val) {
-                def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
-
-                result << ["$propertyName":widget.getValueForJson()]
+            if (object.id) {
+                result.id = object.id
             }
+
+            properties.each { propertyName ->
+                def val = object."${propertyName}"
+                if (val) {
+                    def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
+                    result << ["$propertyName":widget.getValueForJson()]
+                } else {
+                    result << ["$propertyName":""]
+                }
+            }
+        } else {
+            result = object
         }
+
+        result["__text__"] = object.toString()
 
         return result
     }
@@ -163,14 +197,7 @@ class GrailsAdminPluginBuilderService {
         if (!formType || !className) {
             return
         }
-        def domainConfig
-
-        try {
-            domainConfig = adminConfigHolder.getDomainConfig(Class.forName(className, true, Thread.currentThread().contextClassLoader))
-        } catch (ClassNotFoundException e) {
-            // Sometimes Domain classes throws a ClassNotFoundException. We shoudl fall-back to the grails implementation
-            domainConfig = adminConfigHolder.getDomainConfig(grailsApplication.getClassForName(className))
-        }
+        def domainConfig = adminConfigHolder.getDomainConfig(className)
 
         if (domainConfig) {
             List properties = domainConfig.getProperties(formType)

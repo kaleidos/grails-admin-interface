@@ -22,8 +22,9 @@ import org.codehaus.groovy.grails.validation.ValidatorConstraint
 import org.codehaus.groovy.grails.validation.AbstractConstraint
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
-import net.kaleidos.plugins.admin.widget.relation.RelationSelectWidget
 import net.kaleidos.plugins.admin.widget.relation.RelationSelectMultipleWidget
+import net.kaleidos.plugins.admin.widget.relation.RelationTableWidget
+import net.kaleidos.plugins.admin.widget.relation.RelationPopupOneWidget
 
 
 import org.springframework.util.ClassUtils
@@ -72,6 +73,14 @@ class GrailsAdminPluginWidgetService {
             widget = _getDefaultWidgetForType(property.getType(), constraints)
         }
 
+        widget.internalAttrs["grailsDomainClass"] = grailsDomainClass
+        widget.internalAttrs["domainClass"] = grailsDomainClass.clazz
+        widget.internalAttrs["propertyName"] = propertyName
+
+        if (attributes) {
+            widget.htmlAttrs.putAll(attributes)
+        }
+
         return widget
     }
 
@@ -82,6 +91,10 @@ class GrailsAdminPluginWidgetService {
         def constraints = (grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints())?:[]
 
         widget.value = _getValueForWidget(object, property)
+        widget.internalAttrs["domainClass"] = grailsDomainClass.clazz
+        widget.internalAttrs["domainObject"] = object
+        widget.internalAttrs["grailsDomainClass"] = grailsDomainClass
+        widget.internalAttrs["propertyName"] = propertyName
 
 
         widget.htmlAttrs.putAll(["name":propertyName])
@@ -127,14 +140,14 @@ class GrailsAdminPluginWidgetService {
                 //     widget = new DateTimeInputWidget()
                 //     break
                 case Set:
-                    widget = new RelationSelectMultipleWidget()
+                    widget = new RelationTableWidget()
                     break
                 default:
                     //It is another domain class?
                     def domain = getGrailsDomainClass(type)
                     if (domain) {
-                        widget = new RelationSelectWidget()
-                        widget.internalAttrs["relatedDomainClass"] = domain
+                        widget = new RelationPopupOneWidget()
+                        //widget.internalAttrs["relatedDomainClass"] = domain
                     } else {
                         widget = new TextInputWidget()
                     }

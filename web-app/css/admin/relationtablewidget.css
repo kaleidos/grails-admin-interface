@@ -1,0 +1,19 @@
+
+.relationtablewidget .list-actions {
+    width: 100px;
+}
+
+.relationtablewidget .elements-table {
+    width: 70%;
+    float: left;
+    margin-right: 5%;
+}
+
+.relationtablewidget div {
+    /* float: left; */
+}
+
+
+input[type="radio"].relationtablewidget-radio {
+    width: 10px;
+}

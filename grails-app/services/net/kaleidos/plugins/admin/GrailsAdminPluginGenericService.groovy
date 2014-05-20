@@ -58,6 +58,34 @@ class GrailsAdminPluginGenericService {
         return result
     }
 
+
+    void deleteRelatedDomain(Class<?> domainClass, Long objectId, String propertyName, Long objectId2){
+        def domainObj = domainClass.get(objectId)
+        if (domainObj) {
+            def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)
+            if (property.isOneToMany()){
+                def cap = propertyName.capitalize()
+                def element = domainObj."$propertyName".find { it.id = objectId2 }
+                domainObj."removeFrom$cap"(element)
+            }
+        }
+    }
+
+    void putRelatedDomain(Class<?> domainClass, Long objectId, String propertyName, Long objectId2){
+        def domainObj = domainClass.get(objectId)
+        if (domainObj) {
+            def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)
+            if (property.isOneToMany()){
+
+                def element = property.getReferencedDomainClass().clazz.get(objectId2)
+                if (element) {
+                    def cap = propertyName.capitalize()
+                    domainObj."addTo$cap"(element)
+                }
+            }
+        }
+    }
+
     def _setValueByType(def object, def domainClass, def propertyName, def val){
         def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)
 

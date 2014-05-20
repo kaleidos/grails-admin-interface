@@ -32,6 +32,7 @@ body {
   input:not([type='button']), select, .select2-container {
     display: block;
     width: 650px;
+    max-width: 100%;
   }
 }
 

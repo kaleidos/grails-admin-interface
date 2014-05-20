@@ -59,7 +59,8 @@ class GrailsAdminPluginApiController {
             result = grailsAdminPluginGenericService.saveDomain(config.domainClass.clazz, request.JSON)
         } catch (ValidationException e) {
             response.status = 500
-            result = e.getErrors()
+            render e.getErrors() as JSON
+            return
         }
 
         render grailsAdminPluginBuilderService.renderObjectAsJson(result)
@@ -78,10 +79,13 @@ class GrailsAdminPluginApiController {
             result = grailsAdminPluginGenericService.updateDomain(config.domainClass.clazz, id, request.JSON)
         } catch (ValidationException e) {
             response.status = 500
-            result = e.getErrors()
+            render e.getErrors() as JSON
+            return
         } catch (RuntimeException e) {
             response.status = 500
             result = [error: e.message]
+            render result as JSON
+            return
         }
 
         render grailsAdminPluginBuilderService.renderObjectAsJson(result)
@@ -106,4 +110,47 @@ class GrailsAdminPluginApiController {
         response.status = 204
         render ""
     }
+
+    def deleteRelatedAdminAction(String slug, Long id, String propertyName, Long id2) {
+        def config = adminConfigHolder.getDomainConfigBySlug(slug)
+        if (!config) {
+            response.status = 404
+            render(["error":"Domain no configured"] as JSON)
+            return
+        }
+
+
+        try {
+            grailsAdminPluginGenericService.deleteRelatedDomain(config.domainClass.clazz, id, propertyName, id2)
+        } catch (RuntimeException e) {
+            response.status = 500
+            def result = [error: e.message]
+            render result as JSON
+            return
+        }
+        response.status = 204
+        render ""
+    }
+
+
+    def putRelatedAdminAction(String slug, Long id, String propertyName, Long id2) {
+        def config = adminConfigHolder.getDomainConfigBySlug(slug)
+        if (!config) {
+            response.status = 404
+            render(["error":"Domain no configured"] as JSON)
+            return
+        }
+
+        try {
+            grailsAdminPluginGenericService.putRelatedDomain(config.domainClass.clazz, id, propertyName, id2)
+        } catch (RuntimeException e) {
+            response.status = 500
+            def result = [error: e.message]
+            render result as JSON
+            return
+        }
+        response.status = 204
+        render ""
+    }
+
 }

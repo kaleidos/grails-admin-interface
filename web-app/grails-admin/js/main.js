@@ -20,9 +20,10 @@ app.findViews =  function (elm) {
         var viewsName = $(this).attr('view').split(',');
         var elm = $(this);
 
+        console.log(viewsName);
+
         for (var i = 0; i < viewsName.length; i++) {
             var fn = Injector.get(viewsName[i].trim());
-
             if (fn) {
                 Injector.invoke(fn, {$el: function () {
                     return elm;

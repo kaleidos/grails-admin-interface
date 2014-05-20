@@ -33,7 +33,7 @@ class GrailsAdminPluginTagLib {
         if (attrs.editWidgetProperties instanceof Map) {
             editWidgetProperties = attrs.editWidgetProperties
         }
-
+        editWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
 
         out << grailsAdminPluginBuilderService.renderEditFormFields(attrs.object, editWidgetProperties)
     }
@@ -44,9 +44,36 @@ class GrailsAdminPluginTagLib {
         if (attrs.createWidgetProperties instanceof Map) {
             createWidgetProperties = attrs.createWidgetProperties
         }
-
+        createWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
 
         out << grailsAdminPluginBuilderService.renderCreateFormFields(attrs.className, createWidgetProperties)
+    }
+
+    def widgetBeforeForm = { attrs ->
+        def createWidgetProperties = [:]
+        if (attrs.createWidgetProperties instanceof Map) {
+            createWidgetProperties = attrs.createWidgetProperties
+        }
+        createWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
+
+        def result = grailsAdminPluginBuilderService.renderBeforeForm(attrs.className, createWidgetProperties)
+        if (result) {
+            out << result
+        }
+    }
+
+    def widgetAfterForm = { attrs ->
+        def createWidgetProperties = [:]
+
+        if (attrs.createWidgetProperties instanceof Map) {
+            createWidgetProperties = attrs.createWidgetProperties
+        }
+        createWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
+
+        def result = grailsAdminPluginBuilderService.renderAfterForm(attrs.className, createWidgetProperties)
+        if (result) {
+            out << result
+        }
     }
 
     def listLine = { attrs ->

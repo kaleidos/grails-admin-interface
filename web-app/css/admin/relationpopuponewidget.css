@@ -1,0 +1,15 @@
+.relation-popupone-widget {
+    width: 650px;
+    display: block;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    position: relative;
+}
+
+.relation-popupone-widget .btn-group {
+    position: absolute;
+    right: -1px;
+    top: -1px;
+}
+

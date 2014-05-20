@@ -8,6 +8,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import admin.test.TestDomain
+import admin.test.TestDomainRelation
 
 import net.kaleidos.plugins.admin.widget.GrailsAdminPluginWidgetService
 
@@ -20,6 +21,7 @@ import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 @TestFor(GrailsAdminPluginGenericService)
 @TestMixin(DomainClassUnitTestMixin)
 @ConfineMetaClassChanges([GrailsAdminPluginGenericService])
+@Mock([TestDomain, TestDomainRelation])
 class GrailsAdminPluginGenericServiceSpec extends Specification {
     void "List objects of a domain without filters"() {
         setup:
@@ -225,5 +227,32 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
             def result = service.count(TestDomain)
         then:
             result == 4
+    }
+
+
+    void "Remove related object"() {
+        setup:
+
+            def grailsAdminPluginWidgetService = Mock(GrailsAdminPluginWidgetService)
+            grailsAdminPluginWidgetService.getGrailsDomainClass(_) >> { return new DefaultGrailsDomainClass(TestDomainRelation.class) }
+            service.grailsAdminPluginWidgetService = grailsAdminPluginWidgetService
+
+
+
+            def td = new TestDomain(id: 1, name: 'The Matrix', year: 2001)
+            td.save()
+            def rel = new TestDomainRelation()
+            rel.save()
+
+            rel.addToTestDomain(td)
+
+            assert rel.testDomain.size() == 1
+
+        when:
+            service.deleteRelatedDomain(TestDomainRelation, rel.id, "testDomain", td.id)
+
+
+        then:
+            rel.testDomain.size() == 0
     }
 }

@@ -75,13 +75,25 @@ class AdminConfigHolder {
         return this.domainClasses.collect{ this.domains[it].slug }
     }
 
+    public DomainConfig getDomainConfig(String objClass) {
+        try {
+            return getDomainConfig(Class.forName(objClass, true, Thread.currentThread().contextClassLoader))
+        } catch (ClassNotFoundException e) {
+            // Sometimes Domain classes throws a ClassNotFoundException. We shoudl fall-back to the grails implementation
+            return grailsApplication.getClassForName(objClass)
+        }
+    }
+
     public DomainConfig getDomainConfig(Object object) {
-        def clazz = ClassUtils.getUserClass(object.getClass())
+        if (!object) {
+            return null
+        }
+        def clazz = ClassUtils.getUserClass(object?.getClass())
         return getDomainConfig(clazz)
     }
 
     public DomainConfig getDomainConfig(Class objClass) {
-        if (!objClass) {
+        if (!objClass || Object.class == objClass) {
             return null
         }
         def config = this.domains[objClass.name]
@@ -91,6 +103,23 @@ class AdminConfigHolder {
         }
 
         return config
+    }
+
+    public DomainConfig getDomainConfigForProperty(Object object, String property) {
+        def clazz = ClassUtils.getUserClass(object.getClass())
+        return getDomainConfigForProperty(clazz, property)
+    }
+
+    public DomainConfig getDomainConfigForProperty(Class objClass, String property) {
+        def field = objClass.getDeclaredFields().find { it.name == property }
+
+        if (!field && objClass.getSuperclass() && objClass != Object.class) {
+            // check superclass
+            return getDomainConfigForProperty(objClass.getSuperclass(), property)
+        }
+
+        def propertyClass = field?.type
+        return getDomainConfig(propertyClass)
     }
 
     public DomainConfig getDomainConfigBySlug(String slug) {

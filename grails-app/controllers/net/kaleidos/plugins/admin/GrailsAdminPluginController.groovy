@@ -96,5 +96,4 @@ class GrailsAdminPluginController {
         model << [className:domain.classFullName]
         render view:'/grailsAdmin/add', model:model
     }
-
 }
