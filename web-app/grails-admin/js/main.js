@@ -23,9 +23,13 @@ app.findViews =  function (elm) {
         for (var i = 0; i < viewsName.length; i++) {
             var fn = Injector.get(viewsName[i].trim());
 
-            Injector.invoke(fn, {$el: function () {
-                return elm;
-            }});
+            if (fn) {
+                Injector.invoke(fn, {$el: function () {
+                    return elm;
+                }});
+            } else {
+                throw new Error(viewsName + ' does not exist');
+            }
         }
     });
 };
