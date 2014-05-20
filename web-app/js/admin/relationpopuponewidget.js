@@ -23,7 +23,6 @@ app.view('relationpopuponewidget', ['$el'], function ($el) {
     var saveButton = $(".js-relationtablewidget-save-action");
     saveButton.off('click');
     saveButton.on('click', function(){
-        event.preventDefault();
         var modal = $(this).parents(".modal");
         var form = modal.find("form");
         var field = modal.data("field");
