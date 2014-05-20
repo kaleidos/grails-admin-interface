@@ -27,8 +27,16 @@ class GrailsAdminPluginBuilderService {
 
             properties.each{propertyName ->
                 def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidgets?."$propertyName", widgetProperties)
+
                 html.append("<div class=\"form-group\">")
-                html.append("<label for=\"${propertyName.encodeAsHTML()}\">${propertyName.capitalize().encodeAsHTML()}</label>")
+                html.append("<label for=\"${propertyName.encodeAsHTML()}\">")
+                html.append(propertyName.capitalize().encodeAsHTML())
+
+                if (widget.htmlAttrs.required == 'true') {
+                    html.append(" *")
+                }
+
+                html.append("</label>")
                 html.append(widget.render())
                 html.append("</div>")
             }
