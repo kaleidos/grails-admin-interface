@@ -2,8 +2,6 @@ app.view('relationpopuponewidget', ['$el'], function ($el) {
     "use strict";
 
     $el.find(".js-relationpopuponewidget-list").on('click', function(){
-        event.preventDefault();
-
         console.log($(this).data('url'));
 
         $.ajax({
@@ -13,25 +11,13 @@ app.view('relationpopuponewidget', ['$el'], function ($el) {
             contentType: 'application/json; charset=utf-8',
         })
         .done(function (result) {
-            /*
-            var html = "<table class=\"table table-bordered\">";
-            html += createHeader(result[0]);
-            $.each( result, function( key, value ) {
-                html += createLine(value);
-            });
-            html += "</table>"
-            */
-            var html = "<h1>TEST</h1>"
-            $el.find(".modal-body").html(html);
+            var html = relationPopupCreateBody(result, []);
+            relationPopupOpenConfirmDialog("Select", html, $el.addOneElementCallBack);
         })
         .fail(function (result) {
             $el.find(".modal-body").html("ERROR");
         });
-        /*
-        var val = window.prompt("JSON","1,TEST");
-        var splitval = val.split(',');
-        app.addOneElementCallBack(splitval[0], splitval[1]);
-        */
+
     });
 
     $el.find(".js-relationpopuponewidget-new").on('click', function(){

@@ -149,8 +149,9 @@ class GrailsAdminPluginBuilderService {
                 def val = object."${propertyName}"
                 if (val) {
                     def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
-
-                result << ["$propertyName":widget.getValueForJson()]
+                    result << ["$propertyName":widget.getValueForJson()]
+                } else {
+                    result << ["$propertyName":""]
                 }
             }
         } else {

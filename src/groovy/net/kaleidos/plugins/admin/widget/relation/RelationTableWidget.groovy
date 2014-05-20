@@ -1,10 +1,18 @@
 package net.kaleidos.plugins.admin.widget.relation
 
+import net.kaleidos.plugins.admin.widget.Widget
 import groovy.xml.MarkupBuilder
 
-class RelationTableWidget extends AbstractRelationPopup {
-    @Override
-    String doRenderWithParent(String uuid, Closure parent) {
+class RelationTableWidget extends Widget{
+
+    def grailsLinkGenerator
+
+    public RelationTableWidget() {
+        def ctx = grails.util.Holders.applicationContext
+        grailsLinkGenerator = ctx.grailsLinkGenerator
+    }
+
+    String render() {
         def writer = new StringWriter()
         def builder = new MarkupBuilder(writer)
 
@@ -21,19 +29,18 @@ class RelationTableWidget extends AbstractRelationPopup {
                 options[id] = element.toString()
             }
 
-            builder.div class:"relationtablewidget clearfix", {
+            builder.div class:"relationtablewidget clearfix", view:"relationtablewidget", {
                 options.each { key, value ->
                     input type: "hidden", name:htmlAttrs['name'], value: key
                 }
                 _elementsTable(delegate, domainClass, options, otherSideProperty.isOptional())
                 div {
-                    a class:"btn btn-default js-relationtablewidget-add", "data-url": listUrl, "data-toggle":"modal", "data-target":"#add-$uuid", href:"#", {
+                    a class:"btn btn-default js-relationtablewidget-add", "data-url": listUrl, href:"#", {
                         span class:"glyphicon glyphicon-plus", {
                             mkp.yield "Add"
                         }
                     }
                 }
-                parent(delegate)
             }
         }
 
@@ -56,14 +63,30 @@ class RelationTableWidget extends AbstractRelationPopup {
                     if (isOptional) {
                         td class: "list-actions", {
                             a class: "btn btn-default btn-sm js-relationtablewidget-delete", "data-value":key, "href":"#", {
-                                span class:"glyphicon glyphicon-trash" {
-                                    mkp.yield "Delete"
-                                }
+                                span class:"glyphicon glyphicon-trash", {mkp.yield " "}
+                                mkp.yield " Delete"
+
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    List<String> getAssets() {
+        [ 'js/admin/relationpopup.js',
+          'js/admin/relationtablewidget.js'
+        ]
+    }
+
+    def getValueForJson() {
+        def values = []
+        def domainClass = internalAttrs["relatedDomainClass"].clazz
+        value.each {id ->
+            def element = domainClass.get(id)
+            values << element.toString()
+        }
+        return values
     }
 }

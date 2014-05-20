@@ -1,10 +1,20 @@
 package net.kaleidos.plugins.admin.widget.relation
 
+import net.kaleidos.plugins.admin.widget.Widget
 import groovy.xml.MarkupBuilder
 
-class RelationPopupOneWidget extends AbstractRelationPopup {
+class RelationPopupOneWidget extends Widget{
+    def grailsLinkGenerator
+    def adminConfigHolder
+
+    public RelationPopupOneWidget() {
+        def ctx = grails.util.Holders.applicationContext
+        grailsLinkGenerator = ctx.grailsLinkGenerator
+        adminConfigHolder = ctx.adminConfigHolder
+    }
+
     @Override
-    String doRenderWithParent(String uuid, Closure parent) {
+    String render() {
         def writer = new StringWriter()
         def builder = new MarkupBuilder(writer)
 
@@ -16,12 +26,10 @@ class RelationPopupOneWidget extends AbstractRelationPopup {
         // Links
 
         builder.div class:"relation-popupone-widget ", view:"relationpopuponewidget", "data-method":"put", action:action, {
-            input type:'hidden', class:'js-one-rel-value', name:"${internalAttrs.propertyName}"
+            input type:'hidden', class:'js-one-rel-value', name:"${internalAttrs.propertyName}", value: value
 
             _detailLink(slug, relationObject, builder)
-            _buttons(slug, relationObject, uuid, delegate)
-
-            parent(delegate)
+            _buttons(slug, relationObject, delegate)
         }
         return writer.toString()
     }
@@ -41,7 +49,7 @@ class RelationPopupOneWidget extends AbstractRelationPopup {
         }
     }
 
-    def _buttons(slug, relationObject, uuid, builder) {
+    def _buttons(slug, relationObject, builder) {
         def listApi = ''
         if (slug) {
             listApi = grailsLinkGenerator.link(mapping:"grailsAdminApiAction", method:"get", params:[slug:slug])
@@ -50,21 +58,27 @@ class RelationPopupOneWidget extends AbstractRelationPopup {
         String display = (relationObject)?"block":"none"
 
         builder.div class:"btn-group", {
-            a href:"#", class:"btn btn-default js-relationpopuponewidget-list", "data-toggle":"modal", "data-url":listApi, "data-target":"#add-$uuid", {
-                span class:"glyphicon glyphicon-list", {
-                    mkp.yield "List"
-                }
+            a href:"#", class:"btn btn-default js-relationpopuponewidget-list", "data-toggle":"modal", "data-url":listApi, {
+                span class:"glyphicon glyphicon-list", { mkp.yield " "}
+                mkp.yield " List"
+
             }
             a href:"#", class:"btn btn-default js-relationpopuponewidget-new", {
-                span class:"glyphicon glyphicon-plus", {
-                    mkp.yield "New"
-                }
+                span class:"glyphicon glyphicon-plus", { mkp.yield " "}
+                mkp.yield " New"
+
             }
             a href:"#", class:"btn btn-default js-relationpopuponewidget-delete", style:"display:${display};",{
-                span class:"glyphicon glyphicon-trash", {
-                    mkp.yield "Delete"
-                }
+                span class:"glyphicon glyphicon-trash", { mkp.yield " "}
+                mkp.yield " Delete"
+
             }
         }
+    }
+
+    List<String> getAssets() {
+        [ 'js/admin/relationpopup.js',
+          'js/admin/relationpopuponewidget.js'
+        ]
     }
 }
