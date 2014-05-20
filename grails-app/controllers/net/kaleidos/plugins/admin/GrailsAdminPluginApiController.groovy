@@ -39,7 +39,7 @@ class GrailsAdminPluginApiController {
                 page = 1
             }
 
-            result = grailsAdminPluginGenericService.list(config.domainClass.clazz, (page -1) * ITEMS_BY_PAGE, ITEMS_BY_PAGE, params.sort,  params.sort_order)
+            result = grailsAdminPluginGenericService.list(config.domainClass.clazz, (page -1) * ITEMS_BY_PAGE as Long, ITEMS_BY_PAGE as Long, params.sort,  params.sort_order)
             renderedResult = grailsAdminPluginBuilderService.renderListAsJson(result)
         }
 

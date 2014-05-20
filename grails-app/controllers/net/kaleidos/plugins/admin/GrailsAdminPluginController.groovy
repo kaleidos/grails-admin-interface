@@ -35,8 +35,8 @@ class GrailsAdminPluginController {
             response.status = 404
             return
         }
-
-        def objs = grailsAdminPluginGenericService.list(domain.domainClass.clazz, (page -1) * ITEMS_BY_PAGE, ITEMS_BY_PAGE, params.sort,  params.sort_order)
+        println ">> $params"
+        def objs = grailsAdminPluginGenericService.list(domain.domainClass.clazz, (page -1) * ITEMS_BY_PAGE as Long, ITEMS_BY_PAGE as Long, params.sort?:'id',  params.sort_order?:'asc')
 
         if (!objs?.size() && page > 1) {
             redirect(mapping: 'list', params: [slug: slug, page: page - 1])
