@@ -44,7 +44,7 @@ class GrailsAdminPluginTagLib {
         if (attrs.createWidgetProperties instanceof Map) {
             createWidgetProperties = attrs.createWidgetProperties
         }
-
+        createWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
 
         out << grailsAdminPluginBuilderService.renderCreateFormFields(attrs.className, createWidgetProperties)
     }

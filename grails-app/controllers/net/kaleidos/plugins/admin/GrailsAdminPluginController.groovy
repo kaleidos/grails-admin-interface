@@ -97,4 +97,17 @@ class GrailsAdminPluginController {
         render view:'/grailsAdmin/add', model:model
     }
 
+
+    def addForm(String slug) {
+        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        if (!domain) {
+            response.status = 404
+            return
+        }
+        def model = [:]
+        model << [domain:domain]
+        model << [formType:"create"]
+        model << [className:domain.classFullName]
+        render template:'/grailsAdmin/addForm', model:model
+    }
 }

@@ -22,6 +22,7 @@ app.view('relationpopuponewidget', ['$el'], function ($el) {
 
     $el.find(".js-relationpopuponewidget-new").on('click', function(){
         event.preventDefault();
+        /*
         var val = window.prompt("JSON del elemento","{}");
         $.ajax({
             method: $el.data('method'),
@@ -36,6 +37,7 @@ app.view('relationpopuponewidget', ['$el'], function ($el) {
         .fail(function(result){
             alert(">> FAIL " + result);
         });
+        */
     });
 
     $el.find(".js-relationpopuponewidget-delete").on('click', function(){

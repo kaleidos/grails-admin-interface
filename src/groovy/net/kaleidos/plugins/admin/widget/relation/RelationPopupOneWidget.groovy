@@ -63,7 +63,7 @@ class RelationPopupOneWidget extends Widget{
                 mkp.yield " List"
 
             }
-            a href:"#", class:"btn btn-default js-relationpopuponewidget-new", {
+            a href:"#", class:"btn btn-default js-relationpopuponewidget-new", "data-toggle":"modal", "data-target":"#new-$uuid", {
                 span class:"glyphicon glyphicon-plus", { mkp.yield " "}
                 mkp.yield " New"
 
