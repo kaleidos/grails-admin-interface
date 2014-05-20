@@ -1,18 +1,8 @@
 package net.kaleidos.plugins.admin.widget.relation
 
-import net.kaleidos.plugins.admin.widget.Widget
 import groovy.xml.MarkupBuilder
 
 class RelationPopupOneWidget extends AbstractRelationPopup {
-    def grailsLinkGenerator
-    def adminConfigHolder
-
-    public RelationPopupOneWidget() {
-        def ctx = grails.util.Holders.applicationContext
-        grailsLinkGenerator = ctx.grailsLinkGenerator
-        adminConfigHolder = ctx.adminConfigHolder
-    }
-
     @Override
     String doRenderWithParent(String uuid, Closure parent) {
         def writer = new StringWriter()

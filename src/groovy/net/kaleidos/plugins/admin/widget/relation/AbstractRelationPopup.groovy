@@ -4,6 +4,15 @@ import net.kaleidos.plugins.admin.widget.Widget
 import groovy.xml.MarkupBuilder
 
 abstract class AbstractRelationPopup extends Widget {
+    def grailsLinkGenerator
+    def adminConfigHolder
+
+    public AbstractRelationPopup() {
+        def ctx = grails.util.Holders.applicationContext
+        grailsLinkGenerator = ctx.grailsLinkGenerator
+        adminConfigHolder = ctx.adminConfigHolder
+    }
+
     @Override
     String render() {
         def uuid =  UUID.randomUUID().toString()

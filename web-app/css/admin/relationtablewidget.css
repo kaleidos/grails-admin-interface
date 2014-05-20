@@ -3,14 +3,14 @@
     width: 100px;
 }
 
-.relationtablewidget .table {
+.relationtablewidget .elements-table {
     width: 70%;
     float: left;
     margin-right: 5%;
 }
 
 .relationtablewidget div {
-    float: left;
+    /* float: left; */
 }
 
 
