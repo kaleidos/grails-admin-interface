@@ -17,7 +17,10 @@ class GrailsAdminPluginGenericService {
 
     def saveDomain(Class<?> domainClass, Map params){
         def domainObj = domainClass.newInstance()
-        domainObj.properties = params
+        List properties = adminConfigHolder.getDomainConfig(domainClass).getProperties("create")
+        properties.each{key ->
+            _setValueByType(domainObj, domainClass, key, params["$key"])
+        }
         domainObj.save(failOnError:true)
         return domainObj
     }
@@ -103,11 +106,12 @@ class GrailsAdminPluginGenericService {
             }
 
             def cap = propertyName.capitalize()
-
-            def current = []
-            current.addAll(object."${propertyName}")
-            current.each {
-                object."removeFrom$cap"(it)
+            if (object."${propertyName}") {
+                def current = []
+                current.addAll(object."${propertyName}")
+                current.each {
+                    object."removeFrom$cap"(it)
+                }
             }
 
             domains.each{

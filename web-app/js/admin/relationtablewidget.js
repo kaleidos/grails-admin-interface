@@ -47,7 +47,13 @@ app.view('relationtablewidget', ['$el'], function ($el) {
             var optional = $el.find("table").data('optional');
 
             var newLine = $el.createRelationTableWidgetLine(detailUrl, objectId, objectText, optional);
-            $el.find("tbody").append(newLine)
+            var table = $el.find("tbody");
+            console.log(table);
+            if (table.size() == 0) {
+                table = $el.find("table");
+                console.log(table);
+            }
+            table.append(newLine);
 
             $el.prepend("<input type=\"hidden\" name=\"" + propertyName + "\"  value=\"" + escape(objectId) + "\" />")
         }
