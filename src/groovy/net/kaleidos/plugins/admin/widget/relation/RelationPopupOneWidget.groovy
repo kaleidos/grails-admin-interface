@@ -40,7 +40,7 @@ class RelationPopupOneWidget extends Widget{
             editLink = grailsLinkGenerator.link(mapping:"grailsAdminEdit", params:[slug:slug, id: (relationObject?.id)?:0])
         }
 
-        builder.a href:editLink, class:'js-one-rel-text', {
+        builder.a href:editLink, class:'js-one-rel-text', name:"${internalAttrs.propertyName}", {
             if (value) {
                 mkp.yield "${relationObject}".encodeAsHTML()
             } else {

@@ -20,8 +20,28 @@ app.view('relationpopuponewidget', ['$el'], function ($el) {
 
     });
 
-    $el.find(".js-relationpopuponewidget-new").on('click', function(){
+    var saveButton = $(".js-relationtablewidget-save-action");
+    saveButton.off('click');
+    saveButton.on('click', function(){
         event.preventDefault();
+        var modal = $(this).parents(".modal");
+        var form = modal.find("form");
+        var field = modal.data("field");
+
+        console.log(form);
+
+        form.off('grailsadmin:validated');
+        form.on('grailsadmin:validated', function (event, result) {
+            console.log(result);
+            form.trigger("reset");
+
+            modal.modal('toggle');
+
+            $(".js-one-rel-value[name='" + field  + "']").val(result['id']);
+            $(".js-one-rel-text[name='" + field  + "']").text(result['__text__']);
+        });
+
+        form.submit();
         /*
         var val = window.prompt("JSON del elemento","{}");
         $.ajax({

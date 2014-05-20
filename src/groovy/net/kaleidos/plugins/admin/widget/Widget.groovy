@@ -5,8 +5,10 @@ abstract class Widget {
     Map internalAttrs = [:]
     def value
 
-
     abstract String render()
+
+    String renderBeforeForm() {}
+    String renderAfterForm() {}
 
     def getValueForJson() {
         return value.toString()

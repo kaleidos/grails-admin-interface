@@ -36,6 +36,31 @@ class GrailsAdminPluginBuilderService {
         return html
     }
 
+    String renderBeforeForm(String className, Map createWidgetProperties=[:]){
+        return _genericRenderMethod("renderBeforeForm", 'create', className, createWidgetProperties)
+    }
+
+    String renderAfterForm(String className, Map createWidgetProperties=[:]){
+        return _genericRenderMethod("renderAfterForm", 'create', className, createWidgetProperties)
+    }
+
+    String _genericRenderMethod(String method, String formType, String className, Map widgetProperties){
+        def result = new StringBuilder()
+
+        def domainConfig = adminConfigHolder.getDomainConfig(className)
+        List properties = domainConfig.getProperties("create")
+        Map customWidgets = domainConfig.getCustomWidgets(formType)
+
+        properties.each { propertyName ->
+            def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName", widgetProperties)
+            def toRender = widget."$method"()
+
+            if (toRender) {
+                result << toRender
+            }
+        }
+        return result
+    }
 
     //list
 
@@ -172,14 +197,7 @@ class GrailsAdminPluginBuilderService {
         if (!formType || !className) {
             return
         }
-        def domainConfig
-
-        try {
-            domainConfig = adminConfigHolder.getDomainConfig(Class.forName(className, true, Thread.currentThread().contextClassLoader))
-        } catch (ClassNotFoundException e) {
-            // Sometimes Domain classes throws a ClassNotFoundException. We shoudl fall-back to the grails implementation
-            domainConfig = adminConfigHolder.getDomainConfig(grailsApplication.getClassForName(className))
-        }
+        def domainConfig = adminConfigHolder.getDomainConfig(className)
 
         if (domainConfig) {
             List properties = domainConfig.getProperties(formType)

@@ -1,5 +1,9 @@
 <%@ page defaultCodec="HTML" %>
 
+<gap:widgetBeforeForm
+    className="${domain.classFullName}"
+    disallowRelationships="${embedded}"/>
+
 <g:form view="formView" data-method="PUT" class="validate-form main-form" grailsadmin-remote="enabled" mapping="grailsAdminApiAction" params="[slug: domain.slug]">
     <gap:createFormFields
         className="${domain.classFullName}"
@@ -20,3 +24,7 @@
         </div>
     </g:if>
 </g:form>
+
+<gap:widgetAfterForm
+    className="${domain.classFullName}"
+    disallowRelationships="${embedded}"/>
