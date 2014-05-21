@@ -136,9 +136,6 @@ class GrailsAdminPluginWidgetService {
                 case Date:
                     widget = new DateInputWidget()
                     break
-                // case DateTime:
-                //     widget = new DateTimeInputWidget()
-                //     break
                 case Set:
                     widget = new RelationTableWidget()
                     break
