@@ -1,7 +1,9 @@
 language: groovy
+jdk: oraclejdk7
 
-script: ./grailsw refresh-dependencies --non-interactive
-    && ./grailsw test-app -coverage
+script:
+  - ./grailsw refresh-dependencies --non-interactive
+  - ./grailsw "test-app -coverage -xml"
 
 notifications:
   email:
@@ -12,4 +14,4 @@ notifications:
     on_failure: change
 
 after_success:
-  - coveralls
+  - ./grailsw coveralls

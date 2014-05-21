@@ -25,7 +25,9 @@ grails.project.dependency.resolution = {
         // uncomment to disable ehcache
         // excludes 'ehcache'
     }
+
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+
     repositories {
         grailsCentral()
         mavenLocal()
@@ -36,17 +38,17 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
+
     dependencies {
+        build 'org.apache.httpcomponents:httpcore:4.3.2'
+        build 'org.apache.httpcomponents:httpclient:4.3.2'
+        build 'org.apache.httpcomponents:httpmime:4.3.3'
     }
 
     plugins {
-        build(":release:3.0.1",
-              ":rest-client-builder:1.0.3") {
-            export = false
-        }
-
-        test (":code-coverage:1.2.7") {
-            export = false
-        }
+        build ":rest-client-builder:1.0.3", { export = false }
+        build ":release:3.0.1", { export = false }
+        build ':coveralls:0.1.1', { export = false }
+        test ":code-coverage:1.2.7", { export = false }
     }
 }
