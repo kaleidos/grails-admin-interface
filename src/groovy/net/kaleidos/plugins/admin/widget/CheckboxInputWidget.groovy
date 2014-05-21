@@ -12,10 +12,12 @@ class CheckboxInputWidget extends InputWidget{
         StringBuilder html = new StringBuilder()
         html.append("<input type=\"${inputType.encodeAsHTML()}\"")
         if (value) {
-            html.append(" value=\"${value.encodeAsHTML()}\"")
+            html.append(" checked='checked'")
         }
         htmlAttrs.each {key, value ->
-            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
+            if (key != "required") {
+                html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
+            }
         }
         html.append(">")
         html.append(text?text.encodeAsHTML():"")
