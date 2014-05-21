@@ -4,10 +4,10 @@ import grails.converters.JSON
 import grails.validation.ValidationException
 
 class GrailsAdminPluginApiController {
-    def objectDefinitionSource
     def adminConfigHolder
     def grailsAdminPluginGenericService
     def grailsAdminPluginBuilderService
+
     private static int ITEMS_BY_PAGE = 20
 
     def listDomains() {

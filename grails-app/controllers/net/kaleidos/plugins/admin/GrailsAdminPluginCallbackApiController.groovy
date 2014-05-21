@@ -5,7 +5,6 @@ import grails.validation.ValidationException
 import grails.converters.JSON
 
 class GrailsAdminPluginCallbackApiController {
-    def objectDefinitionSource
     def adminConfigHolder
     def grailsAdminPluginGenericService
 

@@ -7,15 +7,15 @@ class GrailsAdminPluginGenericService {
     def grailsAdminPluginWidgetService
     def adminConfigHolder
 
-    List listDomain(Class<?> domainClass){
+    List listDomain(Class domainClass){
         return domainClass.list()
     }
 
-    def retrieveDomain(Class<?> domainClass, Long id){
+    def retrieveDomain(Class domainClass, Long id){
         return domainClass.get(id)
     }
 
-    def saveDomain(Class<?> domainClass, Map params){
+    def saveDomain(Class domainClass, Map params){
         def domainObj = domainClass.newInstance()
         List properties = adminConfigHolder.getDomainConfig(domainClass).getProperties("create")
         properties.each{key ->
@@ -25,7 +25,7 @@ class GrailsAdminPluginGenericService {
         return domainObj
     }
 
-    def updateDomain(Class<?> domainClass, Long id, Map params){
+    def updateDomain(Class domainClass, Long id, Map params){
         def result = domainClass.get(id)
 
         if (!result) {
@@ -40,18 +40,18 @@ class GrailsAdminPluginGenericService {
         return result
     }
 
-    def list(Class<?> domainClass, Long offset = 0, Long limit = 10, String sort = 'id', String order = 'asc') {
+    def list(Class domainClass, Long offset = 0, Long limit = 10, String sort = 'id', String order = 'asc') {
         return domainClass.list(offset: offset,
                                 max: limit,
                                 sort: sort,
                                 order: order)
     }
 
-    def count(Class<?> domainClass) {
+    def count(Class domainClass) {
         return domainClass.count()
     }
 
-    Boolean deleteDomain(Class<?> domainClass, Long objectId){
+    Boolean deleteDomain(Class domainClass, Long objectId){
         def result = false
         def domainObj = domainClass.get(objectId)
         if (domainObj) {
@@ -62,7 +62,7 @@ class GrailsAdminPluginGenericService {
     }
 
 
-    void deleteRelatedDomain(Class<?> domainClass, Long objectId, String propertyName, Long objectId2){
+    void deleteRelatedDomain(Class domainClass, Long objectId, String propertyName, Long objectId2){
         def domainObj = domainClass.get(objectId)
         if (domainObj) {
             def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)
@@ -74,7 +74,7 @@ class GrailsAdminPluginGenericService {
         }
     }
 
-    void putRelatedDomain(Class<?> domainClass, Long objectId, String propertyName, Long objectId2){
+    void putRelatedDomain(Class domainClass, Long objectId, String propertyName, Long objectId2){
         def domainObj = domainClass.get(objectId)
         if (domainObj) {
             def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)

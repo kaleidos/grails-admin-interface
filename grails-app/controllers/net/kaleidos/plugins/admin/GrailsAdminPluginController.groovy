@@ -7,7 +7,6 @@ import grails.converters.JSON
 class GrailsAdminPluginController {
     static final int ITEMS_BY_PAGE = 20
 
-    def objectDefinitionSource
     def adminConfigHolder
     def grailsAdminPluginGenericService
 

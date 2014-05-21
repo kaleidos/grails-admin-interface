@@ -37,26 +37,20 @@ app.view('relationtablewidget', ['$el'], function ($el) {
 
 
     $el.addItem = function(objectId, objectText){
-        var selectedItem = $('.relationpopup-radio:checked');
-        if (selectedItem !== undefined) {
-            var val = selectedItem.val();
-            var txt = selectedItem.data('txt');
-            var detailUrl = $el.find("table").data('detailurl');
-            var propertyName = $el.find("table").data('property-name');
-            detailUrl = detailUrl.replace("0", objectId);
-            var optional = $el.find("table").data('optional');
+        var detailUrl = $el.find("table").data('detailurl');
+        var propertyName = $el.find("table").data('property-name');
+        detailUrl = detailUrl.replace("0", objectId);
+        var optional = $el.find("table").data('optional');
 
-            var newLine = $el.createRelationTableWidgetLine(detailUrl, objectId, objectText, optional);
-            var table = $el.find("tbody");
-            console.log(table);
-            if (table.size() == 0) {
-                table = $el.find("table");
-                console.log(table);
-            }
-            table.append(newLine);
+        var newLine = $el.createRelationTableWidgetLine(detailUrl, objectId, objectText, optional);
+        var table = $el.find("tbody");
 
-            $el.prepend("<input type=\"hidden\" name=\"" + propertyName + "\"  value=\"" + escape(objectId) + "\" />")
+        if (!table.length) {
+            table = $el.find("table");
         }
+        table.append(newLine);
+
+        $el.prepend("<input type=\"hidden\" name=\"" + propertyName + "\"  value=\"" + escape(objectId) + "\" />")
     };
 
     $el.createRelationTableWidgetLine = function (detailUrl, val, txt, optional) {
