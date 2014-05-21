@@ -17,36 +17,10 @@ class DomainConfig {
         }
     }
 
-    private _isTransient(Class clazz, String property) {
-        def field = null
-        def curClazz = clazz
-
-        String key = "${clazz}_${property}"
-
-        if (!transientPropertiesCache.containsKey(key)) {
-            while (curClazz && !field) {
-                try {
-                    field = curClazz.getDeclaredField(property)
-                } catch(java.lang.NoSuchFieldException e) {
-                    curClazz = curClazz.getSuperclass()
-                }
-            }
-            if (field) {
-                transientPropertiesCache.putIfAbsent(key, java.lang.reflect.Modifier.isTransient(field.modifiers))
-            } else {
-                transientPropertiesCache.putIfAbsent(key, false)
-            }
-        }
-        return transientPropertiesCache.get(key)
-
-    }
-
     List getProperties(String method) {
         def defaultExclude = ['id','version']
 
-        def result = domainClass.getProperties()
-            .findAll{ it.isPersistent() && !_isTransient(domainClass.clazz, it.name)}
-            .collect { it.name }
+        def result = domainClass.getPersistentProperties().collect { it.name }
 
         if (includes[method]) {
             result = includes[method].findAll { result.contains(it) }

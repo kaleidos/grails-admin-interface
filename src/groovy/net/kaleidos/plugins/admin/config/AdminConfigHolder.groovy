@@ -111,15 +111,9 @@ class AdminConfigHolder {
     }
 
     public DomainConfig getDomainConfigForProperty(Class objClass, String property) {
-        def field = objClass.getDeclaredFields().find { it.name == property }
-
-        if (!field && objClass.getSuperclass() && objClass != Object.class) {
-            // check superclass
-            return getDomainConfigForProperty(objClass.getSuperclass(), property)
-        }
-
-        def propertyClass = field?.type
-        return getDomainConfig(propertyClass)
+        def ownerDomainClass = getDomainConfig(objClass).domainClass
+        def field = ownerDomainClass.getPersistentProperties().find { it.name == property }
+        return getDomainConfig(field.type)
     }
 
     public DomainConfig getDomainConfigBySlug(String slug) {
