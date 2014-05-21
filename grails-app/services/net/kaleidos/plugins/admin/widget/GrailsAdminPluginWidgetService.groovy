@@ -70,7 +70,7 @@ class GrailsAdminPluginWidgetService {
                 throw new RuntimeException("Class $customWidget not found or not implemented")
             }
         } else {
-            widget = _getDefaultWidgetForType(property.getType(), constraints)
+            widget = _getDefaultWidgetForProperty(property, constraints)
         }
 
         widget.internalAttrs["grailsDomainClass"] = grailsDomainClass
@@ -112,10 +112,11 @@ class GrailsAdminPluginWidgetService {
 
 
 
-    Widget _getDefaultWidgetForType(def type, def constraints){
+    Widget _getDefaultWidgetForProperty(def property, def constraints){
 
         def widget
         def constraintsClasses = constraints*.class
+        def type = property.type
 
         if (InListConstraint.class in constraintsClasses){
             widget = new SelectWidget()
@@ -136,11 +137,18 @@ class GrailsAdminPluginWidgetService {
                 case Date:
                     widget = new DateInputWidget()
                     break
+                case Boolean:
+                    widget = new CheckboxInputWidget()
+                    break
                 case File:
                     widget = new LabelWidget()
                     break
-                case Set:
-                    widget = new RelationTableWidget()
+                case Collection:
+                    if (property.getOtherSide()) {
+                        widget = new RelationTableWidget()
+                    } else {
+                        widget = new LabelWidget()
+                    }
                     break
                 default:
                     //It is another domain class?
