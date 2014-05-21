@@ -12,7 +12,7 @@ abstract class InputWidget extends Widget{
 
         def attrs = htmlAttrs.clone()
         attrs << ["type": inputType]
-        attrs << ["value": value.encodeAsHTML()]
+        attrs << ["value": value?value.encodeAsHTML():""]
 
         builder.div {
             input(attrs)
