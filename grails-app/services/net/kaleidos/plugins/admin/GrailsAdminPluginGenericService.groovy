@@ -127,6 +127,8 @@ class GrailsAdminPluginGenericService {
             }
         } else if (property.type == Date) {
             object."$propertyName" =  Date.parse("MM/dd/yyyy", val)
+        } else if (property.type == File) {
+            //Do nothing
         } else {
             object."$propertyName" =   val
         }

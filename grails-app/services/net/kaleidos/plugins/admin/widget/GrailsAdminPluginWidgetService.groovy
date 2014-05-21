@@ -132,9 +132,12 @@ class GrailsAdminPluginWidgetService {
                     } else {
                         widget = new TextInputWidget()
                     }
-                break
+                    break
                 case Date:
                     widget = new DateInputWidget()
+                    break
+                case File:
+                    widget = new LabelWidget()
                     break
                 case Set:
                     widget = new RelationTableWidget()
