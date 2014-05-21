@@ -90,25 +90,27 @@ function addJsClass() {
                 
 
 <h2 id="domainConfig">3.2 Per Domain Configuration</h2>
-<h4>Domains list</h4><p class="paragraph"/>By default the admin plugin doesn't manage any domains inside your application.<p class="paragraph"/>You should add the domains that will be managed by the admin-plugin:<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#123;
-    <span class="java&#45;quote">"conferences.Room"</span>()
-    <span class="java&#45;quote">"conferences.Attendee"</span>()
-    <span class="java&#45;quote">"conferences.Conference"</span>()
-&#125;</pre></div><p class="paragraph"/>This will enable the plugin to manage those three entities.<p class="paragraph"/>You can add custom configuration to the entries in the same DSL<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#123;
-    &#8230;
-    <span class="java&#45;quote">"conferences.Conference"</span> &#123;
-        list: &#91;excludes: &#91;'startDate', 'endDate'&#93;&#93;,
-        show: &#91;excludes: &#91;'startDate', 'endDate'&#93;&#93;,
-        edit: &#91;excludes: &#91;'startDate', 'endDate'&#93;&#93;,
-    &#125;
-&#125;</pre></div><p class="paragraph"/>Or you can externalize this configuration to an external "Admin file"<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> conferences<p class="paragraph"/>class ConferenceAdmin &#123;
-    <span class="java&#45;keyword">static</span> options = &#91;
-        list: &#91;excludes: &#91;'startDate', 'endDate'&#93;&#93;,
-        show: &#91;excludes: &#91;'startDate', 'endDate'&#93;&#93;,
-        edit: &#91;excludes: &#91;'startDate', 'endDate'&#93;&#93;,
-    &#93;
-&#125;</pre></div>
-
+You can configure the administration screens with a specific DSL that can be configure either in your
+Config.groovy or in classes of type "Admin" that also allows the redefinition of some methods.<p class="paragraph"/><h3>Configuration on Config.groovy file</h3><p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
+    create includes: &#91;<span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"description"</span>, <span class="java&#45;quote">"dateCreated"</span>, <span class="java&#45;quote">"endDate"</span>&#93;,
+           customWidgets: &#91;<span class="java&#45;quote">"name"</span>: <span class="java&#45;quote">"test.MyTestWidget"</span>&#93;
+&#125;</pre></div><p class="paragraph"/><h3>Configuration on "Admin" entities</h3><p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> test<p class="paragraph"/>class TestAdmin &#123;
+    <span class="java&#45;keyword">static</span> options = &#123;
+        create includes: &#91;<span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"description"</span>, <span class="java&#45;quote">"dateCreated"</span>, <span class="java&#45;quote">"endDate"</span>&#93;,
+               customWidgets: &#91;<span class="java&#45;quote">"name"</span>: <span class="java&#45;quote">"test.MyTestWidget"</span>&#93;
+    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>Then you should associate your admin class with the domain entity that manage.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = <span class="java&#45;quote">"test.TestAdmin"</span></pre></div><p class="paragraph"/><h4>Include properties</h4><p class="paragraph"/>You can select which properties the administration will display on a specific operation.<p class="paragraph"/>The order will be preserved in the form.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
+    list includes: &#91;<span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"description"</span>, <span class="java&#45;quote">"dateCreated"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
+    create includes: &#91;<span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"description"</span>&#93;
+    edit includes: &#91;<span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"description"</span>&#93;
+&#125;</pre></div><p class="paragraph"/>
+<h4>Exclude Properties</h4><p class="paragraph"/>You can customize which properties will be exluded from the administration screens.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
+    list excludes: &#91;<span class="java&#45;quote">"startDate"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
+    create excludes: &#91;<span class="java&#45;quote">"startDate"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
+    edit excludes: &#91;<span class="java&#45;quote">"startDate"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
+&#125;</pre></div><p class="paragraph"/><h4>Custom widgets</h4><p class="paragraph"/>For some properties the default editor/renderer may not be enough. You can customize this behaviour
+writing your own widget. Further documentation on the "widgets" sections.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
+    edit customWidgets: &#91;<span class="java&#45;quote">"name"</span>: <span class="java&#45;quote">"test.MyTestWidget"</span>&#93;
+&#125;</pre></div><p class="paragraph"/>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
