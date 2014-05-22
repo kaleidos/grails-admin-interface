@@ -10,6 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class TextInputWidgetSpec extends Specification {
+    @Shared
+    def slurper
+
+    void setupSpec() {
+        def parser = new org.cyberneko.html.parsers.SAXParser()
+        parser.setFeature('http://xml.org/sax/features/namespaces', false)
+        slurper = new XmlSlurper(parser)
+    }
 
     void setup() {
         Object.metaClass.encodeAsHTML = {
@@ -24,9 +32,12 @@ class TextInputWidgetSpec extends Specification {
 
         when:
             def html = textInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"text\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "text"
+            result.BODY.INPUT.@value.text() == ""
     }
 
     void 'create input text with value without attribs'() {
@@ -35,9 +46,13 @@ class TextInputWidgetSpec extends Specification {
 
         when:
             def html = textInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"text\" value=\"${value.encodeAsHTML()}\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "text"
+            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+
         where:
             value = "<script>alert(1234)</script>"
     }
@@ -48,13 +63,18 @@ class TextInputWidgetSpec extends Specification {
 
         when:
             def html = textInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"text\" size=\"10\" name=\"test\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "text"
+            result.BODY.INPUT.@size.text() == "10"
+            result.BODY.INPUT.@name.text() == "test"
+            result.BODY.INPUT.@value.text() == ""
+
         where:
             attrs = ['size':10, 'name': 'test']
     }
-
 
     void 'create input text with value and attribs'() {
         setup:
@@ -62,9 +82,15 @@ class TextInputWidgetSpec extends Specification {
 
         when:
             def html = textInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"text\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "text"
+            result.BODY.INPUT.@size.text() == "10"
+            result.BODY.INPUT.@name.text() == "test"
+            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+
         where:
             value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'test']

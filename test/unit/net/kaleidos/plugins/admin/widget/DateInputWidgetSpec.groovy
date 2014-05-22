@@ -10,6 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class DateInputWidgetSpec extends Specification {
+    @Shared
+    def slurper
+
+    void setupSpec() {
+        def parser = new org.cyberneko.html.parsers.SAXParser()
+        parser.setFeature('http://xml.org/sax/features/namespaces', false)
+        slurper = new XmlSlurper(parser)
+    }
 
     void setup() {
         Object.metaClass.encodeAsHTML = {
@@ -24,9 +32,11 @@ class DateInputWidgetSpec extends Specification {
 
         when:
             def html = textInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"date\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "date"
     }
 
 
@@ -36,9 +46,12 @@ class DateInputWidgetSpec extends Specification {
 
         when:
             def html = textInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"date\" value=\"${value.encodeAsHTML()}\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "date"
+            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
 
         where:
             value = "<script>alert(1234)</script>"
@@ -50,9 +63,13 @@ class DateInputWidgetSpec extends Specification {
 
         when:
             def html = textInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"date\" size=\"10\" name=\"test\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "date"
+            result.BODY.INPUT.@name.text() == "test"
+            result.BODY.INPUT.@size.text() == "10"
 
         where:
             attrs = ['size':10, 'name': 'test']
@@ -65,9 +82,13 @@ class DateInputWidgetSpec extends Specification {
 
         when:
             def html = textInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"date\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "date"
+            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+            result.BODY.INPUT.@size.text() == "10"
 
         where:
             value = "<script>alert(1234)</script>"

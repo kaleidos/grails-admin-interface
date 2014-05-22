@@ -10,6 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class EmailInputWidgetSpec extends Specification {
+    @Shared
+    def slurper
+
+    void setupSpec() {
+        def parser = new org.cyberneko.html.parsers.SAXParser()
+        parser.setFeature('http://xml.org/sax/features/namespaces', false)
+        slurper = new XmlSlurper(parser)
+    }
 
     void setup() {
         Object.metaClass.encodeAsHTML = {
@@ -24,9 +32,11 @@ class EmailInputWidgetSpec extends Specification {
 
         when:
             def html = emailInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"email\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "email"
     }
 
     void 'create input email with value without attribs'() {
@@ -35,9 +45,13 @@ class EmailInputWidgetSpec extends Specification {
 
         when:
             def html = emailInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"email\" value=\"${value.encodeAsHTML()}\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "email"
+            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+
         where:
             value = "<script>alert(1234)</script>"
     }
@@ -48,9 +62,14 @@ class EmailInputWidgetSpec extends Specification {
 
         when:
             def html = emailInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"email\" size=\"10\" name=\"test\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "email"
+            result.BODY.INPUT.@size.text() == "10"
+            result.BODY.INPUT.@name.text() == "test"
+
         where:
             attrs = ['size':10, 'name': 'test']
     }
@@ -62,9 +81,15 @@ class EmailInputWidgetSpec extends Specification {
 
         when:
             def html = emailInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"email\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "email"
+            result.BODY.INPUT.@size.text() == "10"
+            result.BODY.INPUT.@name.text() == "test"
+            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+
         where:
             value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'test']

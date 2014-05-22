@@ -8,11 +8,15 @@ import spock.lang.*
 
 import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
-
-
-//value << ["1234", "<script>alert(0)</script>"]
-
 class CheckboxInputWidgetSpec extends Specification {
+    @Shared
+    def slurper
+
+    void setupSpec() {
+        def parser = new org.cyberneko.html.parsers.SAXParser()
+        parser.setFeature('http://xml.org/sax/features/namespaces', false)
+        slurper = new XmlSlurper(parser)
+    }
 
     void setup() {
         Object.metaClass.encodeAsHTML = {
@@ -27,9 +31,11 @@ class CheckboxInputWidgetSpec extends Specification {
 
         when:
             def html = checkboxInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"checkbox\"></input>"
+            result.BODY.INPUT != null
+            result.BODY.INPUT.@type.text() == "checkbox"
     }
 
     @Unroll
@@ -39,9 +45,12 @@ class CheckboxInputWidgetSpec extends Specification {
 
         when:
             def html = checkboxInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"checkbox\" value=\"${value.encodeAsHTML()}\">${text?text.encodeAsHTML():''}</input>"
+            result.BODY.INPUT != null
+            result.BODY.INPUT.@type.text() == "checkbox"
+            result.BODY.INPUT.@checked.text() == "checked"
 
         where:
             value = "<script>alert(1234)</script>"
@@ -55,9 +64,11 @@ class CheckboxInputWidgetSpec extends Specification {
 
         when:
             def html = checkboxInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"checkbox\">${text?text.encodeAsHTML():''}</input>"
+            result.BODY.INPUT != null
+            result.BODY.INPUT.@type.text() == "checkbox"
 
         where:
             value = null
@@ -71,9 +82,13 @@ class CheckboxInputWidgetSpec extends Specification {
 
         when:
             def html = checkboxInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"checkbox\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\">${text?text.encodeAsHTML():''}</input>"
+            result.BODY.INPUT != null
+            result.BODY.INPUT.@type.text() == "checkbox"
+            result.BODY.INPUT.@name.text() == "test"
+            result.BODY.INPUT.@size.text() == "10"
 
         where:
             attrs = ['size':10, 'name': 'test']
@@ -88,9 +103,13 @@ class CheckboxInputWidgetSpec extends Specification {
 
         when:
             def html = checkboxInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"checkbox\" size=\"10\" name=\"test\">${text?text.encodeAsHTML():''}</input>"
+            result.BODY.INPUT != null
+            result.BODY.INPUT.@type.text() == "checkbox"
+            result.BODY.INPUT.@name.text() == "test"
+            result.BODY.INPUT.@size.text() == "10"
 
         where:
             attrs = ['size':10, 'name': 'test']

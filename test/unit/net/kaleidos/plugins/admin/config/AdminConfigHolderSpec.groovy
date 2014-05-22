@@ -101,7 +101,6 @@ class AdminConfigHolderSpec extends Specification {
             ]
     }
 
-    @IgnoreRest
     void "Obtain configuration (Domain closure configuration)"(){
         setup: "configuration"
             def config = new ConfigObject()
@@ -131,7 +130,6 @@ class AdminConfigHolderSpec extends Specification {
 
     }
 
-    @IgnoreRest
     void "Obtain configuration (Domain admin file)"(){
         setup: "configuration"
             def config = new ConfigObject()
@@ -198,31 +196,6 @@ class AdminConfigHolderSpec extends Specification {
 
         where:
             testDomains = [ "NoExistsDomain" ]
-    }
-
-    void "Test changes in the URL mappings"() {
-        setup:
-            def configHolder = new AdminConfigHolder()
-            configHolder.grailsApplication = grailsApplication
-
-        and: "New url mappings holder"
-            def evaluator = new DefaultUrlMappingEvaluator((WebApplicationContext)null);
-            def mappingList = evaluator.evaluateMappings(GrailsAdminUrlMappings.getDynamicUrlMapping(GrailsAdminUrlMappings.INTERNAL_URI))
-            def urlMappingsHolder = new DefaultUrlMappingsHolder(mappingList)
-
-        and: "Spring configuration"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
-
-        when:
-            configHolder.initialize()
-
-        then:
-            urlMappingsHolder.match("/admin") != null
-            urlMappingsHolder.match("/admin/api/testDomain") != null
-            urlMappingsHolder.match("/admin/api/testDomain/1") != null
-            urlMappingsHolder.match("/admin/web/testDomain") != null
-            urlMappingsHolder.match("/admin/web/testDomain/1") != null
     }
 
     def "Get all domain names"() {

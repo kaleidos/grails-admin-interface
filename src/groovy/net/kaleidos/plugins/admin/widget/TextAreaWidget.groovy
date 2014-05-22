@@ -1,19 +1,18 @@
 package net.kaleidos.plugins.admin.widget
 
+import groovy.xml.MarkupBuilder
+
 class TextAreaWidget extends Widget {
 
     @Override
     String render() {
-        StringBuilder html = new StringBuilder()
-        html.append("<textarea")
-        htmlAttrs.each {key, value ->
-            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
+        def writer = new StringWriter()
+        def builder = new MarkupBuilder(writer)
+
+        builder.textarea htmlAttrs, {
+            mkp.yield "$value"
         }
-        html.append(">")
-        if (value) {
-            html.append("${value.encodeAsHTML()}")
-        }
-        html.append("</textarea>")
-        return html
+
+        return writer
     }
 }

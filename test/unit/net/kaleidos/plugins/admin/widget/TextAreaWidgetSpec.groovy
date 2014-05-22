@@ -10,7 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class TextAreaWidgetSpec extends Specification {
+    @Shared
+    def slurper
 
+    void setupSpec() {
+        def parser = new org.cyberneko.html.parsers.SAXParser()
+        parser.setFeature('http://xml.org/sax/features/namespaces', false)
+        slurper = new XmlSlurper(parser)
+    }
 
     void setup() {
         Object.metaClass.encodeAsHTML = {
@@ -25,9 +32,10 @@ class TextAreaWidgetSpec extends Specification {
 
         when:
             def html = textAreaWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<textarea></textarea>"
+            result.BODY.TEXTAREA.size() == 1
     }
 
     void 'create text area with value without attribs'() {
@@ -36,9 +44,11 @@ class TextAreaWidgetSpec extends Specification {
 
         when:
             def html = textAreaWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<textarea>${value.encodeAsHTML()}</textarea>"
+            result.BODY.TEXTAREA.size() == 1
+            result.BODY.TEXTAREA.text() == value
 
         where:
             value = "<script>alert(1234)</script>"
@@ -50,9 +60,12 @@ class TextAreaWidgetSpec extends Specification {
 
         when:
             def html = textAreaWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<textarea rows=\"4\" cols=\"50\"></textarea>"
+            result.BODY.TEXTAREA.size() == 1
+            result.BODY.TEXTAREA.@rows == "4"
+            result.BODY.TEXTAREA.@cols == "50"
 
         where:
             attrs = ['rows':4, 'cols':50]
@@ -65,9 +78,14 @@ class TextAreaWidgetSpec extends Specification {
 
         when:
             def html = textAreaWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<textarea rows=\"4\" cols=\"50\">${value.encodeAsHTML()}</textarea>"
+            result.BODY.TEXTAREA.size() == 1
+            result.BODY.TEXTAREA.@rows == "4"
+            result.BODY.TEXTAREA.@cols == "50"
+            result.BODY.TEXTAREA.text() == value
+
         where:
             value = "<script>alert(1234)</script>"
             attrs = ['rows':4, 'cols':50]

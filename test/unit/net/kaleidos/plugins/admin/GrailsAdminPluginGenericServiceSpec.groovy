@@ -6,6 +6,7 @@ import grails.test.mixin.domain.DomainClassUnitTestMixin
 
 import spock.lang.Specification
 import spock.lang.Unroll
+import spock.lang.Shared
 
 import admin.test.TestDomain
 import admin.test.TestDomainRelation
@@ -18,11 +19,34 @@ import net.kaleidos.plugins.admin.config.AdminConfigHolder
 import net.kaleidos.plugins.admin.config.DomainConfig
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 
+import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
+
 @TestFor(GrailsAdminPluginGenericService)
 @TestMixin(DomainClassUnitTestMixin)
 @ConfineMetaClassChanges([GrailsAdminPluginGenericService])
 @Mock([TestDomain, TestDomainRelation])
 class GrailsAdminPluginGenericServiceSpec extends Specification {
+    @Shared
+    def adminConfigHolder
+
+    def setupSpec() {
+        def grailsApplication = new DefaultGrailsApplication()
+        grailsApplication.configureLoadedClasses([
+            admin.test.TestDomain.class,
+        ] as Class[])
+
+        def config = new ConfigObject()
+        config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
+
+        adminConfigHolder = new AdminConfigHolder(config)
+        adminConfigHolder.grailsApplication = grailsApplication
+        adminConfigHolder.initialize()
+    }
+
+    def setup() {
+        service.adminConfigHolder = adminConfigHolder
+    }
+
     void "List objects of a domain without filters"() {
         setup:
             mockDomain(TestDomain, [
@@ -110,22 +134,6 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
         setup:
             mockDomain(TestDomain,[
                 [id: 1, name: 'The Matrix', year: 2001]])
-
-            service.metaClass._getValueByType = { a,b,c -> 3 }
-
-            def adminConfigHolder = Mock(AdminConfigHolder)
-            def domainConfig = Mock(DomainConfig)
-            domainConfig.getProperties(_) >> {["name", "year"]}
-            adminConfigHolder.getDomainConfig(_) >> {
-                return domainConfig
-            }
-            service.adminConfigHolder = adminConfigHolder
-
-
-
-            def grailsAdminPluginWidgetService = Mock(GrailsAdminPluginWidgetService)
-            grailsAdminPluginWidgetService.getGrailsDomainClass(_) >> { return new DefaultGrailsDomainClass(TestDomain.class) }
-            service.grailsAdminPluginWidgetService = grailsAdminPluginWidgetService
 
         when:
             def result = service.updateDomain(TestDomain, 1, ['name':'The Matrix', 'year': 2014])

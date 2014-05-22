@@ -10,6 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class HiddenInputWidgetSpec extends Specification {
+    @Shared
+    def slurper
+
+    void setupSpec() {
+        def parser = new org.cyberneko.html.parsers.SAXParser()
+        parser.setFeature('http://xml.org/sax/features/namespaces', false)
+        slurper = new XmlSlurper(parser)
+    }
 
     void setup() {
         Object.metaClass.encodeAsHTML = {
@@ -24,9 +32,11 @@ class HiddenInputWidgetSpec extends Specification {
 
         when:
             def html = hiddenInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"hidden\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "hidden"
     }
 
     void 'create input hidden with value without attribs'() {
@@ -35,9 +45,13 @@ class HiddenInputWidgetSpec extends Specification {
 
         when:
             def html = hiddenInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"hidden\" value=\"${value.encodeAsHTML()}\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "hidden"
+            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+
         where:
             value = "<script>alert(1234)</script>"
     }
@@ -48,9 +62,14 @@ class HiddenInputWidgetSpec extends Specification {
 
         when:
             def html = hiddenInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"hidden\" size=\"10\" name=\"test\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "hidden"
+            result.BODY.INPUT.@size.text() == "10"
+            result.BODY.INPUT.@name.text() == "test"
+
         where:
             attrs = ['size':10, 'name': 'test']
     }
@@ -62,9 +81,15 @@ class HiddenInputWidgetSpec extends Specification {
 
         when:
             def html = hiddenInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"hidden\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"test\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "hidden"
+            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+            result.BODY.INPUT.@size.text() == "10"
+            result.BODY.INPUT.@name.text() == "test"
+
         where:
             value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'test']

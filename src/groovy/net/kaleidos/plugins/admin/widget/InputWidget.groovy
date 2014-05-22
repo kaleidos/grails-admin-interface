@@ -14,9 +14,7 @@ abstract class InputWidget extends Widget{
         attrs << ["type": inputType]
         attrs << ["value": value?value.encodeAsHTML():""]
 
-        builder.div {
-            input(attrs)
-        }
+        builder.input(attrs)
 
         return writer
     }

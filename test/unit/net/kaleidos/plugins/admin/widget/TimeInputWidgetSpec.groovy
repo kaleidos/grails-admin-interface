@@ -10,7 +10,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class TimeInputWidgetSpec extends Specification {
+    @Shared
+    def slurper
 
+    void setupSpec() {
+        def parser = new org.cyberneko.html.parsers.SAXParser()
+        parser.setFeature('http://xml.org/sax/features/namespaces', false)
+        slurper = new XmlSlurper(parser)
+    }
     void setup() {
         Object.metaClass.encodeAsHTML = {
             def encoder = new HTMLCodec().getEncoder()
@@ -24,9 +31,11 @@ class TimeInputWidgetSpec extends Specification {
 
         when:
             def html = timeInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"time\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "time"
     }
 
 
@@ -36,9 +45,13 @@ class TimeInputWidgetSpec extends Specification {
 
         when:
             def html = timeInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"time\" value=\"${value.encodeAsHTML()}\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "time"
+            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+
         where:
             value = "<script>alert(1234)</script>"
     }
@@ -49,9 +62,14 @@ class TimeInputWidgetSpec extends Specification {
 
         when:
             def html = timeInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"time\" size=\"10\" name=\"time\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "time"
+            result.BODY.INPUT.@size.text() == "10"
+            result.BODY.INPUT.@name.text() == "time"
+
         where:
             attrs = ['size':10, 'name': 'time']
     }
@@ -63,9 +81,15 @@ class TimeInputWidgetSpec extends Specification {
 
         when:
             def html = timeInputWidget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<input type=\"time\" value=\"${value.encodeAsHTML()}\" size=\"10\" name=\"time\" />"
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "time"
+            result.BODY.INPUT.@size.text() == "10"
+            result.BODY.INPUT.@name.text() == "time"
+            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+
         where:
             value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'time']

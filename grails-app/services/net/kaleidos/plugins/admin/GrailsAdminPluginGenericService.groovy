@@ -17,9 +17,16 @@ class GrailsAdminPluginGenericService {
 
     def saveDomain(Class domainClass, Map params){
         def domainObj = domainClass.newInstance()
-        List properties = adminConfigHolder.getDomainConfig(domainClass).getProperties("create")
+
+        def domainConfig = adminConfigHolder.getDomainConfig(domainClass)
+        if (!domainConfig) {
+            throw new RuntimeException("Domain not configured for ${domainClass.name}")
+        }
+
+        List properties = domainConfig.getProperties("create")
+
         properties.each{key ->
-            _setValueByType(domainObj, domainClass, key, params["$key"])
+            _setValueByType(domainObj, domainConfig, key, params["$key"])
         }
         domainObj.save(failOnError:true)
         return domainObj
@@ -31,9 +38,10 @@ class GrailsAdminPluginGenericService {
         if (!result) {
             throw new RuntimeException("Object with id $id doesn't exist")
         }
-        List properties = adminConfigHolder.getDomainConfig(domainClass).getProperties("edit")
+        def domainConfig = adminConfigHolder.getDomainConfig(domainClass)
+        List properties = domainConfig.getProperties("edit")
         properties.each{key ->
-            _setValueByType(result, domainClass, key, params["$key"])
+            _setValueByType(result, domainConfig, key, params["$key"])
         }
         // Need to throw validation exception
         result.save(failOnError:true)
@@ -89,8 +97,8 @@ class GrailsAdminPluginGenericService {
         }
     }
 
-    def _setValueByType(def object, def domainClass, def propertyName, def val){
-        def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)
+    def _setValueByType(def object, def domainConfig, def propertyName, def val){
+        def property = domainConfig.domainClass.getPersistentProperty(propertyName)
 
         if (property.isOneToMany()){
             def domains = []
