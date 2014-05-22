@@ -60,7 +60,7 @@ class GrailsAdminPluginWidgetService {
             throw new RuntimeException("$propertyName not exists in ${grailsDomainClass}")
         }
 
-        def constraints = (grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints())?:[]
+        def constraints = (grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints())?:[:]
 
         if (customWidget) {
             try {
@@ -70,7 +70,7 @@ class GrailsAdminPluginWidgetService {
                 throw new RuntimeException("Class $customWidget not found or not implemented")
             }
         } else {
-            widget = _getDefaultWidgetForProperty(property, constraints)
+            widget = GrailsAdminPluginDefaultWidgetSelector.getDefaultWidgetForProperty(property, constraints)
         }
 
         widget.internalAttrs["grailsDomainClass"] = grailsDomainClass
@@ -109,60 +109,6 @@ class GrailsAdminPluginWidgetService {
         return widget
     }
 
-
-
-
-    Widget _getDefaultWidgetForProperty(def property, def constraints){
-
-        def widget
-        def constraintsClasses = constraints*.class
-        def type = property.type
-
-        if (InListConstraint.class in constraintsClasses){
-            widget = new SelectWidget()
-        } else {
-            switch ( type ) {
-                case [Byte, Short, Integer, Long, Float, Double]:
-                    widget = new NumberInputWidget()
-                    break
-                case [Character, String]:
-                    if (EmailConstraint.class in constraintsClasses) {
-                        widget = new EmailInputWidget()
-                    } else if (UrlConstraint.class in constraintsClasses){
-                        widget = new UrlInputWidget()
-                    } else {
-                        widget = new TextInputWidget()
-                    }
-                    break
-                case Date:
-                    widget = new DateInputWidget()
-                    break
-                case Boolean:
-                    widget = new CheckboxInputWidget()
-                    break
-                case File:
-                    widget = new LabelWidget()
-                    break
-                case Collection:
-                    if (property.getOtherSide()) {
-                        widget = new RelationTableWidget()
-                    } else {
-                        widget = new LabelWidget()
-                    }
-                    break
-                default:
-                    //It is another domain class?
-                    def domain = getGrailsDomainClass(type)
-                    if (domain) {
-                        widget = new RelationPopupOneWidget()
-                        //widget.internalAttrs["relatedDomainClass"] = domain
-                    } else {
-                        widget = new TextInputWidget()
-                    }
-            }
-        }
-        return widget
-    }
 
     void _setAttrsFromConstraints(def widget, def constraints){
         def attrs = [:]

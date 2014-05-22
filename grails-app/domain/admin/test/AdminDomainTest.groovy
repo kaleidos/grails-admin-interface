@@ -11,6 +11,9 @@ class AdminDomainTest{
     Integer year
     String country
     Date birthday
+    Boolean ok
+    File photo
+    Locale locale
 //    DateTime lastAccess
 
     static mapping = {
@@ -26,6 +29,9 @@ class AdminDomainTest{
         web nullable:true, url:true
         year nullable:true, range:2014..2020
         country nullable:true, inList: ["Canada", "Spain", "USA"]
+        ok nullable:true
+        photo nullable:true
+        locale nullable:true
     }
 
 
