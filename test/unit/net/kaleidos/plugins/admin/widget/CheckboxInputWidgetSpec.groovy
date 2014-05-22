@@ -41,7 +41,7 @@ class CheckboxInputWidgetSpec extends Specification {
     @Unroll
     void 'create input checkbox with value and text:#text and without attribs'() {
         setup:
-            def checkboxInputWidget = new CheckboxInputWidget(value:value, text:text)
+            def checkboxInputWidget = new CheckboxInputWidget(value:value, internalAttrs:['text':text])
 
         when:
             def html = checkboxInputWidget.render()
@@ -60,7 +60,7 @@ class CheckboxInputWidgetSpec extends Specification {
     @Unroll
     void 'create input checkbox without value and text:#text and without attribs'() {
         setup:
-            def checkboxInputWidget = new CheckboxInputWidget(value:value, text:text)
+            def checkboxInputWidget = new CheckboxInputWidget(value:value, internalAttrs:['text':text])
 
         when:
             def html = checkboxInputWidget.render()
@@ -78,7 +78,7 @@ class CheckboxInputWidgetSpec extends Specification {
     @Unroll
     void 'create input checkbox with value and text:#text and with attribs'() {
         setup:
-            def checkboxInputWidget = new CheckboxInputWidget(value:value, text:text, htmlAttrs:attrs)
+            def checkboxInputWidget = new CheckboxInputWidget(value:value, internalAttrs:['text':text], htmlAttrs:attrs)
 
         when:
             def html = checkboxInputWidget.render()
@@ -99,7 +99,7 @@ class CheckboxInputWidgetSpec extends Specification {
     @Unroll
     void 'create input checkbox without value and text:#text and with attribs'() {
         setup:
-            def checkboxInputWidget = new CheckboxInputWidget(value:value, text:text, htmlAttrs:attrs)
+            def checkboxInputWidget = new CheckboxInputWidget(value:value, internalAttrs:['text':text], htmlAttrs:attrs)
 
         when:
             def html = checkboxInputWidget.render()
