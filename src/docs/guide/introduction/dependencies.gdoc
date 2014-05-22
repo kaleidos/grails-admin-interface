@@ -1,3 +1,5 @@
 This plugin doesn't import any plugin but needs that your application have installed the following dependencies:
-* [Spring Security Core 2.x|http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html] for authorization/authentication
-* [Resources|http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV3.html] to serve the plugin static resources
+
+* Spring Security Core v1.X or v2.X for authorization/authentication:
+[Spring Security Core 2.x|http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html]
+

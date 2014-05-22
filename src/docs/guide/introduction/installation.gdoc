@@ -4,8 +4,10 @@ To install you should include in your BuildConfig.groovy
 plugins {
     runtime "\:admin\:0.1"
 
-    // Plugin dependencies
-    compile "\:spring-security-core\:2.0-RC2"
-    runtime "\:resources\:1.2.7"
+    // Remember, there are some plugin dependencies
+    // Spring Security v1.X , example:
+    compile "\:spring-security-core\:1.2.7.3"
+    // ... or v2.X , example:
+    compile "\:spring-security-core\:2.0-RC3"
 }
 {code}
