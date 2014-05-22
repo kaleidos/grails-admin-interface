@@ -89,9 +89,11 @@ function addJsClass() {
 
 <h2 id="installation">1.4 Installation</h2>
 To install you should include in your BuildConfig.groovy<p class="paragraph"/><div class="code"><pre>plugins &#123;
-    runtime <span class="java&#45;quote">"&#58;admin&#58;0.1"</span><p class="paragraph"/>    // Plugin dependencies
-    compile <span class="java&#45;quote">"&#58;spring&#45;security&#45;core&#58;2.0&#45;RC2"</span>
-    runtime <span class="java&#45;quote">"&#58;resources&#58;1.2.7"</span>
+    runtime <span class="java&#45;quote">"&#58;admin&#58;0.1"</span><p class="paragraph"/>    // Remember, there are some plugin dependencies
+    // Spring Security v1.X , example:
+    compile <span class="java&#45;quote">"&#58;spring&#45;security&#45;core&#58;1.2.7.3"</span>
+    // &#8230; or v2.X , example:
+    compile <span class="java&#45;quote">"&#58;spring&#45;security&#45;core&#58;2.0&#45;RC3"</span>
 &#125;</pre></div>
 
 
