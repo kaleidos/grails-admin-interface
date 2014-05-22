@@ -161,7 +161,7 @@ class GrailsAdminPluginWidgetService {
             if (grailsApplication.isDomainClass(property.getType())) {
                 //It is a domain class
                 value = value.id
-            } else if (property.isOneToMany()){
+            } else if (property.isOneToMany() || property.isManyToMany()){
                 return value*.id
             }
 

@@ -50,13 +50,13 @@ app.view('relationtablewidget', ['$el'], function ($el) {
         }
         table.append(newLine);
 
-        $el.prepend("<input type=\"hidden\" name=\"" + propertyName + "\"  value=\"" + escape(objectId) + "\" />")
+        $el.prepend("<input type=\"hidden\" name=\"" + propertyName + "\"  value=\"" + htmlEncode(objectId) + "\" />")
     };
 
     $el.createRelationTableWidgetLine = function (detailUrl, val, txt, optional) {
-        var line = "<tr><td><a href=\"" + detailUrl + "\">" + escape(txt) + "</a></td>";
+        var line = "<tr><td><a href=\"" + detailUrl + "\">" + htmlEncode(txt) + "</a></td>";
         if (optional) {
-            line += "<td class=\"list-actions\"><a class=\"btn btn-default btn-sm js-relationtablewidget-delete\" data-value=\"" + escape(val) + "\" href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</a></td>"
+            line += "<td class=\"list-actions\"><a class=\"btn btn-default btn-sm js-relationtablewidget-delete\" data-value=\"" + htmlEncode(val) + "\" href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</a></td>"
         }
         line += "</tr>"
         return line;

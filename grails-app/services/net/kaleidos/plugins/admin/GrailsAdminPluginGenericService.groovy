@@ -100,7 +100,7 @@ class GrailsAdminPluginGenericService {
     def _setValueByType(def object, def domainConfig, def propertyName, def val){
         def property = domainConfig.domainClass.getPersistentProperty(propertyName)
 
-        if (property.isOneToMany()){
+        if (property.isOneToMany() || property.isManyToMany()){
             def domains = []
 
             if (val) {
