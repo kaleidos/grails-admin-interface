@@ -1,4 +1,3 @@
-
 var relationPopupCreateBody = function (json, excludeValues) {
     var html = "<table class=\"table table-bordered\">";
     html += relationPopupCreateHeader(json[0]);

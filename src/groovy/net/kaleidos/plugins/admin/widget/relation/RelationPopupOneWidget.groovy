@@ -31,7 +31,7 @@ class RelationPopupOneWidget extends Widget{
 
         // Links
 
-        builder.div class:"relation-popupone-widget ", view:"relationpopuponewidget", "data-method":"put", action:action, {
+        builder.div class:"relation-popupone-widget ", view:"relationPopupOneWidgetField", "data-method":"put", action:action, {
             input type:'hidden', class:'js-one-rel-value', name:"${internalAttrs.propertyName}", value: value
 
             _detailLink(slug, relationObject, builder)
@@ -90,7 +90,7 @@ class RelationPopupOneWidget extends Widget{
             def writer = new StringWriter()
             def builder = new MarkupBuilder(writer)
 
-            builder.div id:"new-$uuid", tabindex:"-1", role:"dialog", "aria-labelledby":"confirmLabel", "aria-hidden":"true", class:"modal fade", "data-field":"${internalAttrs.propertyName}", {
+            builder.div id:"new-$uuid", tabindex:"-1", view: "relationPopupOneWidgetField", role:"dialog", "aria-labelledby":"confirmLabel", "aria-hidden":"true", class:"modal fade", "data-field":"${internalAttrs.propertyName}", {
                 div class:"modal-dialog", {
                     div class:"modal-content", {
                         div class:"modal-header", {
@@ -118,7 +118,9 @@ class RelationPopupOneWidget extends Widget{
     @Override
     List<String> getAssets() {
         [ 'js/admin/relationpopup.js',
-          'js/admin/relationpopuponewidget.js'
+          'js/admin/relationpopuponewidget.js',
+          'grails-admin/templates/grails-admin-modal.handlebars',
+          'grails-admin/templates/grails-admin-list.handlebars'
         ]
     }
 

@@ -75,6 +75,20 @@ class GrailsAdminPluginTagLib {
         grailsAdminPluginHtmlRendererService.doWithAssetType(attrs.formType, attrs.className, "css", buildClosure)
     }
 
+    def layoutHandlebers = { attrs->
+        def buildClosure = {
+            if (grailsResourceLocator.findResourceForURI(it)) {
+                def file = grailsResourceLocator.findResourceForURI(it).getFile()
+
+                def id = org.apache.commons.io.FilenameUtils.removeExtension(file.getName())
+
+                out << "<script id=\"${id}\" type=\"text/x-handlebars-template\">${file.getText()}</script>"
+            }
+        }
+
+        grailsAdminPluginBuilderService.doWithAssetType(attrs.formType, attrs.className, "handlebars", buildClosure)
+    }
+
     def layoutJs = { attrs->
         def buildClosure = {
             if (grailsResourceLocator.findResourceForURI(it)) {

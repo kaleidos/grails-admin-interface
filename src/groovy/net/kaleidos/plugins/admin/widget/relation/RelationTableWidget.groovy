@@ -37,7 +37,7 @@ class RelationTableWidget extends Widget{
                 options[id] = element.toString()
             }
 
-            builder.div class:"relationtablewidget clearfix", view:"relationtablewidget", {
+            builder.div class:"relationtablewidget clearfix", view:"relationPopupOneWidgetField", {
                 options.each { key, value ->
                     input type: "hidden", name:htmlAttrs['name'], value: key
                 }

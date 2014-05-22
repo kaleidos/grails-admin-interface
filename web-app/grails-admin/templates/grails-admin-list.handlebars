@@ -1,0 +1,14 @@
+<table class="table table-bordered">
+    {{#each this}}
+    <tr>
+        <td>
+            <input class="relationpopup-radio" type="radio" name="elementId" value="{{id}}" data-txt="{{__text__}}"></input>
+        </td>
+        {{#each this}}
+        <td>
+            {{this}}
+        </td>
+        {{/each}}
+    </tr>
+    {{/each}}
+</table>

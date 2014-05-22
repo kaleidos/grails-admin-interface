@@ -106,6 +106,7 @@ class AdminConfigHolder {
         if (!objClass || Object.class == objClass) {
             return null
         }
+
         def config = this.domains[objClass.name]
         if (!config) {
             config = _getParentDomainConfig(objClass)

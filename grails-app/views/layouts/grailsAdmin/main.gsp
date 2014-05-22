@@ -21,6 +21,7 @@
 
         <g:layoutBody/>
 
+        <gap:layoutHandlebers formType="${formType}" className="${className}"/>
         <gap:layoutJs formType="${formType}" className="${className}"/>
         <script type="text/javascript">
             app.init();
