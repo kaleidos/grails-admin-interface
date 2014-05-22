@@ -1,17 +1,25 @@
 package net.kaleidos.plugins.admin.config
 
 import spock.lang.Specification
+import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 
-import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
+import grails.util.Holders
 
 class DomainConfigSpec extends Specification {
+    def setupSpec() {
+        Holders.grailsApplication = new DefaultGrailsApplication()
+        Holders.grailsApplication.configureLoadedClasses([
+            Test.class,
+            Test2.class,
+        ] as Class[])
+    }
+
     void "Get properties"(){
         setup:
-            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
-            def domainConfig = new DomainConfig(domainClass, [:])
+            def domainConfig = new DomainConfig(Test.class)
 
         when:
-            def result = domainConfig.getProperties("list")
+            def result = domainConfig.getDefinedProperties("list")
 
         then:
             result != null
@@ -20,11 +28,11 @@ class DomainConfigSpec extends Specification {
 
     void "Get properties. Exclude some"(){
         setup:
-            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
-            def domainConfig = new DomainConfig(domainClass, [list:[excludes:['t2', 't3']]])
+            def domainConfig = new DomainConfig(Test.class)
+            domainConfig.excludes['list'] = ['t2', 't3']
 
         when:
-            def result = domainConfig.getProperties("list")
+            def result = domainConfig.getDefinedProperties("list")
 
         then:
             result.size() == 3
@@ -33,11 +41,11 @@ class DomainConfigSpec extends Specification {
 
     void "Get properties. Include some"(){
         setup:
-            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
-            def domainConfig = new DomainConfig(domainClass, [list:[includes:['t2', 't3']]])
+            def domainConfig = new DomainConfig(Test.class)
+            domainConfig.includes['list'] = ['t2', 't3']
 
         when:
-            def result = domainConfig.getProperties("list")
+            def result = domainConfig.getDefinedProperties("list")
 
         then:
             result.size() == 2
@@ -46,35 +54,20 @@ class DomainConfigSpec extends Specification {
 
     void "Get properties. Include some. Respect my sort"(){
         setup:
-            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
-            def domainConfig = new DomainConfig(domainClass, [list:[includes:['t5', 't4', 't3']]])
+            def domainConfig = new DomainConfig(Test.class)
+            domainConfig.includes['list'] = ['t5', 't4', 't3']
 
         when:
-            def result = domainConfig.getProperties("list")
+            def result = domainConfig.getDefinedProperties("list")
 
         then:
             result.size() == 3
             result == ['t5', 't4', 't3']
     }
-
-    void "Get properties. Include some. Respect my sort"(){
-        setup:
-            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
-            def domainConfig = new DomainConfig(domainClass, [list:[includes:['t5', 't4', 't3']]])
-
-        when:
-            def result = domainConfig.getProperties("list")
-
-        then:
-            result.size() == 3
-            result == ['t5', 't4', 't3']
-    }
-
 
     void "Get sortable properties"(){
         setup:
-            def domainClass = new DefaultGrailsDomainClass(Test2.class, [:])
-            def domainConfig = new DomainConfig(domainClass, [:])
+            def domainConfig = new DomainConfig(Test2.class)
 
         when:
             def result = domainConfig.getSortableProperties("list")
@@ -85,21 +78,9 @@ class DomainConfigSpec extends Specification {
     }
 
 
-    void "Get properties. Exception if includes and exludes"(){
-        setup:
-            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
-
-        when:
-            new DomainConfig(domainClass, [list:[excludes:['t2', 't3'], includes:['t2', 't3']]])
-
-        then:
-            thrown(RuntimeException)
-    }
-
     def "Get short class names"(){
         setup:
-            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
-            def domainConfig = new DomainConfig(domainClass, [:])
+            def domainConfig = new DomainConfig(Test.class)
 
         when:
             def result = domainConfig.className
@@ -110,8 +91,7 @@ class DomainConfigSpec extends Specification {
 
     def "Get lower and short class names"(){
         setup:
-            def domainClass = new DefaultGrailsDomainClass(Test.class, [:])
-            def domainConfig = new DomainConfig(domainClass, [:])
+            def domainConfig = new DomainConfig(Test.class)
 
         when:
             def result = domainConfig.slug
@@ -119,6 +99,7 @@ class DomainConfigSpec extends Specification {
         then:
             result == "test"
     }
+
 }
 
 class Test {
@@ -140,3 +121,4 @@ class Test2 {
     String t5
     String t3
 }
+

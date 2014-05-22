@@ -9,14 +9,17 @@ import net.kaleidos.plugins.admin.widget.relation.RelationSelectMultipleWidget
 import net.kaleidos.plugins.admin.widget.relation.RelationTableWidget
 import net.kaleidos.plugins.admin.widget.relation.RelationPopupOneWidget
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
+import net.kaleidos.plugins.admin.DomainInspector
+
 
 class GrailsAdminPluginDefaultWidgetSelector {
 
-    static Widget getDefaultWidgetForProperty(DefaultGrailsDomainClassProperty property, Collection constraints){
-
+    static Widget getDefaultWidgetForProperty(Class clazz, String propertyName){
         def widget
+        def inspector = new DomainInspector(clazz)
+        def constraints = inspector.getPropertyConstraints(propertyName)
         def constraintsClasses = constraints*.class
-        def type = property.type
+        def type = inspector.getPropertyClass(propertyName)
 
         if (InListConstraint.class in constraintsClasses){
             widget = new SelectWidget()
@@ -44,7 +47,7 @@ class GrailsAdminPluginDefaultWidgetSelector {
                     widget = new LabelWidget()
                     break
                 case Collection:
-                    if (property.isAssociation()) {
+                    if (inspector.isAssociation(propertyName)) {
                         widget = new RelationTableWidget()
                     } else {
                         widget = new LabelWidget()

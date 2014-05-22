@@ -7,14 +7,21 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.*
 
 import admin.test.AdminDomainTest
+import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 
+import grails.util.Holders
 
 @Mock([AdminDomainTest])
 class GrailsAdminPluginWidgetServiceSpec extends Specification {
     AdminDomainTest adminDomainTest
     def widgetService
+
+    def setupSpec() {
+        Holders.grailsApplication = new DefaultGrailsApplication()
+        Holders.grailsApplication.configureLoadedClasses([ AdminDomainTest.class, ] as Class[])
+    }
 
     void setup() {
         adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')

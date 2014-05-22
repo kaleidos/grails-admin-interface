@@ -22,7 +22,7 @@ class GrailsAdminPluginBuilderService {
         StringBuilder html = new StringBuilder()
         if (object) {
             def domainConfig = adminConfigHolder.getDomainConfig(object)
-            List properties = domainConfig.getProperties(formType)
+            List properties = domainConfig.getDefinedProperties(formType)
             Map customWidgets = domainConfig.getCustomWidgets(formType)
 
             properties.each{propertyName ->
@@ -56,7 +56,7 @@ class GrailsAdminPluginBuilderService {
         def result = new StringBuilder()
 
         def domainConfig = adminConfigHolder.getDomainConfig(className)
-        List properties = domainConfig.getProperties("create")
+        List properties = domainConfig.getDefinedProperties("create")
         Map customWidgets = domainConfig.getCustomWidgets(formType)
 
         properties.each { propertyName ->
@@ -75,7 +75,7 @@ class GrailsAdminPluginBuilderService {
     String renderListLine(Object object){
         def config = adminConfigHolder.getDomainConfig(object)
 
-        List properties = config.getProperties("list")
+        List properties = config.getDefinedProperties("list")
         StringBuilder html = new StringBuilder()
         properties.each{propertyName ->
             html.append("<td>")
@@ -108,7 +108,7 @@ class GrailsAdminPluginBuilderService {
         def object = objectClass?.newInstance()
 
         def domain = adminConfigHolder.getDomainConfig(object)
-        List properties = domain.getProperties("list")
+        List properties = domain.getDefinedProperties("list")
         List sortable = domain.getSortableProperties("list")
 
         StringBuilder html = new StringBuilder()
@@ -172,7 +172,7 @@ class GrailsAdminPluginBuilderService {
         def result = [:]
 
         if (config) {
-            def properties = config.getProperties("list")
+            def properties = config.getDefinedProperties("list")
 
             if (object.id) {
                 result.id = object.id
@@ -208,7 +208,7 @@ class GrailsAdminPluginBuilderService {
         def domainConfig = adminConfigHolder.getDomainConfig(className)
 
         if (domainConfig) {
-            List properties = domainConfig.getProperties(formType)
+            List properties = domainConfig.getDefinedProperties(formType)
             Map customWidgets = domainConfig.getCustomWidgets(formType)
 
             def builder = new StringBuilder()

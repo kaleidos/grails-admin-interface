@@ -34,15 +34,14 @@ class GrailsAdminPluginController {
             response.status = 404
             return
         }
-        println ">> $params"
-        def objs = grailsAdminPluginGenericService.list(domain.domainClass.clazz, (page -1) * ITEMS_BY_PAGE as Long, ITEMS_BY_PAGE as Long, params.sort?:'id',  params.sort_order?:'asc')
+        def objs = grailsAdminPluginGenericService.list(domain.domainClass, (page -1) * ITEMS_BY_PAGE as Long, ITEMS_BY_PAGE as Long, params.sort?:'id',  params.sort_order?:'asc')
 
         if (!objs?.size() && page > 1) {
             redirect(mapping: 'list', params: [slug: slug, page: page - 1])
             return
         }
 
-        def total = grailsAdminPluginGenericService.count(domain.domainClass.clazz)
+        def total = grailsAdminPluginGenericService.count(domain.domainClass)
 
         def totalPages = (Math.ceil(total / ITEMS_BY_PAGE) as Integer)
 
@@ -66,7 +65,7 @@ class GrailsAdminPluginController {
             return
         }
 
-        def object = domain.domainClass.clazz.get(id)
+        def object = domain.domainClass.get(id)
 
         if (object) {
             def model = [:]

@@ -1,80 +1,27 @@
 package net.kaleidos.plugins.admin.widget
-import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
-import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
-import org.codehaus.groovy.grails.commons.GrailsDomainClass
 
-import org.codehaus.groovy.grails.validation.CreditCardConstraint
-import org.codehaus.groovy.grails.validation.EmailConstraint
-import org.codehaus.groovy.grails.validation.InListConstraint
-import org.codehaus.groovy.grails.validation.MatchesConstraint
-import org.codehaus.groovy.grails.validation.MaxConstraint
-import org.codehaus.groovy.grails.validation.MaxSizeConstraint
-import org.codehaus.groovy.grails.validation.MinConstraint
-import org.codehaus.groovy.grails.validation.MinSizeConstraint
-import org.codehaus.groovy.grails.validation.NotEqualConstraint
-import org.codehaus.groovy.grails.validation.NullableConstraint
-import org.codehaus.groovy.grails.validation.BlankConstraint
-import org.codehaus.groovy.grails.validation.RangeConstraint
-import org.codehaus.groovy.grails.validation.ScaleConstraint
-import org.codehaus.groovy.grails.validation.SizeConstraint
-import org.codehaus.groovy.grails.validation.UrlConstraint
-import org.codehaus.groovy.grails.validation.ValidatorConstraint
-import org.codehaus.groovy.grails.validation.AbstractConstraint
-import org.springframework.beans.factory.NoSuchBeanDefinitionException
-
-import net.kaleidos.plugins.admin.widget.relation.RelationSelectMultipleWidget
-import net.kaleidos.plugins.admin.widget.relation.RelationTableWidget
-import net.kaleidos.plugins.admin.widget.relation.RelationPopupOneWidget
-
-
-import org.springframework.util.ClassUtils
+import net.kaleidos.plugins.admin.DomainInspector
+import org.codehaus.groovy.grails.validation.*
 
 class GrailsAdminPluginWidgetService {
     def grailsApplication
 
-    DefaultGrailsDomainClass getGrailsDomainClass(Object object) {
-        //return new DefaultGrailsDomainClass(object.class)
-        try {
-            def realClass = ClassUtils.getUserClass(object.getClass())
-            def className = realClass.name
-            return grailsApplication.mainContext.getBean("${className}DomainClass")
-        } catch (NoSuchBeanDefinitionException e){
-            return null
-        }
-    }
-
-    DefaultGrailsDomainClass getGrailsDomainClass(Class c) {
-        try{
-            return grailsApplication.mainContext.getBean("${c.name}DomainClass")
-        } catch (NoSuchBeanDefinitionException e){
-            return null
-        }
-    }
-
-
-    Widget getWidgetForClass(GrailsDomainClass grailsDomainClass, String propertyName, String customWidget=null, Map attributes=[:]) {
-        def widget
-        def property = grailsDomainClass.getPropertyByName(propertyName)
-
-        if (!property) {
-            throw new RuntimeException("$propertyName not exists in ${grailsDomainClass}")
-        }
-
-        def constraints = (grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints())?:[:]
-
+    Widget getWidgetForClass(Class clazz, String propertyName, String customWidget=null, Map attributes=[:]) {
+        def inspector = new DomainInspector(clazz)
+        def widget = null
         if (customWidget) {
             try {
-                def widgetClass = this.getClass().classLoader.loadClass( customWidget, true, false )
+                def widgetClass = Class.forName(customWidget, true, Thread.currentThread().contextClassLoader)
                 widget = widgetClass?.newInstance()
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("Class $customWidget not found or not implemented")
             }
         } else {
-            widget = GrailsAdminPluginDefaultWidgetSelector.getDefaultWidgetForProperty(property, constraints)
+            widget = GrailsAdminPluginDefaultWidgetSelector.getDefaultWidgetForProperty(clazz, propertyName)
         }
 
-        widget.internalAttrs["grailsDomainClass"] = grailsDomainClass
-        widget.internalAttrs["domainClass"] = grailsDomainClass.clazz
+        widget.internalAttrs["grailsDomainClass"] = inspector.domainClass
+        widget.internalAttrs["domainClass"] = inspector.clazz
         widget.internalAttrs["propertyName"] = propertyName
 
         if (attributes) {
@@ -85,30 +32,19 @@ class GrailsAdminPluginWidgetService {
     }
 
     Widget getWidget(Object object, String propertyName, String customWidget=null, Map attributes=[:]) {
-        def grailsDomainClass = getGrailsDomainClass(object)
-        def widget = getWidgetForClass(grailsDomainClass, propertyName, customWidget, attributes)
-        def property = grailsDomainClass.getPropertyByName(propertyName)
-        def constraints = (grailsDomainClass.constrainedProperties.get(propertyName)?.getAppliedConstraints())?:[]
+        def widget = getWidgetForClass(object.class, propertyName, customWidget, attributes)
 
-        widget.value = _getValueForWidget(object, property)
-        widget.internalAttrs["domainClass"] = grailsDomainClass.clazz
+        def inspector = new DomainInspector(object)
+        def constraints = inspector.getPropertyConstraints(propertyName)
+
         widget.internalAttrs["domainObject"] = object
-        widget.internalAttrs["grailsDomainClass"] = grailsDomainClass
-        widget.internalAttrs["propertyName"] = propertyName
-
+        widget.value = _getValueForWidget(object, propertyName)
 
         widget.htmlAttrs.putAll(["name":propertyName])
         _setAttrsFromConstraints(widget, constraints)
-        _setAttrsForRelations(widget, property)
-
-        //Preference for user-defined attributes
-        if (attributes) {
-            widget.htmlAttrs.putAll(attributes)
-        }
-
+        _setAttrsForRelations(widget, object, propertyName)
         return widget
     }
-
 
     void _setAttrsFromConstraints(def widget, def constraints){
         def attrs = [:]
@@ -117,7 +53,6 @@ class GrailsAdminPluginWidgetService {
             _setAttributeFromConstraint(widget, it)
         }
     }
-
 
     void _setAttributeFromConstraint(def widget, AbstractConstraint constraint){
         //There is no html constraints for MinSizeConstraint
@@ -145,31 +80,30 @@ class GrailsAdminPluginWidgetService {
         }
     }
 
-    def _setAttrsForRelations(def widget, def property){
+    def _setAttrsForRelations(def widget, def object, def propertyName){
+        def inspector = new DomainInspector(object)
+        if (inspector.isOneToMany(propertyName) || inspector.isManyToMany(propertyName)){
+            def relatedClass = inspector.getPropertyDomainClass(propertyName)
+            def relatedInspector = new DomainInspector(relatedClass)
+            widget.internalAttrs["relatedDomainClass"] = relatedInspector.domainClass
 
-        if (property.isOneToMany() || property.isManyToMany()){
-            widget.internalAttrs["relatedDomainClass"] = property.getReferencedDomainClass()
         }
     }
 
-
-    def _getValueForWidget(def object, def property){
-
-        def value = object."${property.name}"
+    def _getValueForWidget(def object, def propertyName){
+        def inspector = new DomainInspector(object)
+        def value = object."${propertyName}"
 
         if (value) {
-            if (grailsApplication.isDomainClass(property.getType())) {
+            if (inspector.isDomainClass(propertyName)) {
                 //It is a domain class
                 value = value.id
-            } else if (property.isOneToMany() || property.isManyToMany()){
+            } else if (inspector.isOneToMany(propertyName) || inspector.isManyToMany(propertyName)){
                 return value*.id
             }
 
             return value
         }
         return null
-
     }
-
-
 }

@@ -5,34 +5,19 @@ import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 import admin.test.AdminDomainTest
 import spock.lang.*
 import grails.converters.JSON
+import grails.util.Holders
 
 
 class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
     def grailsAdminPluginBuilderService
-    def adminDomainTest
-    def grailsApplication
-
+    def adminConfigHolder
     def slurper
 
     def setup() {
-        grailsApplication.configureLoadedClasses([
-            admin.test.AdminDomainTest.class
-        ] as Class[])
+        Holders.config = new ConfigObject()
+        Holders.config.grails.plugin.admin.domains = [ "admin.test.AdminDomainTest" ]
 
-        def testDomains = [ "admin.test.AdminDomainTest" ]
-
-        def config = new ConfigObject()
-        config.grails.plugin.admin.domains = testDomains
-        config.grails.plugin.admin.access_root = "myadmin"
-        config.grails.plugin.admin.role = "ROLE_SUPER"
-
-        def configHolder = new AdminConfigHolder(config)
-        configHolder.grailsApplication = grailsApplication
-
-        grailsAdminPluginBuilderService.adminConfigHolder = configHolder
-
-
-        configHolder.initialize()
+        adminConfigHolder.initialize()
 
         def parser = new org.cyberneko.html.parsers.SAXParser()
         parser.setFeature('http://xml.org/sax/features/namespaces', false)
@@ -44,7 +29,7 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
 
     void "test renderEditForm"() {
         setup:
-            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
+            def adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
         when:
             def html = grailsAdminPluginBuilderService.renderEditFormFields(adminDomainTest)
             def result = slurper.parseText(html)
@@ -58,7 +43,7 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
 
     void "test renderCreateForm"() {
         setup:
-            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
+            def adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
 
         when:
             def html = grailsAdminPluginBuilderService.renderCreateFormFields("admin.test.AdminDomainTest")
@@ -73,7 +58,7 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
 
     void "test render list line"() {
         setup:
-            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
+            def adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
 
         when:
             def html = grailsAdminPluginBuilderService.renderListLine(adminDomainTest)
@@ -85,7 +70,7 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
 
     void "test render list line injection"() {
         setup:
-            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
+            def adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
 
         when:
             adminDomainTest.name = "<td>0</td>"
@@ -98,7 +83,7 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
 
     void "test render list titles"() {
         setup:
-            adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
+            def adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
 
         when:
             def html = grailsAdminPluginBuilderService.renderListTitle("admin.test.AdminDomainTest", 'name', 'asc')
@@ -110,7 +95,7 @@ class GrailsAdminPluginBuilderServiceIntegrationSpec extends Specification {
 
     void 'render single object as json'() {
         given: 'an object'
-            adminDomainTest = new AdminDomainTest(id:1, name:'a')
+            def adminDomainTest = new AdminDomainTest(id:1, name:'a')
 
         when: 'ask to render as json'
             def json = grailsAdminPluginBuilderService.renderObjectAsJson(adminDomainTest)

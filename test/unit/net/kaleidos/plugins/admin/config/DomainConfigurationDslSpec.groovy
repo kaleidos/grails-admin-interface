@@ -3,25 +3,26 @@ package net.kaleidos.plugins.admin.config
 import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 import spock.lang.Specification
 
+import grails.util.Holders
+
 class DomainConfigurationDslSpec extends Specification {
+    def setupSpec() {
+        Holders.grailsApplication = new DefaultGrailsApplication()
+        Holders.grailsApplication.configureLoadedClasses([
+            NameYearDomain.class,
+        ] as Class[])
+    }
+
     void "Retrieve domain classes (excludes)"() {
         setup:
-            def config = new DomainConfigurationDsl({
+            def config = new DomainConfigurationDsl(NameYearDomain.class, {
                 list excludes: ['year']
                 create excludes: ['year']
                 edit excludes: ['year']
             })
 
-        and: "Grails application"
-            def grailsApplication = new DefaultGrailsApplication()
-            grailsApplication.configureLoadedClasses([admin.test.TestOtherDomain.class] as Class[])
-            config.grailsApplication = grailsApplication
-
-        and: "Grails domain class"
-            def grailsDomainClass = grailsApplication.domainClasses[0]
-
         when:
-            def result = new DomainConfig(grailsDomainClass, config.execute())
+            def result = config.execute()
 
         then:
             result.getExcludes('list') == ['year']
@@ -31,22 +32,14 @@ class DomainConfigurationDslSpec extends Specification {
 
     void "Retrieve domain classes (includes)"() {
         setup:
-            def config = new DomainConfigurationDsl({
+            def config = new DomainConfigurationDsl(NameYearDomain.class, {
                 list includes: ['name', 'year']
                 create includes: ['name', 'year']
                 edit includes: ['name', 'year']
             })
 
-        and: "Grails application"
-            def grailsApplication = new DefaultGrailsApplication()
-            grailsApplication.configureLoadedClasses([admin.test.TestOtherDomain.class] as Class[])
-            config.grailsApplication = grailsApplication
-
-        and: "Grails domain class"
-            def grailsDomainClass = grailsApplication.domainClasses[0]
-
         when:
-            def result = new DomainConfig(grailsDomainClass, config.execute())
+            def result = config.execute()
 
         then:
             result.getIncludes('list') == ['name', 'year']
@@ -56,20 +49,12 @@ class DomainConfigurationDslSpec extends Specification {
 
     void "Customize widget for attribute"() {
         setup:
-            def config = new DomainConfigurationDsl({
+            def config = new DomainConfigurationDsl(NameYearDomain.class, {
                 list customWidgets: ['name': 'test.MyWidget']
             })
 
-        and: "Grails application"
-            def grailsApplication = new DefaultGrailsApplication()
-            grailsApplication.configureLoadedClasses([admin.test.TestOtherDomain.class] as Class[])
-            config.grailsApplication = grailsApplication
-
-        and: "Grails domain class"
-            def grailsDomainClass = grailsApplication.domainClasses[0]
-
         when:
-            def result = new DomainConfig(grailsDomainClass, config.execute())
+            def result = config.execute()
             def widgetMap = result.getCustomWidgets("list")
 
         then:
@@ -77,4 +62,14 @@ class DomainConfigurationDslSpec extends Specification {
             result.getCustomWidgets("list") != null
             result.getCustomWidgets("list").name != null
     }
+
+}
+
+
+class NameYearDomain {
+    transient testTransient
+    Long id
+    Long version
+    String name
+    String year
 }

@@ -90,7 +90,7 @@ class GrailsAdminPluginTagLib {
                 out << "<link href=\"${request.contextPath}${grailsResourceLocator.findResourceForURI(it).getPath()}\" rel=\"stylesheet\"></link>"
             }
         }
-        adminConfigHolder.getViewResources("css").each(buildClosure)
+        getViewResources("css").each(buildClosure)
         grailsAdminPluginBuilderService.doWithAssetType(attrs.formType, attrs.className, "css", buildClosure)
     }
 
@@ -100,7 +100,7 @@ class GrailsAdminPluginTagLib {
                 out << "<script src=\"${request.contextPath}${grailsResourceLocator.findResourceForURI(it).getPath()}\"></script>"
             }
         }
-        adminConfigHolder.getViewResources("js").each(buildClosure)
+        getViewResources("js").each(buildClosure)
         grailsAdminPluginBuilderService.doWithAssetType(attrs.formType, attrs.className, "js", buildClosure)
     }
 
@@ -162,5 +162,28 @@ class GrailsAdminPluginTagLib {
             out << "<li>${g.link('»', mapping:'grailsAdminList', params: [slug: domain.slug, page: currentPage + 1])}</li>"
         }
         out << "</ul>"
+    }
+
+    List<String> getViewResources(String type){
+        def result = []
+        if (type == "css") {
+            result << 'grails-admin/libs/bootstrap/css/bootstrap.css'
+            result << 'grails-admin/libs/bootstrap/css/bootstrap-theme.css'
+            result << 'grails-admin/css/main.css'
+        }
+
+        if (type == "js") {
+            result << 'grails-admin/libs/jquery/jquery.js'
+            result << 'grails-admin/libs/bootstrap/js/bootstrap.js'
+            result << 'grails-admin/libs/injectorJS/injector.js'
+            result << 'grails-admin/libs/parsleyjs/parsley.remote.js'
+            result << 'grails-admin/libs/serializeObject.js'
+            result << 'grails-admin/js/main.js'
+            result << 'grails-admin/js/views/formView.js'
+            result << 'grails-admin/js/views/deleteModalView.js'
+            result << 'grails-admin/js/general.js'
+        }
+
+        return result
     }
 }

@@ -15,6 +15,8 @@ import spock.lang.Shared
 import net.kaleidos.plugins.admin.config.AdminConfigHolder
 import net.kaleidos.plugins.admin.builder.GrailsAdminPluginBuilderService
 
+import grails.util.Holders
+
 import admin.test.TestDomain
 
 @TestFor(GrailsAdminPluginApiController)
@@ -23,20 +25,15 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
     def adminConfigHolder
 
     def setupSpec() {
-        def grailsApplication = new DefaultGrailsApplication()
-        grailsApplication.configureLoadedClasses([
+        Holders.grailsApplication = new DefaultGrailsApplication()
+        Holders.grailsApplication.configureLoadedClasses([
             admin.test.TestDomain.class,
         ] as Class[])
 
-        grailsApplication.mainContext = Mock(ApplicationContext)
-        def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-        grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+        Holders.config = new ConfigObject()
+        Holders.config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
 
-        def config = new ConfigObject()
-        config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
-
-        adminConfigHolder = new AdminConfigHolder(config)
-        adminConfigHolder.grailsApplication = grailsApplication
+        adminConfigHolder = new AdminConfigHolder()
         adminConfigHolder.initialize()
     }
 

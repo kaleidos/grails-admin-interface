@@ -23,7 +23,7 @@ class GrailsAdminPluginGenericService {
             throw new RuntimeException("Domain not configured for ${domainClass.name}")
         }
 
-        List properties = domainConfig.getProperties("create")
+        List properties = domainConfig.getDefinedProperties("create")
 
         properties.each{key ->
             _setValueByType(domainObj, domainConfig, key, params["$key"])
@@ -39,7 +39,7 @@ class GrailsAdminPluginGenericService {
             throw new RuntimeException("Object with id $id doesn't exist")
         }
         def domainConfig = adminConfigHolder.getDomainConfig(domainClass)
-        List properties = domainConfig.getProperties("edit")
+        List properties = domainConfig.getDefinedProperties("edit")
         properties.each{key ->
             _setValueByType(result, domainConfig, key, params["$key"])
         }
@@ -73,8 +73,8 @@ class GrailsAdminPluginGenericService {
     void deleteRelatedDomain(Class domainClass, Long objectId, String propertyName, Long objectId2){
         def domainObj = domainClass.get(objectId)
         if (domainObj) {
-            def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)
-            if (property.isOneToMany()){
+            def inspector = new DomainInspector(domainClass)
+            if (inspector.isOneToMany(propertyName)){
                 def cap = propertyName.capitalize()
                 def element = domainObj."$propertyName".find { it.id = objectId2 }
                 domainObj."removeFrom$cap"(element)
@@ -85,9 +85,8 @@ class GrailsAdminPluginGenericService {
     void putRelatedDomain(Class domainClass, Long objectId, String propertyName, Long objectId2){
         def domainObj = domainClass.get(objectId)
         if (domainObj) {
-            def property = grailsAdminPluginWidgetService.getGrailsDomainClass(domainClass).getPersistentProperty(propertyName)
-            if (property.isOneToMany()){
-
+            def inspector = new DomainInspector(domainClass)
+            if (inspector.isOneToMany(propertyName)){
                 def element = property.getReferencedDomainClass().clazz.get(objectId2)
                 if (element) {
                     def cap = propertyName.capitalize()
@@ -98,18 +97,18 @@ class GrailsAdminPluginGenericService {
     }
 
     def _setValueByType(def object, def domainConfig, def propertyName, def val){
-        def property = domainConfig.domainClass.getPersistentProperty(propertyName)
+        def inspector = new DomainInspector(object)
 
-        if (property.isOneToMany() || property.isManyToMany()){
+        if (inspector.isOneToMany(propertyName) || inspector.isManyToMany(propertyName)){
             def domains = []
 
             if (val) {
                 if (val instanceof List) {
                     val.each {
-                        domains << retrieveDomain(property.getReferencedDomainClass().clazz, it as Long)
+                        domains << retrieveDomain(inspector.getPropertyDomainClass(propertyName), it as Long)
                     }
                 } else {
-                    domains << retrieveDomain(property.getReferencedDomainClass().clazz, val as Long)
+                    domains << retrieveDomain(inspector.getPropertDomainClass(propertyName), val as Long)
                 }
             }
 
@@ -127,17 +126,17 @@ class GrailsAdminPluginGenericService {
             }
 
             return domains
-        } else if (grailsApplication.isDomainClass(property.type)){
+        } else if (inspector.isDomainClass(propertyName)){
             if (val) {
-                object."$propertyName" =  retrieveDomain(property.type, val as Long)
+                object."$propertyName" =  retrieveDomain(inspector.getPropertyClass(propertyName), val as Long)
             } else {
                 object."$propertyName" =  null
             }
-        } else if (property.type == Date) {
+        } else if (inspector.getPropertyClass(propertyName) == Date) {
             object."$propertyName" =  Date.parse("MM/dd/yyyy", val)
-        } else if (property.type == Boolean) {
+        } else if (inspector.getPropertyClass(propertyName) == Boolean) {
             object."$propertyName" =  val?true:false
-        } else if (property.type == File) {
+        } else if (inspector.getPropertyClass(propertyName) == File) {
             //Do nothing
         } else {
             object."$propertyName" =   val

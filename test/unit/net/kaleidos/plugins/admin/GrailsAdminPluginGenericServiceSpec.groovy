@@ -21,6 +21,8 @@ import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 
 import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 
+import grails.util.Holders
+
 @TestFor(GrailsAdminPluginGenericService)
 @TestMixin(DomainClassUnitTestMixin)
 @ConfineMetaClassChanges([GrailsAdminPluginGenericService])
@@ -30,16 +32,15 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
     def adminConfigHolder
 
     def setupSpec() {
-        def grailsApplication = new DefaultGrailsApplication()
-        grailsApplication.configureLoadedClasses([
+        Holders.grailsApplication = new DefaultGrailsApplication()
+        Holders.grailsApplication.configureLoadedClasses([
             admin.test.TestDomain.class,
         ] as Class[])
 
-        def config = new ConfigObject()
-        config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
+        Holders.config = new ConfigObject()
+        Holders.config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
 
-        adminConfigHolder = new AdminConfigHolder(config)
-        adminConfigHolder.grailsApplication = grailsApplication
+        adminConfigHolder = new AdminConfigHolder()
         adminConfigHolder.initialize()
     }
 

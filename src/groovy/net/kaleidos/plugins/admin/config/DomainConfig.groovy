@@ -1,26 +1,26 @@
 package net.kaleidos.plugins.admin.config
 
+import net.kaleidos.plugins.admin.DomainInspector
 import org.codehaus.groovy.grails.commons.GrailsDomainClass
 import java.util.concurrent.ConcurrentHashMap
 
 class DomainConfig {
-    private static final ConcurrentHashMap<String,Boolean> transientPropertiesCache = new ConcurrentHashMap()
-    GrailsDomainClass domainClass
+    Class domainClass
+    DomainInspector domainInspector
+
     Map excludes = [:]
     Map includes = [:]
     Map customWidgets = [:]
 
-    public DomainConfig(GrailsDomainClass domainClass, Map params) {
+    public DomainConfig(Class domainClass) {
         this.domainClass = domainClass
-        if (params) {
-            _configureParams(params)
-        }
+        this.domainInspector = new DomainInspector(domainClass)
     }
 
-    List getProperties(String method) {
+    List getDefinedProperties(String method) {
         def defaultExclude = ['id','version']
 
-        def result = domainClass.getPersistentProperties().collect { it.name }
+        def result = this.domainInspector.getPropertyNames()
 
         if (includes[method]) {
             result = includes[method].findAll { result.contains(it) }
@@ -33,13 +33,9 @@ class DomainConfig {
     }
 
     List getSortableProperties(String method) {
-        def properties = getProperties(method)
-
-        return properties.findAll {
-            return !domainClass.getPropertyByName(it).isAssociation()
-        }
+        def properties = getDefinedProperties(method)
+        return properties.findAll(this.domainInspector.&isSortable)
     }
-
 
     List getExcludes(String method) {
         return this.excludes[method]
@@ -53,37 +49,15 @@ class DomainConfig {
         return this.customWidgets[method]
     }
 
-    private _configureParams(params) {
-        params.each { method, properties ->
-            if (['list', 'create', 'edit'].contains(method)) {
-                if (properties['excludes'] && properties['includes']) {
-                    throw new RuntimeException("The includes and exludes configuration is setted for domain: ${domainClass.name}. Only one can be defined")
-                }
-
-                if (properties['excludes']) {
-                    this.excludes[method] = properties['excludes']
-                }
-
-                if (properties['includes']) {
-                    this.includes[method] = properties['includes']
-                }
-
-                if (properties['customWidgets']) {
-                    this.customWidgets[method] = properties['customWidgets']
-                }
-            }
-        }
-    }
-
     public String getClassName() {
-        return this.domainClass.name
+        return this.domainClass.name.tokenize(".")[-1]
     }
 
     public String getClassFullName() {
-        return this.domainClass.fullName
+        return this.domainClass.name
     }
 
     public String getSlug() {
-        return this.domainClass.name.toLowerCase()
+        return this.className.toLowerCase()
     }
 }

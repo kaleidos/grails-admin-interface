@@ -8,84 +8,28 @@ import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
 import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingEvaluator
 import org.springframework.web.context.WebApplicationContext
 
+import grails.util.Holders
+
 import admin.test.*
 
 class AdminConfigHolderSpec extends Specification {
-    def grailsApplication
-
-    static GrailsAdminUrlMappings = Class.forName("GrailsAdminUrlMappings")
-
     void setup() {
-        grailsApplication = new DefaultGrailsApplication()
+        def grailsApplication = new DefaultGrailsApplication()
         grailsApplication.configureLoadedClasses([
             admin.test.TestDomain.class,
             admin.test.TestOtherDomain.class,
-            admin.test.TestExtendsDomain.class,
-            GrailsAdminUrlMappings
+            admin.test.TestExtendsDomain.class
         ] as Class[])
+        Holders.grailsApplication = grailsApplication
     }
 
-    void "Obtain configuration (Access root)"(){
+    void "Obtain domain configuration"(){
         setup: "configuration"
-            def config = new ConfigObject()
-            config.grails.plugin.admin.access_root = testAccessRoot
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = testDomains
 
         and: "Config holder"
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
-
-        when:
-            configHolder.initialize()
-
-        then:
-            configHolder.accessRoot == testAccessRoot
-
-        where:
-            testAccessRoot = "myadmin"
-    }
-
-    void "Obtain configuration (Role)"(){
-        setup: "configuration"
-            def config = new ConfigObject()
-            config.grails.plugin.admin.role = testRole
-
-        and: "Config holder"
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
-
-        when:
-            configHolder.initialize()
-
-        then:
-            configHolder.role == testRole
-
-        where:
-            testRole = "ROLE_SUPER"
-    }
-
-    void "Obtain configuration (Domain list)"(){
-        setup: "configuration"
-            def config = new ConfigObject()
-            config.grails.plugin.admin.domains = testDomains
-
-        and: "Config holder"
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+            def configHolder = new AdminConfigHolder()
 
         when:
             configHolder.initialize()
@@ -103,20 +47,16 @@ class AdminConfigHolderSpec extends Specification {
 
     void "Obtain configuration (Domain closure configuration)"(){
         setup: "configuration"
-            def config = new ConfigObject()
-            config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
-            config.grails.plugin.admin.domain.TestDomain = {
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = [
+                "admin.test.TestDomain"
+            ]
+            Holders.config.grails.plugin.admin.domain.TestDomain = {
                 list excludes: ['name', 'year']
             }
 
         and: "Config holder"
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+            def configHolder = new AdminConfigHolder()
 
         when:
             configHolder.initialize()
@@ -132,18 +72,12 @@ class AdminConfigHolderSpec extends Specification {
 
     void "Obtain configuration (Domain admin file)"(){
         setup: "configuration"
-            def config = new ConfigObject()
-            config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
-            config.grails.plugin.admin.domain.TestDomain = "admin.test.TestDomainAdmin"
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
+            Holders.config.grails.plugin.admin.domain.TestDomain = "admin.test.TestDomainAdmin"
 
         and: "Config holder"
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+            def configHolder = new AdminConfigHolder()
 
         when:
             configHolder.initialize()
@@ -158,58 +92,41 @@ class AdminConfigHolderSpec extends Specification {
 
     void "Default configuration"(){
         setup: "configuration"
-            def config = new ConfigObject()
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+            Holders.config = new ConfigObject()
 
         when:
-            def configHolder = new AdminConfigHolder(config)
+            def configHolder = new AdminConfigHolder()
 
         then:
             configHolder.domains != null
-            configHolder.accessRoot != null
-            configHolder.role != null
+            configHolder.domains.size() == 0
     }
 
     void "Domain class doesn't exist"(){
         setup: "configuration"
-            def config = new ConfigObject()
-            config.grails.plugin.admin.domains = testDomains
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = [ "NoExistsDomain" ]
 
         and: "Config holder"
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+            def configHolder = new AdminConfigHolder()
 
         when:
             configHolder.initialize()
 
         then:
             thrown(RuntimeException)
-
-        where:
-            testDomains = [ "NoExistsDomain" ]
     }
 
     def "Get all domain names"() {
         setup:
-            def config = new ConfigObject()
-            config.grails.plugin.admin.domains = testDomains
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = [
+                "admin.test.TestDomain",
+                "admin.test.TestOtherDomain"
+            ]
 
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder()
 
         when:
             configHolder.initialize()
@@ -217,26 +134,18 @@ class AdminConfigHolderSpec extends Specification {
 
         then:
             domainNames == ["TestDomain", "TestOtherDomain"]
-
-        where:
-            testDomains = [
-                "admin.test.TestDomain",
-                "admin.test.TestOtherDomain"
-            ]
     }
 
     def "Get all lower domain names"() {
         setup:
-            def config = new ConfigObject()
-            config.grails.plugin.admin.domains = testDomains
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = [
+                "admin.test.TestDomain",
+                "admin.test.TestOtherDomain"
+            ]
 
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder()
 
         when:
             configHolder.initialize()
@@ -244,26 +153,15 @@ class AdminConfigHolderSpec extends Specification {
 
         then:
             domainNames == ["testdomain", "testotherdomain"]
-
-        where:
-            testDomains = [
-                "admin.test.TestDomain",
-                "admin.test.TestOtherDomain"
-            ]
     }
 
     def "Given a slug, recover the DomainConfig object"() {
         setup:
-            def config = new ConfigObject()
-            config.grails.plugin.admin.domains = testDomains
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = testDomains
 
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder()
 
         when:
             configHolder.initialize()
@@ -280,16 +178,11 @@ class AdminConfigHolderSpec extends Specification {
 
     def "Given a non existant slug, don't recover any DomainConfig object"() {
         setup:
-            def config = new ConfigObject()
-            config.grails.plugin.admin.domains = testDomains
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = testDomains
 
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
-        and: "Url config"
-            grailsApplication.mainContext = Mock(WebApplicationContext)
-            def urlMappingsHolder = new DefaultUrlMappingsHolder([])
-            grailsApplication.mainContext.getBean("org.grails.internal.URL_MAPPINGS_HOLDER") >> urlMappingsHolder
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder()
 
         when:
             configHolder.initialize()
@@ -306,12 +199,11 @@ class AdminConfigHolderSpec extends Specification {
 
     def "Get the domain config of a super class"() {
         setup:
-            def config = new ConfigObject()
-            config.grails.plugin.admin.domains = testDomains
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = testDomains
 
-            def configHolder = new AdminConfigHolder(config)
-            configHolder.grailsApplication = grailsApplication
-
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder()
             def obj =  new TestExtendsDomain()
 
         when:
