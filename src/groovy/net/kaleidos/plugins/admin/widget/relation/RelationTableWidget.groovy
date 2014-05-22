@@ -25,6 +25,7 @@ class RelationTableWidget extends Widget{
         if (internalAttrs["relatedDomainClass"]) {
             def domainClass = internalAttrs["relatedDomainClass"].clazz
             def otherSideProperty = internalAttrs["grailsDomainClass"].getPropertyByName(internalAttrs['propertyName']).getOtherSide()
+            def optional = otherSideProperty?otherSideProperty.isOptional():true
 
             def listUrl = grailsLinkGenerator.link(mapping: 'grailsAdminApiAction', params:[ 'slug': domainClass.simpleName.toLowerCase() ])
 
@@ -37,7 +38,7 @@ class RelationTableWidget extends Widget{
                 options.each { key, value ->
                     input type: "hidden", name:htmlAttrs['name'], value: key
                 }
-                _elementsTable(delegate, domainClass, options, otherSideProperty.isOptional())
+                _elementsTable(delegate, domainClass, options, optional)
                 div {
                     a class:"btn btn-default js-relationtablewidget-add", "data-url": listUrl, href:"#", {
                         span class:"glyphicon glyphicon-plus", {

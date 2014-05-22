@@ -147,7 +147,7 @@ class GrailsAdminPluginWidgetService {
 
     def _setAttrsForRelations(def widget, def property){
 
-        if (property.isOneToMany()){
+        if (property.isOneToMany() || property.isManyToMany()){
             widget.internalAttrs["relatedDomainClass"] = property.getReferencedDomainClass()
         }
     }
