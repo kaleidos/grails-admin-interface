@@ -1,3 +1,4 @@
+Sample of html render
 {code}
-<input name="vehicle" type=\"checkbox\">I have a car</input>
+<input type="checkbox" checked="checked" name="test"></input>
 {code}

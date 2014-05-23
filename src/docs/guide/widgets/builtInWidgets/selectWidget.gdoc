@@ -1,1 +1,10 @@
-TODO
+Sample of html render
+{code}
+<select name="test">
+    <option value="">--</option>
+    <option value="Volvo">Volvo</option>
+    <option value="Saab" selected="selected">Saab</option>
+    <option value="Opel">Opel</option>
+    <option value="Audi">Audi</option>
+</select>
+{code}

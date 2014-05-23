@@ -18,6 +18,7 @@ tutorial:
 
 widgets:
     title: Widgets
+    configureWidgets: Configure widgets
     stylingWidgets: Styling widget instances
     builtInWidgets:
         title: Built in widgets
@@ -26,11 +27,12 @@ widgets:
         dateTimeInputWidget: DateTimeInputWidget
         emailInputWidget: EmailInputWidget
         hiddenInputWidget: HiddenInputWidget
+        labelWidget: LabelWidget
         numberInputWidget: NumberInputWidget
         passwordInputWidget: PasswordInputWidget
         selectMultipleWidget: SelectMultipleWidget
         selectWidget: SelectWidget
-        textAreaInputWidget: TextAreaWidget
+        textAreaWidget: TextAreaWidget
         textInputWidget: TextInputWidget
         timeInputWidget: TimeInputWidget
         urlInputWidget: UrlInputWidget

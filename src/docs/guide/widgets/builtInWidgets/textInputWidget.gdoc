@@ -1,1 +1,4 @@
-TODO
+Sample of html render
+{code}
+<input name='test' type='text' value='Some text' />
+{code}

@@ -1,1 +1,1 @@
-A widget is Grails Admin's HTML representation of a property from a domain object instance. The widget handles the rendering of the HTML for that property.
+A widget is a component of Grails Admin that represents a property from a domain object instance. The widget handles the rendering (HTML or JSON) for that property, and also transform the values received for that property into the correct type (for example, translate from String to Date as needed).

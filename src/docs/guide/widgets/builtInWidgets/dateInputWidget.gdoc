@@ -1,1 +1,4 @@
-TODO
+Sample of html render
+{code}
+<input name='test' type='date' value='01/01/2000' />
+{code}
