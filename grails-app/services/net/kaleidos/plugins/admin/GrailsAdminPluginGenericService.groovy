@@ -108,20 +108,23 @@ class GrailsAdminPluginGenericService {
                         domains << retrieveDomain(inspector.getPropertyDomainClass(propertyName), it as Long)
                     }
                 } else {
-                    domains << retrieveDomain(inspector.getPropertDomainClass(propertyName), val as Long)
+                    domains << retrieveDomain(inspector.getPropertyDomainClass(propertyName), val as Long)
                 }
             }
 
             def cap = propertyName.capitalize()
             if (object."${propertyName}") {
                 def current = []
-                current.addAll(object."${propertyName}")
+                def toDelete = (object."${propertyName}").findAll{! (it in domains)}
+                current.addAll(toDelete)
                 current.each {
                     object."removeFrom$cap"(it)
                 }
             }
 
-            domains.each{
+            def toAdd = domains.findAll{! (it in object."${propertyName}")}
+
+            toAdd.each{
                 object."addTo$cap"(it)
             }
 
