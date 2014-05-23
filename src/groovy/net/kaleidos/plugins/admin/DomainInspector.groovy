@@ -61,9 +61,11 @@ class DomainInspector {
     }
 
     public Class getPropertyClass(String property) {
-        //return _get(property).getReferencedPropertyType()
-        //return _get(property).getReferencedDomainClass().clazz
-        return _get(property).type
+        def clazz = _get(property).type
+        if (clazz.isPrimitive()) {
+            clazz = org.apache.commons.lang.ClassUtils.primitiveToWrapper(clazz)
+        }
+        return clazz
     }
 
     public Class getPropertyDomainClass(String property) {
