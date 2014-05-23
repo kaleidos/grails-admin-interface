@@ -17,5 +17,9 @@ class LabelWidget extends Widget {
         return html
     }
 
+    public void updateValue() {
+        //Do nothing
+    }
+
 
 }

@@ -26,7 +26,7 @@ class RelationTableWidget extends Widget{
         def options = [:]
 
         if (internalAttrs["relatedDomainClass"]) {
-            def domainClass = internalAttrs["relatedDomainClass"].clazz
+            def domainClass = internalAttrs["relatedDomainClass"]
             def otherSideProperty = internalAttrs["grailsDomainClass"].getPropertyByName(internalAttrs['propertyName']).getOtherSide()
             def optional = otherSideProperty?otherSideProperty.isOptional():true
 
@@ -90,11 +90,43 @@ class RelationTableWidget extends Widget{
 
     def getValueForJson() {
         def values = []
-        def domainClass = internalAttrs["relatedDomainClass"].clazz
+        def domainClass = internalAttrs["relatedDomainClass"]
         value.each {id ->
             def element = domainClass.get(id)
             values << element.toString()
         }
         return values
+    }
+
+
+    public void updateValue() {
+        def domains = []
+        def object = internalAttrs["domainObject"]
+
+        if (value) {
+            if (value instanceof List) {
+                value.each {
+                    domains << internalAttrs['relatedDomainClass'].get(it as Long)
+                }
+            } else {
+                domains << internalAttrs['relatedDomainClass'].get(value as Long)
+            }
+        }
+
+        def cap = internalAttrs.propertyName.capitalize()
+        if (object."${internalAttrs.propertyName}") {
+            def current = []
+            def toDelete = (object."${internalAttrs.propertyName}").findAll{! (it in domains)}
+            current.addAll(toDelete)
+            current.each {
+                object."removeFrom$cap"(it)
+            }
+        }
+
+        def toAdd = domains.findAll{! (it in object."${internalAttrs.propertyName}")}
+
+        toAdd.each{
+            object."addTo$cap"(it)
+        }
     }
 }

@@ -24,9 +24,10 @@ class GrailsAdminPluginGenericService {
         }
 
         List properties = domainConfig.getDefinedProperties("create")
+        Map customWidgets = domainConfig.getCustomWidgets("create")?:[:]
 
         properties.each{key ->
-            _setValueByType(domainObj, domainConfig, key, params["$key"])
+            _setValue(domainObj, customWidgets[key], key, params["$key"])
         }
         domainObj.save(failOnError:true)
         return domainObj
@@ -40,8 +41,9 @@ class GrailsAdminPluginGenericService {
         }
         def domainConfig = adminConfigHolder.getDomainConfig(domainClass)
         List properties = domainConfig.getDefinedProperties("edit")
+        Map customWidgets = domainConfig.getCustomWidgets("create")?:[:]
         properties.each{key ->
-            _setValueByType(result, domainConfig, key, params["$key"])
+            _setValue(result, customWidgets[key], key, params["$key"])
         }
         // Need to throw validation exception
         result.save(failOnError:true)
@@ -147,5 +149,12 @@ class GrailsAdminPluginGenericService {
         } else {
             object."$propertyName" =   val
         }
+    }
+
+
+    def _setValue(def object, def customWidget, def propertyName, def val){
+        def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidget)
+        widget.value = val
+        widget.updateValue()
     }
 }

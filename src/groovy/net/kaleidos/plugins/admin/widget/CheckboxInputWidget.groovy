@@ -23,4 +23,10 @@ class CheckboxInputWidget extends InputWidget{
         html.append("</input>")
         return html
     }
+
+    public void updateValue() {
+        updateValue(value?true:false)
+    }
+
+
 }

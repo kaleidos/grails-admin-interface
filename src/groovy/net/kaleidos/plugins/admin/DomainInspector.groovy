@@ -56,6 +56,14 @@ class DomainInspector {
         return domainClass.getPersistentProperty(property).isAssociation()
     }
 
+    public boolean isOneToOne(String property) {
+        return domainClass.getPersistentProperty(property).isOneToOne()
+    }
+
+    public boolean isManyToOne(String property) {
+        return domainClass.getPersistentProperty(property).isManyToOne()
+    }
+
     public boolean isOneToMany(String property) {
         return domainClass.getPersistentProperty(property).isOneToMany()
     }

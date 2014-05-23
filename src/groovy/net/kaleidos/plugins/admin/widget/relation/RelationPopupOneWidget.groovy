@@ -125,4 +125,14 @@ class RelationPopupOneWidget extends Widget{
     public getUuid() {
         return "${internalAttrs.domainClass.name}_${internalAttrs.propertyName}".replaceAll("\\.", "_").toLowerCase()
     }
+
+
+    public void updateValue() {
+        if (value) {
+            def object =  internalAttrs['relatedDomainClass'].get(value as Long)
+            updateValue(object)
+        } else {
+            updateValue(null)
+        }
+    }
 }

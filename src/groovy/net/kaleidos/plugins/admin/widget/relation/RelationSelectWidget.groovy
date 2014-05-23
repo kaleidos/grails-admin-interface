@@ -16,4 +16,13 @@ class RelationSelectWidget extends SelectWidget {
 
         return super.render()
     }
+
+    public void updateValue() {
+        if (value) {
+            def object =  internalAttrs['relatedDomainClass'].get(value as Long)
+            updateValue(object)
+        } else {
+            updateValue(null)
+        }
+    }
 }

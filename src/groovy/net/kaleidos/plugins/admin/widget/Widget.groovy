@@ -13,8 +13,15 @@ abstract class Widget {
     def getValueForJson() {
         return value.toString()
     }
-
     List<String> getAssets() {
         return []
+    }
+
+    public void updateValue() {
+        updateValue(value)
+    }
+
+    def updateValue(value) {
+        internalAttrs["domainObject"]."${internalAttrs['propertyName']}" = value
     }
 }

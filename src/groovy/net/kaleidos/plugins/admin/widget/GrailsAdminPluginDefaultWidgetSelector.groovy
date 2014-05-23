@@ -65,7 +65,6 @@ class GrailsAdminPluginDefaultWidgetSelector {
                     } catch (Exception e){}
                     if (domain) {
                         widget = new RelationPopupOneWidget()
-                        //widget.internalAttrs["relatedDomainClass"] = domain
                     } else {
                         widget = new TextInputWidget()
                     }

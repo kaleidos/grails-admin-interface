@@ -86,8 +86,9 @@ class GrailsAdminPluginWidgetService {
         if (inspector.isOneToMany(propertyName) || inspector.isManyToMany(propertyName)){
             def relatedClass = inspector.getPropertyDomainClass(propertyName)
             def relatedInspector = new DomainInspector(relatedClass)
-            widget.internalAttrs["relatedDomainClass"] = relatedInspector.domainClass
-
+            widget.internalAttrs["relatedDomainClass"] = relatedInspector.getClazz()
+        } else if (inspector.isOneToOne(propertyName) || inspector.isManyToOne(propertyName)) {
+            widget.internalAttrs["relatedDomainClass"] = inspector.getPropertyClass(propertyName)
         }
     }
 
