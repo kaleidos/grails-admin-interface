@@ -3,6 +3,9 @@ package net.kaleidos.plugins.admin.widget.relation
 import net.kaleidos.plugins.admin.widget.Widget
 import groovy.xml.MarkupBuilder
 
+import net.kaleidos.plugins.admin.DomainInspector
+
+
 class RelationTableWidget extends Widget{
 
     def grailsLinkGenerator
