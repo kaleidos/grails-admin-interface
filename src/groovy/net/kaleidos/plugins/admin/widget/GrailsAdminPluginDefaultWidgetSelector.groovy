@@ -43,6 +43,9 @@ class GrailsAdminPluginDefaultWidgetSelector {
                 case Boolean:
                     widget = new CheckboxInputWidget()
                     break
+                case Enum:
+                    widget = new EnumWidget()
+                    break
                 case File:
                     widget = new LabelWidget()
                     break

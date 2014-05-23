@@ -98,6 +98,7 @@ class GrailsAdminPluginGenericService {
 
     def _setValueByType(def object, def domainConfig, def propertyName, def val){
         def inspector = new DomainInspector(object)
+        def type = inspector.getPropertyClass(propertyName)
 
         if (inspector.isOneToMany(propertyName) || inspector.isManyToMany(propertyName)){
             def domains = []
@@ -131,14 +132,16 @@ class GrailsAdminPluginGenericService {
             return domains
         } else if (inspector.isDomainClass(propertyName)){
             if (val) {
-                object."$propertyName" =  retrieveDomain(inspector.getPropertyClass(propertyName), val as Long)
+                object."$propertyName" =  retrieveDomain(type, val as Long)
             } else {
                 object."$propertyName" =  null
             }
-        } else if (inspector.getPropertyClass(propertyName) == Date) {
+        } else if (type == Date) {
             object."$propertyName" =  Date.parse("MM/dd/yyyy", val)
-        } else if (inspector.getPropertyClass(propertyName) == Boolean) {
+        } else if (type == Boolean) {
             object."$propertyName" =  val?true:false
+        } else if (type.isEnum()) {
+            object."$propertyName" = val?Enum.valueOf(type, val):null
         } else if (inspector.getPropertyClass(propertyName) == File) {
             //Do nothing
         } else {
