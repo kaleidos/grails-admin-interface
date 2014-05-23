@@ -58,6 +58,6 @@ class DomainConfig {
     }
 
     public String getSlug() {
-        return this.className.toLowerCase()
+        return this.domainInspector.getSlug()
     }
 }

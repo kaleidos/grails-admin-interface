@@ -1,6 +1,7 @@
 package net.kaleidos.plugins.admin.builder
 
 import groovy.json.JsonBuilder
+import net.kaleidos.plugins.admin.DomainInspector
 
 class GrailsAdminPluginBuilderService {
     def adminConfigHolder
@@ -221,7 +222,7 @@ class GrailsAdminPluginBuilderService {
                     if (currentWidgetAssets) {
                         widgetAssets.addAll(currentWidgetAssets)
                     } else {
-                        def slug = widget.class.simpleName.toLowerCase()
+                        def slug = DomainInspector.getSlug(widget.class)
                         widgetAssets << "$type/admin/$slug.$type"
                     }
                 }

@@ -27,7 +27,7 @@ class RelationTableWidget extends Widget{
             def otherSideProperty = internalAttrs["grailsDomainClass"].getPropertyByName(internalAttrs['propertyName']).getOtherSide()
             def optional = otherSideProperty?otherSideProperty.isOptional():true
 
-            def listUrl = grailsLinkGenerator.link(mapping: 'grailsAdminApiAction', params:[ 'slug': domainClass.simpleName.toLowerCase() ])
+            def listUrl = grailsLinkGenerator.link(mapping: 'grailsAdminApiAction', params:[ 'slug': DomainInspector.getSlug(domainClass) ])
 
             value.each {id ->
                 def element = domainClass.get(id)
@@ -53,13 +53,13 @@ class RelationTableWidget extends Widget{
     }
 
     def _elementsTable(builder, domainClass, options, isOptional) {
-        def detailUrl = grailsLinkGenerator.link(mapping: 'grailsAdminEdit', params:['slug':domainClass.simpleName.toLowerCase(), 'id':0])
+        def detailUrl = grailsLinkGenerator.link(mapping: 'grailsAdminEdit', params:['slug':DomainInspector.getSlug(domainClass), 'id':0])
 
         builder.table "data-detailurl":detailUrl, "data-property-name":internalAttrs["propertyName"], "data-optional":isOptional, class:"table table-bordered elements-table", {
             // We need an empty elemento so grails doesn't construct <table/> when there is no elements (it's not valid html)
             mkp.yield ""
             options.each { key, value ->
-                def url = grailsLinkGenerator.link(mapping: 'grailsAdminEdit', params:['slug':domainClass.simpleName.toLowerCase(), 'id':key])
+                def url = grailsLinkGenerator.link(mapping: 'grailsAdminEdit', params:['slug':DomainInspector.getSlug(domainClass), 'id':key])
                 tr {
                     td {
                         a href: url, { mkp.yield value }

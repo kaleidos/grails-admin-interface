@@ -89,4 +89,12 @@ class DomainInspector {
     public Class getClazz() {
         return this.domainClass.clazz
     }
+
+    public String getSlug() {
+        return getSlug(this.domainClass.clazz)
+    }
+
+    public static String getSlug(Class clazz) {
+        def slug = clazz.simpleName.toLowerCase()
+    }
 }
