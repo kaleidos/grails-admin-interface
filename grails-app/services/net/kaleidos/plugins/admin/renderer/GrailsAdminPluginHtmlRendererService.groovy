@@ -13,7 +13,7 @@ class GrailsAdminPluginHtmlRendererService {
     }
 
     String renderCreateFormFields(String className, Map createWidgetProperties=[:]){
-        def objectClass = this.getClass().classLoader.loadClass(className)
+        def objectClass = Class.forName(className, true, Thread.currentThread().contextClassLoader)
         def object = objectClass?.newInstance()
         return _renderFormFields("create", object, createWidgetProperties)
     }

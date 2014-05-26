@@ -4,8 +4,6 @@ import net.kaleidos.plugins.admin.DomainInspector
 import org.codehaus.groovy.grails.validation.*
 
 class GrailsAdminPluginWidgetService {
-    def grailsApplication
-
     Widget getWidgetForClass(Class clazz, String propertyName, Map customWidget=null, Map attributes=[:]) {
         def inspector = new DomainInspector(clazz)
         def widget = null

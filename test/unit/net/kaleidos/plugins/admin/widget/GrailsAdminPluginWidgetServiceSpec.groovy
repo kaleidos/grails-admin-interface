@@ -27,7 +27,6 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
     void setup() {
         adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
         widgetService = new GrailsAdminPluginWidgetService()
-        widgetService.grailsApplication = ApplicationHolder.application
 
         //on test enviroment the is not loaded beans on mainContext, so we need to use a custom function
         widgetService.metaClass.getGrailsDomainClass = {Object object ->
