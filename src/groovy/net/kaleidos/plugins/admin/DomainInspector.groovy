@@ -5,7 +5,9 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.codehaus.groovy.grails.validation.ConstrainedProperty
 import grails.util.Holders
 import org.springframework.util.ClassUtils
+import org.codehaus.groovy.grails.exceptions.InvalidPropertyException
 
+@groovy.util.logging.Log4j
 class DomainInspector {
     def object
     def domainClass
@@ -37,7 +39,12 @@ class DomainInspector {
     }
 
     public GrailsDomainClassProperty _get(String name) {
-        return domainClass.getPropertyByName(name)
+        try {
+            return domainClass.getPropertyByName(name)
+        } catch(InvalidPropertyException e) {
+            log.error e.message
+            return null
+        }
     }
 
     public boolean isSortable(String property) {

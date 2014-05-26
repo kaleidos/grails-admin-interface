@@ -13,7 +13,7 @@ class EnumWidget extends Widget {
         def inspector = new DomainInspector(internalAttrs.domainClass)
         def type = inspector.getPropertyClass(internalAttrs.propertyName)
 
-        if (!type.isEnum()) {
+        if (!type || !type.isEnum()) {
             return "<p>The type ${type} is not a enum</p>"
         }
 
