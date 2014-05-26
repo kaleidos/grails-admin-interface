@@ -29,7 +29,7 @@ class GrailsAdminPluginJsonRendererServiceIntegrationSpec extends Specification 
             def result = JSON.parse(json)
 
         then: 'should return a json response'
-            result.size() == 14
+            result.size() == 15
             result['id'] != null
             result['__text__'] != null
     }
