@@ -6,7 +6,7 @@ import grails.validation.ValidationException
 class GrailsAdminPluginApiController {
     def adminConfigHolder
     def grailsAdminPluginGenericService
-    def grailsAdminPluginBuilderService
+    def grailsAdminPluginJsonRendererService
 
     private static int ITEMS_BY_PAGE = 20
 
@@ -31,7 +31,7 @@ class GrailsAdminPluginApiController {
                 render(["error":"Entity not found"] as JSON)
                 return
             }
-            renderedResult = grailsAdminPluginBuilderService.renderObjectAsJson(result)
+            renderedResult = grailsAdminPluginJsonRendererService.renderObjectAsJson(result)
         } else {
             def page = params.page
 
@@ -40,7 +40,7 @@ class GrailsAdminPluginApiController {
             }
 
             result = grailsAdminPluginGenericService.list(config.domainClass, (page -1) * ITEMS_BY_PAGE as Long, ITEMS_BY_PAGE as Long, params.sort,  params.sort_order)
-            renderedResult = grailsAdminPluginBuilderService.renderListAsJson(result)
+            renderedResult = grailsAdminPluginJsonRendererService.renderListAsJson(result)
         }
 
         render renderedResult
@@ -63,7 +63,7 @@ class GrailsAdminPluginApiController {
             return
         }
 
-        render grailsAdminPluginBuilderService.renderObjectAsJson(result)
+        render grailsAdminPluginJsonRendererService.renderObjectAsJson(result)
     }
 
     def postAdminAction(String slug, Long id) {
@@ -88,7 +88,7 @@ class GrailsAdminPluginApiController {
             return
         }
 
-        render grailsAdminPluginBuilderService.renderObjectAsJson(result)
+        render grailsAdminPluginJsonRendererService.renderObjectAsJson(result)
     }
 
     def deleteAdminAction(String slug, Long id) {

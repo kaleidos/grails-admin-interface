@@ -13,7 +13,7 @@ import spock.lang.Unroll
 import spock.lang.Shared
 
 import net.kaleidos.plugins.admin.config.AdminConfigHolder
-import net.kaleidos.plugins.admin.builder.GrailsAdminPluginBuilderService
+import net.kaleidos.plugins.admin.renderer.GrailsAdminPluginJsonRendererService
 
 import grails.util.Holders
 
@@ -50,8 +50,8 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
                 new TestDomain(name:"test3", year:2002),
             ]
 
-            controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
-            controller.grailsAdminPluginBuilderService.renderListAsJson(_) >> "[{\"name\":\"test1\"}, {\"name\":\"test2\"}, {\"name\":\"test3\"}]"
+            controller.grailsAdminPluginJsonRendererService = Mock(GrailsAdminPluginJsonRendererService)
+            controller.grailsAdminPluginJsonRendererService.renderListAsJson(_) >> "[{\"name\":\"test1\"}, {\"name\":\"test2\"}, {\"name\":\"test3\"}]"
 
         when:
             controller.getAdminAction(domain, null)
@@ -70,8 +70,8 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.grailsAdminPluginGenericService = Mock(GrailsAdminPluginGenericService)
             controller.grailsAdminPluginGenericService.retrieveDomain(TestDomain.class, 1) >> new TestDomain(name:name, year:year)
 
-            controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
-            controller.grailsAdminPluginBuilderService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${year}\"}"}
+            controller.grailsAdminPluginJsonRendererService = Mock(GrailsAdminPluginJsonRendererService)
+            controller.grailsAdminPluginJsonRendererService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${year}\"}"}
 
         when:
             controller.getAdminAction(domain, 1)
@@ -94,8 +94,8 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.request.contentType = "application/json"
             controller.request.content = '{"name":"TEST", year: 2000}'
 
-            controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
-            controller.grailsAdminPluginBuilderService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${yearToString}\"}"}
+            controller.grailsAdminPluginJsonRendererService = Mock(GrailsAdminPluginJsonRendererService)
+            controller.grailsAdminPluginJsonRendererService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${yearToString}\"}"}
 
         when:
             controller.putAdminAction(domain)
@@ -121,8 +121,8 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.request.contentType = "application/json"
             controller.request.content = '{year: 2003}'
 
-            controller.grailsAdminPluginBuilderService = Mock(GrailsAdminPluginBuilderService)
-            controller.grailsAdminPluginBuilderService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${yearToString}\"}"}
+            controller.grailsAdminPluginJsonRendererService = Mock(GrailsAdminPluginJsonRendererService)
+            controller.grailsAdminPluginJsonRendererService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${yearToString}\"}"}
 
         when:
             controller.postAdminAction(domain,1)

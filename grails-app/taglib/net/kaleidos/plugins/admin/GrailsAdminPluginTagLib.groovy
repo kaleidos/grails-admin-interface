@@ -3,28 +3,9 @@ package net.kaleidos.plugins.admin
 class GrailsAdminPluginTagLib {
     static namespace = 'gap'
 
-    def grailsAdminPluginBuilderService
+    def grailsAdminPluginHtmlRendererService
     def adminConfigHolder
     def grailsResourceLocator
-
-
-    /*
-     <gap:editForm
-                object="${new conferences.Conference(name:'aaaa')}"
-
-                editFormProperties="${[
-                    'class':'main-form',
-                    'style':'border: 1px solid black'
-                ]}"
-
-                editWidgetProperties="${[
-                    'class':'form-control',
-                    'style':'color: red'
-                ]}"
-
-                />
-
-    */
 
 
     def editFormFields = { attrs ->
@@ -35,7 +16,7 @@ class GrailsAdminPluginTagLib {
         }
         editWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
 
-        out << grailsAdminPluginBuilderService.renderEditFormFields(attrs.object, editWidgetProperties)
+        out << grailsAdminPluginHtmlRendererService.renderEditFormFields(attrs.object, editWidgetProperties)
     }
 
     def createFormFields = { attrs ->
@@ -46,7 +27,7 @@ class GrailsAdminPluginTagLib {
         }
         createWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
 
-        out << grailsAdminPluginBuilderService.renderCreateFormFields(attrs.className, createWidgetProperties)
+        out << grailsAdminPluginHtmlRendererService.renderCreateFormFields(attrs.className, createWidgetProperties)
     }
 
     def widgetBeforeForm = { attrs ->
@@ -56,7 +37,7 @@ class GrailsAdminPluginTagLib {
         }
         createWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
 
-        def result = grailsAdminPluginBuilderService.renderBeforeForm(attrs.className, createWidgetProperties)
+        def result = grailsAdminPluginHtmlRendererService.renderBeforeForm(attrs.className, createWidgetProperties)
         if (result) {
             out << result
         }
@@ -70,18 +51,18 @@ class GrailsAdminPluginTagLib {
         }
         createWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
 
-        def result = grailsAdminPluginBuilderService.renderAfterForm(attrs.className, createWidgetProperties)
+        def result = grailsAdminPluginHtmlRendererService.renderAfterForm(attrs.className, createWidgetProperties)
         if (result) {
             out << result
         }
     }
 
     def listLine = { attrs ->
-        out << grailsAdminPluginBuilderService.renderListLine(attrs.object)
+        out << grailsAdminPluginHtmlRendererService.renderListLine(attrs.object)
     }
 
     def listTitles = { attrs ->
-        out << grailsAdminPluginBuilderService.renderListTitle(attrs.className, attrs.sort, attrs.sortOrder)
+        out << grailsAdminPluginHtmlRendererService.renderListTitle(attrs.className, attrs.sort, attrs.sortOrder)
     }
 
     def layoutCss = { attrs ->
@@ -91,7 +72,7 @@ class GrailsAdminPluginTagLib {
             }
         }
         getViewResources("css").each(buildClosure)
-        grailsAdminPluginBuilderService.doWithAssetType(attrs.formType, attrs.className, "css", buildClosure)
+        grailsAdminPluginHtmlRendererService.doWithAssetType(attrs.formType, attrs.className, "css", buildClosure)
     }
 
     def layoutJs = { attrs->
@@ -101,7 +82,7 @@ class GrailsAdminPluginTagLib {
             }
         }
         getViewResources("js").each(buildClosure)
-        grailsAdminPluginBuilderService.doWithAssetType(attrs.formType, attrs.className, "js", buildClosure)
+        grailsAdminPluginHtmlRendererService.doWithAssetType(attrs.formType, attrs.className, "js", buildClosure)
     }
 
     def pagination = { attrs->
