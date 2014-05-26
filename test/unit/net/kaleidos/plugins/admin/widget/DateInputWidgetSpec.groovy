@@ -8,7 +8,9 @@ import spock.lang.*
 
 import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
+import admin.test.AdminDomainTest
 
+@Mock([AdminDomainTest])
 class DateInputWidgetSpec extends Specification {
     @Shared
     def slurper
@@ -28,10 +30,10 @@ class DateInputWidgetSpec extends Specification {
 
     void 'create input text without value nor attribs'() {
         setup:
-            def textInputWidget = new DateInputWidget()
+            def dateInputWidget = new DateInputWidget()
 
         when:
-            def html = textInputWidget.render()
+            def html = dateInputWidget.render()
             def result = slurper.parseText(html)
 
         then:
@@ -42,10 +44,10 @@ class DateInputWidgetSpec extends Specification {
 
     void 'create input text with value without attribs'() {
         setup:
-            def textInputWidget = new DateInputWidget(value:value)
+            def dateInputWidget = new DateInputWidget(value:value)
 
         when:
-            def html = textInputWidget.render()
+            def html = dateInputWidget.render()
             def result = slurper.parseText(html)
 
         then:
@@ -59,10 +61,10 @@ class DateInputWidgetSpec extends Specification {
 
     void 'create input text without value with attribs'() {
         setup:
-            def textInputWidget = new DateInputWidget(htmlAttrs:attrs)
+            def dateInputWidget = new DateInputWidget(htmlAttrs:attrs)
 
         when:
-            def html = textInputWidget.render()
+            def html = dateInputWidget.render()
             def result = slurper.parseText(html)
 
         then:
@@ -78,10 +80,10 @@ class DateInputWidgetSpec extends Specification {
 
     void 'create input text with value and attribs'() {
         setup:
-            def textInputWidget = new DateInputWidget(value:value, htmlAttrs:attrs)
+            def dateInputWidget = new DateInputWidget(value:value, htmlAttrs:attrs)
 
         when:
-            def html = textInputWidget.render()
+            def html = dateInputWidget.render()
             def result = slurper.parseText(html)
 
         then:
@@ -93,5 +95,23 @@ class DateInputWidgetSpec extends Specification {
         where:
             value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'test']
+    }
+
+    void 'update value'(){
+        setup:
+            def adminDomainTest = new AdminDomainTest()
+            def dateInputWidget = new DateInputWidget(value:value)
+            dateInputWidget.internalAttrs['domainObject'] = adminDomainTest
+            dateInputWidget.internalAttrs['propertyName'] = 'lastAccess'
+        when:
+            dateInputWidget.updateValue()
+        then:
+            adminDomainTest.lastAccess == Date.parse("MM/dd/yyyy", value)
+
+
+        where:
+            value = "01/01/2000"
+
+
     }
 }

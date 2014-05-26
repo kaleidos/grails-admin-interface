@@ -8,6 +8,9 @@ import spock.lang.*
 
 import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
+import admin.test.AdminDomainTest
+
+@Mock([AdminDomainTest])
 class CheckboxInputWidgetSpec extends Specification {
     @Shared
     def slurper
@@ -115,5 +118,23 @@ class CheckboxInputWidgetSpec extends Specification {
             attrs = ['size':10, 'name': 'test']
             value = null
             text << ["el valor es 1234", null, "<script>alert(0)</script>"]
+    }
+
+    void 'update value'(){
+        setup:
+            def adminDomainTest = new AdminDomainTest()
+            def dateInputWidget = new CheckboxInputWidget(value:value)
+            dateInputWidget.internalAttrs['domainObject'] = adminDomainTest
+            dateInputWidget.internalAttrs['propertyName'] = 'ok'
+        when:
+            dateInputWidget.updateValue()
+        then:
+            adminDomainTest.ok == result
+
+        where:
+            value << ["true", null]
+            result << [true, false]
+
+
     }
 }

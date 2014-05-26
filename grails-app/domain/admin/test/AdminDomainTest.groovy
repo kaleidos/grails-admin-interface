@@ -14,7 +14,7 @@ class AdminDomainTest{
     Boolean ok
     File photo
     Locale locale
-//    DateTime lastAccess
+    Date lastAccess
 
     static mapping = {
         id generator:'assigned'
@@ -32,6 +32,7 @@ class AdminDomainTest{
         ok nullable:true
         photo nullable:true
         locale nullable:true
+        lastAccess nullable:true
     }
 
 

@@ -12,6 +12,8 @@ import admin.test.TestDomain
 import admin.test.TestDomainRelation
 
 import net.kaleidos.plugins.admin.widget.GrailsAdminPluginWidgetService
+import net.kaleidos.plugins.admin.widget.Widget
+import net.kaleidos.plugins.admin.widget.TextInputWidget
 
 import spock.util.mop.ConfineMetaClassChanges
 
@@ -46,6 +48,7 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
 
     def setup() {
         service.adminConfigHolder = adminConfigHolder
+        service.grailsAdminPluginWidgetService = Mock(GrailsAdminPluginWidgetService)
     }
 
     void "List objects of a domain without filters"() {
@@ -108,6 +111,12 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
     void "Save object"() {
         setup:
             mockDomain(TestDomain)
+            service.grailsAdminPluginWidgetService.getWidget(_,_,_) >> {object, propertyName, customWidget ->
+                def widget = new TextInputWidget()
+                widget.internalAttrs.domainObject = object
+                widget.internalAttrs.propertyName = propertyName
+                return widget
+            }
 
         when:
             def result = service.saveDomain(TestDomain, ['name': 'Silence of the Lambs', 'year': 1991])
@@ -135,16 +144,25 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
         setup:
             mockDomain(TestDomain,[
                 [id: 1, name: 'The Matrix', year: 2001]])
+            service.grailsAdminPluginWidgetService.getWidget(_,_,_) >> {object, propertyName, customWidget ->
+                def widget = new TextInputWidget()
+                widget.internalAttrs.domainObject = object
+                widget.internalAttrs.propertyName = propertyName
+                return widget
+            }
 
         when:
-            def result = service.updateDomain(TestDomain, 1, ['name':'The Matrix', 'year': 2014])
+            def result = service.updateDomain(TestDomain, 1, ['name':newName, 'year': newYear])
             def find = TestDomain.get(1)
 
         then:
             result != null
             find != null
-            result.name == find.name
-            result.year == find.year
+            find.name == newName
+            find.year == newYear
+        where:
+            newName = 'Matrix'
+            newYear = 2014
     }
 
     void "Update object, object doesn't exist"() {
@@ -241,13 +259,6 @@ class GrailsAdminPluginGenericServiceSpec extends Specification {
 
     void "Remove related object"() {
         setup:
-
-            def grailsAdminPluginWidgetService = Mock(GrailsAdminPluginWidgetService)
-            grailsAdminPluginWidgetService.getGrailsDomainClass(_) >> { return new DefaultGrailsDomainClass(TestDomainRelation.class) }
-            service.grailsAdminPluginWidgetService = grailsAdminPluginWidgetService
-
-
-
             def td = new TestDomain(id: 1, name: 'The Matrix', year: 2001)
             td.save()
             def rel = new TestDomainRelation()

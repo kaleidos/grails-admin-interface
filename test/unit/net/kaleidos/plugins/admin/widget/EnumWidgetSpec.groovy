@@ -12,7 +12,9 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 import grails.util.Holders
 
+import net.kaleidos.plugins.admin.DomainInspector
 
+@Mock([admin.test.TestEnumDomain])
 class EnumWidgetSpec extends Specification {
     @Shared
     def slurper
@@ -91,5 +93,25 @@ class EnumWidgetSpec extends Specification {
             result.BODY.P.size() == 1
     }
 
-}
+    void 'update value'(){
+        setup:
+            def enumWidget = new EnumWidget(value:value)
+            def testEnumDomain = new admin.test.TestEnumDomain()
+            enumWidget.internalAttrs['domainObject'] = testEnumDomain
+            enumWidget.internalAttrs["domainClass"] = admin.test.TestEnumDomain
+            enumWidget.internalAttrs['propertyName'] = 'type'
 
+        when:
+            enumWidget.updateValue()
+        then:
+            testEnumDomain.type == result
+
+        where:
+            value << ["OPEN", "CLOSED", "PENDING"]
+            result << [admin.test.TypeEnum.OPEN, admin.test.TypeEnum.CLOSED, admin.test.TypeEnum.PENDING]
+
+
+    }
+
+
+}

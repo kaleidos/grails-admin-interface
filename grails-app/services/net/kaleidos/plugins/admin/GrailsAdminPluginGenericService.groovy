@@ -41,7 +41,7 @@ class GrailsAdminPluginGenericService {
         }
         def domainConfig = adminConfigHolder.getDomainConfig(domainClass)
         List properties = domainConfig.getDefinedProperties("edit")
-        Map customWidgets = domainConfig.getCustomWidgets("create")?:[:]
+        Map customWidgets = domainConfig.getCustomWidgets("edit")?:[:]
         properties.each{key ->
             _setValue(result, customWidgets[key], key, params["$key"])
         }
@@ -97,60 +97,6 @@ class GrailsAdminPluginGenericService {
             }
         }
     }
-
-    def _setValueByType(def object, def domainConfig, def propertyName, def val){
-        def inspector = new DomainInspector(object)
-        def type = inspector.getPropertyClass(propertyName)
-
-        if (inspector.isOneToMany(propertyName) || inspector.isManyToMany(propertyName)){
-            def domains = []
-
-            if (val) {
-                if (val instanceof List) {
-                    val.each {
-                        domains << retrieveDomain(inspector.getPropertyDomainClass(propertyName), it as Long)
-                    }
-                } else {
-                    domains << retrieveDomain(inspector.getPropertyDomainClass(propertyName), val as Long)
-                }
-            }
-
-            def cap = propertyName.capitalize()
-            if (object."${propertyName}") {
-                def current = []
-                def toDelete = (object."${propertyName}").findAll{! (it in domains)}
-                current.addAll(toDelete)
-                current.each {
-                    object."removeFrom$cap"(it)
-                }
-            }
-
-            def toAdd = domains.findAll{! (it in object."${propertyName}")}
-
-            toAdd.each{
-                object."addTo$cap"(it)
-            }
-
-            return domains
-        } else if (inspector.isDomainClass(propertyName)){
-            if (val) {
-                object."$propertyName" =  retrieveDomain(type, val as Long)
-            } else {
-                object."$propertyName" =  null
-            }
-        } else if (type == Date) {
-            object."$propertyName" =  Date.parse("MM/dd/yyyy", val)
-        } else if (type == Boolean) {
-            object."$propertyName" =  val?true:false
-        } else if (type.isEnum()) {
-            object."$propertyName" = val?Enum.valueOf(type, val):null
-        } else if (inspector.getPropertyClass(propertyName) == File) {
-            //Do nothing
-        } else {
-            object."$propertyName" =   val
-        }
-    }
-
 
     def _setValue(def object, def customWidget, def propertyName, def val){
         def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidget)

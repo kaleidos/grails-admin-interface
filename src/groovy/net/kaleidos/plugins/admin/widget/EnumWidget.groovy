@@ -44,4 +44,10 @@ class EnumWidget extends Widget {
           'libs/select2/select2.js'
         ]
     }
+
+    def updateValue(value) {
+        def inspector = new DomainInspector(internalAttrs.domainClass)
+        def type = inspector.getPropertyClass(internalAttrs.propertyName)
+        internalAttrs["domainObject"]."${internalAttrs['propertyName']}" = value?Enum.valueOf(type, value):null
+    }
 }
