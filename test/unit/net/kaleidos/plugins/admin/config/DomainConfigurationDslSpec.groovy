@@ -50,18 +50,43 @@ class DomainConfigurationDslSpec extends Specification {
     void "Customize widget for attribute"() {
         setup:
             def config = new DomainConfigurationDsl(NameYearDomain.class, {
-                list customWidgets: ['name': 'test.MyWidget']
+                widget 'name', 'test.MyWidget'
             })
 
         when:
             def result = config.execute()
-            def widgetMap = result.getCustomWidgets("list")
+            def widgetMap = result.getCustomWidgets(formType)
 
         then:
             result != null
-            result.getCustomWidgets("list") != null
-            result.getCustomWidgets("list").name != null
+            widgetMap != null
+            widgetMap.name != null
+
+        where:
+            formType << ['create', 'edit']
     }
+
+    void "Customize widget for attribute. Additional params"() {
+        setup:
+            def config = new DomainConfigurationDsl(NameYearDomain.class, {
+                widget 'name', 'test.MyWidget', dateFormat:'dd/MM/yyyy'
+            })
+
+        when:
+            def result = config.execute()
+            def widgetMap = result.getCustomWidgets(formType)
+
+        then:
+            result != null
+            widgetMap != null
+            widgetMap.name.class == "test.MyWidget"
+            widgetMap.name.attributes != null
+            widgetMap.name.attributes.dateFormat == 'dd/MM/yyyy'
+
+        where:
+            formType << ['create', 'edit']
+    }
+
 
 }
 

@@ -42,11 +42,21 @@ class DomainConfigurationDsl {
         return domainConfig
     }
 
-    def methodMissing(String name, args) {
-        assert ['list', 'create', 'edit'].contains(name), "$name is not a valid property"
-        assert args.size() == 1, "$args is not valid"
-        assert args[0] instanceof Map, "${ args[0] } is not valid"
+    def widget(Map attributes=[:], String property, String clazz) {
+        ['create','edit'].each{
+            this.params[it] = this.params[it] ?: [:]
+            this.params[it]['customWidgets'] = this.params[it]['customWidgets'] ?: [:]
+            this.params[it]['customWidgets'][property] = ["class":clazz, attributes:attributes]
+        }
+    }
 
-        this.params[name] = args[0]
+    def methodMissing(String name, args) {
+        assert ['list', 'create', 'edit', 'widget'].contains(name), "$name is not a valid property"
+        if (['list', 'create', 'edit'].contains(name)) {
+            assert args.size() == 1, "$args is not valid"
+            assert args[0] instanceof Map, "${ args[0] } is not valid"
+
+            this.params[name] = args[0]
+        }
     }
 }

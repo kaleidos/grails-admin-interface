@@ -7,6 +7,7 @@ import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.*
 
 import admin.test.AdminDomainTest
+
 import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 import org.codehaus.groovy.grails.commons.ApplicationHolder
@@ -129,11 +130,19 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
             thrown(RuntimeException)
     }
 
-    // void 'get widget for datetime class'() {
-    //     when:
-    //         def widget = widgetService.getWidget(adminDomainTest, "lastAccess", null, null)
-    //     then:
-    //         widget.class == DateTimeInputWidget.class
-    // }
+    void 'Custom widget'() {
+        when:
+            def widget = widgetService.getWidgetForClass(AdminDomainTest, "name", ["class":"net.kaleidos.plugins.admin.widget.MyCustomWidget", attributes:["format":"dd/MM/yyyy"]], null)
 
+        then:
+            widget != null
+            widget.class == MyCustomWidget
+            widget.internalAttrs.format == "dd/MM/yyyy"
+    }
+}
+
+class MyCustomWidget extends Widget{
+    String render() {
+        return "<p>My Widget</p>"
+    }
 }

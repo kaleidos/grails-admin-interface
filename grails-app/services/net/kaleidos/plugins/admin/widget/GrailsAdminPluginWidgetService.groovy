@@ -6,15 +6,16 @@ import org.codehaus.groovy.grails.validation.*
 class GrailsAdminPluginWidgetService {
     def grailsApplication
 
-    Widget getWidgetForClass(Class clazz, String propertyName, String customWidget=null, Map attributes=[:]) {
+    Widget getWidgetForClass(Class clazz, String propertyName, Map customWidget=null, Map attributes=[:]) {
         def inspector = new DomainInspector(clazz)
         def widget = null
         if (customWidget) {
             try {
-                def widgetClass = Class.forName(customWidget, true, Thread.currentThread().contextClassLoader)
+                def widgetClass = Class.forName(customWidget['class'], true, Thread.currentThread().contextClassLoader)
                 widget = widgetClass?.newInstance()
+                widget.internalAttrs = customWidget.attributes
             } catch (ClassNotFoundException e) {
-                throw new RuntimeException("Class $customWidget not found or not implemented")
+                throw new RuntimeException("Class ${customWidget['class']} not found or not implemented")
             }
         } else {
             widget = GrailsAdminPluginDefaultWidgetSelector.getDefaultWidgetForProperty(clazz, propertyName)
@@ -31,7 +32,7 @@ class GrailsAdminPluginWidgetService {
         return widget
     }
 
-    Widget getWidget(Object object, String propertyName, String customWidget=null, Map attributes=[:]) {
+    Widget getWidget(Object object, String propertyName, Map customWidget=null, Map attributes=[:]) {
         def widget = getWidgetForClass(object.class, propertyName, customWidget, attributes)
 
         def inspector = new DomainInspector(object)
