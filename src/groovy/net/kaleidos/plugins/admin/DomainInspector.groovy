@@ -48,11 +48,12 @@ class DomainInspector {
     }
 
     public boolean isSortable(String property) {
-        return !domainClass.getPropertyByName(property).isAssociation()
+        def validProperties = getPropertyNames(true)
+        return validProperties.contains(property) && !_get(property).isAssociation()
     }
 
     public boolean isAssociation(String property) {
-        return domainClass.getPropertyByName(property).isAssociation()
+        return domainClass.getPersistentProperty(property).isAssociation()
     }
 
     public boolean isOneToMany(String property) {
@@ -76,7 +77,14 @@ class DomainInspector {
     }
 
     public Class getPropertyDomainClass(String property) {
-        return _get(property).getReferencedDomainClass().clazz
+        def domain = _get(property).getReferencedDomainClass()?.clazz
+        if (domain) {
+            return domain
+        }
+        if (isDomainClass(property)) {
+            return getPropertyClass(property)
+        }
+        return null
     }
 
     Collection getPropertyConstraints(propertyName) {
