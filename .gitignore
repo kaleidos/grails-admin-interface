@@ -1,52 +1,10 @@
-# .gitignore for Grails 1.2 and 1.3
-
-# web application files
-/web-app/WEB-INF/classes
-/web-app/WEB-INF/tld
-
-# default HSQL database files for production mode
-/prodDb.*
-
-# general HSQL database files
-*Db.properties
-*Db.script
-
-# logs
-/stacktrace.log
-/test/reports
-/logs
-
-# project release file
-/*.war
-
-# plugin release files
-/*.zip
-/plugin.xml
-
-# older plugin install locations
-/plugins
-/web-app/plugins
-
-# "temporary" build files
-/target
-
-*.class
-*.log
-
-.classpath
+.claspath
 .project
 .settings
-
-# vim
-[._]*.s[a-w][a-z]
-[._]s[a-w][a-z]
-*.un~
-Session.vim
-.netrwhist
-*~
-
-*.orig
 cobertura.ser
+*.swp
+target/
+plugin.xml
 bower_components
 node_modules
 .sass-cache
