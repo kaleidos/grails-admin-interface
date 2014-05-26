@@ -53,10 +53,28 @@ class DateInputWidgetSpec extends Specification {
         then:
             result.BODY.INPUT.size() == 1
             result.BODY.INPUT.@type.text() == "date"
-            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+            result.BODY.INPUT.@value.text() == "01/01/2000"
 
         where:
-            value = "<script>alert(1234)</script>"
+            value = Date.parse("MM/dd/yyyy", "01/01/2000")
+    }
+
+    void 'create input text with value without attribs with special format'() {
+        setup:
+            def dateInputWidget = new DateInputWidget(value:value)
+            dateInputWidget.internalAttrs["dateFormat"] = "yyyyMMdd"
+
+        when:
+            def html = dateInputWidget.render()
+            def result = slurper.parseText(html)
+
+        then:
+            result.BODY.INPUT.size() == 1
+            result.BODY.INPUT.@type.text() == "date"
+            result.BODY.INPUT.@value.text() == "20000101"
+
+        where:
+            value = Date.parse("MM/dd/yyyy", "01/01/2000")
     }
 
     void 'create input text without value with attribs'() {
@@ -89,11 +107,11 @@ class DateInputWidgetSpec extends Specification {
         then:
             result.BODY.INPUT.size() == 1
             result.BODY.INPUT.@type.text() == "date"
-            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+            result.BODY.INPUT.@value.text() == "01/01/2000"
             result.BODY.INPUT.@size.text() == "10"
 
         where:
-            value = "<script>alert(1234)</script>"
+            value = Date.parse("MM/dd/yyyy", "01/01/2000")
             attrs = ['size':10, 'name': 'test']
     }
 
@@ -114,4 +132,26 @@ class DateInputWidgetSpec extends Specification {
 
 
     }
+
+    void 'update value with special format'(){
+        setup:
+            def adminDomainTest = new AdminDomainTest()
+            def dateInputWidget = new DateInputWidget(value:value)
+            dateInputWidget.internalAttrs["dateFormat"] = "yyyyMMdd"
+            dateInputWidget.internalAttrs['domainObject'] = adminDomainTest
+            dateInputWidget.internalAttrs['propertyName'] = 'lastAccess'
+        when:
+            dateInputWidget.updateValue()
+        then:
+            adminDomainTest.lastAccess == Date.parse("yyyyMMdd", "20000101")
+
+
+        where:
+            value = "20000101"
+
+
+    }
+
+
+
 }
