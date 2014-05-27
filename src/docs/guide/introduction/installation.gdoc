@@ -3,10 +3,20 @@ To install you should include in your BuildConfig.groovy
 {code}
 plugins {
     runtime "\:admin\:0.1"
+}
+{code}
 
-    // Remember, there are some plugin dependencies
+It's recommended that you include a Spring Security Core plugin to secure the administration.
+
+{code}
+plugins {
     // Spring Security v1.X , example:
     compile "\:spring-security-core\:1.2.7.3"
+}
+{code}
+
+{code}
+plugins {
     // ... or v2.X , example:
     compile "\:spring-security-core\:2.0-RC3"
 }
@@ -16,5 +26,5 @@ and edit your app @Config.groovy@ and include the list of domains to start worki
 
 Example:
 {code}
-grails.plugin.admin.role = [ "net.kaleidos.TestDomain", "net.kaleidos.AnotherDomain" ]
+grails.plugin.admin.domains = [ "net.kaleidos.TestDomain", "net.kaleidos.AnotherDomain" ]
 {code}

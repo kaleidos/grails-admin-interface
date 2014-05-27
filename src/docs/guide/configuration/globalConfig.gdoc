@@ -9,7 +9,10 @@ The property is a list of strings containing the full class name of your domains
 By default it contains an empty list.
 
 {code}
-grails.plugin.admin.role = [ "net.kaleidos.TestDomain", "net.kaleidos.AnotherDomain" ]
+grails.plugin.admin.comains = [
+    "net.kaleidos.TestDomain",
+    "net.kaleidos.AnotherDomain"
+]
 {code}
 
 h4. Admin access root
