@@ -39,7 +39,10 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/widgets.html"><strong>5</strong><span>Widgets</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>6</strong><span>FAQ</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/roadmap.html"><strong>6</strong><span>Roadmap</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>7</strong><span>FAQ</span></a>
                     </div>
                     
                 </div>
@@ -146,7 +149,8 @@ To install you should include in your BuildConfig.groovy<p class="paragraph"/><d
     compile <span class="java&#45;quote">"&#58;spring&#45;security&#45;core&#58;1.2.7.3"</span>
     // &#8230; or v2.X , example:
     compile <span class="java&#45;quote">"&#58;spring&#45;security&#45;core&#58;2.0&#45;RC3"</span>
-&#125;</pre></div>
+&#125;</pre></div><p class="paragraph"/>and edit your app <code>Config.groovy</code> and include the list of domains to start working with:<p class="paragraph"/>Example:
+<div class="code"><pre>grails.plugin.admin.role = &#91; <span class="java&#45;quote">"net.kaleidos.TestDomain"</span>, <span class="java&#45;quote">"net.kaleidos.AnotherDomain"</span> &#93;</pre></div>
 
 
 

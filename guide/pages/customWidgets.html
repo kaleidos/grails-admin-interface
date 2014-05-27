@@ -39,7 +39,10 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../../guide/widgets.html"><strong>5</strong><span>Widgets</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>6</strong><span>FAQ</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/roadmap.html"><strong>6</strong><span>Roadmap</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>7</strong><span>FAQ</span></a>
                     </div>
                     
                 </div>
@@ -71,7 +74,7 @@ function addJsClass() {
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../../guide/faq.html"><strong>6</strong><span>FAQ</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/roadmap.html"><strong>6</strong><span>Roadmap</span> >></a></div>
                 
 
 
@@ -90,7 +93,11 @@ function addJsClass() {
                 
 
 <h2 id="customWidgets">5.4 Custom widgets</h2>
-Besides the built in widgets, you can create your own custom widgets.<p class="paragraph"/><h2>Groovy side</h2><p class="paragraph"/><h3>Inherit from Widget</h3><p class="paragraph"/>Your custom widget should inherit from the class net.kaleidos.plugins.admin.widget.Widget. That is an abstract class, that has only one methods that you must implement:
+Besides the built in widgets, you can create your own custom widgets.<p class="paragraph"/>Edit your app <code>Config.groovy</code> and add this line for a domain class and property, where you define the custom widget class and some properties to configure.<p class="paragraph"/>Example:<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
+    widget <span class="java&#45;quote">"address"</span>, <span class="java&#45;quote">"net.kaleidos.test.MyTestWidget"</span>, width: 500, height: 100
+&#125;</pre></div><p class="paragraph"/>In this example we configure for domain class <code>Test</code> and property <code>address</code> a custom widget call <code>MyTestWidget</code>.
+Some properties could be specified and will we copied directly to HTML component.<p class="paragraph"/>
+<h2>Groovy side</h2><p class="paragraph"/><h3>Inherit from Widget</h3><p class="paragraph"/>Your custom widget should inherit from the class net.kaleidos.plugins.admin.widget.Widget. That is an abstract class, that has only one methods that you must implement:
 <ul class="star">
 <li>String render(): The method to render your widget as html</li>
 </ul><p class="paragraph"/>Also, Widget define sever methods that you can overwrite if yo need them
@@ -189,7 +196,7 @@ NOTE: GrailsAdminPlugin uses jquery, so it is available for your custom widgets 
                 
                     <div class="toc-item prev-left"><a href="../../guide/tutorial.html">&lt;&lt; <strong>4</strong><span>Tutorial</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../../guide/faq.html"><strong>6</strong><span>FAQ</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/roadmap.html"><strong>6</strong><span>Roadmap</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
