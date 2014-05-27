@@ -38,6 +38,8 @@ widgets:
         urlInputWidget: UrlInputWidget
     customWidgets: Custom widgets
 
+roadmap:
+    title: Roadmap
 
 faq:
     title: FAQ

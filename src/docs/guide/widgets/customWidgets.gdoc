@@ -1,5 +1,19 @@
 Besides the built in widgets, you can create your own custom widgets.
 
+Edit your app @Config.groovy@ and add this line for a domain class and property, where you define the custom widget class and some properties to configure.
+
+Example:
+
+{code}
+grails.plugin.admin.domain.Test = {
+    widget "address", "net.kaleidos.test.MyTestWidget", width: 500, height: 100
+}
+{code}
+
+In this example we configure for domain class @Test@ and property @address@ a custom widget call @MyTestWidget@.
+Some properties could be specified and will we copied directly to HTML component.
+
+
 h2. Groovy side
 
 h3. Inherit from Widget

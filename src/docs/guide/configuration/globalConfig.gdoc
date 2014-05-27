@@ -1,4 +1,21 @@
+h4. Domains List
+
+_*Necessary*_
+
+You have to explicitely set the domains that your application is going to manage.
+
+The property is a list of strings containing the full class name of your domains
+
+By default it contains an empty list.
+
+{code}
+grails.plugin.admin.role = [ "net.kaleidos.TestDomain", "net.kaleidos.AnotherDomain" ]
+{code}
+
 h4. Admin access root
+
+_Optional_
+
 A good security practice is not to use a "standard" URI to access your administration backend.
 
 Grails-Admin allows you to customize the endpoint so it uses a custom one.
@@ -10,6 +27,9 @@ grails.plugin.admin.access_root = "/admin"
 {code}
 
 h4. Security access role
+
+_Optional_
+
 The default role required for a user to access the admin is "ROLE_ADMIN" but you can customize
 to use any role defined with your application.
 
@@ -18,13 +38,3 @@ grails.plugin.admin.role = "ROLE_ADMIN"
 {code}
 
 
-h4. Domains List
-You have to excplicitely set the domains that your application is going to manage.
-
-The property is a list of strings containing the full class name of your domains
-
-By default it contains an empty list.
-
-{code}
-grails.plugin.admin.role = [ "test.admin.TestDomain", "test.admin.AnotherDomain" ]
-{code}

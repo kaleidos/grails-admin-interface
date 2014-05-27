@@ -11,3 +11,10 @@ plugins {
     compile "\:spring-security-core\:2.0-RC3"
 }
 {code}
+
+and edit your app @Config.groovy@ and include the list of domains to start working with:
+
+Example:
+{code}
+grails.plugin.admin.role = [ "net.kaleidos.TestDomain", "net.kaleidos.AnotherDomain" ]
+{code}

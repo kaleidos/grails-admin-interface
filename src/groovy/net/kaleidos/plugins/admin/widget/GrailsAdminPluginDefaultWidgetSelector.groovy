@@ -69,6 +69,7 @@ class GrailsAdminPluginDefaultWidgetSelector {
                     if (domain) {
                         widget = new RelationPopupOneWidget()
                     } else {
+                        // TODO: Change to Label, to prevent accidental changes
                         widget = new TextInputWidget()
                     }
             }

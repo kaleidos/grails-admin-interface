@@ -1,1 +1,25 @@
-Grails admin provides a set of built in widgets that should cover the majority of situations.
+The built-in widgets are associated with types and sometimes modified by constraints:
+
+{table}
+*Type* | *Constraint* | *Widget*
+ | @inList@ | @SelectWidget@
+@Byte@ || @NumberInputWidget@
+@Short@
+@Integer@
+@Long@
+@Float@|| @DecimalInputWidget@
+@Double@
+@Character@|| @TextInputWidget@
+@String@|| @TextInputWidget@
+ |@email@| @EmailInputWidget@
+ |@url@| @UrlInputWidget@
+@Date@|| @DateInputWidget@
+@Boolean@|| @CheckboxInputWidget@
+@Enum@|| @EnumWidget@
+@File@|| @LabelWidget@
+@Collection@|| @RelationTableWidget@ or @LabelWidget@
+<Other Domain Class>||@RelationPopupOneWidget@
+_Unknown_||@LabelWidget@
+{table}
+
+@LabelWidget@ is a special widget used when we don't know how to handle a type or his value, like @File@ or @Collection@ types
