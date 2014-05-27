@@ -1,25 +1,57 @@
-The built-in widgets are associated with types and sometimes modified by constraints:
+Grails Admin Plugin brings to you several built in widgets, that you can use. The complete list of Built in widgets is this:
+
+{table}
+CheckboxInputWidget.groovy
+InputWidget.groovy
+TextInputWidget.groovy
+SelectWidget.groovy
+DecimalInputWidget.groovy
+UrlInputWidget.groovy
+HiddenInputWidget.groovy
+LabelWidget.groovy
+PasswordInputWidget.groovy
+TextAreaWidget.groovy
+RelationPopupOneWidget.groovy
+RelationSelectWidget.groovy
+RelationTableWidget.groovy
+RelationSelectMultipleWidget.groovy
+MapWidget.groovy
+EnumWidget.groovy
+NumberInputWidget.groovy
+DateInputWidget.groovy
+SelectMultipleWidget.groovy
+EmailInputWidget.groovy
+TimeInputWidget.groovy
+DateTimeInputWidget.groovy
+{table}
+
+
+
+If you not specify otherwise on configuration, Grails Admin will select a built-in widget by the type of the attribute(sometimes modified by constraints):
 
 {table}
 *Type* | *Constraint* | *Widget*
- | @inList@ | @SelectWidget@
-@Byte@ || @NumberInputWidget@
-@Short@
-@Integer@
-@Long@
-@Float@|| @DecimalInputWidget@
-@Double@
-@Character@|| @TextInputWidget@
-@String@|| @TextInputWidget@
- |@email@| @EmailInputWidget@
- |@url@| @UrlInputWidget@
-@Date@|| @DateInputWidget@
-@Boolean@|| @CheckboxInputWidget@
-@Enum@|| @EnumWidget@
-@File@|| @LabelWidget@
-@Collection@|| @RelationTableWidget@ or @LabelWidget@
-<Other Domain Class>||@RelationPopupOneWidget@
-_Unknown_||@LabelWidget@
+ - | @inList@ | @SelectWidget@
+@Byte@ | - | @NumberInputWidget@
+@Short@ | - | @NumberInputWidget@
+@Integer@ | - | @NumberInputWidget@
+@Long@ | - | @NumberInputWidget@
+@Float@| - | @DecimalInputWidget@
+@Double@| - | @DecimalInputWidget@
+@Character@| - | @TextInputWidget@
+@String@| - | @TextInputWidget@
+ - |@email@| @EmailInputWidget@
+ - |@url@| @UrlInputWidget@
+@Date@| - | @DateInputWidget@
+@Boolean@| - | @CheckboxInputWidget@
+@Enum@| - | @EnumWidget@
+@File@| - | @LabelWidget@
+@Collection of other Domain Class@| - | @RelationTableWidget@
+@Collection@| - | @LabelWidget@
+<Other Domain Class>| - |@RelationPopupOneWidget@
+_Unknown_| - |@LabelWidget@
 {table}
 
-@LabelWidget@ is a special widget used when we don't know how to handle a type or his value, like @File@ or @Collection@ types
+
+
+@LabelWidget@ is used when we don't know how to handle a type or his value, like @Locale@, @File@ or @Collection@ types, in order to don't scramble your data

@@ -28,6 +28,7 @@ widgets:
         emailInputWidget: EmailInputWidget
         hiddenInputWidget: HiddenInputWidget
         labelWidget: LabelWidget
+        mapWidget: MapWidget
         numberInputWidget: NumberInputWidget
         passwordInputWidget: PasswordInputWidget
         selectMultipleWidget: SelectMultipleWidget
