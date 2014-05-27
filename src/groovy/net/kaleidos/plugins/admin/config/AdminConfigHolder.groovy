@@ -91,7 +91,24 @@ class AdminConfigHolder {
         def config = this.domains[objClass.name]
 
         if (!config) {
-            config = getDomainConfig(objClass.getSuperclass())
+            config = _getParentDomainConfig(objClass)
+        }
+
+        if (!config && DomainInspector.isDomain(objClass)) {
+            config = new DomainConfig(objClass)
+        }
+
+        return config
+    }
+
+    public DomainConfig _getParentDomainConfig(Class clazz) {
+        def objClass = clazz.getSuperclass()
+        if (!objClass || Object.class == objClass) {
+            return null
+        }
+        def config = this.domains[objClass.name]
+        if (!config) {
+            config = _getParentDomainConfig(objClass)
         }
 
         return config
@@ -108,6 +125,15 @@ class AdminConfigHolder {
     }
 
     public DomainConfig getDomainConfigBySlug(String slug) {
-        return this.domains.find { it.value.slug == slug }?.value
+        def config = this.domains.find { it.value.slug == slug }?.value
+
+        if (!config) {
+            def clazz = DomainInspector.getClassWithSlug(slug)
+            if (clazz) {
+                config = new DomainConfig(clazz)
+            }
+        }
+
+        return config
     }
 }

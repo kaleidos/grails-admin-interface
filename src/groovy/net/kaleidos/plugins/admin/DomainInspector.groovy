@@ -12,6 +12,10 @@ class DomainInspector {
     def object
     def domainClass
 
+    static Boolean isDomain(Class clazz) {
+        return Holders.grailsApplication.domainClasses.find { it.clazz == clazz } != null
+    }
+
     static DomainInspector find(String name) {
         def domainClass = Holders.grailsApplication.domainClasses.find { it.clazz.name == name }
         if (!domainClass) {
@@ -20,14 +24,28 @@ class DomainInspector {
         return new DomainInspector(domainClass.clazz)
     }
 
+    static Class getClassWithSlug(String slug) {
+        def domainClass = Holders.grailsApplication.domainClasses.find { getSlug(it.clazz) == slug }
+        if (!domainClass) {
+            return null
+        }
+        return domainClass.clazz
+    }
+
     public DomainInspector(Object object) {
         def realClass = ClassUtils.getUserClass(object.getClass())
         this.domainClass = Holders.grailsApplication.domainClasses.find { it.clazz == realClass }
         this.object = object
+        if (this.domainClass == null) {
+            throw new RuntimeException("$domainClass is not a domain class")
+        }
     }
 
     public DomainInspector(Class clazz) {
         this.domainClass = Holders.grailsApplication.domainClasses.find { it.clazz == clazz }
+        if (this.domainClass == null) {
+            throw new RuntimeException("$domainClass is not a domain class")
+        }
     }
 
     public List<String> getPropertyNames(boolean persistent=true) {
