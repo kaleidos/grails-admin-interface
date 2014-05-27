@@ -38,7 +38,7 @@ class DateInputWidgetSpec extends Specification {
 
         then:
             result.BODY.INPUT.size() == 1
-            result.BODY.INPUT.@type.text() == "date"
+            result.BODY.INPUT.@type.text() == "text"
     }
 
 
@@ -52,7 +52,7 @@ class DateInputWidgetSpec extends Specification {
 
         then:
             result.BODY.INPUT.size() == 1
-            result.BODY.INPUT.@type.text() == "date"
+            result.BODY.INPUT.@type.text() == "text"
             result.BODY.INPUT.@value.text() == "01/01/2000"
 
         where:
@@ -70,7 +70,7 @@ class DateInputWidgetSpec extends Specification {
 
         then:
             result.BODY.INPUT.size() == 1
-            result.BODY.INPUT.@type.text() == "date"
+            result.BODY.INPUT.@type.text() == "text"
             result.BODY.INPUT.@value.text() == "20000101"
 
         where:
@@ -87,7 +87,7 @@ class DateInputWidgetSpec extends Specification {
 
         then:
             result.BODY.INPUT.size() == 1
-            result.BODY.INPUT.@type.text() == "date"
+            result.BODY.INPUT.@type.text() == "text"
             result.BODY.INPUT.@name.text() == "test"
             result.BODY.INPUT.@size.text() == "10"
 
@@ -106,7 +106,7 @@ class DateInputWidgetSpec extends Specification {
 
         then:
             result.BODY.INPUT.size() == 1
-            result.BODY.INPUT.@type.text() == "date"
+            result.BODY.INPUT.@type.text() == "text"
             result.BODY.INPUT.@value.text() == "01/01/2000"
             result.BODY.INPUT.@size.text() == "10"
 

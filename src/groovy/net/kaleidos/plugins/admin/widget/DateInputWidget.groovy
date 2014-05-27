@@ -2,12 +2,8 @@ package net.kaleidos.plugins.admin.widget
 
 import groovy.xml.MarkupBuilder
 
-class DateInputWidget extends InputWidget{
+class DateInputWidget extends Widget{
     static String DEFAULT_DATE_FORMAT = "MM/dd/yyyy"
-
-    DateInputWidget() {
-        inputType = "date"
-    }
 
     def getValueForJson() {
         def format = _getFormat()
@@ -20,10 +16,13 @@ class DateInputWidget extends InputWidget{
         def writer = new StringWriter()
         def builder = new MarkupBuilder(writer)
 
-        def attrs = htmlAttrs.clone()
-        attrs << ["type": inputType]
         def format = _getFormat()
+
+        def attrs = htmlAttrs.clone()
+        attrs << ["type": "text"]
+        attrs << ["class": "date"]
         attrs << ["value": value?value.format(format):""]
+
 
         builder.input(attrs)
 
@@ -32,7 +31,10 @@ class DateInputWidget extends InputWidget{
 
 
     List<String> getAssets() {
-        return [ 'libs/bootstrap-datepicker/css/datepicker3.css', 'libs/bootstrap-datepicker/js/bootstrap-datepicker.js']
+        return [
+            'grails-admin/libs/bootstrap-datepicker/css/datepicker3.css',
+            'grails-admin/libs/bootstrap-datepicker/js/bootstrap-datepicker.js',
+            'grails-admin/js/datepicker.js']
     }
 
 
