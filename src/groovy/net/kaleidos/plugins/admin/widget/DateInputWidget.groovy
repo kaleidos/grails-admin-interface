@@ -39,8 +39,12 @@ class DateInputWidget extends Widget{
 
 
     public void updateValue() {
-        def format = _getFormat()
-        updateValue(Date.parse(format, value))
+        if (value) {
+            def format = _getFormat()
+            updateValue(Date.parse(format, value))
+        } else {
+            value = null
+        }
     }
 
     String _getFormat(){
