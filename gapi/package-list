@@ -1,7 +1,7 @@
 DefaultPackage
 admin.test
 net.kaleidos.plugins.admin
-net.kaleidos.plugins.admin.builder
 net.kaleidos.plugins.admin.config
+net.kaleidos.plugins.admin.renderer
 net.kaleidos.plugins.admin.widget
 net.kaleidos.plugins.admin.widget.relation

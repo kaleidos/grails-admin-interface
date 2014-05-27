@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5.3 Custom widgets 0.1</title>
+    <title>5.4 Custom widgets 0.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -76,7 +76,7 @@ function addJsClass() {
 
 
                 <div class="project">
-                    <h1>5.3 Custom widgets - Reference Documentation</h1>
+                    <h1>5.4 Custom widgets - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
@@ -89,8 +89,99 @@ function addJsClass() {
 
                 
 
-<h2 id="customWidgets">5.3 Custom widgets</h2>
-customWidgets
+<h2 id="customWidgets">5.4 Custom widgets</h2>
+Besides the built in widgets, you can create your own custom widgets.<p class="paragraph"/><h2>Groovy side</h2><p class="paragraph"/><h3>Inherit from Widget</h3><p class="paragraph"/>Your custom widget should inherit from the class net.kaleidos.plugins.admin.widget.Widget. That is an abstract class, that has only one methods that you must implement:
+<ul class="star">
+<li>String render(): The method to render your widget as html</li>
+</ul><p class="paragraph"/>Also, Widget define sever methods that you can overwrite if yo need them
+<ul class="star">
+<li>String renderBeforeForm(): Render code html <strong class="bold">before</strong> the form that contains all the widgets</li>
+<li>String renderAfterForm(): Render code html <strong class="bold">after</strong> the form that contains all the widgets</li>
+<li>Object getValueForJson(): Returns an object (usually an string) that whould be used in order to represent the current value of the widget when the widget is represented as JSON.</li>
+<li>List&#60;String&#62; getAssets(): Returns the list of assets (css and js) needed for the html representation of this widget. GrailsAdminPlugin uses the convention-over-configuration paradigm, so if you don't implement this method, it will try to load one js file and one css file with the same name that the widget.</li>
+</ul><p class="paragraph"/>Last, there are several properties that you can use. Note that you don't write this properties, it is GrailsAdminPlugin who assign the values. You should use this properties as read-only.
+<ul class="star">
+<li>Object value: The current value of the widget. Its type will depend on the actual widget. For example, on a TextInputWidget will be a String, and on a SelectMultipleWidget will be a list.</li>
+<li>Map htmlAttrs: A map of properties to be rendered on the html representation, like the name, if it is required, etc.</li>
+<li>Map internalAttrs: A map of properties internal for the widget. Remember that the widget represents a property of a domain object, so:</li>
+<ul class="star">
+<li>domainObject: This is that domain object. Note that it could be null (for example, on the create screen)</li>
+<li>propertyName: This is the name of that property.</li>
+<li>domainClass: This is the class of that object.</li>
+<li>relatedDomainClass: If the property is a relation with another domain class, this is that domain class. It could be null.</li>
+</ul></ul><p class="paragraph"/><h3>Sample</h3><p class="paragraph"/>With all this, lets make a sample Widget. We will create a custom widget that show an addres on a map. It will be used for properties of type String.<p class="paragraph"/><strong class="bold">Create the Widget Class</strong><p class="paragraph"/>We will create our widget on the file src/groovy/sample/MapWidget.groovy<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> sample<p class="paragraph"/><span class="java&#45;keyword">import</span> net.kaleidos.plugins.admin.widget.Widget<p class="paragraph"/>class MapWidget <span class="java&#45;keyword">extends</span> Widget &#123;<p class="paragraph"/>    @Override
+    <span class="java&#45;object">String</span> render() &#123;
+        <span class="java&#45;keyword">return</span> <span class="java&#45;quote">""</span>
+    &#125;
+&#125;</pre></div><p class="paragraph"/>
+<strong class="bold">Create the render method</strong><p class="paragraph"/>We will have the address on the value attribute of the widget.
+We want that out widget create an iframe showing the address on the map.<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> render() &#123;
+    def html = <span class="java&#45;keyword">new</span> StringBuilder()
+    html.append(<span class="java&#45;quote">"&#60;div&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'"</span>)
+    html.append(<span class="java&#45;quote">"src='https://maps.google.com/maps?f=q&#38;amp;q=$&#123;value&#125;&#38;amp;output=embed'"</span>)
+    html.append(<span class="java&#45;quote">"&#62;&#60;/iframe&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/div&#62;"</span>)<p class="paragraph"/>    <span class="java&#45;keyword">return</span> html
+&#125;</pre></div><p class="paragraph"/><strong class="bold">Upgrade the render method to allow edition</strong><p class="paragraph"/>The render method is cool, and show the address on a map, but we want also to allow to update the address. In order to do so, we need to add an input field below the map. Also, it is important to render the htmlAttrs, in order to get all the properties needed.
+So we must add several lines to the render metod<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> render() &#123;
+    def html = <span class="java&#45;keyword">new</span> StringBuilder()
+    html.append(<span class="java&#45;quote">"&#60;div&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'"</span>)
+    html.append(<span class="java&#45;quote">"src='https://maps.google.com/maps?f=q&#38;amp;q=$&#123;value&#125;&#38;amp;output=embed'"</span>)
+    html.append(<span class="java&#45;quote">"&#62;&#60;/iframe&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/div&#62;"</span>)<p class="paragraph"/>    html.append(<span class="java&#45;quote">"&#60;input class='form&#45;control' type='text' "</span>)
+    htmlAttrs.each&#123;key, value &#45;&#62;
+        html.append(<span class="java&#45;quote">"$key='$&#123;value&#125;' "</span>)
+    &#125;
+    html.append(<span class="java&#45;quote">"value='$&#123;value&#125;' /&#62;"</span>)
+    <span class="java&#45;keyword">return</span> html
+&#125;</pre></div><p class="paragraph"/>
+<blockquote class="note">
+When you write html as this example, there is a risk of an <a href="http://en.wikipedia.org/wiki/Cross-site_scripting" target="blank">XSS attack </a> (for example, if the value is something like "&#60;script&#62;alert(0)&#60;/script&#62;). So, instead of write the value directly, you should write it as value.encodeAsHTML(). Also, you should be carefull with the null values. So you can write rhe values as
+<div class="code"><pre>$&#123;value?:value.encodeAsHTML():''&#125;</pre></div>
+</blockquote><p class="paragraph"/>
+<h2>Frontend side</h2><p class="paragraph"/>Most widgets won't need special css nor js. But if you need them, you can use them.
+GrailsAdminPlugin uses the convention-over-configuration paradigm, so by default it will try to load one js file and one css file with the same name that the widget. The plugin will search for this files on WEB-APP/js/admin/ and WEB-APP/css/admin/.<p class="paragraph"/>If you need something diferent, you can specify a custom method getAssets on the widget.<p class="paragraph"/>
+<h3>Sample</h3><p class="paragraph"/>We will upgrade our MapWidget with a button that refresh the map with the current address. In order to do so, we will use a js and a css file. For the sake of the sample, we wont use the convention, so we need to override the getAssets method of the plugin<p class="paragraph"/><div class="code"><pre>List&#60;<span class="java&#45;object">String</span>&#62; getAssets() &#123;
+    &#91; 'js/admin/map.js',
+      'css/admin/map.css'
+    &#93;
+&#125;</pre></div><p class="paragraph"/>
+Also, we will modify the render method with the code to show the button, and also with some divs to contain the elements, and several css classes.<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> render() &#123;
+    def html = <span class="java&#45;keyword">new</span> StringBuilder()
+    html.append(<span class="java&#45;quote">"&#60;div class='map&#45;widget'&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;div&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;span class='map&#45;container'&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'"</span>)
+    html.append(<span class="java&#45;quote">"src='https://maps.google.com/maps?f=q&#38;amp;q=$&#123;value&#125;&#38;amp;output=embed'"</span>)
+    html.append(<span class="java&#45;quote">"&#62;&#60;/iframe&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/span&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;input type='button' class='map&#45;widget&#45;refresh js&#45;map&#45;widget&#45;refresh' value='Refresh' /&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/div&#62;"</span>)<p class="paragraph"/>    html.append(<span class="java&#45;quote">"&#60;div&#62;"</span>)<p class="paragraph"/>    html.append(<span class="java&#45;quote">"&#60;input type='text' class='form&#45;control js&#45;map&#45;widget&#45;text' "</span>)
+    htmlAttrs.each&#123;key, value &#45;&#62;
+        html.append(<span class="java&#45;quote">"$key='$&#123;value&#125;' "</span>)
+    &#125;
+    html.append(<span class="java&#45;quote">"value='$&#123;value&#125;' /&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/div&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/div&#62;"</span>)
+    <span class="java&#45;keyword">return</span> html
+&#125;</pre></div><p class="paragraph"/>
+<strong class="bold">CSS</strong><p class="paragraph"/>In order to give the button some style, we created the file WEB-APP/css/admin/map.css<p class="paragraph"/><div class="code"><pre>.map&#45;widget&#45;refresh &#123;
+    background&#45;color: &#35;4040EA;
+    border: 0 none;
+    color: &#35;FFFFFF;
+    margin&#45;bottom: 10px;
+    margin&#45;left: 15px;
+    padding: 5px;
+&#125;</pre></div><p class="paragraph"/>
+<strong class="bold">JS</strong><p class="paragraph"/>And finally, to refresh the map, we have created the following javascript code on the file WEB-APP/js/admin/map.js<p class="paragraph"/><div class="code"><pre>$(<span class="java&#45;quote">".map&#45;widget"</span>).on( <span class="java&#45;quote">"click"</span>, <span class="java&#45;quote">".js&#45;map&#45;widget&#45;refresh"</span>, function(event) &#123;
+    <span class="java&#45;keyword">var</span> value = $(<span class="java&#45;keyword">this</span>).closest(<span class="java&#45;quote">".map&#45;widget"</span>).find(<span class="java&#45;quote">".js&#45;map&#45;widget&#45;text"</span>).val();
+    <span class="java&#45;keyword">var</span> html = <span class="java&#45;quote">"&#60;iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'"</span>;
+    html += <span class="java&#45;quote">"src='https://maps.google.com/maps?f=q&#38;amp;q="</span> + value + <span class="java&#45;quote">"&#38;amp;output=embed'&#62;&#60;/iframe&#62;"</span>;
+    $(<span class="java&#45;keyword">this</span>).closest(<span class="java&#45;quote">".map&#45;widget"</span>).find(<span class="java&#45;quote">".map&#45;container"</span>).html(html);
+&#125;);</pre></div><p class="paragraph"/><blockquote class="note">
+NOTE: GrailsAdminPlugin uses jquery, so it is available for your custom widgets also
+</blockquote>
 
 
 

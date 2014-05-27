@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5.2 Built in widgets 0.1</title>
+    <title>5.3 Built in widgets 0.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -76,7 +76,7 @@ function addJsClass() {
 
 
                 <div class="project">
-                    <h1>5.2 Built in widgets - Reference Documentation</h1>
+                    <h1>5.3 Built in widgets - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
@@ -104,28 +104,31 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0px"><a href="#hiddenInputWidget"><strong>5.5</strong><span>HiddenInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#numberInputWidget"><strong>5.6</strong><span>NumberInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#labelWidget"><strong>5.6</strong><span>LabelWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#passwordInputWidget"><strong>5.7</strong><span>PasswordInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#numberInputWidget"><strong>5.7</strong><span>NumberInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#selectMultipleWidget"><strong>5.8</strong><span>SelectMultipleWidget</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#passwordInputWidget"><strong>5.8</strong><span>PasswordInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#selectWidget"><strong>5.9</strong><span>SelectWidget</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#selectMultipleWidget"><strong>5.9</strong><span>SelectMultipleWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#textAreaInputWidget"><strong>5.10</strong><span>TextAreaWidget</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#selectWidget"><strong>5.10</strong><span>SelectWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#textInputWidget"><strong>5.11</strong><span>TextInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#textAreaWidget"><strong>5.11</strong><span>TextAreaWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#timeInputWidget"><strong>5.12</strong><span>TimeInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#textInputWidget"><strong>5.12</strong><span>TextInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#urlInputWidget"><strong>5.13</strong><span>UrlInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#timeInputWidget"><strong>5.13</strong><span>TimeInputWidget</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#urlInputWidget"><strong>5.14</strong><span>UrlInputWidget</span></a>
                     </div>
                     
                 </div>
@@ -133,73 +136,101 @@ function addJsClass() {
 
                 
 
-<h2 id="builtInWidgets">5.2 Built in widgets</h2>
+<h2 id="builtInWidgets">5.3 Built in widgets</h2>
 Grails admin provides a set of built in widgets that should cover the majority of situations.
 
 
 
-<h2 id="checkboxInputWidget">5.2.1 CheckboxInputWidget</h2>
-<div class="code"><pre>&#60;input name=<span class="java&#45;quote">"vehicle"</span> type=&#34;checkbox&#34;&#62;I have a car&#60;/input&#62;</pre></div>
+<h2 id="checkboxInputWidget">5.3.1 CheckboxInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input type=<span class="java&#45;quote">"checkbox"</span> checked=<span class="java&#45;quote">"checked"</span> name=<span class="java&#45;quote">"test"</span>&#62;&#60;/input&#62;</pre></div>
 
 
 
-<h2 id="dateInputWidget">5.2.2 DateInputWidget</h2>
-TODO
+<h2 id="dateInputWidget">5.3.2 DateInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='date' value='01/01/2000' /&#62;</pre></div>
 
 
 
-<h2 id="dateTimeInputWidget">5.2.3 DateTimeInputWidget</h2>
-TODO
+<h2 id="dateTimeInputWidget">5.3.3 DateTimeInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='datetime' value='01/01/2000 00:00' /&#62;</pre></div>
 
 
 
-<h2 id="emailInputWidget">5.2.4 EmailInputWidget</h2>
-TODO
+<h2 id="emailInputWidget">5.3.4 EmailInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='email' value='example@example.com' /&#62;</pre></div>
 
 
 
-<h2 id="hiddenInputWidget">5.2.5 HiddenInputWidget</h2>
-TODO
+<h2 id="hiddenInputWidget">5.3.5 HiddenInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='hidden' value='Some text' /&#62;</pre></div>
 
 
 
-<h2 id="numberInputWidget">5.2.6 NumberInputWidget</h2>
-TODO
+<h2 id="labelWidget">5.3.6 LabelWidget</h2>
+<div class="code"><pre>&#60;label name=<span class="java&#45;quote">"test"</span>&#62;Some text&#60;/label&#62;</pre></div>
 
 
 
-<h2 id="passwordInputWidget">5.2.7 PasswordInputWidget</h2>
-TODO
+<h2 id="numberInputWidget">5.3.7 NumberInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='number' value='0' /&#62;</pre></div>
 
 
 
-<h2 id="selectMultipleWidget">5.2.8 SelectMultipleWidget</h2>
-TODO
+<h2 id="passwordInputWidget">5.3.8 PasswordInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='password' value='abc12345' /&#62;</pre></div>
 
 
 
-<h2 id="selectWidget">5.2.9 SelectWidget</h2>
-TODO
+<h2 id="selectMultipleWidget">5.3.9 SelectMultipleWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;select multiple name=<span class="java&#45;quote">"test"</span>&#62;
+    &#60;option value=<span class="java&#45;quote">"Volvo"</span>&#62;Volvo&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Saab"</span> selected=<span class="java&#45;quote">"selected"</span>&#62;Saab&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Opel"</span>&#62;Opel&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Audi"</span> selected=<span class="java&#45;quote">"selected"</span>&#62;Audi&#60;/option&#62;
+&#60;/select&#62;</pre></div>
 
 
 
-<h2 id="textAreaInputWidget">5.2.10 TextAreaWidget</h2>
-TODO
+<h2 id="selectWidget">5.3.10 SelectWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;select name=<span class="java&#45;quote">"test"</span>&#62;
+    &#60;option value=<span class="java&#45;quote">""</span>&#62;&#45;&#45;&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Volvo"</span>&#62;Volvo&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Saab"</span> selected=<span class="java&#45;quote">"selected"</span>&#62;Saab&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Opel"</span>&#62;Opel&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Audi"</span>&#62;Audi&#60;/option&#62;
+&#60;/select&#62;</pre></div>
 
 
 
-<h2 id="textInputWidget">5.2.11 TextInputWidget</h2>
-TODO
+<h2 id="textAreaWidget">5.3.11 TextAreaWidget</h2>
+<div class="code"><pre>&#60;textarea name='test'&#62;Some text&#60;/textarea&#62;</pre></div>
 
 
 
-<h2 id="timeInputWidget">5.2.12 TimeInputWidget</h2>
-TODO
+<h2 id="textInputWidget">5.3.12 TextInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='text' value='Some text' /&#62;</pre></div>
 
 
 
-<h2 id="urlInputWidget">5.2.13 UrlInputWidget</h2>
-TODO
+<h2 id="timeInputWidget">5.3.13 TimeInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='time' value='12:00' /&#62;</pre></div>
+
+
+
+<h2 id="urlInputWidget">5.3.14 UrlInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='url' value='http://grails.org' /&#62;</pre></div>
 
 
 

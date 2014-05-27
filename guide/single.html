@@ -92,37 +92,41 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#widgets"><strong>5</strong><span>Widgets</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:10px"><a href="#stylingWidgets"><strong>5.1</strong><span>Styling widget instances</span></a></div>
+                            <div class="toc-item" style="margin-left:10px"><a href="#configureWidgets"><strong>5.1</strong><span>Configure widgets</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:10px"><a href="#builtInWidgets"><strong>5.2</strong><span>Built in widgets</span></a></div>
+                            <div class="toc-item" style="margin-left:10px"><a href="#stylingWidgets"><strong>5.2</strong><span>Styling widget instances</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#checkboxInputWidget"><strong>5.2.1</strong><span>CheckboxInputWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:10px"><a href="#builtInWidgets"><strong>5.3</strong><span>Built in widgets</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#dateInputWidget"><strong>5.2.2</strong><span>DateInputWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#checkboxInputWidget"><strong>5.3.1</strong><span>CheckboxInputWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#dateTimeInputWidget"><strong>5.2.3</strong><span>DateTimeInputWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#dateInputWidget"><strong>5.3.2</strong><span>DateInputWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#emailInputWidget"><strong>5.2.4</strong><span>EmailInputWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#dateTimeInputWidget"><strong>5.3.3</strong><span>DateTimeInputWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#hiddenInputWidget"><strong>5.2.5</strong><span>HiddenInputWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#emailInputWidget"><strong>5.3.4</strong><span>EmailInputWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#numberInputWidget"><strong>5.2.6</strong><span>NumberInputWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#hiddenInputWidget"><strong>5.3.5</strong><span>HiddenInputWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#passwordInputWidget"><strong>5.2.7</strong><span>PasswordInputWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#labelWidget"><strong>5.3.6</strong><span>LabelWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#selectMultipleWidget"><strong>5.2.8</strong><span>SelectMultipleWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#numberInputWidget"><strong>5.3.7</strong><span>NumberInputWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#selectWidget"><strong>5.2.9</strong><span>SelectWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#passwordInputWidget"><strong>5.3.8</strong><span>PasswordInputWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#textAreaInputWidget"><strong>5.2.10</strong><span>TextAreaWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#selectMultipleWidget"><strong>5.3.9</strong><span>SelectMultipleWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#textInputWidget"><strong>5.2.11</strong><span>TextInputWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#selectWidget"><strong>5.3.10</strong><span>SelectWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#timeInputWidget"><strong>5.2.12</strong><span>TimeInputWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#textAreaWidget"><strong>5.3.11</strong><span>TextAreaWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:20px"><a href="#urlInputWidget"><strong>5.2.13</strong><span>UrlInputWidget</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#textInputWidget"><strong>5.3.12</strong><span>TextInputWidget</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:10px"><a href="#customWidgets"><strong>5.3</strong><span>Custom widgets</span></a></div>
+                            <div class="toc-item" style="margin-left:20px"><a href="#timeInputWidget"><strong>5.3.13</strong><span>TimeInputWidget</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:20px"><a href="#urlInputWidget"><strong>5.3.14</strong><span>UrlInputWidget</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#customWidgets"><strong>5.4</strong><span>Custom widgets</span></a></div>
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#faq"><strong>6</strong><span>FAQ</span></a></div>
                             
@@ -226,87 +230,211 @@ writing your own widget. Further documentation on the "widgets" sections.<p clas
 
 
 <h1 id="widgets">5 Widgets</h1>
-A widget is Grails Admin's HTML representation of a property from a domain object instance. The widget handles the rendering of the HTML for that property.
+A widget is a component of Grails Admin that represents a property from a domain object instance. The widget handles the rendering (HTML or JSON) for that property, and also transform the values received for that property into the correct type (for example, translate from String to Date as needed).
 
 
 
-<h2 id="stylingWidgets">5.1 Styling widget instances</h2>
+<h2 id="configureWidgets">5.1 Configure widgets</h2>
+configureWidgets
+
+
+
+<h2 id="stylingWidgets">5.2 Styling widget instances</h2>
 stylingWidgets
 
 
 
-<h2 id="builtInWidgets">5.2 Built in widgets</h2>
+<h2 id="builtInWidgets">5.3 Built in widgets</h2>
 Grails admin provides a set of built in widgets that should cover the majority of situations.
 
 
 
-<h2 id="checkboxInputWidget">5.2.1 CheckboxInputWidget</h2>
-<div class="code"><pre>&#60;input name=<span class="java&#45;quote">"vehicle"</span> type=&#34;checkbox&#34;&#62;I have a car&#60;/input&#62;</pre></div>
+<h2 id="checkboxInputWidget">5.3.1 CheckboxInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input type=<span class="java&#45;quote">"checkbox"</span> checked=<span class="java&#45;quote">"checked"</span> name=<span class="java&#45;quote">"test"</span>&#62;&#60;/input&#62;</pre></div>
 
 
 
-<h2 id="dateInputWidget">5.2.2 DateInputWidget</h2>
-TODO
+<h2 id="dateInputWidget">5.3.2 DateInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='date' value='01/01/2000' /&#62;</pre></div>
 
 
 
-<h2 id="dateTimeInputWidget">5.2.3 DateTimeInputWidget</h2>
-TODO
+<h2 id="dateTimeInputWidget">5.3.3 DateTimeInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='datetime' value='01/01/2000 00:00' /&#62;</pre></div>
 
 
 
-<h2 id="emailInputWidget">5.2.4 EmailInputWidget</h2>
-TODO
+<h2 id="emailInputWidget">5.3.4 EmailInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='email' value='example@example.com' /&#62;</pre></div>
 
 
 
-<h2 id="hiddenInputWidget">5.2.5 HiddenInputWidget</h2>
-TODO
+<h2 id="hiddenInputWidget">5.3.5 HiddenInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='hidden' value='Some text' /&#62;</pre></div>
 
 
 
-<h2 id="numberInputWidget">5.2.6 NumberInputWidget</h2>
-TODO
+<h2 id="labelWidget">5.3.6 LabelWidget</h2>
+<div class="code"><pre>&#60;label name=<span class="java&#45;quote">"test"</span>&#62;Some text&#60;/label&#62;</pre></div>
 
 
 
-<h2 id="passwordInputWidget">5.2.7 PasswordInputWidget</h2>
-TODO
+<h2 id="numberInputWidget">5.3.7 NumberInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='number' value='0' /&#62;</pre></div>
 
 
 
-<h2 id="selectMultipleWidget">5.2.8 SelectMultipleWidget</h2>
-TODO
+<h2 id="passwordInputWidget">5.3.8 PasswordInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='password' value='abc12345' /&#62;</pre></div>
 
 
 
-<h2 id="selectWidget">5.2.9 SelectWidget</h2>
-TODO
+<h2 id="selectMultipleWidget">5.3.9 SelectMultipleWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;select multiple name=<span class="java&#45;quote">"test"</span>&#62;
+    &#60;option value=<span class="java&#45;quote">"Volvo"</span>&#62;Volvo&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Saab"</span> selected=<span class="java&#45;quote">"selected"</span>&#62;Saab&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Opel"</span>&#62;Opel&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Audi"</span> selected=<span class="java&#45;quote">"selected"</span>&#62;Audi&#60;/option&#62;
+&#60;/select&#62;</pre></div>
 
 
 
-<h2 id="textAreaInputWidget">5.2.10 TextAreaWidget</h2>
-TODO
+<h2 id="selectWidget">5.3.10 SelectWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;select name=<span class="java&#45;quote">"test"</span>&#62;
+    &#60;option value=<span class="java&#45;quote">""</span>&#62;&#45;&#45;&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Volvo"</span>&#62;Volvo&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Saab"</span> selected=<span class="java&#45;quote">"selected"</span>&#62;Saab&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Opel"</span>&#62;Opel&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"Audi"</span>&#62;Audi&#60;/option&#62;
+&#60;/select&#62;</pre></div>
 
 
 
-<h2 id="textInputWidget">5.2.11 TextInputWidget</h2>
-TODO
+<h2 id="textAreaWidget">5.3.11 TextAreaWidget</h2>
+<div class="code"><pre>&#60;textarea name='test'&#62;Some text&#60;/textarea&#62;</pre></div>
 
 
 
-<h2 id="timeInputWidget">5.2.12 TimeInputWidget</h2>
-TODO
+<h2 id="textInputWidget">5.3.12 TextInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='text' value='Some text' /&#62;</pre></div>
 
 
 
-<h2 id="urlInputWidget">5.2.13 UrlInputWidget</h2>
-TODO
+<h2 id="timeInputWidget">5.3.13 TimeInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='time' value='12:00' /&#62;</pre></div>
 
 
 
-<h2 id="customWidgets">5.3 Custom widgets</h2>
-customWidgets
+<h2 id="urlInputWidget">5.3.14 UrlInputWidget</h2>
+Sample of html render
+<div class="code"><pre>&#60;input name='test' type='url' value='http://grails.org' /&#62;</pre></div>
+
+
+
+<h2 id="customWidgets">5.4 Custom widgets</h2>
+Besides the built in widgets, you can create your own custom widgets.<p class="paragraph"/><h2>Groovy side</h2><p class="paragraph"/><h3>Inherit from Widget</h3><p class="paragraph"/>Your custom widget should inherit from the class net.kaleidos.plugins.admin.widget.Widget. That is an abstract class, that has only one methods that you must implement:
+<ul class="star">
+<li>String render(): The method to render your widget as html</li>
+</ul><p class="paragraph"/>Also, Widget define sever methods that you can overwrite if yo need them
+<ul class="star">
+<li>String renderBeforeForm(): Render code html <strong class="bold">before</strong> the form that contains all the widgets</li>
+<li>String renderAfterForm(): Render code html <strong class="bold">after</strong> the form that contains all the widgets</li>
+<li>Object getValueForJson(): Returns an object (usually an string) that whould be used in order to represent the current value of the widget when the widget is represented as JSON.</li>
+<li>List&#60;String&#62; getAssets(): Returns the list of assets (css and js) needed for the html representation of this widget. GrailsAdminPlugin uses the convention-over-configuration paradigm, so if you don't implement this method, it will try to load one js file and one css file with the same name that the widget.</li>
+</ul><p class="paragraph"/>Last, there are several properties that you can use. Note that you don't write this properties, it is GrailsAdminPlugin who assign the values. You should use this properties as read-only.
+<ul class="star">
+<li>Object value: The current value of the widget. Its type will depend on the actual widget. For example, on a TextInputWidget will be a String, and on a SelectMultipleWidget will be a list.</li>
+<li>Map htmlAttrs: A map of properties to be rendered on the html representation, like the name, if it is required, etc.</li>
+<li>Map internalAttrs: A map of properties internal for the widget. Remember that the widget represents a property of a domain object, so:</li>
+<ul class="star">
+<li>domainObject: This is that domain object. Note that it could be null (for example, on the create screen)</li>
+<li>propertyName: This is the name of that property.</li>
+<li>domainClass: This is the class of that object.</li>
+<li>relatedDomainClass: If the property is a relation with another domain class, this is that domain class. It could be null.</li>
+</ul></ul><p class="paragraph"/><h3>Sample</h3><p class="paragraph"/>With all this, lets make a sample Widget. We will create a custom widget that show an addres on a map. It will be used for properties of type String.<p class="paragraph"/><strong class="bold">Create the Widget Class</strong><p class="paragraph"/>We will create our widget on the file src/groovy/sample/MapWidget.groovy<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> sample<p class="paragraph"/><span class="java&#45;keyword">import</span> net.kaleidos.plugins.admin.widget.Widget<p class="paragraph"/>class MapWidget <span class="java&#45;keyword">extends</span> Widget &#123;<p class="paragraph"/>    @Override
+    <span class="java&#45;object">String</span> render() &#123;
+        <span class="java&#45;keyword">return</span> <span class="java&#45;quote">""</span>
+    &#125;
+&#125;</pre></div><p class="paragraph"/>
+<strong class="bold">Create the render method</strong><p class="paragraph"/>We will have the address on the value attribute of the widget.
+We want that out widget create an iframe showing the address on the map.<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> render() &#123;
+    def html = <span class="java&#45;keyword">new</span> StringBuilder()
+    html.append(<span class="java&#45;quote">"&#60;div&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'"</span>)
+    html.append(<span class="java&#45;quote">"src='https://maps.google.com/maps?f=q&#38;amp;q=$&#123;value&#125;&#38;amp;output=embed'"</span>)
+    html.append(<span class="java&#45;quote">"&#62;&#60;/iframe&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/div&#62;"</span>)<p class="paragraph"/>    <span class="java&#45;keyword">return</span> html
+&#125;</pre></div><p class="paragraph"/><strong class="bold">Upgrade the render method to allow edition</strong><p class="paragraph"/>The render method is cool, and show the address on a map, but we want also to allow to update the address. In order to do so, we need to add an input field below the map. Also, it is important to render the htmlAttrs, in order to get all the properties needed.
+So we must add several lines to the render metod<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> render() &#123;
+    def html = <span class="java&#45;keyword">new</span> StringBuilder()
+    html.append(<span class="java&#45;quote">"&#60;div&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'"</span>)
+    html.append(<span class="java&#45;quote">"src='https://maps.google.com/maps?f=q&#38;amp;q=$&#123;value&#125;&#38;amp;output=embed'"</span>)
+    html.append(<span class="java&#45;quote">"&#62;&#60;/iframe&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/div&#62;"</span>)<p class="paragraph"/>    html.append(<span class="java&#45;quote">"&#60;input class='form&#45;control' type='text' "</span>)
+    htmlAttrs.each&#123;key, value &#45;&#62;
+        html.append(<span class="java&#45;quote">"$key='$&#123;value&#125;' "</span>)
+    &#125;
+    html.append(<span class="java&#45;quote">"value='$&#123;value&#125;' /&#62;"</span>)
+    <span class="java&#45;keyword">return</span> html
+&#125;</pre></div><p class="paragraph"/>
+<blockquote class="note">
+When you write html as this example, there is a risk of an <a href="http://en.wikipedia.org/wiki/Cross-site_scripting" target="blank">XSS attack </a> (for example, if the value is something like "&#60;script&#62;alert(0)&#60;/script&#62;). So, instead of write the value directly, you should write it as value.encodeAsHTML(). Also, you should be carefull with the null values. So you can write rhe values as
+<div class="code"><pre>$&#123;value?:value.encodeAsHTML():''&#125;</pre></div>
+</blockquote><p class="paragraph"/>
+<h2>Frontend side</h2><p class="paragraph"/>Most widgets won't need special css nor js. But if you need them, you can use them.
+GrailsAdminPlugin uses the convention-over-configuration paradigm, so by default it will try to load one js file and one css file with the same name that the widget. The plugin will search for this files on WEB-APP/js/admin/ and WEB-APP/css/admin/.<p class="paragraph"/>If you need something diferent, you can specify a custom method getAssets on the widget.<p class="paragraph"/>
+<h3>Sample</h3><p class="paragraph"/>We will upgrade our MapWidget with a button that refresh the map with the current address. In order to do so, we will use a js and a css file. For the sake of the sample, we wont use the convention, so we need to override the getAssets method of the plugin<p class="paragraph"/><div class="code"><pre>List&#60;<span class="java&#45;object">String</span>&#62; getAssets() &#123;
+    &#91; 'js/admin/map.js',
+      'css/admin/map.css'
+    &#93;
+&#125;</pre></div><p class="paragraph"/>
+Also, we will modify the render method with the code to show the button, and also with some divs to contain the elements, and several css classes.<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> render() &#123;
+    def html = <span class="java&#45;keyword">new</span> StringBuilder()
+    html.append(<span class="java&#45;quote">"&#60;div class='map&#45;widget'&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;div&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;span class='map&#45;container'&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'"</span>)
+    html.append(<span class="java&#45;quote">"src='https://maps.google.com/maps?f=q&#38;amp;q=$&#123;value&#125;&#38;amp;output=embed'"</span>)
+    html.append(<span class="java&#45;quote">"&#62;&#60;/iframe&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/span&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;input type='button' class='map&#45;widget&#45;refresh js&#45;map&#45;widget&#45;refresh' value='Refresh' /&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/div&#62;"</span>)<p class="paragraph"/>    html.append(<span class="java&#45;quote">"&#60;div&#62;"</span>)<p class="paragraph"/>    html.append(<span class="java&#45;quote">"&#60;input type='text' class='form&#45;control js&#45;map&#45;widget&#45;text' "</span>)
+    htmlAttrs.each&#123;key, value &#45;&#62;
+        html.append(<span class="java&#45;quote">"$key='$&#123;value&#125;' "</span>)
+    &#125;
+    html.append(<span class="java&#45;quote">"value='$&#123;value&#125;' /&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/div&#62;"</span>)
+    html.append(<span class="java&#45;quote">"&#60;/div&#62;"</span>)
+    <span class="java&#45;keyword">return</span> html
+&#125;</pre></div><p class="paragraph"/>
+<strong class="bold">CSS</strong><p class="paragraph"/>In order to give the button some style, we created the file WEB-APP/css/admin/map.css<p class="paragraph"/><div class="code"><pre>.map&#45;widget&#45;refresh &#123;
+    background&#45;color: &#35;4040EA;
+    border: 0 none;
+    color: &#35;FFFFFF;
+    margin&#45;bottom: 10px;
+    margin&#45;left: 15px;
+    padding: 5px;
+&#125;</pre></div><p class="paragraph"/>
+<strong class="bold">JS</strong><p class="paragraph"/>And finally, to refresh the map, we have created the following javascript code on the file WEB-APP/js/admin/map.js<p class="paragraph"/><div class="code"><pre>$(<span class="java&#45;quote">".map&#45;widget"</span>).on( <span class="java&#45;quote">"click"</span>, <span class="java&#45;quote">".js&#45;map&#45;widget&#45;refresh"</span>, function(event) &#123;
+    <span class="java&#45;keyword">var</span> value = $(<span class="java&#45;keyword">this</span>).closest(<span class="java&#45;quote">".map&#45;widget"</span>).find(<span class="java&#45;quote">".js&#45;map&#45;widget&#45;text"</span>).val();
+    <span class="java&#45;keyword">var</span> html = <span class="java&#45;quote">"&#60;iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'"</span>;
+    html += <span class="java&#45;quote">"src='https://maps.google.com/maps?f=q&#38;amp;q="</span> + value + <span class="java&#45;quote">"&#38;amp;output=embed'&#62;&#60;/iframe&#62;"</span>;
+    $(<span class="java&#45;keyword">this</span>).closest(<span class="java&#45;quote">".map&#45;widget"</span>).find(<span class="java&#45;quote">".map&#45;container"</span>).html(html);
+&#125;);</pre></div><p class="paragraph"/><blockquote class="note">
+NOTE: GrailsAdminPlugin uses jquery, so it is available for your custom widgets also
+</blockquote>
 
 
 
