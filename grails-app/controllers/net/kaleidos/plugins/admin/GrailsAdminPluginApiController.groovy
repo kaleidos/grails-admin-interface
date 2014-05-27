@@ -62,7 +62,7 @@ class GrailsAdminPluginApiController {
             render e.getErrors() as JSON
             return
         } catch (RuntimeException e) {
-            e.printStackTrace()
+            log.debug e.message, e
             response.status = 500
             result = [error: e.message]
             render result as JSON
@@ -88,7 +88,7 @@ class GrailsAdminPluginApiController {
             render e.getErrors() as JSON
             return
         } catch (RuntimeException e) {
-            e.printStackTrace()
+            log.debug e.message, e
             response.status = 500
             result = [error: e.message]
             render result as JSON
@@ -109,9 +109,9 @@ class GrailsAdminPluginApiController {
         try {
             grailsAdminPluginGenericService.deleteDomain(config.domainClass, id)
         } catch (RuntimeException e) {
-            e.printStackTrace()
+            log.debug e.message, e
             response.status = 500
-            result = [error: e.message]
+            def result = [error: e.message]
             render result as JSON
             return
         }
@@ -131,9 +131,9 @@ class GrailsAdminPluginApiController {
         try {
             grailsAdminPluginGenericService.deleteRelatedDomain(config.domainClass, id, propertyName, id2)
         } catch (RuntimeException e) {
-            e.printStackTrace()
+            log.debug e.message, e
             response.status = 500
-            result = [error: e.message]
+            def result = [error: e.message]
             render result as JSON
             return
         }
@@ -153,7 +153,7 @@ class GrailsAdminPluginApiController {
         try {
             grailsAdminPluginGenericService.putRelatedDomain(config.domainClass, id, propertyName, id2)
         } catch (RuntimeException e) {
-            e.printStackTrace()
+            log.debug e.message, e
             response.status = 500
             def result = [error: e.message]
             render result as JSON
