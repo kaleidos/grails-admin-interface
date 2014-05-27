@@ -25,8 +25,11 @@ class GrailsAdminPluginDefaultWidgetSelector {
             widget = new SelectWidget()
         } else {
             switch ( type ) {
-                case [Byte, Short, Integer, Long, Float, Double]:
+                case [Byte, Short, Integer, Long]:
                     widget = new NumberInputWidget()
+                    break
+                case [Float, Double]:
+                    widget = new DecimalInputWidget()
                     break
                 case [Character, String]:
                     if (EmailConstraint.class in constraintsClasses) {

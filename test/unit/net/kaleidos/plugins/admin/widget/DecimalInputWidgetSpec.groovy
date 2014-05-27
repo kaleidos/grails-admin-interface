@@ -9,7 +9,7 @@ import spock.lang.*
 import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
-class EmailInputWidgetSpec extends Specification {
+class DecimalInputWidgetSpec extends Specification {
     @Shared
     def slurper
 
@@ -26,47 +26,47 @@ class EmailInputWidgetSpec extends Specification {
         }
     }
 
-    void 'create input email without value nor attribs'() {
+    void 'create input number without value nor attribs'() {
         setup:
-            def emailInputWidget = new EmailInputWidget()
+            def numberInputWidget = new DecimalInputWidget()
 
         when:
-            def html = emailInputWidget.render()
+            def html = numberInputWidget.render()
             def result = slurper.parseText(html)
 
         then:
             result.BODY.INPUT.size() == 1
-            result.BODY.INPUT.@type.text() == "email"
+            result.BODY.INPUT."@data-parsley-type".text() == "number"
     }
 
-    void 'create input email with value without attribs'() {
+    void 'create input number with value without attribs'() {
         setup:
-            def emailInputWidget = new EmailInputWidget(value:value)
+            def numberInputWidget = new DecimalInputWidget(value:value)
 
         when:
-            def html = emailInputWidget.render()
+            def html = numberInputWidget.render()
             def result = slurper.parseText(html)
 
         then:
             result.BODY.INPUT.size() == 1
-            result.BODY.INPUT.@type.text() == "email"
-            result.BODY.INPUT.@value.text() == value
+            result.BODY.INPUT."@data-parsley-type".text() == "number"
+            result.BODY.INPUT.@value.text() == "$value"
 
         where:
-            value = "<script>alert(1234)</script>"
+            value = 1234.11
     }
 
-    void 'create input email without value with attribs'() {
+    void 'create input number without value with attribs'() {
         setup:
-            def emailInputWidget = new EmailInputWidget(htmlAttrs:attrs)
+            def numberInputWidget = new DecimalInputWidget(htmlAttrs:attrs)
 
         when:
-            def html = emailInputWidget.render()
+            def html = numberInputWidget.render()
             def result = slurper.parseText(html)
 
         then:
             result.BODY.INPUT.size() == 1
-            result.BODY.INPUT.@type.text() == "email"
+            result.BODY.INPUT."@data-parsley-type".text() == "number"
             result.BODY.INPUT.@size.text() == "10"
             result.BODY.INPUT.@name.text() == "test"
 
@@ -75,23 +75,23 @@ class EmailInputWidgetSpec extends Specification {
     }
 
 
-    void 'create input email with value and attribs'() {
+    void 'create input number with value and attribs'() {
         setup:
-            def emailInputWidget = new EmailInputWidget(value:value, htmlAttrs:attrs)
+            def numberInputWidget = new DecimalInputWidget(value:value, htmlAttrs:attrs)
 
         when:
-            def html = emailInputWidget.render()
+            def html = numberInputWidget.render()
             def result = slurper.parseText(html)
 
         then:
             result.BODY.INPUT.size() == 1
-            result.BODY.INPUT.@type.text() == "email"
+            result.BODY.INPUT."@data-parsley-type".text() == "number"
             result.BODY.INPUT.@size.text() == "10"
             result.BODY.INPUT.@name.text() == "test"
-            result.BODY.INPUT.@value.text() == value
+            result.BODY.INPUT.@value.text() == "$value"
 
         where:
-            value = "<script>alert(1234)</script>"
+            value = 1234.112
             attrs = ['size':10, 'name': 'test']
     }
 }

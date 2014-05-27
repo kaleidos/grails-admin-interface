@@ -50,7 +50,7 @@ class UrlInputWidgetSpec extends Specification {
         then:
             result.BODY.INPUT.size() == 1
             result.BODY.INPUT.@type.text() == "url"
-            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+            result.BODY.INPUT.@value.text() == value
 
         where:
             value = "<script>alert(1234)</script>"
@@ -88,7 +88,7 @@ class UrlInputWidgetSpec extends Specification {
             result.BODY.INPUT.@type.text() == "url"
             result.BODY.INPUT.@size.text() == "10"
             result.BODY.INPUT.@name.text() == "test"
-            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+            result.BODY.INPUT.@value.text() == value
 
         where:
             value = "<script>alert(1234)</script>"

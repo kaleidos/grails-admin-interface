@@ -51,7 +51,7 @@ class TextInputWidgetSpec extends Specification {
         then:
             result.BODY.INPUT.size() == 1
             result.BODY.INPUT.@type.text() == "text"
-            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+            result.BODY.INPUT.@value.text() == value
 
         where:
             value = "<script>alert(1234)</script>"
@@ -89,7 +89,7 @@ class TextInputWidgetSpec extends Specification {
             result.BODY.INPUT.@type.text() == "text"
             result.BODY.INPUT.@size.text() == "10"
             result.BODY.INPUT.@name.text() == "test"
-            result.BODY.INPUT.@value.text() == value.encodeAsHTML()
+            result.BODY.INPUT.@value.text() == value
 
         where:
             value = "<script>alert(1234)</script>"
