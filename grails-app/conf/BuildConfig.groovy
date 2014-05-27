@@ -1,5 +1,5 @@
 grails.project.work.dir = 'target'
-grails.project.docs.output.dir = 'docs/manual'
+grails.project.docs.output.dir = 'target/docs'
 grails.project.dependency.resolver = "maven"
 
 grails.project.fork = [
