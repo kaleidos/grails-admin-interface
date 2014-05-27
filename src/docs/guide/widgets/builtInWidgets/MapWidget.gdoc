@@ -1,0 +1,19 @@
+This widget shows an iframe with a google maps view of the value, and an input text to show and update that value
+
+Sample of html render
+{code}
+<div class='map-widget' view='mapwidget'>
+    <div>
+        <span class='map-container'>
+            <iframe width='425' height='350' frameborder='0'
+                scrolling='no' marginheight='0' marginwidth='0'
+                src='https://maps.google.com/maps?f=q&amp;q=Madrid&amp;output=embed'>
+            </iframe>
+        </span>
+        <input type='button' class='map-widget-refresh js-map-widget-refresh' value='Refresh' />
+    </div>
+    <div>
+        <input type='text' class='form-control map-widget-text js-map-widget-text' value='Madrid' />
+    </div>
+</div>
+{code}
