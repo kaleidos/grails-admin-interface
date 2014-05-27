@@ -1,55 +1,3 @@
-app.view('relationPopupWidgetList', ['templateService'], function (templateService) {
-    "use strict";
-
-    function body (json, excludeValues) {
-        excludeValues = excludeValues || [];
-
-        var items = _.map(json, function (item) {
-            item.exclude = _.indexOf(excludeValues, item.id) !== -1;
-
-            return item;
-        });
-
-        return templateService.get("grails-admin-list", items);
-    }
-
-    function createOpenModal(title, body, deferred){
-        var dialogId = "confirm-dialog-" + new Date().getTime();
-        var dialog = templateService.get("grails-admin-modal", {dialogId: dialogId, body: body, title: title})
-
-        $("body").append(dialog);
-        $("#" + dialogId).on('hidden.bs.modal', function(){
-            $("#" + dialogId).remove();
-        });
-
-        $("#" + dialogId).find(".js-ok").on('click', function(){
-            var selectedItem = $('.relationpopup-radio:checked');
-
-            if (selectedItem !== undefined) {
-                var objectId = selectedItem.val();
-                var objectText = selectedItem.data('txt');
-
-                deferred.resolve(objectId, objectText);
-            }
-        });
-
-        $("#" + dialogId).modal({"backdrop" : "true", "keyboard":"true"});
-    }
-
-    function open (json, excludeValues) {
-        var deferred = $.Deferred();
-        var html = body(json, excludeValues);
-
-        createOpenModal("Select", html, deferred);
-
-        return deferred.promise();
-    }
-
-    return {
-        'open': open
-    }
-});
-
 app.view('relationPopupOneWidgetNew', ['$el'], function ($el) {
     var form = $el.find('form');
     var saveButton = $el.find(".js-relationtablewidget-save-action");
@@ -57,13 +5,14 @@ app.view('relationPopupOneWidgetNew', ['$el'], function ($el) {
     function open () {
         var deferred = $.Deferred();
 
-        form.off('grailsadmin:validated');
-        form.on('grailsadmin:validated', function (event, result) {
-            form.trigger("reset");
-            $el.modal('toggle');
+        form
+            .off('grailsadmin:validated')
+            .on('grailsadmin:validated', function (event, result) {
+                form.trigger("reset");
+                $el.modal('toggle');
 
-            deferred.resolve(result.id, result.__text__);
-        });
+                deferred.resolve(result.id, result.__text__);
+            });
 
         return deferred.promise();
     }
@@ -118,7 +67,7 @@ app.view('relationPopupOneWidgetField', ['$el', 'relationPopupWidgetList'], func
                     .done(addOneElement)
             })
             .fail(function (result) {
-                $el.find(".modal-body").html("ERROR");
+                alert("ERROR");
             });
     }
 

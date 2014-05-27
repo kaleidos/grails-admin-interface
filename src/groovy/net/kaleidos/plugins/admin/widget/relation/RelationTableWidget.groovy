@@ -37,16 +37,15 @@ class RelationTableWidget extends Widget{
                 options[id] = element.toString()
             }
 
-            builder.div class:"relationtablewidget clearfix", view:"relationPopupOneWidgetField", {
+            builder.div class:"relationtablewidget clearfix", view:"relationtablewidget", {
                 options.each { key, value ->
                     input type: "hidden", name:htmlAttrs['name'], value: key
                 }
                 _elementsTable(delegate, domainClass, options, optional)
                 div {
                     a class:"btn btn-default js-relationtablewidget-add", "data-url": listUrl, href:"#", {
-                        span class:"glyphicon glyphicon-plus", {
-                            mkp.yield "Add"
-                        }
+                        span(class:"glyphicon glyphicon-plus", "")
+                        mkp.yield " Add"
                     }
                 }
             }
@@ -84,7 +83,12 @@ class RelationTableWidget extends Widget{
 
     List<String> getAssets() {
         [ 'js/admin/relationpopup.js',
-          'js/admin/relationtablewidget.js'
+          'js/admin/relationpopuponewidget.js',
+          'js/admin/relationtablewidget.js',
+          'js/admin/relationPopupWidgetList.js',
+          'grails-admin/templates/grails-admin-modal.handlebars',
+          'grails-admin/templates/grails-admin-list.handlebars',
+          'grails-admin/templates/grails-admin-selected-item.handlebars'
         ]
     }
 

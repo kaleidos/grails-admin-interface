@@ -1,0 +1,11 @@
+<tr>
+    <td><a href="{{detailUrl}}">{{txt}}</a></td>
+    {{# if optional}}
+    <td class="list-actions">
+        <a class="btn btn-default btn-sm js-relationtablewidget-delete" data-value="{{val}}" href="#">
+            <span class="glyphicon glyphicon-trash"></span>
+            Delete
+        </a>
+    </td>
+    {{/if}}
+</tr>

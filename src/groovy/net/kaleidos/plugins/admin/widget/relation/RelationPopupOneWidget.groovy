@@ -119,6 +119,7 @@ class RelationPopupOneWidget extends Widget{
     List<String> getAssets() {
         [ 'js/admin/relationpopup.js',
           'js/admin/relationpopuponewidget.js',
+          'js/admin/relationPopupWidgetList.js',
           'grails-admin/templates/grails-admin-modal.handlebars',
           'grails-admin/templates/grails-admin-list.handlebars'
         ]
