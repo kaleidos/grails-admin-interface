@@ -9,7 +9,7 @@ The property is a list of strings containing the full class name of your domains
 By default it contains an empty list.
 
 {code}
-grails.plugin.admin.comains = [
+grails.plugin.admin.domains = [
     "net.kaleidos.TestDomain",
     "net.kaleidos.AnotherDomain"
 ]
