@@ -2,7 +2,7 @@
     {{#each this}}
     <tr>
         <td>
-            <input class="relationpopup-radio" type="radio" name="elementId" value="{{id}}" data-txt="{{__text__}}"></input>
+            <input {{#if exclude}}disabled{{/if}} class="relationpopup-radio" type="radio" name="elementId" value="{{id}}" data-txt="{{__text__}}"></input>
         </td>
         {{#each this}}
         <td>

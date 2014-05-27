@@ -8,6 +8,10 @@ app.module = function (dpName, dependencies, fn) {
 app.service = app.module;
 app.view = app.module;
 
+app.getView = function (viewName) {
+    return $("[view=" + viewName + "]:first");
+};
+
 app.findViews =  function (elm) {
     var views;
     if (elm) {
@@ -20,10 +24,9 @@ app.findViews =  function (elm) {
         var viewsName = $(this).attr('view').split(',');
         var elm = $(this);
 
-        console.log(viewsName);
-
         for (var i = 0; i < viewsName.length; i++) {
             var fn = Injector.get(viewsName[i].trim());
+
             if (fn) {
                 Injector.invoke(fn, {$el: function () {
                     return elm;

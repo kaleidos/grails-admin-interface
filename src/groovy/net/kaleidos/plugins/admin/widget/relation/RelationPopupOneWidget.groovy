@@ -90,7 +90,7 @@ class RelationPopupOneWidget extends Widget{
             def writer = new StringWriter()
             def builder = new MarkupBuilder(writer)
 
-            builder.div id:"new-$uuid", tabindex:"-1", view: "relationPopupOneWidgetField", role:"dialog", "aria-labelledby":"confirmLabel", "aria-hidden":"true", class:"modal fade", "data-field":"${internalAttrs.propertyName}", {
+            builder.div id:"new-$uuid", tabindex:"-1", view: "relationPopupOneWidgetNew", role:"dialog", "aria-labelledby":"confirmLabel", "aria-hidden":"true",  "grailsadmin-remote": "enabled", class:"modal fade", "data-field":"${internalAttrs.propertyName}", {
                 div class:"modal-dialog", {
                     div class:"modal-content", {
                         div class:"modal-header", {
@@ -106,7 +106,7 @@ class RelationPopupOneWidget extends Widget{
                         }
                         div class:"modal-footer", {
                             button type:"button", "data-dismiss":"modal", class:"btn btn-default", { mkp.yield "Close" }
-                            button type:"button", class:"btn btn-plus js-relationtablewidget-save-action", { mkp.yield "Save" }
+                            button type:"button", class:"btn btn-plus btn-success js-relationtablewidget-save-action", { mkp.yield "Save" }
                         }
                     }
                 }

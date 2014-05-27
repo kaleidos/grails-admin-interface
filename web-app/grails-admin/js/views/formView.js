@@ -21,8 +21,6 @@ app.view('formView', ['$el'], function ($el) {
     $el.find('.form-action').on('click', function () {
         var btnUrl = $(this).data('url');
 
-        $el.submit();
-
         $el.off('grailsadmin:validated');
         $el.on('grailsadmin:validated', function (event, result) {
             if (btnUrl) {
@@ -35,6 +33,8 @@ app.view('formView', ['$el'], function ($el) {
                 window.location.reload();
             }
         });
+
+        $el.submit();
     });
 
     $el.find('.validate-form').parsley({
