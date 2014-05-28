@@ -1,6 +1,4 @@
-import grails.util.Holders
 import net.kaleidos.plugins.admin.config.AdminConfigHolder
-import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
 @groovy.util.logging.Log4j
 class AdminGrailsPlugin {
@@ -50,71 +48,14 @@ class AdminGrailsPlugin {
     }
 
     def doWithApplicationContext = { ctx ->
-        // We should initialize the config here to load after spring security
         ctx.adminConfigHolder.initialize()
-        _configureAdminRole()
     }
 
     def onChange = { event->
         event.ctx.adminConfigHolder.initialize()
-        _configureAdminRole()
     }
 
-
-    private _configureAdminRole() {
-        try {
-            // try to get the Secured annotation of Spring security 2
-            Class.forName("grails.plugin.springsecurity.annotation.Secured")
-            _configureAdminRoleSecurity2()
-        } catch (Throwable e) {
-            // If it fails we configure for spring security core 1.x
-            _configureAdminRoleSecurity1()
-        }
-    }
-
-    private void _configureAdminRoleSecurity1() {
-        try {
-            def role = Holders.config.grails.plugin.admin.role?:"ROLE_ADMIN"
-
-            def clazz =  Class.forName("org.springframework.security.access.SecurityConfig")
-            def constructor = clazz.getConstructor(String.class)
-            def newConfig = constructor.&newInstance
-
-            def objectDefinitionSource = Holders.grailsApplication.mainContext.getBean("objectDefinitionSource")
-            objectDefinitionSource.storeMapping("/grailsadminpluginui/**", [newConfig(role)] as Set)
-            objectDefinitionSource.storeMapping("/grailsadminpluginapi/**", [newConfig(role)] as Set)
-            objectDefinitionSource.storeMapping("/grailsadminplugincallbackapi/**", [newConfig(role)] as Set)
-        } catch (NoSuchBeanDefinitionException e) {
-            log.error "No configured Spring Security"
-        } catch (ClassNotFoundException e) {
-            log.error "No configured Spring Security"
-        }
-    }
-
-    private void _configureAdminRoleSecurity2() {
-        try {
-            def role = Holders.config.grails.plugin.admin.role?:"ROLE_ADMIN"
-
-            // We use reflection so it doesn't have a compile-time dependency
-            def clazz = Class.forName("grails.plugin.springsecurity.InterceptedUrl")
-            def httpMethodClass = Class.forName("org.springframework.http.HttpMethod")
-            def constructor = clazz.getConstructor(String.class, Collection.class, httpMethodClass)
-            def newUrl = constructor.&newInstance
-
-            def objectDefinitionSource = Holders.grailsApplication.mainContext.getBean("objectDefinitionSource")
-            objectDefinitionSource.compiled << newUrl("/grailsadminpluginui", [role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminpluginui.*", [role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminpluginui/**", [role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi", [role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi.*", [role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi/**", [role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminplugincallbackapi", [role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminplugincallbackapi.*", [role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminplugincallbackapi/**", [role], null)
-        } catch (NoSuchBeanDefinitionException e) {
-            log.error "No configured Spring Security"
-        } catch (ClassNotFoundException e) {
-            log.error "No configured Spring Security"
-        }
+    def onConfigChange = { event->
+        event.ctx.adminConfigHolder.initialize()
     }
 }

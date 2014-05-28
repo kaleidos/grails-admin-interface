@@ -2,17 +2,15 @@ package net.kaleidos.plugins.admin.config
 
 import groovy.util.logging.Log4j
 import java.util.regex.Pattern
-import org.codehaus.groovy.grails.web.mapping.RegexUrlMapping
-import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
-import org.codehaus.groovy.grails.web.mapping.*
 import grails.util.Holders
+import grails.util.Environment
 
+import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.web.context.WebApplicationContext
 import org.springframework.util.ClassUtils
 
 import org.codehaus.groovy.grails.validation.ConstrainedProperty;
-import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingsHolder
 
 import net.kaleidos.plugins.admin.widget.Widget
 import net.kaleidos.plugins.admin.DomainInspector
@@ -22,37 +20,9 @@ class AdminConfigHolder {
     Map<String, DomainConfig> domains = [:]
 
     void initialize() {
-        def domainList = Holders.config.grails.plugin.admin.domains
-        if (!domainList) {
-            return;
-        }
-        log.debug "Configuring domain classes"
-
-        this.domains = [:]
-        domainList.each { name ->
-            def inspector = DomainInspector.find(name)
-
-            if (!inspector) {
-                throw new RuntimeException("Configured class ${name} is not a domain class")
-            }
-
-            def domainConfig = Holders.config.grails.plugin.admin.domain."${inspector.className}"
-
-            if (domainConfig && domainConfig instanceof Closure) {
-                def dsl = new DomainConfigurationDsl(inspector.clazz, domainConfig)
-                domains[name] = dsl.execute()
-            } else if (domainConfig && domainConfig instanceof String) {
-                def clazz = Class.forName(domainConfig)
-                if (!clazz.metaClass.respondsTo(clazz, "getOptions")) {
-                    throw new RuntimeException("Class $domainConfig doesn't have a static attribute 'options'")
-                }
-                def dsl = new DomainConfigurationDsl(inspector.clazz, clazz.options)
-                domains[name] = dsl.execute()
-            } else {
-                domains[name] = new DomainConfig(inspector.clazz)
-            }
-        }
-        log.debug "DOMAIN: ${this.domains}"
+        _mergeConfiguration()
+        _configureAdminRole()
+        _configureDomains()
     }
 
     public List getDomainClasses() {
@@ -94,7 +64,7 @@ class AdminConfigHolder {
             config = _getParentDomainConfig(objClass)
         }
 
-        if (!config && DomainInspector.isDomain(objClass)) {
+        if (!config && DomainInspector.isDomain(objClass) && Holders.config.grails.plugin.admin.allowDefaultConfig) {
             config = new DomainConfig(objClass)
         }
 
@@ -136,5 +106,118 @@ class AdminConfigHolder {
         }
 
         return config
+    }
+
+    def _mergeConfiguration() {
+        def userConfiguration = Holders.config.grails.plugin.admin
+        def configSlurper = new ConfigSlurper(Environment.getCurrent().getName())
+        def defaultConfiguration = configSlurper.parse(Holders.grailsApplication.classLoader.loadClass("GrailsAdminDefaultConfig"))
+        Holders.config.grails.admin = _mergeConfigObjects(defaultConfiguration.defaultAdminConfig, userConfiguration)
+    }
+
+    def _mergeConfigObjects(ConfigObject confDefault, ConfigObject confUser) {
+        def config = new ConfigObject()
+        if (confUser == null) {
+            if (confDefault != null) {
+                config.putAll(confDefault)
+            }
+        }
+        else {
+            if (confDefault == null) {
+                config.putAll(confUser)
+            } else {
+                config.putAll(confDefault)
+                config.putAll(confDefault.merge(confUser))
+            }
+        }
+        return config
+    }
+
+    def _configureDomains() {
+        def domainList = Holders.config.grails.plugin.admin.domains
+        if (!domainList) {
+            return;
+        }
+        log.debug "Configuring domain classes"
+
+        this.domains = [:]
+        domainList.each { name ->
+            def inspector = DomainInspector.find(name)
+
+            if (!inspector) {
+                throw new RuntimeException("Configured class ${name} is not a domain class")
+            }
+
+            def domainConfig = Holders.config.grails.plugin.admin.domain."${inspector.className}"
+
+            if (domainConfig && domainConfig instanceof Closure) {
+                def dsl = new DomainConfigurationDsl(inspector.clazz, domainConfig)
+                domains[name] = dsl.execute()
+            } else if (domainConfig && domainConfig instanceof String) {
+                def clazz = Class.forName(domainConfig)
+                if (!clazz.metaClass.respondsTo(clazz, "getOptions")) {
+                    throw new RuntimeException("Class $domainConfig doesn't have a static attribute 'options'")
+                }
+                def dsl = new DomainConfigurationDsl(inspector.clazz, clazz.options)
+                domains[name] = dsl.execute()
+            } else {
+                domains[name] = new DomainConfig(inspector.clazz)
+            }
+        }
+        log.debug "DOMAIN: ${this.domains}"
+    }
+
+    def _configureAdminRole() {
+        if (!_configureAdminRoleSecurity1() && !_configureAdminRoleSecurity2()) {
+            log.error "No configured Spring Security"
+            if (Environment.current == Environment.PRODUCTION && Holders.config.grails.plugin.admin.security.forbidUnsecureProduction) {
+                String message = "You have not configured Spring Security. You can deactivate this feature setting 'grails.plugin.admin.security.forbidUnsecureProduction=false' in your configuration file"
+                log.error message
+                System.err.println message
+                throw new RuntimeException(message)
+            }
+        }
+    }
+
+    boolean _configureAdminRoleSecurity1() {
+        try {
+            def role = Holders.config.grails.plugin.admin.security.role?:"ROLE_ADMIN"
+
+            def clazz =  Class.forName("org.springframework.security.access.SecurityConfig")
+            def constructor = clazz.getConstructor(String.class)
+            def newConfig = constructor.&newInstance
+
+            def objectDefinitionSource = Holders.grailsApplication.mainContext.getBean("objectDefinitionSource")
+            objectDefinitionSource.storeMapping("/grailsadminpluginui/**", [newConfig(role)] as Set)
+            objectDefinitionSource.storeMapping("/grailsadminpluginapi/**", [newConfig(role)] as Set)
+            objectDefinitionSource.storeMapping("/grailsadminplugincallbackapi/**", [newConfig(role)] as Set)
+        } catch (Throwable e) {
+            return false
+        }
+    }
+
+    boolean _configureAdminRoleSecurity2() {
+        try {
+            def role = Holders.config.grails.plugin.admin.security.role?:"ROLE_ADMIN"
+
+            // We use reflection so it doesn't have a compile-time dependency
+            def clazz = Class.forName("grails.plugin.springsecurity.InterceptedUrl")
+            def httpMethodClass = Class.forName("org.springframework.http.HttpMethod")
+            def constructor = clazz.getConstructor(String.class, Collection.class, httpMethodClass)
+            def newUrl = constructor.&newInstance
+
+            def objectDefinitionSource = Holders.grailsApplication.mainContext.getBean("objectDefinitionSource")
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginui", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginui.*", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginui/**", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi.*", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi/**", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminplugincallbackapi", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminplugincallbackapi.*", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminplugincallbackapi/**", [role], null)
+        } catch (Throwable e) {
+            return false
+        }
     }
 }
