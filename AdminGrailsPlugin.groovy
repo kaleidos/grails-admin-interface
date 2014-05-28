@@ -81,7 +81,7 @@ class AdminGrailsPlugin {
             def newConfig = constructor.&newInstance
 
             def objectDefinitionSource = Holders.grailsApplication.mainContext.getBean("objectDefinitionSource")
-            objectDefinitionSource.storeMapping("/grailsadminplugin/**", [newConfig(role)] as Set)
+            objectDefinitionSource.storeMapping("/grailsadminpluginui/**", [newConfig(role)] as Set)
             objectDefinitionSource.storeMapping("/grailsadminpluginapi/**", [newConfig(role)] as Set)
             objectDefinitionSource.storeMapping("/grailsadminplugincallbackapi/**", [newConfig(role)] as Set)
         } catch (NoSuchBeanDefinitionException e) {
@@ -102,9 +102,9 @@ class AdminGrailsPlugin {
             def newUrl = constructor.&newInstance
 
             def objectDefinitionSource = Holders.grailsApplication.mainContext.getBean("objectDefinitionSource")
-            objectDefinitionSource.compiled << newUrl("/grailsadminplugin", [role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminplugin.*", [role], null)
-            objectDefinitionSource.compiled << newUrl("/grailsadminplugin/**", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginui", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginui.*", [role], null)
+            objectDefinitionSource.compiled << newUrl("/grailsadminpluginui/**", [role], null)
             objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi", [role], null)
             objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi.*", [role], null)
             objectDefinitionSource.compiled << newUrl("/grailsadminpluginapi/**", [role], null)

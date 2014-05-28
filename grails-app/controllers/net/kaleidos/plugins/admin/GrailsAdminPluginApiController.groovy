@@ -5,7 +5,7 @@ import grails.validation.ValidationException
 
 class GrailsAdminPluginApiController {
     def adminConfigHolder
-    def grailsAdminPluginGenericService
+    def grailsAdminPluginDataService
     def grailsAdminPluginJsonRendererService
 
     private static int ITEMS_BY_PAGE = 20
@@ -25,7 +25,7 @@ class GrailsAdminPluginApiController {
         def result
         def renderedResult
         if (id) {
-            result = grailsAdminPluginGenericService.retrieveDomain(config.domainClass, id)
+            result = grailsAdminPluginDataService.retrieveDomain(config.domainClass, id)
             if (!result) {
                 response.status = 404
                 render(["error":"Entity not found"] as JSON)
@@ -39,7 +39,7 @@ class GrailsAdminPluginApiController {
                 page = 1
             }
 
-            result = grailsAdminPluginGenericService.list(config.domainClass, (page -1) * ITEMS_BY_PAGE as Long, ITEMS_BY_PAGE as Long, params.sort,  params.sort_order)
+            result = grailsAdminPluginDataService.list(config.domainClass, (page -1) * ITEMS_BY_PAGE as Long, ITEMS_BY_PAGE as Long, params.sort,  params.sort_order)
             renderedResult = grailsAdminPluginJsonRendererService.renderListAsJson(result)
         }
 
@@ -56,7 +56,7 @@ class GrailsAdminPluginApiController {
 
         def result = [:]
         try {
-            result = grailsAdminPluginGenericService.saveDomain(config.domainClass, request.JSON)
+            result = grailsAdminPluginDataService.saveDomain(config.domainClass, request.JSON)
         } catch (ValidationException e) {
             response.status = 500
             render e.getErrors() as JSON
@@ -82,7 +82,7 @@ class GrailsAdminPluginApiController {
 
         def result = [:]
         try {
-            result = grailsAdminPluginGenericService.updateDomain(config.domainClass, id, request.JSON)
+            result = grailsAdminPluginDataService.updateDomain(config.domainClass, id, request.JSON)
         } catch (ValidationException e) {
             response.status = 500
             render e.getErrors() as JSON
@@ -107,7 +107,7 @@ class GrailsAdminPluginApiController {
         }
 
         try {
-            grailsAdminPluginGenericService.deleteDomain(config.domainClass, id)
+            grailsAdminPluginDataService.deleteDomain(config.domainClass, id)
         } catch (RuntimeException e) {
             log.debug e.message, e
             response.status = 500
@@ -129,7 +129,7 @@ class GrailsAdminPluginApiController {
 
 
         try {
-            grailsAdminPluginGenericService.deleteRelatedDomain(config.domainClass, id, propertyName, id2)
+            grailsAdminPluginDataService.deleteRelatedDomain(config.domainClass, id, propertyName, id2)
         } catch (RuntimeException e) {
             log.debug e.message, e
             response.status = 500
@@ -151,7 +151,7 @@ class GrailsAdminPluginApiController {
         }
 
         try {
-            grailsAdminPluginGenericService.putRelatedDomain(config.domainClass, id, propertyName, id2)
+            grailsAdminPluginDataService.putRelatedDomain(config.domainClass, id, propertyName, id2)
         } catch (RuntimeException e) {
             log.debug e.message, e
             response.status = 500

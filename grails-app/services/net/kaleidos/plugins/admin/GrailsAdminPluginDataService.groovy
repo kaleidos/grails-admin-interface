@@ -1,6 +1,6 @@
 package net.kaleidos.plugins.admin
 
-class GrailsAdminPluginGenericService {
+class GrailsAdminPluginDataService {
     static transactional = true
 
     def grailsApplication

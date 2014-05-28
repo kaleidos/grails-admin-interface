@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationContext
 
 import net.kaleidos.plugins.admin.config.AdminConfigHolder
 import net.kaleidos.plugins.admin.config.DomainConfig
-import net.kaleidos.plugins.admin.GrailsAdminPluginGenericService
+import net.kaleidos.plugins.admin.GrailsAdminPluginDataService
 
 import spock.lang.Shared
 import spock.lang.Specification
@@ -15,9 +15,9 @@ import admin.test.TestDomain
 
 import grails.util.Holders
 
-@TestFor(GrailsAdminPluginController)
+@TestFor(GrailsAdminPluginUIController)
 @Mock(TestDomain)
-class GrailsAdminPluginControllerSpec extends Specification {
+class GrailsAdminPluginUIControllerSpec extends Specification {
     @Shared
     def adminConfigHolder
 
@@ -36,7 +36,7 @@ class GrailsAdminPluginControllerSpec extends Specification {
 
     def setup() {
         controller.adminConfigHolder = adminConfigHolder
-        controller.grailsAdminPluginGenericService = Mock(GrailsAdminPluginGenericService)
+        controller.grailsAdminPluginDataService = Mock(GrailsAdminPluginDataService)
     }
 
     void 'menu'() {
@@ -66,9 +66,9 @@ class GrailsAdminPluginControllerSpec extends Specification {
         setup:
             def domain = adminConfigHolder.domains['admin.test.TestDomain']
 
-            controller.grailsAdminPluginGenericService.count(domain.domainClass) >> 30
+            controller.grailsAdminPluginDataService.count(domain.domainClass) >> 30
 
-            1 * controller.grailsAdminPluginGenericService.list(domain.domainClass, _, _, 'sortmy', 'asc') >> {
+            1 * controller.grailsAdminPluginDataService.list(domain.domainClass, _, _, 'sortmy', 'asc') >> {
                 [[:]]
             }
 

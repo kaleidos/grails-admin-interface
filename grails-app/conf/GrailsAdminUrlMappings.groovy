@@ -10,12 +10,14 @@ class GrailsAdminUrlMappings {
         }
 
         return {
-            name grailsAdminDashboard: "/${baseUrl}/" { controller = "grailsAdminPlugin" ; action="dashboard" }
+            // UI
+            name grailsAdminDashboard: "/${baseUrl}/" { controller = "grailsAdminPluginUI" ; action="dashboard" }
+            name grailsAdminDelete: "/${baseUrl}/delete/$slug" { controller = "grailsAdminPluginUI" ; action="delete" }
+            name grailsAdminList: "/${baseUrl}/list/$slug/$page?" { controller = "grailsAdminPluginUI" ; action="list" }
+            name grailsAdminEdit: "/${baseUrl}/edit/$slug/$id" { controller = "grailsAdminPluginUI" ; action=[GET:"edit", POST:"editAction"] }
+            name grailsAdminAdd: "/${baseUrl}/add/$slug" { controller = "grailsAdminPluginUI" ; action=[GET:"add", POST:"addAction"] }
 
-            name grailsAdminDelete: "/${baseUrl}/delete/$slug" { controller = "grailsAdminPlugin" ; action="delete" }
-            name grailsAdminList: "/${baseUrl}/list/$slug/$page?" { controller = "grailsAdminPlugin" ; action="list" }
-            name grailsAdminEdit: "/${baseUrl}/edit/$slug/$id" { controller = "grailsAdminPlugin" ; action=[GET:"edit", POST:"editAction"] }
-            name grailsAdminAdd: "/${baseUrl}/add/$slug" { controller = "grailsAdminPlugin" ; action=[GET:"add", POST:"addAction"] }
+            // Callbacks
             name grailsAdminSuccessEdit: "/${baseUrl}/success-edit/$slug" { controller = "grailsAdminPluginCallbackApi" ; action="successSave"}
             name grailsAdminSuccessList: "/${baseUrl}/success-list/$slug" { controller = "grailsAdminPluginCallbackApi" ; action="successList"}
             name grailsAdminSuccessNew: "/${baseUrl}/success-new/$slug" { controller = "grailsAdminPluginCallbackApi" ; action="successNew"}

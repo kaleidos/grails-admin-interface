@@ -25,11 +25,11 @@ import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 
 import grails.util.Holders
 
-@TestFor(GrailsAdminPluginGenericService)
+@TestFor(GrailsAdminPluginDataService)
 @TestMixin(DomainClassUnitTestMixin)
-@ConfineMetaClassChanges([GrailsAdminPluginGenericService])
+@ConfineMetaClassChanges([GrailsAdminPluginDataService])
 @Mock([TestDomain, TestDomainRelation])
-class GrailsAdminPluginGenericServiceSpec extends Specification {
+class GrailsAdminPluginDataServiceSpec extends Specification {
     @Shared
     def adminConfigHolder
 
