@@ -86,7 +86,7 @@ class GrailsAdminPluginTagLib {
             }
         }
 
-        grailsAdminPluginBuilderService.doWithAssetType(attrs.formType, attrs.className, "handlebars", buildClosure)
+        grailsAdminPluginHtmlRendererService.doWithAssetType(attrs.formType, attrs.className, "handlebars", buildClosure)
     }
 
     def layoutJs = { attrs->
@@ -169,11 +169,14 @@ class GrailsAdminPluginTagLib {
 
         if (type == "js") {
             result << 'grails-admin/libs/jquery/jquery.js'
+            result << 'grails-admin/libs/lodash.js'
             result << 'grails-admin/libs/bootstrap/js/bootstrap.js'
             result << 'grails-admin/libs/injectorJS/injector.js'
             result << 'grails-admin/libs/parsleyjs/parsley.remote.js'
             result << 'grails-admin/libs/serializeObject.js'
+            result << 'grails-admin/libs/handlebars-v1.3.0.js'
             result << 'grails-admin/js/main.js'
+            result << 'grails-admin/js/services/templateService.js'
             result << 'grails-admin/js/views/formView.js'
             result << 'grails-admin/js/views/deleteModalView.js'
             result << 'grails-admin/js/general.js'
