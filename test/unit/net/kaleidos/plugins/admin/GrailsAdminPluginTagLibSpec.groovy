@@ -141,6 +141,14 @@ class GrailsAdminPluginTagLibSpec extends Specification {
             html != null
     }
 
+    void 'Layout Handlebars'(){
+        when:
+            def html = applyTemplate('<gap:layoutHandlebers formType="create" className="admin.test.TestDomain"/>')
+
+        then:
+            html != null
+    }
+
     void 'Pagination for lists'() {
         setup:
             def object = new DomainInspector(new TestDomain())
