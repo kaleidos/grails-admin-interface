@@ -48,8 +48,10 @@ app.view('relationPopupOneWidgetField', ['$el', 'relationPopupWidgetList'], func
         setValue(null, "<< empty >>", false);
     }
 
-    function openNewPopup () {
-        app.getView('relationPopupOneWidgetNew').trigger('grailsadmin:relationPopupOneWidgetNew', addOneElement);
+    function openNewPopup (event) {
+        var target = $(event.currentTarget).data('target');
+
+        $(target).trigger('grailsadmin:relationPopupOneWidgetNew', addOneElement);
     }
 
     function openListPopup () {
