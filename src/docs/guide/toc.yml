@@ -25,12 +25,19 @@ widgets:
         checkboxInputWidget: CheckboxInputWidget
         dateInputWidget: DateInputWidget
         dateTimeInputWidget: DateTimeInputWidget
+        decimalInputWidget: DecimalInputWidget
         emailInputWidget: EmailInputWidget
+        enumWidget: EnumWidget
         hiddenInputWidget: HiddenInputWidget
         labelWidget: LabelWidget
+        localeInputWidget: LocaleInputWidget
         mapWidget: MapWidget
         numberInputWidget: NumberInputWidget
         passwordInputWidget: PasswordInputWidget
+        relationPopupOneWidget: RelationPopupOneWidget
+        relationSelectWidget: RelationSelectWidget
+        relationTableWidget: RelationTableWidget
+        relationSelectMultipleWidget: RelationSelectMultipleWidget
         selectMultipleWidget: SelectMultipleWidget
         selectWidget: SelectWidget
         textAreaWidget: TextAreaWidget

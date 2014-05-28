@@ -1,0 +1,4 @@
+Sample of html render
+{code}
+<input data-parsley-type='number' value='1234.11' />
+{code}

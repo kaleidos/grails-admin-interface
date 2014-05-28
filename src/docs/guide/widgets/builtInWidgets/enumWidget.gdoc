@@ -1,0 +1,8 @@
+Sample of html render
+{code}
+<select name="gender" class="form-control">
+  <option value="">---</option>
+  <option value="MALE">MALE</option>
+  <option selected="selected" value="FEMALE">FEMALE</option>
+</select>
+{code}

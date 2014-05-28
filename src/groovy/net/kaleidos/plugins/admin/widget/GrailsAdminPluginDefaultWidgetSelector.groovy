@@ -52,6 +52,9 @@ class GrailsAdminPluginDefaultWidgetSelector {
                 case File:
                     widget = new LabelWidget()
                     break
+                case Locale:
+                    widget = new LocaleInputWidget()
+                    break
                 case Collection:
                     if (inspector.isAssociation(propertyName)) {
                         widget = new RelationTableWidget()
@@ -60,17 +63,11 @@ class GrailsAdminPluginDefaultWidgetSelector {
                     }
                     break
                 default:
-                    //It is another domain class?
-                    //TODO: Change to use inspector
-                    def domain
-                    try {
-                        domain = new DefaultGrailsDomainClass(type)
-                    } catch (Exception e){}
-                    if (domain) {
+                    //Is it another domain class?
+                    if (inspector.isDomain(type)) {
                         widget = new RelationPopupOneWidget()
                     } else {
-                        // TODO: Change to Label, to prevent accidental changes
-                        widget = new TextInputWidget()
+                        widget = new LabelWidget()
                     }
             }
         }

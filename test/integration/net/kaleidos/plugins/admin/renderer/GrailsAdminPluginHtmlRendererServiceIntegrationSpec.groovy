@@ -35,7 +35,7 @@ class GrailsAdminPluginHtmlRendererServiceIntegrationSpec extends Specification 
             def result = slurper.parseText(html)
 
         then:
-            result.BODY.DIV.size() ==  13
+            result.BODY.DIV.size() ==  14
             result.BODY.DIV.each { div ->
                 div.LABEL.@for.text() !=  null
             }
@@ -50,7 +50,7 @@ class GrailsAdminPluginHtmlRendererServiceIntegrationSpec extends Specification 
             def result = slurper.parseText(html)
 
         then:
-            result.BODY.DIV.size() ==  13
+            result.BODY.DIV.size() ==  14
             result.BODY.DIV.each { div ->
                 div.LABEL.@for.text() !=  null
             }
@@ -65,7 +65,7 @@ class GrailsAdminPluginHtmlRendererServiceIntegrationSpec extends Specification 
             def result = slurper.parseText(html)
 
         then:
-            result.BODY.TABLE.TR.TD.size() == 13
+            result.BODY.TABLE.TR.TD.size() == 14
     }
 
     void "test render list line injection"() {
@@ -78,7 +78,7 @@ class GrailsAdminPluginHtmlRendererServiceIntegrationSpec extends Specification 
             def result = slurper.parseText(html)
 
         then:
-            result.BODY.TABLE.TR.TD.size() == 13
+            result.BODY.TABLE.TR.TD.size() == 14
     }
 
     void "test render list titles"() {
@@ -90,6 +90,6 @@ class GrailsAdminPluginHtmlRendererServiceIntegrationSpec extends Specification 
             def result = slurper.parseText(html)
 
         then:
-            result.BODY.TABLE.TR.TH.size() == 13
+            result.BODY.TABLE.TR.TH.size() == 14
     }
 }

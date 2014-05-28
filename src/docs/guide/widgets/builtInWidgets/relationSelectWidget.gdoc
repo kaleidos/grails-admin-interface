@@ -1,0 +1,9 @@
+Sample of html render
+{code}
+<select name="test">
+    <option value="">--</option>
+    <option value="1">name1</option>
+    <option value="2">name2</option>
+    <option value="3">name3</option>
+</select>
+{code}

@@ -1,0 +1,35 @@
+Sample of html render
+{code}
+<div view="relationtablewidget" class="relationtablewidget clearfix">
+  <input type="hidden" value="2" name="talks">
+  <table class="table table-bordered elements-table" data-optional="true" data-property-name="talks" data-detailurl="/conferences/myadmin/edit/talk/0">
+    <tbody>
+        <tr>
+            <td>
+                <a href="/conferences/myadmin/edit/talk/2">Talk1</a>
+            </td>
+            <td class="list-actions">
+                <a href="#" data-value="2" class="btn btn-default btn-sm js-relationtablewidget-delete">
+                    <span class="glyphicon glyphicon-trash"> </span> Delete
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="/conferences/myadmin/edit/talk/3">Talk2</a>
+            </td>
+            <td class="list-actions">
+                <a href="#" data-value="2" class="btn btn-default btn-sm js-relationtablewidget-delete">
+                    <span class="glyphicon glyphicon-trash"> </span> Delete
+                </a>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+  <div>
+    <a href="#" data-url="/conferences/myadmin/api/talk" class="btn btn-default js-relationtablewidget-add">
+      <span class="glyphicon glyphicon-plus"></span> Add
+    </a>
+  </div>
+</div>
+{code}

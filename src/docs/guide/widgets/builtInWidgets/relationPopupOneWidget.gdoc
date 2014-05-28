@@ -1,0 +1,38 @@
+Sample of html render
+{code}
+<div action="/conferences/myadmin/api/room" data-method="put" view="relationPopupOneWidgetField" class="relation-popupone-widget ">
+  <input type="hidden" value="2" name="room" class="js-one-rel-value">
+  <a name="room" class="js-one-rel-text" href="/conferences/myadmin/edit/room/2">Room1</a>
+  <div class="btn-group">
+    <a data-url="/conferences/myadmin/api/room" data-toggle="modal" class="btn btn-default js-relationpopuponewidget-list" href="#">
+      <span class="glyphicon glyphicon-list"> </span> List
+    </a>
+    <a data-target="#new-conferences_talk_room" data-toggle="modal" class="btn btn-default js-relationpopuponewidget-new" href="#">
+      <span class="glyphicon glyphicon-plus"> </span> New
+    </a>
+    <a style="display:block;" class="btn btn-default js-relationpopuponewidget-delete" href="#">
+      <span class="glyphicon glyphicon-trash"> </span> Delete
+    </a>
+  </div>
+</div>
+{code}
+
+
+Sample of renderAfterForm
+{code}
+<div action="/conferences/myadmin/api/room" data-method="put" view="relationPopupOneWidgetField" class="relation-popupone-widget ">
+  <input type="hidden" value="2" name="room" class="js-one-rel-value">
+  <a name="room" class="js-one-rel-text" href="/conferences/myadmin/edit/room/2">Room1</a>
+  <div class="btn-group">
+    <a data-url="/conferences/myadmin/api/room" data-toggle="modal" class="btn btn-default js-relationpopuponewidget-list" href="#">
+      <span class="glyphicon glyphicon-list"> </span> List
+    </a>
+    <a data-target="#new-conferences_talk_room" data-toggle="modal" class="btn btn-default js-relationpopuponewidget-new" href="#">
+      <span class="glyphicon glyphicon-plus"> </span> New
+    </a>
+    <a style="display:block;" class="btn btn-default js-relationpopuponewidget-delete" href="#">
+      <span class="glyphicon glyphicon-trash"> </span> Delete
+    </a>
+  </div>
+</div>
+{code}

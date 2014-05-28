@@ -103,7 +103,16 @@ class GrailsAdminPluginDefaultWidgetSelectorSpec extends Specification {
         when:
             def widget = GrailsAdminPluginDefaultWidgetSelector.getDefaultWidgetForProperty(AdminDomainTest, propertyName)
         then:
-            widget.class == TextInputWidget.class
+            widget.class == LabelWidget.class
+        where:
+            propertyName = "currency"
+    }
+
+    void 'get widget for locale type attribute'() {
+        when:
+            def widget = GrailsAdminPluginDefaultWidgetSelector.getDefaultWidgetForProperty(AdminDomainTest, propertyName)
+        then:
+            widget.class == LocaleInputWidget.class
         where:
             propertyName = "locale"
     }

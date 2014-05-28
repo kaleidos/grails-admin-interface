@@ -14,6 +14,7 @@ class AdminDomainTest{
     Boolean ok
     File photo
     Locale locale
+    Currency currency
     Date lastAccess
 
     static mapping = {

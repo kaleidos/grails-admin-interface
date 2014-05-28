@@ -1,0 +1,4 @@
+Sample of html render
+{code}
+<input name='test' type='text' value='es_ES' />
+{code}

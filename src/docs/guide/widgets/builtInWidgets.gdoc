@@ -1,28 +1,29 @@
 Grails Admin Plugin brings to you several built in widgets, that you can use. The complete list of Built in widgets is this:
 
 {table}
-CheckboxInputWidget.groovy
-InputWidget.groovy
-TextInputWidget.groovy
-SelectWidget.groovy
-DecimalInputWidget.groovy
-UrlInputWidget.groovy
-HiddenInputWidget.groovy
-LabelWidget.groovy
-PasswordInputWidget.groovy
-TextAreaWidget.groovy
-RelationPopupOneWidget.groovy
-RelationSelectWidget.groovy
-RelationTableWidget.groovy
-RelationSelectMultipleWidget.groovy
-MapWidget.groovy
-EnumWidget.groovy
-NumberInputWidget.groovy
-DateInputWidget.groovy
-SelectMultipleWidget.groovy
-EmailInputWidget.groovy
-TimeInputWidget.groovy
-DateTimeInputWidget.groovy
+Built in Widgets
+[CheckboxInputWidget|guide:checkboxInputWidget]
+[DateInputWidget|guide:dateInputWidget]
+[DateTimeInputWidget|guide:dateTimeInputWidget]
+[DecimalInputWidget|guide:decimalInputWidget]
+[EmailInputWidget|guide:emailInputWidget]
+[EnumWidget|guide:enumWidget]
+[HiddenInputWidget|guide:hiddenInputWidget]
+[LabelWidget|guide:labelWidget]
+[LocaleInputWidget|guide:localeInputWidget]
+[MapWidget|guide:mapWidget]
+[NumberInputWidget|guide:numberInputWidget]
+[PasswordInputWidget|guide:passwordInputWidget]
+[RelationPopupOneWidget|guide:relationPopupOneWidget]
+[RelationSelectMultipleWidget|guide:relationSelectMultipleWidget]
+[RelationSelectWidget|guide:relationSelectWidget]
+[RelationTableWidget|guide:relationTableWidget]
+[SelectMultipleWidget|guide:selectMultipleWidget]
+[SelectWidget|guide:selectWidget]
+[TextAreaWidget|guide:textAreaWidget]
+[TextInputWidget|guide:textInputWidget]
+[TimeInputWidget|guide:timeInputWidget]
+[UrlInputWidget|guide:urlInputWidget]
 {table}
 
 
@@ -31,27 +32,28 @@ If you not specify otherwise on configuration, Grails Admin will select a built-
 
 {table}
 *Type* | *Constraint* | *Widget*
- - | @inList@ | @SelectWidget@
-@Byte@ | - | @NumberInputWidget@
-@Short@ | - | @NumberInputWidget@
-@Integer@ | - | @NumberInputWidget@
-@Long@ | - | @NumberInputWidget@
-@Float@| - | @DecimalInputWidget@
-@Double@| - | @DecimalInputWidget@
-@Character@| - | @TextInputWidget@
-@String@| - | @TextInputWidget@
- - |@email@| @EmailInputWidget@
- - |@url@| @UrlInputWidget@
-@Date@| - | @DateInputWidget@
-@Boolean@| - | @CheckboxInputWidget@
-@Enum@| - | @EnumWidget@
-@File@| - | @LabelWidget@
-@Collection of other Domain Class@| - | @RelationTableWidget@
-@Collection@| - | @LabelWidget@
-<Other Domain Class>| - |@RelationPopupOneWidget@
-_Unknown_| - |@LabelWidget@
+ - | @inList@ | [RelationSelectWidget|guide:relationSelectWidget]
+@Byte@ | - | [NumberInputWidget|guide:numberInputWidget]
+@Short@ | - | [NumberInputWidget|guide:numberInputWidget]
+@Integer@ | - | [NumberInputWidget|guide:numberInputWidget]
+@Long@ | - | [NumberInputWidget|guide:numberInputWidget]
+@Float@| - | [DecimalInputWidget|guide:decimalInputWidget]
+@Double@| - | [DecimalInputWidget|guide:decimalInputWidget]
+@Character@| - | [TextInputWidget|guide:textInputWidget]
+@String@| - | [TextInputWidget|guide:textInputWidget]
+ - |@email@| [EmailInputWidget|guide:emailInputWidget]
+ - |@url@| [UrlInputWidget|guide:urlInputWidget]
+@Date@| - | [DateInputWidget|guide:dateInputWidget]
+@Boolean@| - | [CheckboxInputWidget|guide:checkboxInputWidget]
+@Enum@| - | [EnumWidget|guide:enumWidget]
+@Locale@| - | [LocaleInputWidget|guide:localeInputWidget]
+@File@| - | [LabelWidget|guide:labelWidget]
+@Collection of other Domain Class@| - | [RelationTableWidget|guide:relationTableWidget]
+@Collection@| - | [LabelWidget|guide:labelWidget]
+<Other Domain Class>| - | [RelationPopupOneWidget|guide:relationPopupOneWidget]
+_Unknown_| - | [LabelWidget|guide:labelWidget]
 {table}
 
 
 
-@LabelWidget@ is used when we don't know how to handle a type or his value, like @Locale@, @File@ or @Collection@ types, in order to don't scramble your data
+@LabelWidget@ is used when we don't know how to handle a type or his value, like @Currency@, @File@ or @Collection@ types, in order to don't scramble your data
