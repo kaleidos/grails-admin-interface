@@ -2,7 +2,7 @@ class GrailsAdminUrlMappings {
     static mappings = getDynamicUrlMapping()
 
     static getDynamicUrlMapping() {
-        def baseUrl = grails.util.Holders.config.grails.plugin.admin.access_root
+        def baseUrl = grails.util.Holders.config.grails.plugin.admin.accessRoot
         if (!baseUrl) {
             baseUrl = "admin"
         } else if (baseUrl.startsWith("/")) {

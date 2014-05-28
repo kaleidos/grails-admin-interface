@@ -8,7 +8,7 @@ You have to include the following properties in your @Config.groovy@ file.
 Your @Config.groovy@ would look like this:
 {code}
 // mandatory
-grails.plugin.admin.access_root = "/myconfadmin"
+grails.plugin.admin.accessRoot = "/myconfadmin"
 
 // optional
 grails.plugin.admin.domains = [

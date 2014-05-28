@@ -15,7 +15,7 @@ grails.plugin.admin.domains = [
 ]
 {code}
 
-h4. Admin access root
+h4. Admin accessRoot
 
 _Optional_
 
@@ -26,7 +26,7 @@ Grails-Admin allows you to customize the endpoint so it uses a custom one.
 By default the value is /admin
 
 {code}
-grails.plugin.admin.access_root = "/admin"
+grails.plugin.admin.accessRoot = "/admin"
 {code}
 
 h4. Security access role
