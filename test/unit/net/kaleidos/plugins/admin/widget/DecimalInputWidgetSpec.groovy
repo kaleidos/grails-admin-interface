@@ -94,4 +94,39 @@ class DecimalInputWidgetSpec extends Specification {
             value = 1234.112
             attrs = ['size':10, 'name': 'test']
     }
+
+    void 'Update value'() {
+        setup:
+            def numberInputWidget = new DecimalInputWidget()
+            numberInputWidget.internalAttrs['domainObject'] = [:]
+            numberInputWidget.internalAttrs['propertyName'] = "test"
+
+        when:
+            numberInputWidget.value = value?"$value":value
+            numberInputWidget.updateValue()
+
+        then:
+            numberInputWidget.internalAttrs.domainObject.test == value
+
+        where:
+            value << [10.5f, (((double)Float.MAX_VALUE) + 10.0d), null]
+    }
+
+    void 'Update value (fail)'() {
+        setup:
+            def numberInputWidget = new DecimalInputWidget()
+            numberInputWidget.internalAttrs['domainObject'] = [:]
+            numberInputWidget.internalAttrs['propertyName'] = "test"
+
+        when:
+            numberInputWidget.value = "$value"
+            numberInputWidget.updateValue()
+
+        then:
+            thrown(RuntimeException)
+
+        where:
+            value = "NOT A NUMBER"
+    }
+
 }

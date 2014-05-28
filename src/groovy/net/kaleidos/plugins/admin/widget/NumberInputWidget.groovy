@@ -1,14 +1,8 @@
 package net.kaleidos.plugins.admin.widget
 
 class NumberInputWidget extends InputWidget{
-
     NumberInputWidget() {
         inputType = "number"
-    }
-
-    @Override
-    def getValueForJson() {
-        return value
     }
 
     @Override
@@ -20,12 +14,13 @@ class NumberInputWidget extends InputWidget{
 
     def parse(String str) {
         def number = null;
+
         try {
-            number = Long.parseLong(str);
-        } catch(NumberFormatException e2) {
+            number = Integer.parseInt(str);
+        } catch(NumberFormatException e3) {
             try {
-                number = Integer.parseInt(str);
-            } catch(NumberFormatException e3) {
+                number = Long.parseLong(str);
+            } catch(NumberFormatException e2) {
                 throw e3;
             }
         }

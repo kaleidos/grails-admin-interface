@@ -94,4 +94,40 @@ class NumberInputWidgetSpec extends Specification {
             value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'test']
     }
+
+
+    void 'Update value'() {
+        setup:
+            def numberInputWidget = new NumberInputWidget()
+            numberInputWidget.internalAttrs['domainObject'] = [:]
+            numberInputWidget.internalAttrs['propertyName'] = "test"
+
+        when:
+            numberInputWidget.value = value?"$value":value
+            numberInputWidget.updateValue()
+
+        then:
+            numberInputWidget.internalAttrs.domainObject.test == value
+
+        where:
+            value << [10, (((long)Integer.MAX_VALUE) + 10), null]
+    }
+
+    void 'Update value (fail)'() {
+        setup:
+            def numberInputWidget = new NumberInputWidget()
+            numberInputWidget.internalAttrs['domainObject'] = [:]
+            numberInputWidget.internalAttrs['propertyName'] = "test"
+
+        when:
+            numberInputWidget.value = "$value"
+            numberInputWidget.updateValue()
+
+        then:
+            thrown(RuntimeException)
+
+        where:
+            value = "NOT A NUMBER"
+    }
+
 }
