@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>4 Widgets 0.1</title>
+    <title>5 Widgets 0.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,25 +27,28 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/structure.html"><strong>2</strong><span>Plugin Structure</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/screenshots.html"><strong>2</strong><span>title Screenshots</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Plugin Configuration</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/structure.html"><strong>3</strong><span>Plugin Structure</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/widgets.html"><strong>4</strong><span>Widgets</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>4</strong><span>Plugin Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/customWidgets.html"><strong>5</strong><span>Custom Widgets. Guide to Widget developers</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/widgets.html"><strong>5</strong><span>Widgets</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/contributing.html"><strong>6</strong><span>Contributing. Guide to Plugin developers</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/customWidgets.html"><strong>6</strong><span>Custom Widgets. Guide to Widget developers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/roadmap.html"><strong>7</strong><span>Roadmap</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/contributing.html"><strong>7</strong><span>Contributing. Guide to Plugin developers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>8</strong><span>FAQ</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/roadmap.html"><strong>8</strong><span>Roadmap</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>9</strong><span>FAQ</span></a>
                     </div>
                     
                 </div>
@@ -82,18 +85,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/configuration.html">&lt;&lt; <strong>3</strong><span>Plugin Configuration</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/configuration.html">&lt;&lt; <strong>4</strong><span>Plugin Configuration</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/customWidgets.html"><strong>5</strong><span>Custom Widgets. Guide to Widget developers</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/customWidgets.html"><strong>6</strong><span>Custom Widgets. Guide to Widget developers</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>4 Widgets - Reference Documentation</h1>
+                    <h1>5 Widgets - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
@@ -106,70 +109,70 @@ function addJsClass() {
                 <div id="table-of-content">
                     <h2>Table of Contents</h2>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#configureWidgets"><strong>4.1</strong><span>Configure widgets</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#configureWidgets"><strong>5.1</strong><span>Configure widgets</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#stylingWidgets"><strong>4.2</strong><span>Styling widget instances</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#stylingWidgets"><strong>5.2</strong><span>Styling widget instances</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#builtInWidgets"><strong>4.3</strong><span>Built in widgets</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#builtInWidgets"><strong>5.3</strong><span>Built in widgets</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#checkboxInputWidget"><strong>4.3.1</strong><span>CheckboxInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#checkboxInputWidget"><strong>5.3.1</strong><span>CheckboxInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#dateInputWidget"><strong>4.3.2</strong><span>DateInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#dateInputWidget"><strong>5.3.2</strong><span>DateInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#decimalInputWidget"><strong>4.3.3</strong><span>DecimalInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#decimalInputWidget"><strong>5.3.3</strong><span>DecimalInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#emailInputWidget"><strong>4.3.4</strong><span>EmailInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#emailInputWidget"><strong>5.3.4</strong><span>EmailInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#enumWidget"><strong>4.3.5</strong><span>EnumWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#enumWidget"><strong>5.3.5</strong><span>EnumWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#hiddenInputWidget"><strong>4.3.6</strong><span>HiddenInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#hiddenInputWidget"><strong>5.3.6</strong><span>HiddenInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#labelWidget"><strong>4.3.7</strong><span>LabelWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#labelWidget"><strong>5.3.7</strong><span>LabelWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#localeInputWidget"><strong>4.3.8</strong><span>LocaleInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#localeInputWidget"><strong>5.3.8</strong><span>LocaleInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#mapWidget"><strong>4.3.9</strong><span>MapWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#mapWidget"><strong>5.3.9</strong><span>MapWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#numberInputWidget"><strong>4.3.10</strong><span>NumberInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#numberInputWidget"><strong>5.3.10</strong><span>NumberInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#passwordInputWidget"><strong>4.3.11</strong><span>PasswordInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#passwordInputWidget"><strong>5.3.11</strong><span>PasswordInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#relationPopupOneWidget"><strong>4.3.12</strong><span>RelationPopupOneWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#relationPopupOneWidget"><strong>5.3.12</strong><span>RelationPopupOneWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#relationSelectWidget"><strong>4.3.13</strong><span>RelationSelectWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#relationSelectWidget"><strong>5.3.13</strong><span>RelationSelectWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#relationTableWidget"><strong>4.3.14</strong><span>RelationTableWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#relationTableWidget"><strong>5.3.14</strong><span>RelationTableWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#relationSelectMultipleWidget"><strong>4.3.15</strong><span>RelationSelectMultipleWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#relationSelectMultipleWidget"><strong>5.3.15</strong><span>RelationSelectMultipleWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#selectWidget"><strong>4.3.16</strong><span>SelectWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#selectWidget"><strong>5.3.16</strong><span>SelectWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#textAreaWidget"><strong>4.3.17</strong><span>TextAreaWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#textAreaWidget"><strong>5.3.17</strong><span>TextAreaWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#textInputWidget"><strong>4.3.18</strong><span>TextInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#textInputWidget"><strong>5.3.18</strong><span>TextInputWidget</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#urlInputWidget"><strong>4.3.19</strong><span>UrlInputWidget</span></a>
+                    <div class="toc-item" style="margin-left:10px"><a href="#urlInputWidget"><strong>5.3.19</strong><span>UrlInputWidget</span></a>
                     </div>
                     
                 </div>
@@ -177,7 +180,7 @@ function addJsClass() {
 
                 
 
-<h1 id="widgets">4 Widgets</h1>
+<h1 id="widgets">5 Widgets</h1>
 A widget is a component of Grails Admin that represents a property from a domain object instance.<p class="paragraph"/>The widget handles the rendering (HTML or JSON) for that property, and also transform the values
 received for that property into the correct type (for example, translate from String to Date as
 needed).<p class="paragraph"/>The plugin provides a set of built in widgets that should cover the majority of situations.
@@ -185,24 +188,24 @@ To render other types or to display other type of data in a different way, you c
 own custom widgets.<p class="paragraph"/>
 
 
-<h2 id="configureWidgets">4.1 Configure widgets</h2>
+<h2 id="configureWidgets">5.1 Configure widgets</h2>
 Grails Admin Plugin comes with a set of built-in plugins but you can specify your own custom
 widget for a specific domain class and property in your app <code>Config.groovy</code><p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Speaker = &#123;
     widget <span class="java&#45;quote">"birthDate"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.DateInputWidget"</span>, dateFormat: <span class="java&#45;quote">"yyyyMMdd"</span>
 &#125;</pre></div><p class="paragraph"/>
 
 
-<h2 id="stylingWidgets">4.2 Styling widget instances</h2>
+<h2 id="stylingWidgets">5.2 Styling widget instances</h2>
 stylingWidgets
 
 
 
-<h2 id="builtInWidgets">4.3 Built in widgets</h2>
+<h2 id="builtInWidgets">5.3 Built in widgets</h2>
 Grails Admin Plugin brings to you several built in widgets, that you can use. The complete list of Built in widgets is this:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Built in Widgets</th></tr><tr class="table-odd"><td><a href="../guide/single.html#checkboxInputWidget" class="guide">CheckboxInputWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#dateInputWidget" class="guide">DateInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#decimalInputWidget" class="guide">DecimalInputWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#emailInputWidget" class="guide">EmailInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#enumWidget" class="guide">EnumWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#hiddenInputWidget" class="guide">HiddenInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#localeInputWidget" class="guide">LocaleInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#mapWidget" class="guide">MapWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#passwordInputWidget" class="guide">PasswordInputWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#relationPopupOneWidget" class="guide">RelationPopupOneWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#relationSelectMultipleWidget" class="guide">RelationSelectMultipleWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#relationSelectWidget" class="guide">RelationSelectWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#relationTableWidget" class="guide">RelationTableWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#selectWidget" class="guide">SelectWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#textAreaWidget" class="guide">TextAreaWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#textInputWidget" class="guide">TextInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#urlInputWidget" class="guide">UrlInputWidget</a></td></tr></table><p class="paragraph"/><p class="paragraph"/>If you not specify otherwise on configuration, Grails Admin will select a built-in widget by the type of the attribute(sometimes modified by constraints):<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Type</strong></th><th><strong class="bold">Constraint</strong></th><th><strong class="bold">Widget</strong></th></tr><tr class="table-odd"><td>-</td><td><code>inList</code></td><td><a href="../guide/single.html#relationSelectWidget" class="guide">RelationSelectWidget</a></td></tr><tr class="table-even"><td><code>Byte</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-odd"><td><code>Short</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-even"><td><code>Integer</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-odd"><td><code>Long</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-even"><td><code>Float</code></td><td>-</td><td><a href="../guide/single.html#decimalInputWidget" class="guide">DecimalInputWidget</a></td></tr><tr class="table-odd"><td><code>Double</code></td><td>-</td><td><a href="../guide/single.html#decimalInputWidget" class="guide">DecimalInputWidget</a></td></tr><tr class="table-even"><td><code>Character</code></td><td>-</td><td><a href="../guide/single.html#textInputWidget" class="guide">TextInputWidget</a></td></tr><tr class="table-odd"><td><code>String</code></td><td>-</td><td><a href="../guide/single.html#textInputWidget" class="guide">TextInputWidget</a></td></tr><tr class="table-even"><td>-</td><td><code>email</code></td><td><a href="../guide/single.html#emailInputWidget" class="guide">EmailInputWidget</a></td></tr><tr class="table-odd"><td>-</td><td><code>url</code></td><td><a href="../guide/single.html#urlInputWidget" class="guide">UrlInputWidget</a></td></tr><tr class="table-even"><td><code>Date</code></td><td>-</td><td><a href="../guide/single.html#dateInputWidget" class="guide">DateInputWidget</a></td></tr><tr class="table-odd"><td><code>Boolean</code></td><td>-</td><td><a href="../guide/single.html#checkboxInputWidget" class="guide">CheckboxInputWidget</a></td></tr><tr class="table-even"><td><code>Enum</code></td><td>-</td><td><a href="../guide/single.html#enumWidget" class="guide">EnumWidget</a></td></tr><tr class="table-odd"><td><code>Locale</code></td><td>-</td><td><a href="../guide/single.html#localeInputWidget" class="guide">LocaleInputWidget</a></td></tr><tr class="table-even"><td><code>File</code></td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-odd"><td><code>Collection of other Domain Class</code></td><td>-</td><td><a href="../guide/single.html#relationTableWidget" class="guide">RelationTableWidget</a></td></tr><tr class="table-even"><td><code>Collection</code></td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-odd"><td>&#60;Other Domain Class&#62;</td><td>-</td><td><a href="../guide/single.html#relationPopupOneWidget" class="guide">RelationPopupOneWidget</a></td></tr><tr class="table-even"><td> <em class="italic">Unknown</em> </td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr></table><p class="paragraph"/><p class="paragraph"/><code>LabelWidget</code> is used when we don't know how to handle a type or his value, like <code>Currency</code>, <code>File</code> or <code>Collection</code> types, in order to don't scramble your data
 
 
 
-<h2 id="checkboxInputWidget">4.3.1 CheckboxInputWidget</h2>
+<h2 id="checkboxInputWidget">5.3.1 CheckboxInputWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of type Boolean<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">Boolean</span> ok</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
     widget <span class="java&#45;quote">"ok"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.CheckboxInputWidget"</span>
@@ -211,7 +214,7 @@ Grails Admin Plugin brings to you several built in widgets, that you can use. Th
 
 
 
-<h2 id="dateInputWidget">4.3.2 DateInputWidget</h2>
+<h2 id="dateInputWidget">5.3.2 DateInputWidget</h2>
 <strong class="bold">Internal attributes</strong>
 <ul class="star">
 <li>dateFormat: You can specify the date format for this widget. Although internally can use the format pattern of <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/text/SimpleDateFormat.html" target="blank">SimpleDateFormat</a>, in order to use the html component you can only use d, dd, M, MM, yy, yyyy. By default, the format is "dd/MM/yyyy".</li>
@@ -223,7 +226,7 @@ Grails Admin Plugin brings to you several built in widgets, that you can use. Th
 
 
 
-<h2 id="decimalInputWidget">4.3.3 DecimalInputWidget</h2>
+<h2 id="decimalInputWidget">5.3.3 DecimalInputWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of types Float or Double<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">Float</span> height
 <span class="java&#45;object">Double</span> weight</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
@@ -233,7 +236,7 @@ Grails Admin Plugin brings to you several built in widgets, that you can use. Th
 
 
 
-<h2 id="emailInputWidget">4.3.4 EmailInputWidget</h2>
+<h2 id="emailInputWidget">5.3.4 EmailInputWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of type String with a constraint of email<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> email
 <span class="java&#45;keyword">static</span> constraints = &#123;
     email email:<span class="java&#45;keyword">true</span>
@@ -245,7 +248,7 @@ Grails Admin Plugin brings to you several built in widgets, that you can use. Th
 
 
 
-<h2 id="enumWidget">4.3.5 EnumWidget</h2>
+<h2 id="enumWidget">5.3.5 EnumWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of type Enum<p class="paragraph"/><div class="code"><pre>Gender gender</pre></div><p class="paragraph"/><div class="code"><pre>enum Gender &#123;
     MALE, FEMALE
 &#125;</pre></div><p class="paragraph"/>
@@ -257,7 +260,7 @@ Grails Admin Plugin brings to you several built in widgets, that you can use. Th
 
 
 
-<h2 id="hiddenInputWidget">4.3.6 HiddenInputWidget</h2>
+<h2 id="hiddenInputWidget">5.3.6 HiddenInputWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>This widget won't be automatically selected, you will have to configure it.<p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
     widget <span class="java&#45;quote">"hidden"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.HiddenInputWidget"</span>
@@ -266,7 +269,7 @@ Grails Admin Plugin brings to you several built in widgets, that you can use. Th
 
 
 
-<h2 id="labelWidget">4.3.7 LabelWidget</h2>
+<h2 id="labelWidget">5.3.7 LabelWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of classes not knwown for the Grails Admin Plugin<p class="paragraph"/><div class="code"><pre>File photo</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
     widget <span class="java&#45;quote">"ok"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.LabelWidget"</span>
@@ -275,14 +278,14 @@ Grails Admin Plugin brings to you several built in widgets, that you can use. Th
 
 
 
-<h2 id="localeInputWidget">4.3.8 LocaleInputWidget</h2>
+<h2 id="localeInputWidget">5.3.8 LocaleInputWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of type Locale<p class="paragraph"/><div class="code"><pre>Locale locale</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>You should not configure this widget<p class="paragraph"/>
 <strong class="bold">Sample of html render</strong><p class="paragraph"/><div class="code"><pre>&#60;input type=<span class="java&#45;quote">"text"</span> value=<span class="java&#45;quote">"es_ES"</span> name=<span class="java&#45;quote">"locale"</span> class=<span class="java&#45;quote">"form&#45;control"</span> /&#62;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Sample image</th></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/LocaleInputWidget.png"></img></td></tr></table>
 
 
 
-<h2 id="mapWidget">4.3.9 MapWidget</h2>
+<h2 id="mapWidget">5.3.9 MapWidget</h2>
 This widget shows an iframe with a google maps view of the value, and an input text to show and update that value<p class="paragraph"/><strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>This widget won't be automatically selected, you will have to configure it.<p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
     widget <span class="java&#45;quote">"address"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.MapWidget"</span>
@@ -304,7 +307,7 @@ This widget shows an iframe with a google maps view of the value, and an input t
 
 
 
-<h2 id="numberInputWidget">4.3.10 NumberInputWidget</h2>
+<h2 id="numberInputWidget">5.3.10 NumberInputWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of types Byte, Short, Integer or Long<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">Integer</span> age</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
     widget <span class="java&#45;quote">"height"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.NumberInputWidget"</span>
@@ -313,7 +316,7 @@ This widget shows an iframe with a google maps view of the value, and an input t
 
 
 
-<h2 id="passwordInputWidget">4.3.11 PasswordInputWidget</h2>
+<h2 id="passwordInputWidget">5.3.11 PasswordInputWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of type String with a constraint of password<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> password
 <span class="java&#45;keyword">static</span> constraints = &#123;
     password password:<span class="java&#45;keyword">true</span>
@@ -325,7 +328,7 @@ This widget shows an iframe with a google maps view of the value, and an input t
 
 
 
-<h2 id="relationPopupOneWidget">4.3.12 RelationPopupOneWidget</h2>
+<h2 id="relationPopupOneWidget">5.3.12 RelationPopupOneWidget</h2>
 This widget is used for model a relation between the current domain object, and another domain object. This relation can be a one-to-one relation, or the week side of an one-to-many relation.<p class="paragraph"/><strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes which type is other domain class, including the 'belongsTo' constraints<p class="paragraph"/><div class="code"><pre>Room room</pre></div><p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">static</span> belongsTo = &#91;room:Room&#93;</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>You should not configure this widget<p class="paragraph"/>
 <strong class="bold">Sample of html render</strong><p class="paragraph"/><div class="code"><pre>&#60;div action=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> data&#45;method=<span class="java&#45;quote">"put"</span> view=<span class="java&#45;quote">"relationPopupOneWidgetField"</span> class=<span class="java&#45;quote">"relation&#45;popupone&#45;widget "</span>&#62;
@@ -380,7 +383,7 @@ This widget is used for model a relation between the current domain object, and 
 
 
 
-<h2 id="relationSelectWidget">4.3.13 RelationSelectWidget</h2>
+<h2 id="relationSelectWidget">5.3.13 RelationSelectWidget</h2>
 This widget is used as an alternative form to model a relation between the current domain object, and another domain object. This relation can be a one-to-one relation, or the week side of an one-to-many relation.
 <blockquote class="note">
 This widget loads <strong class="bold">all</strong> the posible related domain objets to populate the select element, so it shouln't be used if there are too many of this elements
@@ -398,7 +401,7 @@ This widget loads <strong class="bold">all</strong> the posible related domain o
 
 
 
-<h2 id="relationTableWidget">4.3.14 RelationTableWidget</h2>
+<h2 id="relationTableWidget">5.3.14 RelationTableWidget</h2>
 This widget is used for model a relation between the current domain object and a collection of other domains objects. This relation can be a many-to-many relation, or the strong side of an one-to-many relation.<p class="paragraph"/><strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes which type is a collection of other domain class<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">static</span> hasMany=&#91;talks:Talk&#93;</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>You should not configure this widget<p class="paragraph"/>
 <strong class="bold">Sample of html render</strong><p class="paragraph"/><div class="code"><pre>&#60;div view=<span class="java&#45;quote">"relationtablewidget"</span> class=<span class="java&#45;quote">"relationtablewidget clearfix"</span>&#62;
@@ -435,7 +438,7 @@ This widget is used for model a relation between the current domain object and a
 
 
 
-<h2 id="relationSelectMultipleWidget">4.3.15 RelationSelectMultipleWidget</h2>
+<h2 id="relationSelectMultipleWidget">5.3.15 RelationSelectMultipleWidget</h2>
 This widget is used as an alternative form to model a relation between the current domain object and a collection of other domains objects. This relation can be a many-to-many relation, or the strong side of an one-to-many relation.
 <blockquote class="note">
 This widget loads <strong class="bold">all</strong> the posible related domain objets to populate the select element, so it shouln't be used if there are too many of this elements
@@ -452,7 +455,7 @@ This widget loads <strong class="bold">all</strong> the posible related domain o
 
 
 
-<h2 id="selectWidget">4.3.16 SelectWidget</h2>
+<h2 id="selectWidget">5.3.16 SelectWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class with a constraint of inList<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> country
 <span class="java&#45;keyword">static</span> constraints = &#123;
     country inList: &#91;<span class="java&#45;quote">"Canada"</span>, <span class="java&#45;quote">"Spain"</span>, <span class="java&#45;quote">"USA"</span>&#93;
@@ -468,7 +471,7 @@ This widget loads <strong class="bold">all</strong> the posible related domain o
 
 
 
-<h2 id="textAreaWidget">4.3.17 TextAreaWidget</h2>
+<h2 id="textAreaWidget">5.3.17 TextAreaWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>This widget won't be automatically selected, you will have to configure it.<p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
     widget <span class="java&#45;quote">"comment"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.TextAreaWidget"</span>
@@ -477,7 +480,7 @@ This widget loads <strong class="bold">all</strong> the posible related domain o
 
 
 
-<h2 id="textInputWidget">4.3.18 TextInputWidget</h2>
+<h2 id="textInputWidget">5.3.18 TextInputWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of type String<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> name</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
     widget <span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.TextInputWidget"</span>
@@ -486,7 +489,7 @@ This widget loads <strong class="bold">all</strong> the posible related domain o
 
 
 
-<h2 id="urlInputWidget">4.3.19 UrlInputWidget</h2>
+<h2 id="urlInputWidget">5.3.19 UrlInputWidget</h2>
 <strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of type String with a constraint of url<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> web
 <span class="java&#45;keyword">static</span> constraints = &#123;
     web url:<span class="java&#45;keyword">true</span>
@@ -500,9 +503,9 @@ This widget loads <strong class="bold">all</strong> the posible related domain o
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/configuration.html">&lt;&lt; <strong>3</strong><span>Plugin Configuration</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/configuration.html">&lt;&lt; <strong>4</strong><span>Plugin Configuration</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/customWidgets.html"><strong>5</strong><span>Custom Widgets. Guide to Widget developers</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/customWidgets.html"><strong>6</strong><span>Custom Widgets. Guide to Widget developers</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
