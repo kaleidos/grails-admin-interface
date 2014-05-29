@@ -39,7 +39,13 @@ grails.plugin.admin.domains = [ "conferences.Talk", "conferences.Speaker" ]
 ```
 
 You can also extend the default behaviour creating your own custom widgets.
-See [Widgets](https://grails-admin.github.io/grails-admin/) section to learn more about.
+See [Custom Widgets](https://grails-admin.github.io/grails-admin/guide/customWidgets.html) section to learn more about.
+
+```
+grails.plugin.admin.domain.Conference = {
+    widget "coordinates", "sample.MapWidget", height:400, width:600
+}
+```
 
 ## Contribution 
 
