@@ -5,6 +5,10 @@ introduction:
     dependencies: Dependencies
     installation: Installation
 
+screenshots:
+    title Screenshots
+
+
 structure:
     title: Plugin Structure
 
