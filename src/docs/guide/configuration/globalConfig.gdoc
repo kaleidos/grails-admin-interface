@@ -15,7 +15,7 @@ grails.plugin.admin.domains = [
 ]
 {code}
 
-h4. Admin accessRoot
+h4. Admin URL Access Root
 
 _Optional_
 
@@ -29,7 +29,20 @@ By default the value is /admin
 grails.plugin.admin.accessRoot = "/admin"
 {code}
 
-h4. Security access role
+h4. Allow Default Configuration
+
+When a domain has a relationship with another domain (i.e. 1-1 relationship) if the related object
+has not been defined in the managed domains list you will not be able to interact with it by default.
+
+You can explicitely activate default configuration on objects that are not defined in your domain list
+by using this property.
+
+_Optional_
+{code}
+grails.plugin.admin.allowDefaultConfig = false
+{code}
+
+h4. Security. Access role
 
 _Optional_
 
@@ -37,7 +50,20 @@ The default role required for a user to access the admin is "ROLE_ADMIN" but you
 to use any role defined with your application.
 
 {code}
-grails.plugin.admin.role = "ROLE_ADMIN"
+grails.plugin.admin.security.role = "ROLE_ADMIN"
 {code}
 
+h4. Security. Forbid unsecured admin on Production environment
 
+By default the plugin checks if your application is secured or not (currently using Spring Security 1.x
+and Spring Security 2.x).
+
+If your application is not secured, by default, the plugin will throw an exception when it's boostraped
+on production environments.
+
+You can override this behaviour by setting this property to "false"
+
+_Optional_
+{code}
+grails.plugin.admin.security.forbidUnsecureProduction = true
+{code}
