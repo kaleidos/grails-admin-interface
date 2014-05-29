@@ -43,4 +43,4 @@ See [Widgets](https://grails-admin.github.io/grails-admin/) section to learn mor
 
 ## Contribution 
 
-To learn more about how to contribute to this project please visit [Contribution](https://grails-admin.github.io/grails-admin/) section.
+To learn more about how to contribute to this project please visit [Contribution](https://grails-admin.github.io/grails-admin/guide/contributing.html) section.
