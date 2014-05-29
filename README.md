@@ -34,8 +34,6 @@ plugins {
 ```
 
 and edit your app `Config.groovy` and include the list of domains to start working with:
-
-Example:
 ```
 grails.plugin.admin.domains = [ "conferences.Talk", "conferences.Speaker" ]
 ```
