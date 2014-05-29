@@ -33,16 +33,19 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../../guide/configuration.html"><strong>3</strong><span>Plugin Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tutorial.html"><strong>4</strong><span>Tutorial</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/widgets.html"><strong>4</strong><span>Widgets</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/widgets.html"><strong>5</strong><span>Widgets</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/customWidgets.html"><strong>5</strong><span>Custom Widgets. Guide to Widget developers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/roadmap.html"><strong>6</strong><span>Roadmap</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/contributing.html"><strong>6</strong><span>Contributing. Guide to Plugin developers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>7</strong><span>FAQ</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/roadmap.html"><strong>7</strong><span>Roadmap</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>8</strong><span>FAQ</span></a>
                     </div>
                     
                 </div>
@@ -85,7 +88,7 @@ function addJsClass() {
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../../guide/tutorial.html"><strong>4</strong><span>Tutorial</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/widgets.html"><strong>4</strong><span>Widgets</span> >></a></div>
                 
 
 
@@ -104,9 +107,10 @@ function addJsClass() {
                 
 
 <h2 id="globalConfig">3.1 Global Configuration</h2>
-<h4>Domains List</h4><p class="paragraph"/> <em class="italic"><strong class="bold">Necessary</strong></em> <p class="paragraph"/>You have to explicitely set the domains that your application is going to manage.<p class="paragraph"/>The property is a list of strings containing the full class name of your domains<p class="paragraph"/>By default it contains an empty list.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#91;
-    <span class="java&#45;quote">"net.kaleidos.TestDomain"</span>,
-    <span class="java&#45;quote">"net.kaleidos.AnotherDomain"</span>
+<h4>Domains List</h4><p class="paragraph"/> <em class="italic"><strong class="bold">Necessary</strong></em> <p class="paragraph"/>Not mandatory, but necessary to start working with admin<p class="paragraph"/>You have to explicitely set the domains that your application is going to manage.
+The property is a list of strings containing the full class name of your domains.<p class="paragraph"/>By default it contains an empty list.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#91;
+    <span class="java&#45;quote">"conferences.Speaker"</span>,
+    <span class="java&#45;quote">"conferences.Talk"</span>
 &#93;</pre></div><p class="paragraph"/><h4>Admin URL Access Root</h4><p class="paragraph"/> <em class="italic">Optional</em> <p class="paragraph"/>A good security practice is not to use a "standard" URI to access your administration backend.<p class="paragraph"/>Grails-Admin allows you to customize the endpoint so it uses a custom one.<p class="paragraph"/>By default the value is /admin<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.accessRoot = <span class="java&#45;quote">"/admin"</span></pre></div><p class="paragraph"/><h4>Allow Default Configuration</h4><p class="paragraph"/>When a domain has a relationship with another domain (i.e. 1-1 relationship) if the related object
 has not been defined in the managed domains list you will not be able to interact with it by default.<p class="paragraph"/>You can explicitely activate default configuration on objects that are not defined in your domain list
 by using this property.<p class="paragraph"/> <em class="italic">Optional</em> 
@@ -122,7 +126,7 @@ on production environments.<p class="paragraph"/>You can override this behaviour
                 
                     <div class="toc-item prev-left"><a href="../../guide/structure.html">&lt;&lt; <strong>2</strong><span>Plugin Structure</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../../guide/tutorial.html"><strong>4</strong><span>Tutorial</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/widgets.html"><strong>4</strong><span>Widgets</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

@@ -33,16 +33,19 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../../guide/configuration.html"><strong>3</strong><span>Plugin Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tutorial.html"><strong>4</strong><span>Tutorial</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/widgets.html"><strong>4</strong><span>Widgets</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/widgets.html"><strong>5</strong><span>Widgets</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/customWidgets.html"><strong>5</strong><span>Custom Widgets. Guide to Widget developers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/roadmap.html"><strong>6</strong><span>Roadmap</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/contributing.html"><strong>6</strong><span>Contributing. Guide to Plugin developers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>7</strong><span>FAQ</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/roadmap.html"><strong>7</strong><span>Roadmap</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>8</strong><span>FAQ</span></a>
                     </div>
                     
                 </div>
@@ -102,16 +105,20 @@ function addJsClass() {
                 
 
 <h2 id="installation">1.4 Installation</h2>
-To install you should include in your BuildConfig.groovy<p class="paragraph"/><div class="code"><pre>plugins &#123;
-    runtime <span class="java&#45;quote">"&#58;admin&#58;0.1"</span>
+<h4>Installation</h4><p class="paragraph"/>To install you should include in your BuildConfig.groovy<p class="paragraph"/><div class="code"><pre>plugins &#123;
+    runtime <span class="java&#45;quote">"&#58;admin&#58;&#60;version&#62;.&#60;minorVersion&#62;"</span>
 &#125;</pre></div><p class="paragraph"/>It's recommended that you include a Spring Security Core plugin to secure the administration.<p class="paragraph"/><div class="code"><pre>plugins &#123;
     // Spring Security v1.X , example:
     compile <span class="java&#45;quote">"&#58;spring&#45;security&#45;core&#58;1.2.7.3"</span>
 &#125;</pre></div><p class="paragraph"/><div class="code"><pre>plugins &#123;
     // &#8230; or v2.X , example:
     compile <span class="java&#45;quote">"&#58;spring&#45;security&#45;core&#58;2.0&#45;RC3"</span>
-&#125;</pre></div><p class="paragraph"/>and edit your app <code>Config.groovy</code> and include the list of domains to start working with:<p class="paragraph"/>Example:
-<div class="code"><pre>grails.plugin.admin.domains = &#91; <span class="java&#45;quote">"net.kaleidos.TestDomain"</span>, <span class="java&#45;quote">"net.kaleidos.AnotherDomain"</span> &#93;</pre></div>
+&#125;</pre></div><p class="paragraph"/><h4>Configuration</h4><p class="paragraph"/>Is not mandatory, but to see plugin works you have to edit your app <code>Config.groovy</code> and include the
+list of domains to start working with:
+<div class="code"><pre>grails.plugin.admin.domains = &#91; <span class="java&#45;quote">"conferences.Talk"</span>, <span class="java&#45;quote">"conferences.Speaker"</span> &#93;</pre></div><p class="paragraph"/><h4>Extend Behaviour with Custom Widgets</h4><p class="paragraph"/>You can also extend the default behaviour creating your own custom widgets.
+See Custom Widgets section for more information.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Conference = &#123;
+    widget <span class="java&#45;quote">"coordinates"</span>, <span class="java&#45;quote">"sample.MapWidget"</span>, height:400, width:600
+&#125;</pre></div>
 
 
 

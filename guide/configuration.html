@@ -33,16 +33,19 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Plugin Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tutorial.html"><strong>4</strong><span>Tutorial</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/widgets.html"><strong>4</strong><span>Widgets</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/widgets.html"><strong>5</strong><span>Widgets</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/customWidgets.html"><strong>5</strong><span>Custom Widgets. Guide to Widget developers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/roadmap.html"><strong>6</strong><span>Roadmap</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/contributing.html"><strong>6</strong><span>Contributing. Guide to Plugin developers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>7</strong><span>FAQ</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/roadmap.html"><strong>7</strong><span>Roadmap</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>8</strong><span>FAQ</span></a>
                     </div>
                     
                 </div>
@@ -85,7 +88,7 @@ function addJsClass() {
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/tutorial.html"><strong>4</strong><span>Tutorial</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/widgets.html"><strong>4</strong><span>Widgets</span> >></a></div>
                 
 
 
@@ -116,24 +119,24 @@ function addJsClass() {
 
 <h1 id="configuration">3 Plugin Configuration</h1>
 The power of the grails admin plugin is that you can create a full-fleshed grails administration page
-only by configuration.<p class="paragraph"/>In order to be flexible enough the plugin provides several configuration for tunning your application.<p class="paragraph"/>You have to include the following properties in your <code>Config.groovy</code> file.<p class="paragraph"/>Your <code>Config.groovy</code> would look like this:
-<div class="code"><pre>// mandatory
-grails.plugin.admin.accessRoot = <span class="java&#45;quote">"/myconfadmin"</span><p class="paragraph"/>// optional
-grails.plugin.admin.domains = &#91;
-    <span class="java&#45;quote">"net.kaleidos.conferences.Room"</span>,
-    <span class="java&#45;quote">"net.kaleidos.conferences.Attendee"</span>,
-    <span class="java&#45;quote">"net.kaleidos.conferences.Conference"</span>,
-    <span class="java&#45;quote">"net.kaleidos.conferences.Talk"</span>,
-    <span class="java&#45;quote">"net.kaleidos.conferences.Speaker"</span>
-&#93;<p class="paragraph"/>// optional
-grails.plugin.admin.domain.Conference = <span class="java&#45;quote">"net.kaleidos.conferences.ConferenceAdmin"</span></pre></div>
+only by configuration.
+In order to be flexible enough the plugin provides several configuration for tunning your application.<p class="paragraph"/>There are no mandatory configuration to run your application with this plugin, but to start working
+with it you have to set some properties.<p class="paragraph"/>Your <code>Config.groovy</code> would look like this:
+<div class="code"><pre>grails.plugin.admin.accessRoot = <span class="java&#45;quote">"/myconfadmin"</span><p class="paragraph"/>grails.plugin.admin.domains = &#91;
+    <span class="java&#45;quote">"conferences.Room"</span>,
+    <span class="java&#45;quote">"conferendes.Attendee"</span>,
+    <span class="java&#45;quote">"conferendes.Conference"</span>,
+    <span class="java&#45;quote">"conferendes.Talk"</span>,
+    <span class="java&#45;quote">"conferendes.Speaker"</span>
+&#93;<p class="paragraph"/>grails.plugin.admin.domain.Conference = <span class="java&#45;quote">"conferences.ConferenceAdmin"</span></pre></div>
 
 
 
 <h2 id="globalConfig">3.1 Global Configuration</h2>
-<h4>Domains List</h4><p class="paragraph"/> <em class="italic"><strong class="bold">Necessary</strong></em> <p class="paragraph"/>You have to explicitely set the domains that your application is going to manage.<p class="paragraph"/>The property is a list of strings containing the full class name of your domains<p class="paragraph"/>By default it contains an empty list.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#91;
-    <span class="java&#45;quote">"net.kaleidos.TestDomain"</span>,
-    <span class="java&#45;quote">"net.kaleidos.AnotherDomain"</span>
+<h4>Domains List</h4><p class="paragraph"/> <em class="italic"><strong class="bold">Necessary</strong></em> <p class="paragraph"/>Not mandatory, but necessary to start working with admin<p class="paragraph"/>You have to explicitely set the domains that your application is going to manage.
+The property is a list of strings containing the full class name of your domains.<p class="paragraph"/>By default it contains an empty list.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#91;
+    <span class="java&#45;quote">"conferences.Speaker"</span>,
+    <span class="java&#45;quote">"conferences.Talk"</span>
 &#93;</pre></div><p class="paragraph"/><h4>Admin URL Access Root</h4><p class="paragraph"/> <em class="italic">Optional</em> <p class="paragraph"/>A good security practice is not to use a "standard" URI to access your administration backend.<p class="paragraph"/>Grails-Admin allows you to customize the endpoint so it uses a custom one.<p class="paragraph"/>By default the value is /admin<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.accessRoot = <span class="java&#45;quote">"/admin"</span></pre></div><p class="paragraph"/><h4>Allow Default Configuration</h4><p class="paragraph"/>When a domain has a relationship with another domain (i.e. 1-1 relationship) if the related object
 has not been defined in the managed domains list you will not be able to interact with it by default.<p class="paragraph"/>You can explicitely activate default configuration on objects that are not defined in your domain list
 by using this property.<p class="paragraph"/> <em class="italic">Optional</em> 
@@ -146,26 +149,30 @@ on production environments.<p class="paragraph"/>You can override this behaviour
 
 
 <h2 id="domainConfig">3.2 Per Domain Configuration</h2>
-You can configure the administration screens with a specific DSL that can be configure either in your
-Config.groovy or in classes of type "Admin" that also allows the redefinition of some methods.<p class="paragraph"/><h3>Configuration on Config.groovy file</h3><p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
+You can configure the administration screens with a specific DSL that can be configure either in
+your <code>Config.groovy</code> or in classes of type "Admin" that also allows the redefinition of some
+methods.<p class="paragraph"/><h3>Configuration on <code>Config.groovy</code> file</h3><p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Speaker = &#123;
     create includes: &#91;<span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"description"</span>, <span class="java&#45;quote">"dateCreated"</span>, <span class="java&#45;quote">"endDate"</span>&#93;,
-    widget <span class="java&#45;quote">"address"</span>, <span class="java&#45;quote">"net.kaleidos.test.MyTestWidget"</span>, width: 500, height: 100
-&#125;</pre></div><p class="paragraph"/><h3>Configuration on "Admin" entities</h3><p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> test<p class="paragraph"/>class TestAdmin &#123;
+    widget <span class="java&#45;quote">"birthDate"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.DateInputWidget"</span>, dateFormat: <span class="java&#45;quote">"yyyyMMdd"</span>
+&#125;</pre></div><p class="paragraph"/><h3>Configuration on "Admin" entities</h3><p class="paragraph"/>Edit <code>Config.groovy</code>  to associate your admin class with the domain entity that manage.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Speaker = <span class="java&#45;quote">"conferences.SpeakerAdmin"</span></pre></div><p class="paragraph"/>and create admin class.<p class="paragraph"/>Place it under <code>grails-app/admin</code> directory.<p class="paragraph"/> <em class="italic">Note: You can place your admin class wherever you want in <code>classpath</code>,</em> 
+ <em class="italic">but we recommend this to possible future artifacts control</em> <p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> conferences<p class="paragraph"/>class SpeakerAdmin &#123;
     <span class="java&#45;keyword">static</span> options = &#123;
         create includes: &#91;<span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"description"</span>, <span class="java&#45;quote">"dateCreated"</span>, <span class="java&#45;quote">"endDate"</span>&#93;,
-        widget <span class="java&#45;quote">"address"</span>, <span class="java&#45;quote">"net.kaleidos.test.MyTestWidget"</span>, width: 500, height: 100
-    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>Then you should associate your admin class with the domain entity that manage.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = <span class="java&#45;quote">"test.TestAdmin"</span></pre></div><p class="paragraph"/><h4>Include properties</h4><p class="paragraph"/>You can select which properties the administration will display on a specific operation.<p class="paragraph"/>The order will be preserved in the form.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
+        widget <span class="java&#45;quote">"birthDate"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.DateInputWidget"</span>, dateFormat: <span class="java&#45;quote">"yyyyMMdd"</span>
+    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>
+<h4>Include properties</h4><p class="paragraph"/>You can select which properties the administration will display on a specific operation.<p class="paragraph"/>The order will be preserved in the form.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Speaker = &#123;
     list includes: &#91;<span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"description"</span>, <span class="java&#45;quote">"dateCreated"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
     create includes: &#91;<span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"description"</span>&#93;
     edit includes: &#91;<span class="java&#45;quote">"name"</span>, <span class="java&#45;quote">"description"</span>&#93;
 &#125;</pre></div><p class="paragraph"/>
-<h4>Exclude Properties</h4><p class="paragraph"/>You can customize which properties will be excluded from the administration screens.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
+<h4>Exclude Properties</h4><p class="paragraph"/>You can customize which properties will be excluded from the administration screens.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Speaker = &#123;
     list excludes: &#91;<span class="java&#45;quote">"startDate"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
     create excludes: &#91;<span class="java&#45;quote">"startDate"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
     edit excludes: &#91;<span class="java&#45;quote">"startDate"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
-&#125;</pre></div><p class="paragraph"/><h4>Custom widgets</h4><p class="paragraph"/>For some properties the default editor/renderer may not be enough. You can customize this behaviour writing your own widget.
-Further documentation on the widgets sections.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
-    widget <span class="java&#45;quote">"address"</span>, <span class="java&#45;quote">"net.kaleidos.test.MyTestWidget"</span>, width: 500, height: 100
+&#125;</pre></div><p class="paragraph"/><h4>Custom widgets</h4><p class="paragraph"/>For some properties the default editor/renderer may not be enough. You can customize this
+behaviour writing your own widget.
+Further documentation on the Custom Widgets section.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Conference = &#123;
+    widget <span class="java&#45;quote">"coordinates"</span>, <span class="java&#45;quote">"sample.MapWidget"</span>, height:400, width:600
 &#125;</pre></div><p class="paragraph"/>
 
 
@@ -173,7 +180,7 @@ Further documentation on the widgets sections.<p class="paragraph"/><div class="
                 
                     <div class="toc-item prev-left"><a href="../guide/structure.html">&lt;&lt; <strong>2</strong><span>Plugin Structure</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/tutorial.html"><strong>4</strong><span>Tutorial</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/widgets.html"><strong>4</strong><span>Widgets</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
