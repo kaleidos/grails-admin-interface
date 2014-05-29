@@ -22,7 +22,19 @@ class AdminGrailsPlugin {
     def title = "Grails Admin"
     def author = "Kaleidos Open Source"
     def authorEmail = "hello@kaleidos.net"
-    def description = "Administration backoffice for Grails applications"
+
+    def description = """
+    Grails Admin allows you to easily create an administration back-office with default styles and
+    operations. You cand extend and configure this administrator to improve the experience of your
+    users.
+
+    The default admin also provides an API to ease the integration with already existing
+    administration back-offices and integration with Spring Security (version 1 and 2) to use the
+    security behaviour of your application.
+
+    This is a similar project to those existing in others MVC frameworks such as Django Admin,
+    Sonata Admin or Rails Active Admin.
+    """
 
     def documentation = "http://grails.org/plugin/admin"
 
