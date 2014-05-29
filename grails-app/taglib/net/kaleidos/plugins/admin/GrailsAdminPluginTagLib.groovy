@@ -67,8 +67,9 @@ class GrailsAdminPluginTagLib {
 
     def layoutCss = { attrs ->
         def buildClosure = {
-            if (grailsResourceLocator.findResourceForURI(it)) {
-                out << "<link href=\"${request.contextPath}${grailsResourceLocator.findResourceForURI(it).getPath()}\" rel=\"stylesheet\"></link>"
+            def resource = grailsResourceLocator.findResourceForURI(it)
+            if (resource) {
+                out << "<link href=\"${request.contextPath}${_locateResource(resource)}\" rel=\"stylesheet\"></link>"
             }
         }
         getViewResources("css").each(buildClosure)
@@ -91,8 +92,9 @@ class GrailsAdminPluginTagLib {
 
     def layoutJs = { attrs->
         def buildClosure = {
-            if (grailsResourceLocator.findResourceForURI(it)) {
-                out << "<script src=\"${request.contextPath}${grailsResourceLocator.findResourceForURI(it).getPath()}\"></script>"
+            def resource = grailsResourceLocator.findResourceForURI(it)
+            if (resource) {
+                out << "<script src=\"${request.contextPath}${_locateResource(resource)}\"></script>"
             }
         }
         getViewResources("js").each(buildClosure)
@@ -183,5 +185,14 @@ class GrailsAdminPluginTagLib {
         }
 
         return result
+    }
+
+    private String _locateResource(def resource) {
+        if (resource instanceof org.springframework.web.context.support.ServletContextResource) {
+            return resource.path
+        } else {
+            def filePath = resource.file.path
+            return filePath.substring(filePath.indexOf("work/")+4).replaceAll("web-app/","")
+        }
     }
 }
