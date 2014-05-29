@@ -10,7 +10,7 @@ class TextAreaWidget extends Widget {
         def builder = new MarkupBuilder(writer)
 
         builder.textarea htmlAttrs, {
-            mkp.yield "$value"
+            mkp.yield "${value?:''}"
         }
 
         return writer

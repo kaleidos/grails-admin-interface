@@ -1,12 +1,35 @@
 *Internal attributes*
 * dateFormat: You can specify the date format for this widget. Although internally can use the format pattern of [SimpleDateFormat|http://docs.oracle.com/javase/1.5.0/docs/api/java/text/SimpleDateFormat.html], in order to use the html component you can only use d, dd, M, MM, yy, yyyy. By default, the format is "dd/MM/yyyy".
 
-Sample of configuration
+*How would the plugin select automatically this widget?*
+
+On domain class attributes of type Date
+
 {code}
-widget "birthDate", "net.kaleidos.plugins.admin.widget.DateInputWidget", dateFormat: "yyyyMMdd"
+Date birthday
 {code}
 
-Sample of html render
+
+*How can I configure this widget?*
+
+There are several ways, described on the [configuration|guide:configuration] section.
+
+One of the easies ways is on the file Config.groovy
+
 {code}
-<input class='date form-control' name='test' type='text' data-date-format='yyymmdd' value='20150520' />
+grails.plugin.admin.domain.Test = {
+    widget "birthday", "net.kaleidos.plugins.admin.widget.DateInputWidget", dateFormat: "dd/mm/yyyy"
+}
 {code}
+
+
+*Sample of html render*
+
+{code}
+<input type="text" value="29/05/1994" data-date-format="dd/mm/yyyy" name="birthday" class="date form-control" />
+{code}
+
+{table}
+Sample image
+!Widgets/DateInputWidget.png!
+{table}

@@ -7,7 +7,7 @@ class RelationSelectWidget extends SelectWidget {
     String render() {
         def options = [:]
         if (internalAttrs["relatedDomainClass"]) {
-            internalAttrs["relatedDomainClass"].clazz.list().each {
+            internalAttrs["relatedDomainClass"].list().each {
                 options[it.id] = it.toString()
             }
         }

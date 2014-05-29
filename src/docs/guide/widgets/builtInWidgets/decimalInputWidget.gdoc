@@ -1,4 +1,33 @@
-Sample of html render
+*How would the plugin select automatically this widget?*
+
+On domain class attributes of types Float or Double
+
 {code}
-<input data-parsley-type='number' value='1234.11' />
+Float height
+Double weight
 {code}
+
+
+*How can I configure this widget?*
+
+There are several ways, described on the [configuration|guide:configuration] section.
+
+One of the easies ways is on the file Config.groovy
+
+{code}
+grails.plugin.admin.domain.Test = {
+    widget "height", "net.kaleidos.plugins.admin.widget.DecimalInputWidget"
+}
+{code}
+
+
+*Sample of html render*
+
+{code}
+<input value="180.5" data-parsley-type="number" name="height" class="form-control" />
+{code}
+
+{table}
+Sample image
+!Widgets/DecimalInputWidget.png!
+{table}

@@ -1,9 +1,40 @@
-Sample of html render
+This widget is used as an alternative form to model a relation between the current domain object, and another domain object. This relation can be a one-to-one relation, or the week side of an one-to-many relation.
+{note}
+This widget loads *all* the posible related domain objets to populate the select element, so it shouln't be used if there are too many of this elements
+{note}
+
+*How would the plugin select automatically this widget?*
+
+This widget won't be automatically selected, you will have to configure it.
+
+
+*How can I configure this widget?*
+
+There are several ways, described on the [configuration|guide:configuration] section.
+
+One of the easies ways is on the file Config.groovy
+
 {code}
-<select name="test">
-    <option value="">--</option>
-    <option value="1">name1</option>
-    <option value="2">name2</option>
-    <option value="3">name3</option>
+grails.plugin.admin.domain.Test = {
+    widget "speaker", "net.kaleidos.plugins.admin.widget.relation.RelationSelectWidget"
+}
+{code}
+
+
+*Sample of html render*
+
+{code}
+<select name="speaker" class="form-control">
+    <option value="1">Speaker0</option>
+    <option selected="selected" value="2">Speaker1</option>
+    <option value="3">Speaker2</option>
+    <option value="4">Speaker3</option>
+    <option value="5">Speaker4</option>
 </select>
 {code}
+
+{table}
+Sample image
+!Widgets/RelationSelectWidget.png!
+!Widgets/RelationSelectWidget1.png!
+{table}

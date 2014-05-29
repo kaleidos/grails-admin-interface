@@ -1,4 +1,28 @@
-Sample of html render
+*How would the plugin select automatically this widget?*
+
+This widget won't be automatically selected, you will have to configure it.
+
+
+*How can I configure this widget?*
+
+There are several ways, described on the [configuration|guide:configuration] section.
+
+One of the easies ways is on the file Config.groovy
+
 {code}
-<input name='test' type='hidden' value='Some text' />
+grails.plugin.admin.domain.Test = {
+    widget "hidden", "net.kaleidos.plugins.admin.widget.HiddenInputWidget"
+}
 {code}
+
+
+*Sample of html render*
+
+{code}
+<input type="hidden" value="abc" name="hidden" class="form-control" />
+{code}
+
+{table}
+Sample image
+!Widgets/HiddenInputWidget.png!
+{table}

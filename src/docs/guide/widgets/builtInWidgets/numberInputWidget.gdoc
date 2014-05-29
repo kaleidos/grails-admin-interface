@@ -1,4 +1,32 @@
-Sample of html render
+*How would the plugin select automatically this widget?*
+
+On domain class attributes of types Byte, Short, Integer or Long
+
 {code}
-<input name='test' type='number' value='0' />
+Integer age
 {code}
+
+
+*How can I configure this widget?*
+
+There are several ways, described on the [configuration|guide:configuration] section.
+
+One of the easies ways is on the file Config.groovy
+
+{code}
+grails.plugin.admin.domain.Test = {
+    widget "height", "net.kaleidos.plugins.admin.widget.NumberInputWidget"
+}
+{code}
+
+
+*Sample of html render*
+
+{code}
+<input type="number" value="20" name="age" class="form-control" />
+{code}
+
+{table}
+Sample image
+!Widgets/NumberInputWidget.png!
+{table}

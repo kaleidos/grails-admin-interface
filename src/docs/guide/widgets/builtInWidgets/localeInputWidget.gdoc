@@ -1,4 +1,24 @@
-Sample of html render
+*How would the plugin select automatically this widget?*
+
+On domain class attributes of type Locale
+
 {code}
-<input name='test' type='text' value='es_ES' />
+Locale locale
 {code}
+
+
+*How can I configure this widget?*
+
+You should not configure this widget
+
+
+*Sample of html render*
+
+{code}
+<input type="text" value="es_ES" name="locale" class="form-control" />
+{code}
+
+{table}
+Sample image
+!Widgets/LocaleInputWidget.png!
+{table}

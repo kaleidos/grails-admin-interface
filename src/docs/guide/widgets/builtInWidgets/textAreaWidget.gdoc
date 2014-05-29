@@ -1,3 +1,28 @@
+*How would the plugin select automatically this widget?*
+
+This widget won't be automatically selected, you will have to configure it.
+
+
+*How can I configure this widget?*
+
+There are several ways, described on the [configuration|guide:configuration] section.
+
+One of the easies ways is on the file Config.groovy
+
 {code}
-<textarea name='test'>Some text</textarea>
+grails.plugin.admin.domain.Test = {
+    widget "comment", "net.kaleidos.plugins.admin.widget.TextAreaWidget"
+}
 {code}
+
+
+*Sample of html render*
+
+{code}
+<textarea name="comment" class="form-control>A comment</textarea>
+{code}
+
+{table}
+Sample image
+!Widgets/TextAreaWidget.png!
+{table}

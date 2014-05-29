@@ -24,7 +24,6 @@ widgets:
         title: Built in widgets
         checkboxInputWidget: CheckboxInputWidget
         dateInputWidget: DateInputWidget
-        dateTimeInputWidget: DateTimeInputWidget
         decimalInputWidget: DecimalInputWidget
         emailInputWidget: EmailInputWidget
         enumWidget: EnumWidget
@@ -38,11 +37,9 @@ widgets:
         relationSelectWidget: RelationSelectWidget
         relationTableWidget: RelationTableWidget
         relationSelectMultipleWidget: RelationSelectMultipleWidget
-        selectMultipleWidget: SelectMultipleWidget
         selectWidget: SelectWidget
         textAreaWidget: TextAreaWidget
         textInputWidget: TextInputWidget
-        timeInputWidget: TimeInputWidget
         urlInputWidget: UrlInputWidget
     customWidgets: Custom widgets
 

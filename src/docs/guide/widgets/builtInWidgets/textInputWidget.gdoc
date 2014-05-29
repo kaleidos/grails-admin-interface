@@ -1,4 +1,32 @@
-Sample of html render
+*How would the plugin select automatically this widget?*
+
+On domain class attributes of type String
+
 {code}
-<input name='test' type='text' value='Some text' />
+String name
 {code}
+
+
+*How can I configure this widget?*
+
+There are several ways, described on the [configuration|guide:configuration] section.
+
+One of the easies ways is on the file Config.groovy
+
+{code}
+grails.plugin.admin.domain.Test = {
+    widget "name", "net.kaleidos.plugins.admin.widget.TextInputWidget"
+}
+{code}
+
+
+*Sample of html render*
+
+{code}
+<input type="text" value="Paul" name="name" class="form-control" />
+{code}
+
+{table}
+Sample image
+!Widgets/TextInputWidget.png!
+{table}

@@ -1,4 +1,32 @@
-Sample of html render
+*How would the plugin select automatically this widget?*
+
+On domain class attributes of type Boolean
+
 {code}
-<input type="checkbox" checked="checked" name="test"></input>
+Boolean ok
 {code}
+
+
+*How can I configure this widget?*
+
+There are several ways, described on the [configuration|guide:configuration] section.
+
+One of the easies ways is on the file Config.groovy
+
+{code}
+grails.plugin.admin.domain.Test = {
+    widget "ok", "net.kaleidos.plugins.admin.widget.CheckboxInputWidget"
+}
+{code}
+
+
+*Sample of html render*
+
+{code}
+<input type="checkbox" name="ok" class="form-control" checked="checked" />
+{code}
+
+{table}
+Sample image
+!Widgets/CheckboxInputWidget.png!
+{table}

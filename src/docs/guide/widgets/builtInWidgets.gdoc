@@ -4,7 +4,6 @@ Grails Admin Plugin brings to you several built in widgets, that you can use. Th
 Built in Widgets
 [CheckboxInputWidget|guide:checkboxInputWidget]
 [DateInputWidget|guide:dateInputWidget]
-[DateTimeInputWidget|guide:dateTimeInputWidget]
 [DecimalInputWidget|guide:decimalInputWidget]
 [EmailInputWidget|guide:emailInputWidget]
 [EnumWidget|guide:enumWidget]
@@ -18,11 +17,9 @@ Built in Widgets
 [RelationSelectMultipleWidget|guide:relationSelectMultipleWidget]
 [RelationSelectWidget|guide:relationSelectWidget]
 [RelationTableWidget|guide:relationTableWidget]
-[SelectMultipleWidget|guide:selectMultipleWidget]
 [SelectWidget|guide:selectWidget]
 [TextAreaWidget|guide:textAreaWidget]
 [TextInputWidget|guide:textInputWidget]
-[TimeInputWidget|guide:timeInputWidget]
 [UrlInputWidget|guide:urlInputWidget]
 {table}
 

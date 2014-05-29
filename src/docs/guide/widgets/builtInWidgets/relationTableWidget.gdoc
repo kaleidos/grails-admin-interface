@@ -1,31 +1,47 @@
-Sample of html render
+This widget is used for model a relation between the current domain object and a collection of other domains objects. This relation can be a many-to-many relation, or the strong side of an one-to-many relation.
+
+*How would the plugin select automatically this widget?*
+
+On domain class attributes which type is a collection of other domain class
+
+{code}
+static hasMany=[talks:Talk]
+{code}
+
+
+*How can I configure this widget?*
+
+You should not configure this widget
+
+
+*Sample of html render*
+
 {code}
 <div view="relationtablewidget" class="relationtablewidget clearfix">
-  <input type="hidden" value="2" name="talks">
+  <input type="hidden" value="6" name="talks">
+  <input type="hidden" value="9" name="talks">
   <table class="table table-bordered elements-table" data-optional="true" data-property-name="talks" data-detailurl="/conferences/myadmin/edit/talk/0">
-    <tbody>
-        <tr>
-            <td>
-                <a href="/conferences/myadmin/edit/talk/2">Talk1</a>
-            </td>
-            <td class="list-actions">
-                <a href="#" data-value="2" class="btn btn-default btn-sm js-relationtablewidget-delete">
-                    <span class="glyphicon glyphicon-trash"> </span> Delete
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="/conferences/myadmin/edit/talk/3">Talk2</a>
-            </td>
-            <td class="list-actions">
-                <a href="#" data-value="2" class="btn btn-default btn-sm js-relationtablewidget-delete">
-                    <span class="glyphicon glyphicon-trash"> </span> Delete
-                </a>
-            </td>
-        </tr>
-    </tbody>
-  </table>
+    <tbody><tr>
+      <td>
+        <a href="/conferences/myadmin/edit/talk/6">Talk5</a>
+      </td>
+      <td class="list-actions">
+        <a href="#" data-value="6" class="btn btn-default btn-sm js-relationtablewidget-delete">
+          <span class="glyphicon glyphicon-trash"> </span> Delete
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="/conferences/myadmin/edit/talk/9">Talk8</a>
+      </td>
+      <td class="list-actions">
+        <a href="#" data-value="9" class="btn btn-default btn-sm js-relationtablewidget-delete">
+          <span class="glyphicon glyphicon-trash"> </span> Delete
+        </a>
+      </td>
+    </tr>
+  </tbody></table>
   <div>
     <a href="#" data-url="/conferences/myadmin/api/talk" class="btn btn-default js-relationtablewidget-add">
       <span class="glyphicon glyphicon-plus"></span> Add
@@ -33,3 +49,9 @@ Sample of html render
   </div>
 </div>
 {code}
+
+{table}
+Sample image
+!Widgets/RelationTableWidget.png!
+!Widgets/RelationTableWidget1.png!
+{table}

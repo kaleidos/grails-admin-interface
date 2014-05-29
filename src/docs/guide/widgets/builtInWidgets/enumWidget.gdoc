@@ -1,8 +1,34 @@
-Sample of html render
+*How would the plugin select automatically this widget?*
+
+On domain class attributes of type Enum
+
+{code}
+Gender gender
+{code}
+
+{code}
+enum Gender {
+    MALE, FEMALE
+}
+{code}
+
+
+*How can I configure this widget?*
+
+You should not configure this widget
+
+
+*Sample of html render*
+
 {code}
 <select name="gender" class="form-control">
-  <option value="">---</option>
-  <option value="MALE">MALE</option>
-  <option selected="selected" value="FEMALE">FEMALE</option>
+  <option selected="selected" value="MALE">MALE</option>
+  <option value="FEMALE">FEMALE</option>
 </select>
 {code}
+
+{table}
+Sample image
+!Widgets/EnumWidget.png!
+!Widgets/EnumWidget2.png!
+{table}

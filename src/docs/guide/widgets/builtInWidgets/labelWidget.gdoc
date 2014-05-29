@@ -1,3 +1,32 @@
+*How would the plugin select automatically this widget?*
+
+On domain class attributes of classes not knwown for the Grails Admin Plugin
+
 {code}
-<label name="test">Some text</label>
+File photo
 {code}
+
+
+*How can I configure this widget?*
+
+There are several ways, described on the [configuration|guide:configuration] section.
+
+One of the easies ways is on the file Config.groovy
+
+{code}
+grails.plugin.admin.domain.Test = {
+    widget "ok", "net.kaleidos.plugins.admin.widget.LabelWidget"
+}
+{code}
+
+
+*Sample of html render*
+
+{code}
+<label class="form-control" name="photo">/tmp/image.jpg</label>
+{code}
+
+{table}
+Sample image
+!Widgets/LabelWidget.png!
+{table}
