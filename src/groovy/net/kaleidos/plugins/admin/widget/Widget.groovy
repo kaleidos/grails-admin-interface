@@ -24,4 +24,8 @@ abstract class Widget {
     def updateValue(value) {
         internalAttrs["domainObject"]."${internalAttrs['propertyName']}" = value
     }
+
+    public String renderError(Throwable t) {
+        return "<p style='color:red'>${t.message}</p>"
+    }
 }

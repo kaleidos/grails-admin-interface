@@ -10,13 +10,6 @@ app.view('formView', ['$el'], function ($el) {
         errorTemplate: "<span></span>"
     });
 
-    function searchFieldInstance(form, fieldName) {
-        for(var i = 0; i < form.fields.length; i++) {
-            if (form.fields[i].$element.attr('name') === fieldName) {
-                return form.fields[i];
-            }
-        }
-    }
 
     $el.find('.form-action').on('click', function () {
         var btnUrl = $(this).data('url');
@@ -48,6 +41,14 @@ app.view('formView', ['$el'], function ($el) {
 });
 
 app.configure.addConfiguration(function () {
+    function searchFieldInstance(form, fieldName) {
+        for(var i = 0; i < form.fields.length; i++) {
+            if (form.fields[i].$element.attr('name') === fieldName) {
+                return form.fields[i];
+            }
+        }
+    }
+
     //override parsley remote
     window.ParsleyExtend = $.extend(window.ParsleyExtend, {
         onSubmitValidate: function (event) {

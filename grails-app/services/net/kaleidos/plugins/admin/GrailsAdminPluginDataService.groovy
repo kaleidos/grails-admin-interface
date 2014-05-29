@@ -1,5 +1,7 @@
 package net.kaleidos.plugins.admin
 
+import net.kaleidos.plugins.admin.config.DomainConfig
+
 class GrailsAdminPluginDataService {
     static transactional = true
 
@@ -17,37 +19,20 @@ class GrailsAdminPluginDataService {
 
     def saveDomain(Class domainClass, Map params){
         def domainObj = domainClass.newInstance()
-
         def domainConfig = adminConfigHolder.getDomainConfig(domainClass)
         if (!domainConfig) {
             throw new RuntimeException("Domain not configured for ${domainClass.name}")
         }
-
-        List properties = domainConfig.getDefinedProperties("create")
-        Map customWidgets = domainConfig.getCustomWidgets("create")?:[:]
-
-        properties.each{key ->
-            _setValue(domainObj, customWidgets[key], key, params["$key"])
-        }
-        domainObj.save(failOnError:true)
-        return domainObj
+        return _saveObject(domainConfig, domainObj, "create", params)
     }
 
     def updateDomain(Class domainClass, Long id, Map params){
-        def result = domainClass.get(id)
-
-        if (!result) {
+        def domainObj = domainClass.get(id)
+        def domainConfig = adminConfigHolder.getDomainConfig(domainClass)
+        if (!domainObj) {
             throw new RuntimeException("Object with id $id doesn't exist")
         }
-        def domainConfig = adminConfigHolder.getDomainConfig(domainClass)
-        List properties = domainConfig.getDefinedProperties("edit")
-        Map customWidgets = domainConfig.getCustomWidgets("edit")?:[:]
-        properties.each{key ->
-            _setValue(result, customWidgets[key], key, params["$key"])
-        }
-        // Need to throw validation exception
-        result.save(failOnError:true)
-        return result
+        return _saveObject(domainConfig, domainObj, "edit", params)
     }
 
     def list(Class domainClass, Long offset = 0, Long limit = 10, String sort = 'id', String order = 'asc') {
@@ -96,6 +81,37 @@ class GrailsAdminPluginDataService {
                 }
             }
         }
+    }
+
+    def _saveObject(DomainConfig domainConfig, Object object, String method, Map params) {
+        List properties = domainConfig.getDefinedProperties(method)
+        Map customWidgets = domainConfig.getCustomWidgets(method)?:[:]
+
+        def errors
+        properties.each{key ->
+            try {
+                _setValue(object, customWidgets[key], key, params["$key"])
+            } catch (Throwable t) {
+                if (!errors) {
+                    errors = new grails.validation.ValidationErrors(object)
+                }
+                errors.rejectValue(key, params["$key"], t.message)
+            }
+        }
+        // Need to throw validation exception
+        if(!object.save()) {
+            if (!errors) {
+                errors = object.errors
+            } else {
+                errors.addAllErrors(object.errors)
+            }
+        }
+
+        if (errors) {
+            throw new grails.validation.ValidationException("Couldn't update ${domainConfig.classFullName}", errors)
+        }
+
+        return object
     }
 
     def _setValue(def object, def customWidget, def propertyName, def val){

@@ -19,29 +19,35 @@ class GrailsAdminPluginHtmlRendererService {
     }
 
     String _renderFormFields(String formType, Object object, Map widgetProperties){
-        StringBuilder html = new StringBuilder()
+        def writer = new StringWriter()
+        def builder = new groovy.xml.MarkupBuilder(writer)
+
         if (object) {
             def domainConfig = adminConfigHolder.getDomainConfig(object)
             List properties = domainConfig.getDefinedProperties(formType)
             Map customWidgets = domainConfig.getCustomWidgets(formType)
 
+
             properties.each{propertyName ->
                 def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidgets?."$propertyName", widgetProperties)
 
-                html.append("<div class=\"form-group\">")
-                html.append("<label for=\"${propertyName.encodeAsHTML()}\">")
-                html.append(propertyName.capitalize().encodeAsHTML())
-
-                if (widget.htmlAttrs.required == 'true') {
-                    html.append(" *")
+                builder.div class:"form-group", {
+                    label for:"${propertyName.encodeAsHTML()}", {
+                        mkp.yieldUnescaped propertyName.capitalize().encodeAsHTML()
+                        if (widget.htmlAttrs.required == 'true') {
+                            mkp.yield " *"
+                        }
+                    }
+                    try {
+                        mkp.yieldUnescaped widget.render()
+                    } catch (Throwable t) {
+                        log.error t.message
+                        mkp.yieldUnescaped widget.renderError(t)
+                    }
                 }
-
-                html.append("</label>")
-                html.append(widget.render())
-                html.append("</div>")
             }
         }
-        return html
+        return writer
     }
 
     String renderBeforeForm(String className, Map createWidgetProperties=[:]){
@@ -61,7 +67,14 @@ class GrailsAdminPluginHtmlRendererService {
 
         properties.each { propertyName ->
             def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName", widgetProperties)
-            def toRender = widget."$method"()
+
+            def toRender
+            try {
+                toRender = widget."$method"()
+            } catch (Throwable t) {
+                log.error t.message
+                toRender = widget.renderError()
+            }
 
             if (toRender) {
                 result << toRender

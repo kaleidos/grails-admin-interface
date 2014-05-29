@@ -32,8 +32,6 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
         widgetService.metaClass.getGrailsDomainClass = {Object object ->
             return new DefaultGrailsDomainClass(object.class)
         }
-
-
     }
 
     void 'get widget for long class'() {
