@@ -39,7 +39,17 @@ class GrailsAdminPluginApiController {
                 page = 1
             }
 
-            result = grailsAdminPluginDataService.list(config.domainClass, (page -1) * ITEMS_BY_PAGE as Long, ITEMS_BY_PAGE as Long, params.sort,  params.sort_order)
+            def itemsByPage = ITEMS_BY_PAGE
+            def maxItemsPerPage = 1000
+            def paramItemsByPage = params.items_by_page as Integer
+
+            if (paramItemsByPage && paramItemsByPage < maxItemsPerPage) {
+                itemsByPage = paramItemsByPage
+            } else if (paramItemsByPage > maxItemsPerPage) {
+                itemsByPage = maxItemsPerPage
+            }
+
+            result = grailsAdminPluginDataService.list(config.domainClass, (page -1) * itemsByPage as Long, itemsByPage as Long, params.sort,  params.sort_order)
             renderedResult = grailsAdminPluginJsonRendererService.renderListAsJson(result)
         }
 

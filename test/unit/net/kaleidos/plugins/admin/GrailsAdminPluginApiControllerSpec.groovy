@@ -118,6 +118,28 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             domain = 'testdomain'
     }
 
+    void 'Retrieve domain 5 list items sorted'() {
+        setup:
+            controller.grailsAdminPluginDataService = Mock(GrailsAdminPluginDataService)
+
+            controller.grailsAdminPluginJsonRendererService = Mock(GrailsAdminPluginJsonRendererService)
+            controller.grailsAdminPluginJsonRendererService.renderListAsJson(_) >> "[{\"name\":\"test1\"}, {\"name\":\"test2\"}, {\"name\":\"test3\"}]"
+
+        when:
+            params.sort = 'name'
+            params.sort_order = 'asc'
+            params.items_by_page = 5
+            controller.getAdminAction(domain, null)
+            def result = response.json
+
+        then:
+            1 * controller.grailsAdminPluginDataService.list(TestDomain.class, 0, 5, 'name', 'asc')
+
+        where:
+            domain = 'testdomain'
+    }
+
+
     void 'Save domain'() {
         setup:
             controller.grailsAdminPluginDataService = Mock(GrailsAdminPluginDataService)
