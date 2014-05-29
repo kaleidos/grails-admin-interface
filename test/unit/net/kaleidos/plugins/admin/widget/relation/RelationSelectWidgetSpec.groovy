@@ -43,7 +43,7 @@ class RelationSelectWidgetSpec extends Specification {
     void 'create relation select widget'() {
         setup:
             def widget = new RelationSelectWidget()
-            widget.internalAttrs.relatedDomainClass = new DefaultGrailsDomainClass(TestDomain.class)
+            widget.internalAttrs.relatedDomainClass = new DefaultGrailsDomainClass(TestDomain.class).clazz
 
         when:
             def html = widget.render()
