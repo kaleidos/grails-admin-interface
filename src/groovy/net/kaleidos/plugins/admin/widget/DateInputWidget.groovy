@@ -3,7 +3,7 @@ package net.kaleidos.plugins.admin.widget
 import groovy.xml.MarkupBuilder
 
 class DateInputWidget extends Widget{
-    static String DEFAULT_DATE_FORMAT = "MM/dd/yyyy"
+    static String DEFAULT_DATE_FORMAT = "dd/MM/yyyy"
 
     def getValueForJson() {
         def format = _getFormat()
@@ -20,7 +20,8 @@ class DateInputWidget extends Widget{
 
         def attrs = htmlAttrs.clone()
         attrs << ["type": "text"]
-        attrs << ["class": "date"]
+        attrs << ["data-date-format": format.toLowerCase()]
+        attrs << ["class": "date form-control"]
         attrs << ["value": value?value.format(format):""]
 
 

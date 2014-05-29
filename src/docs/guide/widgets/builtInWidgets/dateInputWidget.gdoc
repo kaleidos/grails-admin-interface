@@ -1,5 +1,5 @@
 *Internal attributes*
-* dateFormat: You can specify the date format for this widget (See documentation for [SimpleDateFormat|http://docs.oracle.com/javase/1.5.0/docs/api/java/text/SimpleDateFormat.html] for format pattern use)
+* dateFormat: You can specify the date format for this widget. Although internally can use the format pattern of [SimpleDateFormat|http://docs.oracle.com/javase/1.5.0/docs/api/java/text/SimpleDateFormat.html], in order to use the html component you can only use d, dd, M, MM, yy, yyyy. By default, the format is "dd/MM/yyyy".
 
 Sample of configuration
 {code}
@@ -8,5 +8,5 @@ widget "birthDate", "net.kaleidos.plugins.admin.widget.DateInputWidget", dateFor
 
 Sample of html render
 {code}
-<input name='test' type='date' value='01/01/2000' />
+<input class='date form-control' name='test' type='text' data-date-format='yyymmdd' value='20150520' />
 {code}
