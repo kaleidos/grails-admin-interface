@@ -1,2 +1,7 @@
 The Grails Admin plugin provides and easy and secure backend to administer out-of-the-box your Grails applications.
 Absolute functional from scratch, gives much more power with his extensible widget system.
+
+The information in this guide is for three developer profiles:
+* *Plugin users*: installation and configuration.
+* *Custom Widget developers*: create your own widgets.
+* *Plugin developers*: contribute to this plugin.

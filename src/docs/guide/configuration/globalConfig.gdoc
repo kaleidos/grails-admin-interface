@@ -2,16 +2,17 @@ h4. Domains List
 
 _*Necessary*_
 
-You have to explicitely set the domains that your application is going to manage.
+Not mandatory, but necessary to start working with admin
 
-The property is a list of strings containing the full class name of your domains
+You have to explicitely set the domains that your application is going to manage.
+The property is a list of strings containing the full class name of your domains.
 
 By default it contains an empty list.
 
 {code}
 grails.plugin.admin.domains = [
-    "net.kaleidos.TestDomain",
-    "net.kaleidos.AnotherDomain"
+    "conferences.Speaker",
+    "conferences.Talk"
 ]
 {code}
 

@@ -13,9 +13,6 @@ configuration:
     globalConfig: Global Configuration
     domainConfig: Per Domain Configuration
 
-tutorial:
-    title: Tutorial
-
 widgets:
     title: Widgets
     configureWidgets: Configure widgets
@@ -41,7 +38,12 @@ widgets:
         textAreaWidget: TextAreaWidget
         textInputWidget: TextInputWidget
         urlInputWidget: UrlInputWidget
-    customWidgets: Custom widgets
+
+customWidgets:
+    title: Custom Widgets. Guide to Widget developers
+
+contributing:
+    title: Contributing. Guide to Plugin developers
 
 roadmap:
     title: Roadmap

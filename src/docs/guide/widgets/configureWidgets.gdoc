@@ -1,8 +1,9 @@
-Grails Admin Plugin comes with a set of built-in plugins but you can specify your own custom widget for a specific domain class and property in your app @Config.groovy@
+Grails Admin Plugin comes with a set of built-in plugins but you can specify your own custom
+widget for a specific domain class and property in your app @Config.groovy@
 
 {code}
-grails.plugin.admin.domain.Test = {
-    widget "address", "net.kaleidos.test.MyTestWidget", width: 500, height: 100
+grails.plugin.admin.domain.Speaker = {
+    widget "birthDate", "net.kaleidos.plugins.admin.widget.DateInputWidget", dateFormat: "yyyyMMdd"
 }
 {code}
 

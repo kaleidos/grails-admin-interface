@@ -1,34 +1,43 @@
-You can configure the administration screens with a specific DSL that can be configure either in your
-Config.groovy or in classes of type "Admin" that also allows the redefinition of some methods.
+You can configure the administration screens with a specific DSL that can be configure either in
+your @Config.groovy@ or in classes of type "Admin" that also allows the redefinition of some
+methods.
 
-h3. Configuration on Config.groovy file
+h3. Configuration on @Config.groovy@ file
 
 {code}
-grails.plugin.admin.domain.Test = {
+grails.plugin.admin.domain.Speaker = {
     create includes: ["name", "description", "dateCreated", "endDate"],
-    widget "address", "net.kaleidos.test.MyTestWidget", width: 500, height: 100
+    widget "birthDate", "net.kaleidos.plugins.admin.widget.DateInputWidget", dateFormat: "yyyyMMdd"
 }
 {code}
 
 h3. Configuration on "Admin" entities
 
-{code}
-package test
+Edit @Config.groovy@  to associate your admin class with the domain entity that manage.
 
-class TestAdmin {
+{code}
+grails.plugin.admin.domain.Speaker = "conferences.SpeakerAdmin"
+{code}
+
+and create admin class.
+
+Place it under @grails-app/admin@ directory.
+
+_Note: You can place your admin class wherever you want in @classpath@,_
+_but we recommend this to possible future artifacts control_
+
+{code}
+package conferences
+
+class SpeakerAdmin {
     static options = {
         create includes: ["name", "description", "dateCreated", "endDate"],
-        widget "address", "net.kaleidos.test.MyTestWidget", width: 500, height: 100
+        widget "birthDate", "net.kaleidos.plugins.admin.widget.DateInputWidget", dateFormat: "yyyyMMdd"
     }
 
 }
 {code}
 
-Then you should associate your admin class with the domain entity that manage.
-
-{code}
-grails.plugin.admin.domain.Test = "test.TestAdmin"
-{code}
 
 h4. Include properties
 
@@ -37,7 +46,7 @@ You can select which properties the administration will display on a specific op
 The order will be preserved in the form.
 
 {code}
-grails.plugin.admin.domain.Test = {
+grails.plugin.admin.domain.Speaker = {
     list includes: ["name", "description", "dateCreated", "endDate"]
     create includes: ["name", "description"]
     edit includes: ["name", "description"]
@@ -50,7 +59,7 @@ h4. Exclude Properties
 You can customize which properties will be excluded from the administration screens.
 
 {code}
-grails.plugin.admin.domain.Test = {
+grails.plugin.admin.domain.Speaker = {
     list excludes: ["startDate", "endDate"]
     create excludes: ["startDate", "endDate"]
     edit excludes: ["startDate", "endDate"]
@@ -59,12 +68,13 @@ grails.plugin.admin.domain.Test = {
 
 h4. Custom widgets
 
-For some properties the default editor/renderer may not be enough. You can customize this behaviour writing your own widget.
-Further documentation on the [widgets] sections.
+For some properties the default editor/renderer may not be enough. You can customize this
+behaviour writing your own widget.
+Further documentation on the [Custom Widgets] section.
 
 {code}
-grails.plugin.admin.domain.Test = {
-    widget "address", "net.kaleidos.test.MyTestWidget", width: 500, height: 100
+grails.plugin.admin.domain.Conference = {
+    widget "coordinates", "sample.MapWidget", height:400, width:600
 }
 {code}
 

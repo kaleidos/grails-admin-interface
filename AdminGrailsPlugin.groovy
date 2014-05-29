@@ -2,7 +2,7 @@ import net.kaleidos.plugins.admin.config.AdminConfigHolder
 
 @groovy.util.logging.Log4j
 class AdminGrailsPlugin {
-    def version = "0.1"
+    def version = "0.6.1"
 
     def grailsVersion = "2.0.0 > *"
 

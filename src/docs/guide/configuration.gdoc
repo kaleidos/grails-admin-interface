@@ -1,24 +1,21 @@
 The power of the grails admin plugin is that you can create a full-fleshed grails administration page
 only by configuration.
-
 In order to be flexible enough the plugin provides several configuration for tunning your application.
 
-You have to include the following properties in your @Config.groovy@ file.
+There are no mandatory configuration to run your application with this plugin, but to start working
+with it you have to set some properties.
 
 Your @Config.groovy@ would look like this:
 {code}
-// mandatory
 grails.plugin.admin.accessRoot = "/myconfadmin"
 
-// optional
 grails.plugin.admin.domains = [
-    "net.kaleidos.conferences.Room",
-    "net.kaleidos.conferences.Attendee",
-    "net.kaleidos.conferences.Conference",
-    "net.kaleidos.conferences.Talk",
-    "net.kaleidos.conferences.Speaker"
+    "conferences.Room",
+    "conferendes.Attendee",
+    "conferendes.Conference",
+    "conferendes.Talk",
+    "conferendes.Speaker"
 ]
 
-// optional
-grails.plugin.admin.domain.Conference = "net.kaleidos.conferences.ConferenceAdmin"
+grails.plugin.admin.domain.Conference = "conferences.ConferenceAdmin"
 {code}

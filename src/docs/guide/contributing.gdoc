@@ -1,0 +1,36 @@
+Once cloned the repo to download all the dependencies necessary to develop, you have to execute
+
+
+{code}
+cd ./grails-admin
+
+npm install
+
+sudo npm install -g gulp
+
+# In case of error update npm
+sudo npm install -g npm
+
+sudo apt-get install rubygems
+
+sudo apt-get install ruby1.9.1
+
+sudo gem install sass
+
+# to install bower
+sudo npm install -g bower
+
+# after that
+npm update -g bower
+
+bower install
+gulp
+{code}
+
+After this, enter in @front@ directory and execute @gulp@:
+{code}
+$ cd ./front
+$ gulp
+{code}
+
+front-end will be running in @http://localhost:9000@.
