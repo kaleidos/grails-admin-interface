@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5.3.13 RelationPopupOneWidget 0.1</title>
+    <title>5.3.12 RelationPopupOneWidget 0.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -58,7 +58,18 @@ function addJsClass() {
         
         
     </div>
-    <p>Administration backoffice for Grails applications</p>
+    <p>
+    Grails Admin allows you to easily create an administration back-office with default styles and
+    operations. You cand extend and configure this administrator to improve the experience of your
+    users.
+
+    The default admin also provides an API to ease the integration with already existing
+    administration back-offices and integration with Spring Security (version 1 and 2) to use the
+    security behaviour of your application.
+
+    This is a similar project to those existing in others MVC frameworks such as Django Admin,
+    Sonata Admin or Rails Active Admin.
+    </p>
 </div>
 
 
@@ -79,7 +90,7 @@ function addJsClass() {
 
 
                 <div class="project">
-                    <h1>5.3.13 RelationPopupOneWidget - Reference Documentation</h1>
+                    <h1>5.3.12 RelationPopupOneWidget - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
@@ -92,16 +103,17 @@ function addJsClass() {
 
                 
 
-<h2 id="relationPopupOneWidget">5.3.13 RelationPopupOneWidget</h2>
-Sample of html render
-<div class="code"><pre>&#60;div action=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> data&#45;method=<span class="java&#45;quote">"put"</span> view=<span class="java&#45;quote">"relationPopupOneWidgetField"</span> class=<span class="java&#45;quote">"relation&#45;popupone&#45;widget "</span>&#62;
-  &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"2"</span> name=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"js&#45;one&#45;rel&#45;value"</span>&#62;
-  &#60;a name=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"js&#45;one&#45;rel&#45;text"</span> href=<span class="java&#45;quote">"/conferences/myadmin/edit/room/2"</span>&#62;Room1&#60;/a&#62;
+<h2 id="relationPopupOneWidget">5.3.12 RelationPopupOneWidget</h2>
+This widget is used for model a relation between the current domain object, and another domain object. This relation can be a one-to-one relation, or the week side of an one-to-many relation.<p class="paragraph"/><strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes which type is other domain class, including the 'belongsTo' constraints<p class="paragraph"/><div class="code"><pre>Room room</pre></div><p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">static</span> belongsTo = &#91;room:Room&#93;</pre></div><p class="paragraph"/>
+<strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>You should not configure this widget<p class="paragraph"/>
+<strong class="bold">Sample of html render</strong><p class="paragraph"/><div class="code"><pre>&#60;div action=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> data&#45;method=<span class="java&#45;quote">"put"</span> view=<span class="java&#45;quote">"relationPopupOneWidgetField"</span> class=<span class="java&#45;quote">"relation&#45;popupone&#45;widget "</span>&#62;
+  &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"6"</span> name=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"js&#45;one&#45;rel&#45;value"</span>&#62;
+  &#60;a name=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"js&#45;one&#45;rel&#45;text"</span> href=<span class="java&#45;quote">"/conferences/myadmin/edit/room/6"</span>&#62;Room5&#60;/a&#62;
   &#60;div class=<span class="java&#45;quote">"btn&#45;group"</span>&#62;
     &#60;a data&#45;url=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> data&#45;toggle=<span class="java&#45;quote">"modal"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationpopuponewidget&#45;list"</span> href=<span class="java&#45;quote">"&#35;"</span>&#62;
       &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;list"</span>&#62; &#60;/span&#62; List
     &#60;/a&#62;
-    &#60;a data&#45;target=<span class="java&#45;quote">"&#35;<span class="java&#45;keyword">new</span>&#45;conferences_talk_room"</span> data&#45;toggle=<span class="java&#45;quote">"modal"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationpopuponewidget&#45;<span class="java&#45;keyword">new</span>"</span> href=<span class="java&#45;quote">"&#35;"</span>&#62;
+    &#60;a data&#45;target=<span class="java&#45;quote">"&#35;<span class="java&#45;keyword">new</span>&#45;conferences_test_room"</span> data&#45;toggle=<span class="java&#45;quote">"modal"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationpopuponewidget&#45;<span class="java&#45;keyword">new</span>"</span> href=<span class="java&#45;quote">"&#35;"</span>&#62;
       &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;plus"</span>&#62; &#60;/span&#62; New
     &#60;/a&#62;
     &#60;a style=<span class="java&#45;quote">"display:block;"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationpopuponewidget&#45;delete"</span> href=<span class="java&#45;quote">"&#35;"</span>&#62;
@@ -109,22 +121,40 @@ Sample of html render
     &#60;/a&#62;
   &#60;/div&#62;
 &#60;/div&#62;</pre></div><p class="paragraph"/>
-Sample of renderAfterForm
-<div class="code"><pre>&#60;div action=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> data&#45;method=<span class="java&#45;quote">"put"</span> view=<span class="java&#45;quote">"relationPopupOneWidgetField"</span> class=<span class="java&#45;quote">"relation&#45;popupone&#45;widget "</span>&#62;
-  &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"2"</span> name=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"js&#45;one&#45;rel&#45;value"</span>&#62;
-  &#60;a name=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"js&#45;one&#45;rel&#45;text"</span> href=<span class="java&#45;quote">"/conferences/myadmin/edit/room/2"</span>&#62;Room1&#60;/a&#62;
-  &#60;div class=<span class="java&#45;quote">"btn&#45;group"</span>&#62;
-    &#60;a data&#45;url=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> data&#45;toggle=<span class="java&#45;quote">"modal"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationpopuponewidget&#45;list"</span> href=<span class="java&#45;quote">"&#35;"</span>&#62;
-      &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;list"</span>&#62; &#60;/span&#62; List
-    &#60;/a&#62;
-    &#60;a data&#45;target=<span class="java&#45;quote">"&#35;<span class="java&#45;keyword">new</span>&#45;conferences_talk_room"</span> data&#45;toggle=<span class="java&#45;quote">"modal"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationpopuponewidget&#45;<span class="java&#45;keyword">new</span>"</span> href=<span class="java&#45;quote">"&#35;"</span>&#62;
-      &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;plus"</span>&#62; &#60;/span&#62; New
-    &#60;/a&#62;
-    &#60;a style=<span class="java&#45;quote">"display:block;"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationpopuponewidget&#45;delete"</span> href=<span class="java&#45;quote">"&#35;"</span>&#62;
-      &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;trash"</span>&#62; &#60;/span&#62; Delete
-    &#60;/a&#62;
+<strong class="bold">Sample of render after form</strong><p class="paragraph"/><div class="code"><pre>&#60;div data&#45;field=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"modal fade"</span> grailsadmin&#45;remote=<span class="java&#45;quote">"enabled"</span> aria&#45;hidden=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> aria&#45;labelledby=<span class="java&#45;quote">"confirmLabel"</span> role=<span class="java&#45;quote">"dialog"</span> view=<span class="java&#45;quote">"relationPopupOneWidgetNew"</span> tabindex=<span class="java&#45;quote">"&#45;1"</span> id=<span class="java&#45;quote">"<span class="java&#45;keyword">new</span>&#45;conferences_test_room"</span> style=<span class="java&#45;quote">"display: none;"</span>&#62;
+  &#60;div class=<span class="java&#45;quote">"modal&#45;dialog"</span>&#62;
+    &#60;div class=<span class="java&#45;quote">"modal&#45;content"</span>&#62;
+      &#60;div class=<span class="java&#45;quote">"modal&#45;header"</span>&#62;
+        &#60;buton class=<span class="java&#45;quote">"close"</span> aria&#45;hidden=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> data&#45;dismiss=<span class="java&#45;quote">"modal"</span> type=<span class="java&#45;quote">"button"</span>&#62;x&#60;/buton&#62;
+        &#60;h4 class=<span class="java&#45;quote">"modal&#45;title"</span> id=<span class="java&#45;quote">"confirmLabel"</span>&#62;Add room&#60;/h4&#62;
+      &#60;/div&#62;
+      &#60;div class=<span class="java&#45;quote">"modal&#45;body"</span>&#62;
+        &#60;form grailsadmin&#45;remote=<span class="java&#45;quote">"enabled"</span> class=<span class="java&#45;quote">"validate&#45;form main&#45;form"</span> data&#45;method=<span class="java&#45;quote">"PUT"</span> view=<span class="java&#45;quote">"formView"</span> method=<span class="java&#45;quote">"post"</span> action=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> novalidate=<span class="java&#45;quote">""</span>&#62;
+            &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"board"</span>&#62;Board &#42;&#60;/label&#62;
+                &#60;input type=<span class="java&#45;quote">"checkbox"</span> name=<span class="java&#45;quote">"board"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span> data&#45;parsley&#45;multiple=<span class="java&#45;quote">"board"</span> /&#62;
+            &#60;/div&#62;
+            &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"name"</span>&#62;Name &#42;&#60;/label&#62;
+                &#60;input type=<span class="java&#45;quote">"text"</span> value=<span class="java&#45;quote">""</span> required=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> name=<span class="java&#45;quote">"name"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span> /&#62;
+            &#60;/div&#62;
+            &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"photo"</span>&#62;Photo&#60;/label&#62;
+                &#60;label name=<span class="java&#45;quote">"photo"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span>&#62;&#60;/label&#62;
+            &#60;/div&#62;
+            &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"talk"</span>&#62;Talk&#60;/label&#62;
+                &#60;p&#62;Disabled relationship due to be inside an embedded dialog&#60;/p&#62;
+            &#60;/div&#62;
+        &#60;/form&#62;
+      &#60;/div&#62;
+      &#60;div class=<span class="java&#45;quote">"modal&#45;footer"</span>&#62;
+        &#60;button class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span>"</span> data&#45;dismiss=<span class="java&#45;quote">"modal"</span> type=<span class="java&#45;quote">"button"</span>&#62;Close&#60;/button&#62;
+        &#60;button class=<span class="java&#45;quote">"btn btn&#45;plus btn&#45;success js&#45;relationtablewidget&#45;save&#45;action"</span> type=<span class="java&#45;quote">"button"</span>&#62;Save&#60;/button&#62;
+      &#60;/div&#62;
+    &#60;/div&#62;
   &#60;/div&#62;
-&#60;/div&#62;</pre></div>
+&#60;/div&#62;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Sample image</th></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/RelationPopupOneWidget.png"></img></td></tr><tr class="table-even"><td><img border="0" class="center" src="../img/Widgets/RelationPopupOneWidget1.png"></img></td></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/RelationPopupOneWidget2.png"></img></td></tr></table>
 
 
 

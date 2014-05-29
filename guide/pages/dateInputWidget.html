@@ -58,7 +58,18 @@ function addJsClass() {
         
         
     </div>
-    <p>Administration backoffice for Grails applications</p>
+    <p>
+    Grails Admin allows you to easily create an administration back-office with default styles and
+    operations. You cand extend and configure this administrator to improve the experience of your
+    users.
+
+    The default admin also provides an API to ease the integration with already existing
+    administration back-offices and integration with Spring Security (version 1 and 2) to use the
+    security behaviour of your application.
+
+    This is a similar project to those existing in others MVC frameworks such as Django Admin,
+    Sonata Admin or Rails Active Admin.
+    </p>
 </div>
 
 
@@ -95,10 +106,12 @@ function addJsClass() {
 <h2 id="dateInputWidget">5.3.2 DateInputWidget</h2>
 <strong class="bold">Internal attributes</strong>
 <ul class="star">
-<li>dateFormat: You can specify the date format for this widget (See documentation for <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/text/SimpleDateFormat.html" target="blank">SimpleDateFormat</a> for format pattern use)</li>
-</ul><p class="paragraph"/>Sample of configuration
-<div class="code"><pre>widget <span class="java&#45;quote">"birthDate"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.DateInputWidget"</span>, dateFormat: <span class="java&#45;quote">"yyyyMMdd"</span></pre></div><p class="paragraph"/>Sample of html render
-<div class="code"><pre>&#60;input name='test' type='date' value='01/01/2000' /&#62;</pre></div>
+<li>dateFormat: You can specify the date format for this widget. Although internally can use the format pattern of <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/text/SimpleDateFormat.html" target="blank">SimpleDateFormat</a>, in order to use the html component you can only use d, dd, M, MM, yy, yyyy. By default, the format is "dd/MM/yyyy".</li>
+</ul><p class="paragraph"/><strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of type Date<p class="paragraph"/><div class="code"><pre>Date birthday</pre></div><p class="paragraph"/>
+<strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
+    widget <span class="java&#45;quote">"birthday"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.DateInputWidget"</span>, dateFormat: <span class="java&#45;quote">"dd/mm/yyyy"</span>
+&#125;</pre></div><p class="paragraph"/>
+<strong class="bold">Sample of html render</strong><p class="paragraph"/><div class="code"><pre>&#60;input type=<span class="java&#45;quote">"text"</span> value=<span class="java&#45;quote">"29/05/1994"</span> data&#45;date&#45;format=<span class="java&#45;quote">"dd/mm/yyyy"</span> name=<span class="java&#45;quote">"birthday"</span> class=<span class="java&#45;quote">"date form&#45;control"</span> /&#62;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Sample image</th></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/DateInputWidget.png"></img></td></tr></table>
 
 
 

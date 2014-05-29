@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5.3.15 RelationTableWidget 0.1</title>
+    <title>5.3.14 RelationTableWidget 0.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -58,7 +58,18 @@ function addJsClass() {
         
         
     </div>
-    <p>Administration backoffice for Grails applications</p>
+    <p>
+    Grails Admin allows you to easily create an administration back-office with default styles and
+    operations. You cand extend and configure this administrator to improve the experience of your
+    users.
+
+    The default admin also provides an API to ease the integration with already existing
+    administration back-offices and integration with Spring Security (version 1 and 2) to use the
+    security behaviour of your application.
+
+    This is a similar project to those existing in others MVC frameworks such as Django Admin,
+    Sonata Admin or Rails Active Admin.
+    </p>
 </div>
 
 
@@ -79,7 +90,7 @@ function addJsClass() {
 
 
                 <div class="project">
-                    <h1>5.3.15 RelationTableWidget - Reference Documentation</h1>
+                    <h1>5.3.14 RelationTableWidget - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
@@ -92,40 +103,40 @@ function addJsClass() {
 
                 
 
-<h2 id="relationTableWidget">5.3.15 RelationTableWidget</h2>
-Sample of html render
-<div class="code"><pre>&#60;div view=<span class="java&#45;quote">"relationtablewidget"</span> class=<span class="java&#45;quote">"relationtablewidget clearfix"</span>&#62;
-  &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"2"</span> name=<span class="java&#45;quote">"talks"</span>&#62;
+<h2 id="relationTableWidget">5.3.14 RelationTableWidget</h2>
+This widget is used for model a relation between the current domain object and a collection of other domains objects. This relation can be a many-to-many relation, or the strong side of an one-to-many relation.<p class="paragraph"/><strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes which type is a collection of other domain class<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">static</span> hasMany=&#91;talks:Talk&#93;</pre></div><p class="paragraph"/>
+<strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>You should not configure this widget<p class="paragraph"/>
+<strong class="bold">Sample of html render</strong><p class="paragraph"/><div class="code"><pre>&#60;div view=<span class="java&#45;quote">"relationtablewidget"</span> class=<span class="java&#45;quote">"relationtablewidget clearfix"</span>&#62;
+  &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"6"</span> name=<span class="java&#45;quote">"talks"</span>&#62;
+  &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"9"</span> name=<span class="java&#45;quote">"talks"</span>&#62;
   &#60;table class=<span class="java&#45;quote">"table table&#45;bordered elements&#45;table"</span> data&#45;optional=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> data&#45;property&#45;name=<span class="java&#45;quote">"talks"</span> data&#45;detailurl=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/0"</span>&#62;
-    &#60;tbody&#62;
-        &#60;tr&#62;
-            &#60;td&#62;
-                &#60;a href=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/2"</span>&#62;Talk1&#60;/a&#62;
-            &#60;/td&#62;
-            &#60;td class=<span class="java&#45;quote">"list&#45;actions"</span>&#62;
-                &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;value=<span class="java&#45;quote">"2"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> btn&#45;sm js&#45;relationtablewidget&#45;delete"</span>&#62;
-                    &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;trash"</span>&#62; &#60;/span&#62; Delete
-                &#60;/a&#62;
-            &#60;/td&#62;
-        &#60;/tr&#62;
-        &#60;tr&#62;
-            &#60;td&#62;
-                &#60;a href=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/3"</span>&#62;Talk2&#60;/a&#62;
-            &#60;/td&#62;
-            &#60;td class=<span class="java&#45;quote">"list&#45;actions"</span>&#62;
-                &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;value=<span class="java&#45;quote">"2"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> btn&#45;sm js&#45;relationtablewidget&#45;delete"</span>&#62;
-                    &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;trash"</span>&#62; &#60;/span&#62; Delete
-                &#60;/a&#62;
-            &#60;/td&#62;
-        &#60;/tr&#62;
-    &#60;/tbody&#62;
-  &#60;/table&#62;
+    &#60;tbody&#62;&#60;tr&#62;
+      &#60;td&#62;
+        &#60;a href=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/6"</span>&#62;Talk5&#60;/a&#62;
+      &#60;/td&#62;
+      &#60;td class=<span class="java&#45;quote">"list&#45;actions"</span>&#62;
+        &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;value=<span class="java&#45;quote">"6"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> btn&#45;sm js&#45;relationtablewidget&#45;delete"</span>&#62;
+          &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;trash"</span>&#62; &#60;/span&#62; Delete
+        &#60;/a&#62;
+      &#60;/td&#62;
+    &#60;/tr&#62;
+    &#60;tr&#62;
+      &#60;td&#62;
+        &#60;a href=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/9"</span>&#62;Talk8&#60;/a&#62;
+      &#60;/td&#62;
+      &#60;td class=<span class="java&#45;quote">"list&#45;actions"</span>&#62;
+        &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;value=<span class="java&#45;quote">"9"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> btn&#45;sm js&#45;relationtablewidget&#45;delete"</span>&#62;
+          &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;trash"</span>&#62; &#60;/span&#62; Delete
+        &#60;/a&#62;
+      &#60;/td&#62;
+    &#60;/tr&#62;
+  &#60;/tbody&#62;&#60;/table&#62;
   &#60;div&#62;
     &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;url=<span class="java&#45;quote">"/conferences/myadmin/api/talk"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationtablewidget&#45;add"</span>&#62;
       &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;plus"</span>&#62;&#60;/span&#62; Add
     &#60;/a&#62;
   &#60;/div&#62;
-&#60;/div&#62;</pre></div>
+&#60;/div&#62;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Sample image</th></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/RelationTableWidget.png"></img></td></tr><tr class="table-even"><td><img border="0" class="center" src="../img/Widgets/RelationTableWidget1.png"></img></td></tr></table>
 
 
 

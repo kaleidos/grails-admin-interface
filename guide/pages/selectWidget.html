@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5.3.18 SelectWidget 0.1</title>
+    <title>5.3.16 SelectWidget 0.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -58,7 +58,18 @@ function addJsClass() {
         
         
     </div>
-    <p>Administration backoffice for Grails applications</p>
+    <p>
+    Grails Admin allows you to easily create an administration back-office with default styles and
+    operations. You cand extend and configure this administrator to improve the experience of your
+    users.
+
+    The default admin also provides an API to ease the integration with already existing
+    administration back-offices and integration with Spring Security (version 1 and 2) to use the
+    security behaviour of your application.
+
+    This is a similar project to those existing in others MVC frameworks such as Django Admin,
+    Sonata Admin or Rails Active Admin.
+    </p>
 </div>
 
 
@@ -79,7 +90,7 @@ function addJsClass() {
 
 
                 <div class="project">
-                    <h1>5.3.18 SelectWidget - Reference Documentation</h1>
+                    <h1>5.3.16 SelectWidget - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
@@ -92,15 +103,19 @@ function addJsClass() {
 
                 
 
-<h2 id="selectWidget">5.3.18 SelectWidget</h2>
-Sample of html render
-<div class="code"><pre>&#60;select name=<span class="java&#45;quote">"test"</span>&#62;
+<h2 id="selectWidget">5.3.16 SelectWidget</h2>
+<strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class with a constraint of inList<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> country
+<span class="java&#45;keyword">static</span> constraints = &#123;
+    country inList: &#91;<span class="java&#45;quote">"Canada"</span>, <span class="java&#45;quote">"Spain"</span>, <span class="java&#45;quote">"USA"</span>&#93;
+&#125;</pre></div><p class="paragraph"/>
+<strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/>You can define the list of valid options with a map also on configuration<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
+    widget <span class="java&#45;quote">"country"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.SelectWidget"</span>, options: &#91;<span class="java&#45;quote">"Canada"</span>:<span class="java&#45;quote">"Canada"</span>, <span class="java&#45;quote">"Spain"</span>:<span class="java&#45;quote">"Spain"</span>, <span class="java&#45;quote">"USA"</span>:<span class="java&#45;quote">"USA"</span>&#93;
+&#125;</pre></div><p class="paragraph"/><p class="paragraph"/><strong class="bold">Sample of html render</strong><p class="paragraph"/><div class="code"><pre>&#60;select name=<span class="java&#45;quote">"country"</span> class=<span class="java&#45;quote">"form&#45;control"</span>&#62;
     &#60;option value=<span class="java&#45;quote">""</span>&#62;&#45;&#45;&#60;/option&#62;
-    &#60;option value=<span class="java&#45;quote">"Volvo"</span>&#62;Volvo&#60;/option&#62;
-    &#60;option value=<span class="java&#45;quote">"Saab"</span> selected=<span class="java&#45;quote">"selected"</span>&#62;Saab&#60;/option&#62;
-    &#60;option value=<span class="java&#45;quote">"Opel"</span>&#62;Opel&#60;/option&#62;
-    &#60;option value=<span class="java&#45;quote">"Audi"</span>&#62;Audi&#60;/option&#62;
-&#60;/select&#62;</pre></div>
+    &#60;option value=<span class="java&#45;quote">"Canada"</span>&#62;Canada&#60;/option&#62;
+    &#60;option selected=<span class="java&#45;quote">"selected"</span> value=<span class="java&#45;quote">"Spain"</span>&#62;Spain&#60;/option&#62;
+    &#60;option value=<span class="java&#45;quote">"USA"</span>&#62;USA&#60;/option&#62;
+&#60;/select&#62;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Sample image</th></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/SelectWidget.png"></img></td></tr><tr class="table-even"><td><img border="0" class="center" src="../img/Widgets/SelectWidget1.png"></img></td></tr></table>
 
 
 

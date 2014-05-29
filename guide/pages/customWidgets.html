@@ -58,7 +58,18 @@ function addJsClass() {
         
         
     </div>
-    <p>Administration backoffice for Grails applications</p>
+    <p>
+    Grails Admin allows you to easily create an administration back-office with default styles and
+    operations. You cand extend and configure this administrator to improve the experience of your
+    users.
+
+    The default admin also provides an API to ease the integration with already existing
+    administration back-offices and integration with Spring Security (version 1 and 2) to use the
+    security behaviour of your application.
+
+    This is a similar project to those existing in others MVC frameworks such as Django Admin,
+    Sonata Admin or Rails Active Admin.
+    </p>
 </div>
 
 
@@ -108,7 +119,7 @@ Some properties could be specified and will we copied directly to HTML component
 <li>List&#60;String&#62; getAssets(): Returns the list of assets (css and js) needed for the html representation of this widget. GrailsAdminPlugin uses the convention-over-configuration paradigm, so if you don't implement this method, it will try to load one js file and one css file with the same name that the widget.</li>
 </ul><p class="paragraph"/>Last, there are several properties that you can use. Note that you don't write this properties, it is GrailsAdminPlugin who assign the values. You should use this properties as read-only.
 <ul class="star">
-<li>Object value: The current value of the widget. Its type will depend on the actual widget. For example, on a TextInputWidget will be a String, and on a SelectMultipleWidget will be a list.</li>
+<li>Object value: The current value of the widget. Its type will depend on the actual widget. For example, on a TextInputWidget will be a String, and on a DateInputWidget will be a Date.</li>
 <li>Map htmlAttrs: A map of properties to be rendered on the html representation, like the name, if it is required, etc.</li>
 <li>Map internalAttrs: A map of properties internal for the widget. Remember that the widget represents a property of a domain object, so:</li>
 <ul class="star">

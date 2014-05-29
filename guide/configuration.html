@@ -58,7 +58,18 @@ function addJsClass() {
         
         
     </div>
-    <p>Administration backoffice for Grails applications</p>
+    <p>
+    Grails Admin allows you to easily create an administration back-office with default styles and
+    operations. You cand extend and configure this administrator to improve the experience of your
+    users.
+
+    The default admin also provides an API to ease the integration with already existing
+    administration back-offices and integration with Spring Security (version 1 and 2) to use the
+    security behaviour of your application.
+
+    This is a similar project to those existing in others MVC frameworks such as Django Admin,
+    Sonata Admin or Rails Active Admin.
+    </p>
 </div>
 
 
@@ -123,8 +134,14 @@ grails.plugin.admin.domain.Conference = <span class="java&#45;quote">"net.kaleid
 <h4>Domains List</h4><p class="paragraph"/> <em class="italic"><strong class="bold">Necessary</strong></em> <p class="paragraph"/>You have to explicitely set the domains that your application is going to manage.<p class="paragraph"/>The property is a list of strings containing the full class name of your domains<p class="paragraph"/>By default it contains an empty list.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#91;
     <span class="java&#45;quote">"net.kaleidos.TestDomain"</span>,
     <span class="java&#45;quote">"net.kaleidos.AnotherDomain"</span>
-&#93;</pre></div><p class="paragraph"/><h4>Admin accessRoot</h4><p class="paragraph"/> <em class="italic">Optional</em> <p class="paragraph"/>A good security practice is not to use a "standard" URI to access your administration backend.<p class="paragraph"/>Grails-Admin allows you to customize the endpoint so it uses a custom one.<p class="paragraph"/>By default the value is /admin<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.accessRoot = <span class="java&#45;quote">"/admin"</span></pre></div><p class="paragraph"/><h4>Security access role</h4><p class="paragraph"/> <em class="italic">Optional</em> <p class="paragraph"/>The default role required for a user to access the admin is "ROLE_ADMIN" but you can customize
-to use any role defined with your application.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.role = <span class="java&#45;quote">"ROLE_ADMIN"</span></pre></div><p class="paragraph"/>
+&#93;</pre></div><p class="paragraph"/><h4>Admin URL Access Root</h4><p class="paragraph"/> <em class="italic">Optional</em> <p class="paragraph"/>A good security practice is not to use a "standard" URI to access your administration backend.<p class="paragraph"/>Grails-Admin allows you to customize the endpoint so it uses a custom one.<p class="paragraph"/>By default the value is /admin<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.accessRoot = <span class="java&#45;quote">"/admin"</span></pre></div><p class="paragraph"/><h4>Allow Default Configuration</h4><p class="paragraph"/>When a domain has a relationship with another domain (i.e. 1-1 relationship) if the related object
+has not been defined in the managed domains list you will not be able to interact with it by default.<p class="paragraph"/>You can explicitely activate default configuration on objects that are not defined in your domain list
+by using this property.<p class="paragraph"/> <em class="italic">Optional</em> 
+<div class="code"><pre>grails.plugin.admin.allowDefaultConfig = <span class="java&#45;keyword">false</span></pre></div><p class="paragraph"/><h4>Security. Access role</h4><p class="paragraph"/> <em class="italic">Optional</em> <p class="paragraph"/>The default role required for a user to access the admin is "ROLE_ADMIN" but you can customize
+to use any role defined with your application.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.security.role = <span class="java&#45;quote">"ROLE_ADMIN"</span></pre></div><p class="paragraph"/><h4>Security. Forbid unsecured admin on Production environment</h4><p class="paragraph"/>By default the plugin checks if your application is secured or not (currently using Spring Security 1.x
+and Spring Security 2.x).<p class="paragraph"/>If your application is not secured, by default, the plugin will throw an exception when it's boostraped
+on production environments.<p class="paragraph"/>You can override this behaviour by setting this property to "false"<p class="paragraph"/> <em class="italic">Optional</em> 
+<div class="code"><pre>grails.plugin.admin.security.forbidUnsecureProduction = <span class="java&#45;keyword">true</span></pre></div>
 
 
 
