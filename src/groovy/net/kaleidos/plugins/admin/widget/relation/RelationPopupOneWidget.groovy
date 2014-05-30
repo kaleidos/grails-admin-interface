@@ -21,11 +21,20 @@ class RelationPopupOneWidget extends RelationPopupWidget{
 
         // Links
 
-        builder.div class:"relation-popupone-widget ", view:"relationPopupOneWidgetField", "data-method":"put", action:action, {
-            input type:'hidden', class:'js-one-rel-value', name:"${internalAttrs.propertyName}", value: value
+        builder.div view:"relationPopupOneWidgetField", {
+            div class:"relation-popupone-widget ", "data-method":"put", action:action, {
+                _detailLink(slug, relationObject, builder)
+                _buttons(slug, relationObject, delegate)
+            }
+            div {
+                def attrs = htmlAttrs.clone()
+                attrs << ["type": 'text']
+                attrs << ["value": value]
+                attrs << ["class": 'hidden js-one-rel-value form-control']
+                attrs << ["name": "${internalAttrs.propertyName}"]
 
-            _detailLink(slug, relationObject, builder)
-            _buttons(slug, relationObject, delegate)
+                input (attrs)
+            }
         }
         return writer.toString()
     }

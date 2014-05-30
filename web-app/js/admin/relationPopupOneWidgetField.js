@@ -46,7 +46,8 @@ app.view('relationPopupOneWidgetField', ['$el', 'relationPopupWidgetList'], func
         setValue(objectId, objectText, true);
     }
 
-    function removeElement () {
+    function removeElement (event) {
+        event.preventDefault();
         setValue(null, "<< empty >>", false);
     }
 
