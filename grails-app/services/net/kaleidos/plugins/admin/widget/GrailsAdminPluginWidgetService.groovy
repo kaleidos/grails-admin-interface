@@ -105,7 +105,7 @@ class GrailsAdminPluginWidgetService {
         def inspector = new DomainInspector(object)
         def value = object."${propertyName}"
 
-        if (value) {
+        if (value!=null) {
             if (inspector.isDomainClass(propertyName)) {
                 //It is a domain class
                 value = value.id
