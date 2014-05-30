@@ -70,7 +70,7 @@ class RelationTableWidgetSpec extends Specification {
             result.BODY.DIV.TABLE.children().size() == 0
 
             result.BODY.DIV.DIV.size() == 1
-            result.BODY.DIV.DIV.A.size() == 1
+            result.BODY.DIV.DIV.A.size() == 2
     }
 
 
@@ -106,7 +106,7 @@ class RelationTableWidgetSpec extends Specification {
             result.BODY.DIV.TABLE.TR[1].TD[0].A.text() == td2.name
 
             result.BODY.DIV.DIV.size() == 1
-            result.BODY.DIV.DIV.A.size() == 1
+            result.BODY.DIV.DIV.A.size() == 2
     }
 
 
