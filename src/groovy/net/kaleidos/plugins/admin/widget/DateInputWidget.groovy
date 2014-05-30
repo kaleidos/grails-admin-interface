@@ -7,7 +7,7 @@ class DateInputWidget extends Widget{
 
     def getValueForJson() {
         def format = _getFormat()
-        return value?:""
+        return value?value.format(format):""
     }
 
 
