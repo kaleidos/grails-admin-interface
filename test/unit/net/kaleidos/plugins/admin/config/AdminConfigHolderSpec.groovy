@@ -216,4 +216,24 @@ class AdminConfigHolderSpec extends Specification {
         where:
             testDomains = [ "admin.test.TestDomain" ]
     }
+
+    def "Get the domain for null"() {
+        setup:
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = testDomains
+
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder()
+            def obj =  new TestExtendsDomain()
+
+        when:
+            configHolder.initialize()
+            def testDomainConfig = configHolder.getDomainConfig(null)
+
+        then:
+            testDomainConfig == null
+
+        where:
+            testDomains = [ "admin.test.TestDomain" ]
+    }
 }

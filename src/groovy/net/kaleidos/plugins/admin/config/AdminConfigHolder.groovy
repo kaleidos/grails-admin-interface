@@ -38,12 +38,7 @@ class AdminConfigHolder {
     }
 
     public DomainConfig getDomainConfig(String objClass) {
-        try {
-            return getDomainConfig(Class.forName(objClass, true, Thread.currentThread().contextClassLoader))
-        } catch (ClassNotFoundException e) {
-            // Sometimes Domain classes throws a ClassNotFoundException. We shoudl fall-back to the grails implementation
-            return Holders.grailsApplication.getClassForName(objClass)
-        }
+        return getDomainConfig(Holders.grailsApplication.getClassForName(objClass))
     }
 
     public DomainConfig getDomainConfig(Object object) {
@@ -118,17 +113,11 @@ class AdminConfigHolder {
     def _mergeConfigObjects(ConfigObject confDefault, ConfigObject confUser) {
         def config = new ConfigObject()
         if (confUser == null) {
-            if (confDefault != null) {
-                config.putAll(confDefault)
-            }
+            config.putAll(confDefault)
         }
         else {
-            if (confDefault == null) {
-                config.putAll(confUser)
-            } else {
-                config.putAll(confDefault)
-                config.putAll(confDefault.merge(confUser))
-            }
+            config.putAll(confDefault)
+            config.putAll(confDefault.merge(confUser))
         }
         return config
     }

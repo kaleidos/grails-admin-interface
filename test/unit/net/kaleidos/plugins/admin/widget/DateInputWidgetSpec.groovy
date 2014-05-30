@@ -148,10 +148,51 @@ class DateInputWidgetSpec extends Specification {
 
         where:
             value = "20000101"
+    }
 
+    void 'update value with special format (null)'(){
+        setup:
+            def adminDomainTest = new AdminDomainTest()
+            def dateInputWidget = new DateInputWidget(value:value)
+            dateInputWidget.internalAttrs["dateFormat"] = "yyyyMMdd"
+            dateInputWidget.internalAttrs['domainObject'] = adminDomainTest
+            dateInputWidget.internalAttrs['propertyName'] = 'lastAccess'
+        when:
+            dateInputWidget.updateValue()
+        then:
+            adminDomainTest.lastAccess == null
+        where:
+            value = null
+    }
 
+    void 'Get value for json'(){
+        setup:
+            def adminDomainTest = new AdminDomainTest()
+            def dateInputWidget = new DateInputWidget(value:value)
+            dateInputWidget.internalAttrs["dateFormat"] = "yyyyMMdd"
+            dateInputWidget.internalAttrs['domainObject'] = adminDomainTest
+            dateInputWidget.internalAttrs['propertyName'] = 'lastAccess'
+        when:
+            def result = dateInputWidget.getValueForJson()
+
+        then:
+            result == value
+
+        where:
+            value = "20000101"
     }
 
 
+    void 'Get assets'(){
+        setup:
+            def adminDomainTest = new AdminDomainTest()
+            def dateInputWidget = new DateInputWidget()
+
+        when:
+            def result = dateInputWidget.getAssets()
+
+        then:
+            result != null
+    }
 
 }

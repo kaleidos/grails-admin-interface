@@ -95,4 +95,15 @@ class DateTimeInputWidgetSpec extends Specification {
             value = "<script>alert(1234)</script>"
             attrs = ['size':10, 'name': 'datetime']
     }
+
+    void 'Test assets'() {
+        setup:
+            def dateTimeInputWidget = new DateTimeInputWidget()
+
+        when:
+            def result = dateTimeInputWidget.getAssets()
+
+        then:
+            result != null
+    }
 }
