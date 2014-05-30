@@ -93,7 +93,8 @@ class RelationTableWidget extends RelationPopupWidget{
           'js/admin/relationPopupWidgetList.js',
           'grails-admin/templates/grails-admin-modal.handlebars',
           'grails-admin/templates/grails-admin-list.handlebars',
-          'grails-admin/templates/grails-admin-selected-item.handlebars'
+          'grails-admin/templates/grails-admin-selected-item.handlebars',
+          'grails-admin/templates/grails-admin-pagination.handlebars'
         ]
     }
 

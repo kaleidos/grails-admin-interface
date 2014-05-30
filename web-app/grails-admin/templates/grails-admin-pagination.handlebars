@@ -1,0 +1,7 @@
+<ul class="pagination">
+    {{#each this}}
+    <li {{# if disabled}} class="disabled" {{/if}} {{# if active}} class="active" {{/if}}>
+        <a {{# if page}}data-page="{{page}}"{{/if}} href="" >{{text}}</a>
+    </li>
+    {{/each}}
+</ul>

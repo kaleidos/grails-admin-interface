@@ -47,14 +47,17 @@ class RelationPopupOneWidget extends RelationPopupWidget{
 
     def _buttons(slug, relationObject, builder) {
         def listApi = ''
+        def countApi = ''
+
         if (slug) {
             listApi = grailsLinkGenerator.link(mapping:"grailsAdminApiAction", method:"get", params:[slug:slug])
+            countApi = grailsLinkGenerator.link(mapping:"grailsAdminCountApiAction", method:"get", params:[slug:slug])
         }
 
         String display = (relationObject)?"block":"none"
 
         builder.div class:"btn-group", {
-            a href:"#", class:"btn btn-default js-relationpopuponewidget-list", "data-toggle":"modal", "data-url":listApi, {
+            a href:"#", class:"btn btn-default js-relationpopuponewidget-list", "data-toggle":"modal", "data-url":listApi, "data-url-count": countApi, {
                 span class:"glyphicon glyphicon-list", { mkp.yield " "}
                 mkp.yield " List"
 
@@ -88,7 +91,8 @@ class RelationPopupOneWidget extends RelationPopupWidget{
           'js/admin/relationPopupWidgetNew.js',
           'js/admin/relationPopupWidgetList.js',
           'grails-admin/templates/grails-admin-modal.handlebars',
-          'grails-admin/templates/grails-admin-list.handlebars'
+          'grails-admin/templates/grails-admin-list.handlebars',
+          'grails-admin/templates/grails-admin-pagination.handlebars'
         ]
     }
 

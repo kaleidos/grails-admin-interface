@@ -1,3 +1,33 @@
+app.view('relationPopupOneWidgetNew', ['$el'], function ($el) {
+    "use strict";
+
+    var form = $el.find('form');
+    var saveButton = $el.find(".js-relationtablewidget-save-action");
+
+    function open () {
+        var deferred = $.Deferred();
+
+        form
+            .off('grailsadmin:validated')
+            .on('grailsadmin:validated', function (event, result) {
+                form.trigger("reset");
+                $el.modal('toggle');
+
+                deferred.resolve(result.id, result.__text__);
+            });
+
+        return deferred.promise();
+    }
+
+    $el.on('grailsadmin:relationPopupOneWidgetNew', function (event, fn) {
+        open().done(fn);
+    });
+
+    saveButton.on('click', function () {
+        form.submit();
+    });
+});
+
 app.view('relationPopupOneWidgetField', ['$el', 'relationPopupWidgetList'], function ($el, relationPopupWidgetList) {
     "use strict";
 
@@ -26,7 +56,9 @@ app.view('relationPopupOneWidgetField', ['$el', 'relationPopupWidgetList'], func
         $(target).trigger('grailsadmin:relationPopupWidgetNew', addOneElement);
     }
 
-    function openListPopup () {
+    function openListPopup (page) {
+        page = page || 0;
+
         var input = $el.find(".js-one-rel-value");
         var currentValue = [];
 
@@ -34,15 +66,12 @@ app.view('relationPopupOneWidgetField', ['$el', 'relationPopupWidgetList'], func
             currentValue.push(parseInt(input.val()));
         }
 
-        $.getJSON($(this).data('url'))
-            .done(function (result) {
-                relationPopupWidgetList
-                    .open(result, currentValue)
-                    .done(addOneElement)
-            })
-            .fail(function (result) {
-                alert("ERROR");
-            });
+        var url_list = $(this).data('url');
+        var url_count = $(this).data('url-count');
+
+        relationPopupWidgetList
+            .open("Select", [currentValue], url_list, url_count)
+            .done(addOneElement);
     }
 
     $el.find(".js-relationpopuponewidget-new").on('click', openNewPopup);

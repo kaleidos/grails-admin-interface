@@ -14,8 +14,23 @@ class GrailsAdminPluginApiController {
         render adminConfigHolder.domainClasses as JSON
     }
 
+    def countAdminAction(String slug) {
+        def config = adminConfigHolder.getDomainConfigBySlug(slug)
+
+        if (!config) {
+            response.status = 404
+            render(["error":"Domain no configured"] as JSON)
+            return
+        }
+
+        def total = grailsAdminPluginDataService.count(config.domainClass)
+
+        render(["total":total] as JSON)
+    }
+
     def getAdminAction(String slug, Long id) {
         def config = adminConfigHolder.getDomainConfigBySlug(slug)
+
         if (!config) {
             response.status = 404
             render(["error":"Domain no configured"] as JSON)
@@ -33,7 +48,7 @@ class GrailsAdminPluginApiController {
             }
             renderedResult = grailsAdminPluginJsonRendererService.renderObjectAsJson(result)
         } else {
-            def page = params.page
+            def page = params.page as Long
 
             if (!page) {
                 page = 1
