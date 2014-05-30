@@ -127,14 +127,18 @@ class GrailsAdminPluginWidgetServiceSpec extends Specification {
             thrown(RuntimeException)
     }
 
+    @Unroll
     void 'Custom widget'() {
         when:
-            def widget = widgetService.getWidgetForClass(AdminDomainTest, "name", ["class":"net.kaleidos.plugins.admin.widget.MyCustomWidget", attributes:["format":"dd/MM/yyyy"]], null)
+            def widget = widgetService.getWidgetForClass(AdminDomainTest, "name", ["class":clazz, attributes:["format":"dd/MM/yyyy"]], null)
 
         then:
             widget != null
             widget.class == MyCustomWidget
             widget.internalAttrs.format == "dd/MM/yyyy"
+
+        where:
+            clazz << ["net.kaleidos.plugins.admin.widget.MyCustomWidget", "MyCustomWidget"]
     }
 }
 

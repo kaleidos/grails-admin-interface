@@ -8,13 +8,7 @@ class GrailsAdminPluginWidgetService {
         def inspector = new DomainInspector(clazz)
         def widget = null
         if (customWidget) {
-            try {
-                def widgetClass = Class.forName(customWidget['class'], true, Thread.currentThread().contextClassLoader)
-                widget = widgetClass?.newInstance()
-                widget.internalAttrs = customWidget.attributes
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException("Class ${customWidget['class']} not found or not implemented")
-            }
+            widget = _instanciateCustomWidget(customWidget['class'], customWidget.attributes)
         } else {
             widget = GrailsAdminPluginDefaultWidgetSelector.getDefaultWidgetForProperty(clazz, propertyName)
         }
@@ -27,6 +21,24 @@ class GrailsAdminPluginWidgetService {
             widget.htmlAttrs.putAll(attributes)
         }
 
+        return widget
+    }
+
+    def _instanciateCustomWidget(String clazz, Map attributes) {
+        def widget
+        def widgetClass
+
+        try {
+            widgetClass = Class.forName(clazz, true, Thread.currentThread().contextClassLoader)
+        } catch (ClassNotFoundException e) {
+            try {
+                widgetClass = Class.forName("net.kaleidos.plugins.admin.widget.$clazz", true, Thread.currentThread().contextClassLoader)
+            } catch (ClassNotFoundException e2) {
+                throw new RuntimeException("Class ${customWidget['class']} not found or not implemented")
+            }
+        }
+        widget = widgetClass?.newInstance()
+        widget.internalAttrs = attributes
         return widget
     }
 
