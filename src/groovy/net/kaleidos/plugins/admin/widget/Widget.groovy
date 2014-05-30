@@ -26,6 +26,6 @@ abstract class Widget {
     }
 
     public String renderError(Throwable t) {
-        return "<p style='color:red'>${t.message}</p>"
+        return "<p style='color:red'>${t?t.message:'ERROR'}</p>"
     }
 }

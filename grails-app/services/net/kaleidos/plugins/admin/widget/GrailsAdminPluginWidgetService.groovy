@@ -17,6 +17,10 @@ class GrailsAdminPluginWidgetService {
         widget.internalAttrs["domainClass"] = inspector.clazz
         widget.internalAttrs["propertyName"] = propertyName
 
+        _setAttrsForRelations(widget, inspector, propertyName)
+        def constraints = inspector.getPropertyConstraints(propertyName)
+        _setAttrsFromConstraints(widget, constraints)
+
         if (attributes) {
             widget.htmlAttrs.putAll(attributes)
         }
@@ -45,15 +49,11 @@ class GrailsAdminPluginWidgetService {
     Widget getWidget(Object object, String propertyName, Map customWidget=null, Map attributes=[:]) {
         def widget = getWidgetForClass(object.class, propertyName, customWidget, attributes)
 
-        def inspector = new DomainInspector(object)
-        def constraints = inspector.getPropertyConstraints(propertyName)
-
         widget.internalAttrs["domainObject"] = object
         widget.value = _getValueForWidget(object, propertyName)
 
-        widget.htmlAttrs.putAll(["name":propertyName])
-        _setAttrsFromConstraints(widget, constraints)
-        _setAttrsForRelations(widget, object, propertyName)
+        widget.htmlAttrs.name = propertyName
+
         return widget
     }
 
@@ -91,8 +91,7 @@ class GrailsAdminPluginWidgetService {
         }
     }
 
-    def _setAttrsForRelations(def widget, def object, def propertyName){
-        def inspector = new DomainInspector(object)
+    def _setAttrsForRelations(def widget, def inspector, def propertyName){
         if (inspector.isOneToMany(propertyName) || inspector.isManyToMany(propertyName)){
             def relatedClass = inspector.getPropertyDomainClass(propertyName)
             def relatedInspector = new DomainInspector(relatedClass)

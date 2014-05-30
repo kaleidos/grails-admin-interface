@@ -6,14 +6,7 @@ import groovy.xml.MarkupBuilder
 import net.kaleidos.plugins.admin.DomainInspector
 
 
-class RelationTableWidget extends Widget{
-
-    def grailsLinkGenerator
-
-    public RelationTableWidget() {
-        def ctx = grails.util.Holders.applicationContext
-        grailsLinkGenerator = ctx.grailsLinkGenerator
-    }
+class RelationTableWidget extends RelationPopupWidget{
 
     String render() {
         if (htmlAttrs.disallowRelationships) {
@@ -37,15 +30,19 @@ class RelationTableWidget extends Widget{
                 options[id] = element.toString()
             }
 
-            builder.div class:"relationtablewidget clearfix", view:"relationtablewidget", {
+            builder.div class:"relationtablewidget clearfix", view:"relationTableWidget", {
                 options.each { key, value ->
                     input type: "hidden", name:htmlAttrs['name'], value: key
                 }
                 _elementsTable(delegate, domainClass, options, optional)
                 div {
-                    a class:"btn btn-default js-relationtablewidget-add", "data-url": listUrl, href:"#", {
+                    a class:"btn btn-default js-relationtablewidget-list", "data-url": listUrl, href:"#", {
+                        span(class:"glyphicon glyphicon-list", "")
+                        mkp.yield " List"
+                    }
+                    a class:"btn btn-default js-relationtablewidget-new", "data-url": listUrl, href:"#", "data-toggle":"modal","data-target":"#new-$uuid", {
                         span(class:"glyphicon glyphicon-plus", "")
-                        mkp.yield " Add"
+                        mkp.yield " New"
                     }
                 }
             }
@@ -81,10 +78,18 @@ class RelationTableWidget extends Widget{
         }
     }
 
+    @Override
+    String renderAfterForm() {
+        def relationConfig = adminConfigHolder.getDomainConfig(internalAttrs["relatedDomainClass"])
+        if (relationConfig && !htmlAttrs.disallowRelationships) {
+            return super.renderAfterForm(relationConfig)
+        }
+    }
+
     List<String> getAssets() {
         [ 'js/admin/relationpopup.js',
-          'js/admin/relationpopuponewidget.js',
-          'js/admin/relationtablewidget.js',
+          'js/admin/relationPopupWidgetNew.js',
+          'js/admin/relationTableWidget.js',
           'js/admin/relationPopupWidgetList.js',
           'grails-admin/templates/grails-admin-modal.handlebars',
           'grails-admin/templates/grails-admin-list.handlebars',

@@ -1,4 +1,4 @@
-app.view('relationtablewidget', ['$el', 'relationPopupWidgetList', 'templateService'], function ($el, relationPopupWidgetList, templateService) {
+app.view('relationTableWidget', ['$el', 'relationPopupWidgetList', 'templateService'], function ($el, relationPopupWidgetList, templateService) {
     "use strict";
 
     var propertyName = $el.find("table").data('property-name');
@@ -12,22 +12,20 @@ app.view('relationtablewidget', ['$el', 'relationPopupWidgetList', 'templateServ
     }
 
     function addItem (objectId, objectText){
-        var selectedItem = $('.relationpopup-radio:checked');
 
-        if (selectedItem.length) {
-            var url = detailUrl.replace("0", objectId);
-            var newLine = createRelationTableWidgetLine(url, objectId, objectText, optional);
+        var url = detailUrl.replace("0", objectId);
+        var newLine = createRelationTableWidgetLine(url, objectId, objectText, optional);
 
-            table.append(newLine);
+        table.append(newLine);
 
-            $("<input>")
-                .attr({
-                    'type': 'hidden',
-                    'name': propertyName,
-                    'value': objectId
-                })
-                .prependTo($el)
-        }
+        $("<input>")
+            .attr({
+                'type': 'hidden',
+                'name': propertyName,
+                'value': objectId
+            })
+            .prependTo($el)
+
     }
 
     function createRelationTableWidgetLine (detailUrl, val, txt, optional) {
@@ -52,6 +50,7 @@ app.view('relationtablewidget', ['$el', 'relationPopupWidgetList', 'templateServ
     }
 
     function addRelation (event) {
+        event.preventDefault();
         var target = $(this).data("target");
 
         $.getJSON($(this).data('url'))
@@ -70,6 +69,12 @@ app.view('relationtablewidget', ['$el', 'relationPopupWidgetList', 'templateServ
             });
     }
 
+    function openNewPopup (event) {
+        var target = $(event.currentTarget).data('target');
+        $(target).trigger('grailsadmin:relationPopupWidgetNew', addItem);
+    }
+
     $el.on( "click", ".js-relationtablewidget-delete", deleteRelation);
-    $el.find( ".js-relationtablewidget-add").on("click", addRelation);
+    $el.find( ".js-relationtablewidget-list").on("click", addRelation);
+    $el.find(".js-relationtablewidget-new").on('click', openNewPopup);
 });

@@ -3,17 +3,7 @@ package net.kaleidos.plugins.admin.widget.relation
 import net.kaleidos.plugins.admin.widget.Widget
 import groovy.xml.MarkupBuilder
 
-class RelationPopupOneWidget extends Widget{
-    def grailsLinkGenerator
-    def adminConfigHolder
-    def groovyPageRenderer
-
-    public RelationPopupOneWidget() {
-        def ctx = grails.util.Holders.applicationContext
-        grailsLinkGenerator = ctx.grailsLinkGenerator
-        adminConfigHolder = ctx.adminConfigHolder
-        groovyPageRenderer = ctx.groovyPageRenderer
-    }
+class RelationPopupOneWidget extends RelationPopupWidget{
 
     @Override
     String render() {
@@ -87,46 +77,19 @@ class RelationPopupOneWidget extends Widget{
         def relationConfig = adminConfigHolder.getDomainConfigForProperty(internalAttrs.domainClass, internalAttrs.propertyName)
 
         if (relationConfig && !htmlAttrs.disallowRelationships) {
-            def writer = new StringWriter()
-            def builder = new MarkupBuilder(writer)
-
-            builder.div id:"new-$uuid", tabindex:"-1", view: "relationPopupOneWidgetNew", role:"dialog", "aria-labelledby":"confirmLabel", "aria-hidden":"true",  "grailsadmin-remote": "enabled", class:"modal fade", "data-field":"${internalAttrs.propertyName}", {
-                div class:"modal-dialog", {
-                    div class:"modal-content", {
-                        div class:"modal-header", {
-                            buton type:"button", "data-dismiss":"modal", "aria-hidden":"true", class:"close", {
-                                mkp.yield "x"
-                            }
-                            h4 id:"confirmLabel", class:"modal-title", {
-                                mkp.yield "Add ${internalAttrs["propertyName"]}"
-                            }
-                        }
-                        div class:"modal-body", {
-                            mkp.yieldUnescaped groovyPageRenderer.render(template: '/grailsAdmin/addForm', model: [domain: relationConfig, embedded:true])
-                        }
-                        div class:"modal-footer", {
-                            button type:"button", "data-dismiss":"modal", class:"btn btn-default", { mkp.yield "Close" }
-                            button type:"button", class:"btn btn-plus btn-success js-relationtablewidget-save-action", { mkp.yield "Save" }
-                        }
-                    }
-                }
-            }
-            return writer.toString()
+            return super.renderAfterForm(relationConfig)
         }
     }
 
     @Override
     List<String> getAssets() {
         [ 'js/admin/relationpopup.js',
-          'js/admin/relationpopuponewidget.js',
+          'js/admin/relationPopupOneWidgetField.js',
+          'js/admin/relationPopupWidgetNew.js',
           'js/admin/relationPopupWidgetList.js',
           'grails-admin/templates/grails-admin-modal.handlebars',
           'grails-admin/templates/grails-admin-list.handlebars'
         ]
-    }
-
-    public getUuid() {
-        return "${internalAttrs.domainClass.name}_${internalAttrs.propertyName}".replaceAll("\\.", "_").toLowerCase()
     }
 
 
