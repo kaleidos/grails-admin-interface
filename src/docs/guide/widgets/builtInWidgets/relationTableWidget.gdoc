@@ -17,36 +17,88 @@ You should not configure this widget
 *Sample of html render*
 
 {code}
-<div view="relationtablewidget" class="relationtablewidget clearfix">
-  <input type="hidden" value="6" name="talks">
-  <input type="hidden" value="9" name="talks">
-  <table class="table table-bordered elements-table" data-optional="true" data-property-name="talks" data-detailurl="/conferences/myadmin/edit/talk/0">
-    <tbody><tr>
-      <td>
-        <a href="/conferences/myadmin/edit/talk/6">Talk5</a>
-      </td>
-      <td class="list-actions">
-        <a href="#" data-value="6" class="btn btn-default btn-sm js-relationtablewidget-delete">
-          <span class="glyphicon glyphicon-trash"> </span> Delete
+<div view="relationTableWidget" class="relationtablewidget clearfix">
+    <input type="hidden" value="12" name="talks">
+    <input type="hidden" value="6" name="talks">
+    <table class="table table-bordered elements-table" data-optional="true" data-property-name="talks" data-detailurl="/conferences/myadmin/edit/talk/0">
+        <tbody>
+            <tr>
+                <td>
+                    <a href="/conferences/myadmin/edit/talk/12">New talk</a>
+                </td>
+                <td class="list-actions">
+                    <a href="#" data-value="12" class="btn btn-default btn-sm js-relationtablewidget-delete">
+                    <span class="glyphicon glyphicon-trash"> </span> Delete
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="/conferences/myadmin/edit/talk/6">Talk6</a>
+                </td>
+                <td class="list-actions">
+                    <a href="#" data-value="6" class="btn btn-default btn-sm js-relationtablewidget-delete">
+                        <span class="glyphicon glyphicon-trash"> </span> Delete
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <a href="#" data-url="/conferences/myadmin/api/talk" class="btn btn-default js-relationtablewidget-list">
+            <span class="glyphicon glyphicon-list"></span> List
         </a>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <a href="/conferences/myadmin/edit/talk/9">Talk8</a>
-      </td>
-      <td class="list-actions">
-        <a href="#" data-value="9" class="btn btn-default btn-sm js-relationtablewidget-delete">
-          <span class="glyphicon glyphicon-trash"> </span> Delete
+        <a data-target="#new-conferences_test_talks" data-toggle="modal" href="#" data-url="/conferences/myadmin/api/talk" class="btn btn-default js-relationtablewidget-new">
+            <span class="glyphicon glyphicon-plus"></span> New
         </a>
-      </td>
-    </tr>
-  </tbody></table>
-  <div>
-    <a href="#" data-url="/conferences/myadmin/api/talk" class="btn btn-default js-relationtablewidget-add">
-      <span class="glyphicon glyphicon-plus"></span> Add
-    </a>
-  </div>
+    </div>
+</div>
+{code}
+
+*Sample of render after form*
+
+{code}
+<div data-field="talks" class="modal fade" grailsadmin-remote="enabled" aria-hidden="true" aria-labelledby="confirmLabel" role="dialog" view="relationPopupWidgetNew" tabindex="-1" id="new-conferences_test_talks">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <buton class="close" aria-hidden="true" data-dismiss="modal" type="button">x</buton>
+                <h4 class="modal-title" id="confirmLabel">Add talks</h4>
+            </div>
+            <div class="modal-body">
+                <form grailsadmin-remote="enabled" class="validate-form main-form" data-method="PUT" view="formView" method="post" action="/conferences/myadmin/api/talk" novalidate="">
+                    <div class="form-group">
+                        <label for="locale">Locale *</label>
+                        <input type="text" value="es" name="locale" disallowrelationships="true" class="form-control" required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" value="" name="name" disallowrelationships="true" class="form-control" required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label for="room">Room</label>
+                        <p>Disabled relationship due to be inside an embedded dialog</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="speaker">Speaker</label>
+                        <p>Disabled relationship due to be inside an embedded dialog</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="talkDate">TalkDate *</label>
+                        <input type="text" value="" data-date-format="dd/mm/yyyy" name="talkDate" disallowrelationships="true" class="date form-control" required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label for="talkTime">TalkTime *</label>
+                        <input type="text" value="" name="talkTime" disallowrelationships="true" class="form-control" required="true" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+                <button class="btn btn-plus btn-success js-relation-popup-widget-new-save-action" type="button">Save</button>
+            </div>
+        </div>
+    </div>
 </div>
 {code}
 
@@ -54,4 +106,5 @@ You should not configure this widget
 Sample image
 !Widgets/RelationTableWidget.png!
 !Widgets/RelationTableWidget1.png!
+!Widgets/RelationTableWidget2.png!
 {table}
