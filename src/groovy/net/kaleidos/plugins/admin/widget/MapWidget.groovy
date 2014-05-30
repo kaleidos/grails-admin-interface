@@ -21,7 +21,7 @@ class MapWidget extends Widget {
         htmlAttrs.each{key, value ->
             html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
         }
-        html.append("value='${value?value.encodeAsHTML():''}' />")
+        html.append("value='${(value!=null)?value.encodeAsHTML():''}' />")
         html.append("</div>")
         html.append("</div>")
         return html

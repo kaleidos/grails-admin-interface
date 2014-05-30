@@ -11,7 +11,7 @@ class DecimalInputWidget extends Widget{
         def attrs = htmlAttrs.clone()
 
         attrs << ["data-parsley-type": "number"]
-        attrs << ["value": value?:""]
+        attrs << ["value": (value!=null)?value:""]
 
         builder.input(attrs)
 

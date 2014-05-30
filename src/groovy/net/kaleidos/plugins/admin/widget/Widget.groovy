@@ -11,7 +11,7 @@ abstract class Widget {
     String renderAfterForm() {}
 
     def getValueForJson() {
-        return value.toString()
+        return ((value!=null)?value.toString():'')
     }
     List<String> getAssets() {
         return []
