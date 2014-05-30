@@ -25,30 +25,35 @@ Built in Widgets
 
 
 
-If you not specify otherwise on configuration, Grails Admin will select a built-in widget by the type of the attribute(sometimes modified by constraints):
+If you not specify otherwise on configuration, Grails Admin will select a built-in widget by the type of the attribute(sometimes modified by constraints or by name):
 
 {table}
-*Type* | *Constraint* | *Widget*
- - | @inList@ | [RelationSelectWidget|guide:relationSelectWidget]
-@Byte@ | - | [NumberInputWidget|guide:numberInputWidget]
-@Short@ | - | [NumberInputWidget|guide:numberInputWidget]
-@Integer@ | - | [NumberInputWidget|guide:numberInputWidget]
-@Long@ | - | [NumberInputWidget|guide:numberInputWidget]
-@Float@| - | [DecimalInputWidget|guide:decimalInputWidget]
-@Double@| - | [DecimalInputWidget|guide:decimalInputWidget]
-@Character@| - | [TextInputWidget|guide:textInputWidget]
-@String@| - | [TextInputWidget|guide:textInputWidget]
- - |@email@| [EmailInputWidget|guide:emailInputWidget]
- - |@url@| [UrlInputWidget|guide:urlInputWidget]
-@Date@| - | [DateInputWidget|guide:dateInputWidget]
-@Boolean@| - | [CheckboxInputWidget|guide:checkboxInputWidget]
-@Enum@| - | [EnumWidget|guide:enumWidget]
-@Locale@| - | [LocaleInputWidget|guide:localeInputWidget]
-@File@| - | [LabelWidget|guide:labelWidget]
-@Collection of other Domain Class@| - | [RelationTableWidget|guide:relationTableWidget]
-@Collection@| - | [LabelWidget|guide:labelWidget]
-<Other Domain Class>| - | [RelationPopupOneWidget|guide:relationPopupOneWidget]
-_Unknown_| - | [LabelWidget|guide:labelWidget]
+*name* | *Type* | *Constraint* | *Widget*
+  - | - | @inList@ | [RelationSelectWidget|guide:relationSelectWidget]
+  - | @Byte@ | - | [NumberInputWidget|guide:numberInputWidget]
+  - | @Short@ | - | [NumberInputWidget|guide:numberInputWidget]
+  - | @Integer@ | - | [NumberInputWidget|guide:numberInputWidget]
+  - | @Long@ | - | [NumberInputWidget|guide:numberInputWidget]
+  - | @Float@| - | [DecimalInputWidget|guide:decimalInputWidget]
+  - | @Double@| - | [DecimalInputWidget|guide:decimalInputWidget]
+  - | @Character@| - | [TextInputWidget|guide:textInputWidget]
+  - | @String@| - | [TextInputWidget|guide:textInputWidget]
+  - |  - |@email@| [EmailInputWidget|guide:emailInputWidget]
+  - |  - |@url@| [UrlInputWidget|guide:urlInputWidget]
+  - | @Date@| - | [DateInputWidget|guide:dateInputWidget]
+  - | @Boolean@| - | [CheckboxInputWidget|guide:checkboxInputWidget]
+  - | @Enum@| - | [EnumWidget|guide:enumWidget]
+  - | @Locale@| - | [LocaleInputWidget|guide:localeInputWidget]
+  - | @File@| - | [LabelWidget|guide:labelWidget]
+  - | @Collection of other Domain Class@| - | [RelationTableWidget|guide:relationTableWidget]
+  - | @Collection@| - | [LabelWidget|guide:labelWidget]
+  - | <Other Domain Class>| - | [RelationPopupOneWidget|guide:relationPopupOneWidget]
+  - | _Unknown_| - | [LabelWidget|guide:labelWidget]
+  id | - | - | [LabelWidget|guide:labelWidget]
+  dateCreated | - | - | [LabelWidget|guide:labelWidget]
+  dateCreated | - | - | [LabelWidget|guide:labelWidget]
+  version | - | - | [LabelWidget|guide:labelWidget]
+
 {table}
 
 

@@ -13,6 +13,7 @@ import net.kaleidos.plugins.admin.DomainInspector
 
 
 class GrailsAdminPluginDefaultWidgetSelector {
+    static String[] FORBIDEN_PROPERTIES = ['id','version', 'dateCreated', 'lastUpdated']
 
     static Widget getDefaultWidgetForProperty(Class clazz, String propertyName){
         def widget
@@ -21,7 +22,9 @@ class GrailsAdminPluginDefaultWidgetSelector {
         def constraintsClasses = constraints*.class
         def type = inspector.getPropertyClass(propertyName)
 
-        if (InListConstraint.class in constraintsClasses){
+        if (propertyName in FORBIDEN_PROPERTIES){
+            widget = new LabelWidget()
+        } else if (InListConstraint.class in constraintsClasses){
             widget = new SelectWidget()
         } else {
             switch ( type ) {

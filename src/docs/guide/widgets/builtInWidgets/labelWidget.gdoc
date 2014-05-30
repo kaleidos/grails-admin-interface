@@ -1,9 +1,11 @@
 *How would the plugin select automatically this widget?*
 
-On domain class attributes of classes not knwown for the Grails Admin Plugin
+On domain class attributes of classes not knwown for the Grails Admin Plugin. Also, on "internal" properties, such as "id", "version", "dateCreated" or "lastUpdated"
 
 {code}
 File photo
+Date dateCreated
+Date lastUpdated
 {code}
 
 

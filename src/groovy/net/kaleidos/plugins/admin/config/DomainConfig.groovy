@@ -18,7 +18,7 @@ class DomainConfig {
     }
 
     List getDefinedProperties(String method) {
-        def defaultExclude = ['id','version']
+        def defaultExclude = []
 
         def result = this.domainInspector.getPropertyNames()
 
