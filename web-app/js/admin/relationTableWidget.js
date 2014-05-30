@@ -53,20 +53,17 @@ app.view('relationTableWidget', ['$el', 'relationPopupWidgetList', 'templateServ
         event.preventDefault();
         var target = $(this).data("target");
 
-        $.getJSON($(this).data('url'))
-            .done(function (result) {
-                var excludeValues = $el.find("input[type='hidden']")
-                    .map(function() {
-                        return parseInt($(this).val());
-                    }).toArray();
 
-                relationPopupWidgetList
-                    .open(result, excludeValues, "Add")
-                    .done(addItem)
-            })
-            .fail(function (result) {
-                alert("ERROR");
-            });
+        var url_list = $(this).data('url');
+        var url_count = $(this).data('url-count');
+        var excludeValues = $el.find("input[type='hidden']")
+            .map(function() {
+                return parseInt($(this).val());
+            }).toArray();
+
+        relationPopupWidgetList
+            .open("Add", excludeValues, url_list, url_count)
+            .done(addItem);
     }
 
     function openNewPopup (event) {

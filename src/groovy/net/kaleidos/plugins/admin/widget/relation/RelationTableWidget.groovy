@@ -24,6 +24,7 @@ class RelationTableWidget extends RelationPopupWidget{
             def optional = otherSideProperty?otherSideProperty.isOptional():true
 
             def listUrl = grailsLinkGenerator.link(mapping: 'grailsAdminApiAction', params:[ 'slug': _getSlug(domainClass) ])
+            def countUrl = grailsLinkGenerator.link(mapping:"grailsAdminCountApiAction", method:"get", params:[slug:_getSlug(domainClass)])
 
             value.each {id ->
                 def element = domainClass.get(id)
@@ -40,7 +41,8 @@ class RelationTableWidget extends RelationPopupWidget{
                         span(class:"glyphicon glyphicon-list", "")
                         mkp.yield " List"
                     }
-                    a class:"btn btn-default js-relationtablewidget-new", "data-url": listUrl, href:"#", "data-toggle":"modal","data-target":"#new-$uuid", {
+                    a class:"btn btn-default js-relationtablewidget-new", "data-url": listUrl, "data-url-count": countUrl, href:"#", "data-toggle":"modal","data-target":"#new-$uuid", {
+
                         span(class:"glyphicon glyphicon-plus", "")
                         mkp.yield " New"
                     }
