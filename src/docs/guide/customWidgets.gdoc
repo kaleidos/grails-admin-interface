@@ -53,6 +53,22 @@ create screen)
 class. It could be null.
 
 
+h3. Error handling
+
+If you want you can handle errors (expected or unspected) thrown by your widget. You should extend
+the method.
+
+{code}
+String renderError(Throwable t)
+{code}
+
+This method will be called after any exception thrown by your widget. So you can render your custom
+information.
+
+When the widget throws an exception on the method "updateValue" (which parsers the form input to your
+custom types inside the widget) any error will be displayed in the form as if a validation error was
+displayed.
+
 h3. Sample
 
 With all this, lets make a sample Widget. We will create a custom widget that show an addres on a map. It will be used for properties of type String.
