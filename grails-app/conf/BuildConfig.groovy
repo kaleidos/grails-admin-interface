@@ -3,7 +3,7 @@ grails.project.docs.output.dir = 'target/docs'
 grails.project.dependency.resolver = "maven"
 
 grails.project.fork = [
-    test: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
+    //test: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
     console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
 ]
 
