@@ -62,8 +62,10 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.grailsAdminPluginJsonRendererService = Mock(GrailsAdminPluginJsonRendererService)
             controller.grailsAdminPluginJsonRendererService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${year}\"}"}
 
+            controller.params.id = 1
+
         when:
-            controller.getAdminAction(domain, 1)
+            controller.getAdminAction(domain)
             def result = response.json
 
         then:
@@ -82,8 +84,10 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.grailsAdminPluginDataService = Mock(GrailsAdminPluginDataService)
             controller.grailsAdminPluginDataService.retrieveDomain(TestDomain.class, 1) >> null
 
+            controller.params.id = 1
+
         when:
-            controller.getAdminAction(domain, 1)
+            controller.getAdminAction(domain)
             def result = response.json
 
         then:
@@ -107,7 +111,7 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.grailsAdminPluginJsonRendererService.renderListAsJson(_) >> "[{\"name\":\"test1\"}, {\"name\":\"test2\"}, {\"name\":\"test3\"}]"
 
         when:
-            controller.getAdminAction(domain, null)
+            controller.getAdminAction(domain)
             def result = response.json
 
         then:
@@ -129,7 +133,7 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             params.sort = 'name'
             params.sort_order = 'asc'
             params.items_by_page = 5
-            controller.getAdminAction(domain, null)
+            controller.getAdminAction(domain)
             def result = response.json
 
         then:
@@ -203,8 +207,10 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.grailsAdminPluginJsonRendererService = Mock(GrailsAdminPluginJsonRendererService)
             controller.grailsAdminPluginJsonRendererService.renderObjectAsJson(_) >> { "{\"name\":\"${name}\", \"year\":\"${yearToString}\"}"}
 
+            controller.params.id = 1
+
         when:
-            controller.postAdminAction(domain,1)
+            controller.postAdminAction(domain)
             def result = response.json
 
         then:
@@ -227,8 +233,10 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             controller.request.contentType = "application/json"
             controller.request.content = '{year: 2003}'
 
+            controller.params.id = 1
+
         when:
-            controller.postAdminAction(domain,1)
+            controller.postAdminAction(domain)
 
         then:
             1 * controller.grailsAdminPluginDataService.updateDomain(TestDomain.class, 1, ["year":year]) >> { throw new RuntimeException() }
@@ -246,9 +254,10 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
     void 'Delete domain'() {
         setup:
             controller.grailsAdminPluginDataService = Mock(GrailsAdminPluginDataService)
+            controller.params.id = 1
 
         when:
-            controller.deleteAdminAction(domain,1)
+            controller.deleteAdminAction(domain)
 
         then:
             1 * controller.grailsAdminPluginDataService.deleteDomain(TestDomain.class, 1)
@@ -261,9 +270,10 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
     void 'Delete domain (runtime exception)'() {
         setup:
             controller.grailsAdminPluginDataService = Mock(GrailsAdminPluginDataService)
+            controller.params.id = 1
 
         when:
-            controller.deleteAdminAction(domain,1)
+            controller.deleteAdminAction(domain)
 
         then:
             1 * controller.grailsAdminPluginDataService.deleteDomain(TestDomain.class, 1) >> { throw new RuntimeException() }
@@ -287,9 +297,10 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             slug = 'nofound'
     }
 
+    @Unroll
     void 'No configured domain (slug+id)'() {
         when:
-            controller."$method"(slug, null)
+            controller."$method"(slug)
             def result = response.json
 
         then:
@@ -301,6 +312,7 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             method << ['getAdminAction', 'postAdminAction', 'deleteAdminAction']
     }
 
+    @Unroll
     void 'No configured domain (Relation)'() {
         when:
             controller."$method"(slug, null, property, null)

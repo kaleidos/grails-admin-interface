@@ -57,7 +57,7 @@ class GrailsAdminPluginUIController {
         render view:'/grailsAdmin/list',  model:model
     }
 
-    def edit(String slug, Long id) {
+    def edit(String slug) {
         def domain = adminConfigHolder.getDomainConfigBySlug(slug)
 
         if (!domain) {
@@ -65,7 +65,7 @@ class GrailsAdminPluginUIController {
             return
         }
 
-        def object = domain.domainClass.get(id)
+        def object = domain.domainClass.get(params?.id)
 
         if (object) {
             def model = [:]

@@ -18,6 +18,7 @@ app.view('formView', ['$el'], function ($el) {
         $el.on('grailsadmin:validated', function (event, result) {
             if (btnUrl) {
                 if (result && result.id) {
+                    console.log(result.id);
                     window.location.href = btnUrl+ '?id=' + result.id;
                 } else {
                     window.location.href = btnUrl;

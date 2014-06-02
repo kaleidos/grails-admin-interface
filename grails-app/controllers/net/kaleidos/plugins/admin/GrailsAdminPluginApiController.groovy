@@ -28,7 +28,7 @@ class GrailsAdminPluginApiController {
         render(["total":total] as JSON)
     }
 
-    def getAdminAction(String slug, Long id) {
+    def getAdminAction(String slug) {
         def config = adminConfigHolder.getDomainConfigBySlug(slug)
 
         if (!config) {
@@ -39,8 +39,8 @@ class GrailsAdminPluginApiController {
 
         def result
         def renderedResult
-        if (id) {
-            result = grailsAdminPluginDataService.retrieveDomain(config.domainClass, id)
+        if (params?.id) {
+            result = grailsAdminPluginDataService.retrieveDomain(config.domainClass, params?.id)
             if (!result) {
                 response.status = 404
                 render(["error":"Entity not found"] as JSON)
@@ -97,7 +97,7 @@ class GrailsAdminPluginApiController {
         render grailsAdminPluginJsonRendererService.renderObjectAsJson(result)
     }
 
-    def postAdminAction(String slug, Long id) {
+    def postAdminAction(String slug) {
         def config = adminConfigHolder.getDomainConfigBySlug(slug)
         if (!config) {
             response.status = 404
@@ -107,7 +107,7 @@ class GrailsAdminPluginApiController {
 
         def result = [:]
         try {
-            result = grailsAdminPluginDataService.updateDomain(config.domainClass, id, request.JSON)
+            result = grailsAdminPluginDataService.updateDomain(config.domainClass, params.id, request.JSON)
         } catch (ValidationException e) {
             response.status = 500
             render e.getErrors() as JSON
@@ -123,7 +123,7 @@ class GrailsAdminPluginApiController {
         render grailsAdminPluginJsonRendererService.renderObjectAsJson(result)
     }
 
-    def deleteAdminAction(String slug, Long id) {
+    def deleteAdminAction(String slug) {
         def config = adminConfigHolder.getDomainConfigBySlug(slug)
         if (!config) {
             response.status = 404
@@ -132,7 +132,7 @@ class GrailsAdminPluginApiController {
         }
 
         try {
-            grailsAdminPluginDataService.deleteDomain(config.domainClass, id)
+            grailsAdminPluginDataService.deleteDomain(config.domainClass, params?.id)
         } catch (RuntimeException e) {
             log.debug e.message, e
             response.status = 500
@@ -144,14 +144,13 @@ class GrailsAdminPluginApiController {
         render ""
     }
 
-    def deleteRelatedAdminAction(String slug, Long id, String propertyName, Long id2) {
+    def deleteRelatedAdminAction(String slug, Object id, String propertyName, Object id2) {
         def config = adminConfigHolder.getDomainConfigBySlug(slug)
         if (!config) {
             response.status = 404
             render(["error":"Domain no configured"] as JSON)
             return
         }
-
 
         try {
             grailsAdminPluginDataService.deleteRelatedDomain(config.domainClass, id, propertyName, id2)
@@ -167,7 +166,7 @@ class GrailsAdminPluginApiController {
     }
 
 
-    def putRelatedAdminAction(String slug, Long id, String propertyName, Long id2) {
+    def putRelatedAdminAction(String slug, Object id, String propertyName, Object id2) {
         def config = adminConfigHolder.getDomainConfigBySlug(slug)
         if (!config) {
             response.status = 404

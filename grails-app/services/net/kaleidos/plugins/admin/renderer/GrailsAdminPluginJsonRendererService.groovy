@@ -24,7 +24,11 @@ class GrailsAdminPluginJsonRendererService {
             def properties = config.getDefinedProperties("list")
 
             if (object.id) {
-                result.id = object.id
+                if (object.id instanceof Long) {
+                    result.id = object.id
+                } else {
+                    result.id = "${object.id}"
+                }
             }
 
             properties.each { propertyName ->

@@ -13,7 +13,7 @@ class GrailsAdminPluginDataService {
         return domainClass.list()
     }
 
-    def retrieveDomain(Class domainClass, Long id){
+    def retrieveDomain(Class domainClass, Object id){
         return domainClass.get(id)
     }
 
@@ -26,12 +26,13 @@ class GrailsAdminPluginDataService {
         return _saveObject(domainConfig, domainObj, "create", params)
     }
 
-    def updateDomain(Class domainClass, Long id, Map params){
+    def updateDomain(Class domainClass, Object id, Map params){
         def domainObj = domainClass.get(id)
-        def domainConfig = adminConfigHolder.getDomainConfig(domainClass)
         if (!domainObj) {
             throw new RuntimeException("Object with id $id doesn't exist")
         }
+
+        def domainConfig = adminConfigHolder.getDomainConfig(domainClass)
         return _saveObject(domainConfig, domainObj, "edit", params)
     }
 
@@ -46,7 +47,7 @@ class GrailsAdminPluginDataService {
         return domainClass.count()
     }
 
-    Boolean deleteDomain(Class domainClass, Long objectId){
+    Boolean deleteDomain(Class domainClass, Object objectId){
         def result = false
         def domainObj = domainClass.get(objectId)
         if (domainObj) {
@@ -57,7 +58,7 @@ class GrailsAdminPluginDataService {
     }
 
 
-    void deleteRelatedDomain(Class domainClass, Long objectId, String propertyName, Long objectId2){
+    void deleteRelatedDomain(Class domainClass, Object objectId, String propertyName, Object objectId2){
         def domainObj = domainClass.get(objectId)
         if (domainObj) {
             def inspector = new DomainInspector(domainClass)
@@ -69,7 +70,7 @@ class GrailsAdminPluginDataService {
         }
     }
 
-    void putRelatedDomain(Class domainClass, Long objectId, String propertyName, Long objectId2){
+    void putRelatedDomain(Class domainClass, Object objectId, String propertyName, Object objectId2){
         def domainObj = domainClass.get(objectId)
         if (domainObj) {
             def inspector = new DomainInspector(domainClass)
