@@ -64,17 +64,21 @@ class RelationPopupOneWidgetSpec extends Specification {
 
         then:
             result.BODY.DIV.size() == 1
-            result.BODY.DIV.INPUT.size() == 1
-            result.BODY.DIV.INPUT.@type.text() == 'hidden'
-            result.BODY.DIV.INPUT.@name.text() == 'testDomain'
-            result.BODY.DIV.INPUT.@value.text() == ''
+            result.BODY.DIV.DIV.size() == 2
+            result.BODY.DIV.DIV[0].A.size() == 1
+            result.BODY.DIV.DIV[0].A.@name.text() == 'testDomain'
+            result.BODY.DIV.DIV[0].A.text() == '<< empty >>'
 
-            result.BODY.DIV.A.size() == 1
-            result.BODY.DIV.A.@name.text() == 'testDomain'
-            result.BODY.DIV.A.text() == '<< empty >>'
+            result.BODY.DIV.DIV[0].DIV.size() == 1
+            result.BODY.DIV.DIV[0].DIV.A.size() == 3
 
-            result.BODY.DIV.DIV.size() == 1
-            result.BODY.DIV.DIV.A.size() == 3
+            result.BODY.DIV.DIV[1].INPUT.size() == 1
+            result.BODY.DIV.DIV[1].INPUT.@type.text() == 'text'
+            result.BODY.DIV.DIV[1].INPUT.@name.text() == 'testDomain'
+            result.BODY.DIV.DIV[1].INPUT.@value.text() == ''
+            result.BODY.DIV.DIV[1].INPUT.@class.text().contains('hidden')
+
+
     }
 
 
@@ -99,17 +103,18 @@ class RelationPopupOneWidgetSpec extends Specification {
 
         then:
             result.BODY.DIV.size() == 1
-            result.BODY.DIV.INPUT.size() == 1
-            result.BODY.DIV.INPUT.@type.text() == 'hidden'
-            result.BODY.DIV.INPUT.@name.text() == 'testDomain'
-            result.BODY.DIV.INPUT.@value.text() == "${td2.id}"
+            result.BODY.DIV.DIV.size() == 2
+            result.BODY.DIV.DIV[0].A.size() == 1
+            result.BODY.DIV.DIV[0].A.@name.text() == 'testDomain'
+            result.BODY.DIV.DIV[0].A.text() == td2.name
+            result.BODY.DIV.DIV[0].DIV.size() == 1
+            result.BODY.DIV.DIV[0].DIV.A.size() == 3
 
-            result.BODY.DIV.A.size() == 1
-            result.BODY.DIV.A.@name.text() == 'testDomain'
-            result.BODY.DIV.A.text() == td2.name
-
-            result.BODY.DIV.DIV.size() == 1
-            result.BODY.DIV.DIV.A.size() == 3
+            result.BODY.DIV.DIV[1].INPUT.size() == 1
+            result.BODY.DIV.DIV[1].INPUT.@type.text() == 'text'
+            result.BODY.DIV.DIV[1].INPUT.@name.text() == 'testDomain'
+            result.BODY.DIV.DIV[1].INPUT.@value.text() == "${td2.id}"
+            result.BODY.DIV.DIV[1].INPUT.@class.text().contains('hidden')
     }
 
 

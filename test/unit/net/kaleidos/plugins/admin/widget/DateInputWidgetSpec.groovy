@@ -176,10 +176,10 @@ class DateInputWidgetSpec extends Specification {
             def result = dateInputWidget.getValueForJson()
 
         then:
-            result == value
+            result == '20000101'
 
         where:
-            value = "20000101"
+            value = Date.parse("MM/dd/yyyy", "01/01/2000")
     }
 
 
