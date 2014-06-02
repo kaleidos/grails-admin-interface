@@ -25,6 +25,8 @@ class GrailsAdminPluginWidgetService {
             widget.htmlAttrs.putAll(attributes)
         }
 
+        widget.htmlAttrs.name = propertyName
+
         return widget
     }
 
@@ -52,7 +54,6 @@ class GrailsAdminPluginWidgetService {
         widget.internalAttrs["domainObject"] = object
         widget.value = _getValueForWidget(object, propertyName)
 
-        widget.htmlAttrs.name = propertyName
 
         return widget
     }
