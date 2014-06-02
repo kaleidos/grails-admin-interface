@@ -3,9 +3,11 @@
     <div class="container-fluid">
         <!--
         <ul class="nav navbar-nav">
+            <%--
             <g:each var="domainClass" in="${domainClasses}">
                 <li <g:if test="${domainClass.slug == slug}">class="active"</g:if>><g:link mapping="grailsAdminList" params="[slug: domainClass.slug]">${domainClass.className}</g:link></li>
             </g:each>
+            --%>
         </ul>
         -->
 

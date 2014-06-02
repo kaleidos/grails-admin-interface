@@ -58,7 +58,12 @@ class GrailsAdminPluginTagLib {
     }
 
     def listLine = { attrs ->
-        out << grailsAdminPluginHtmlRendererService.renderListLine(attrs.object)
+        out << grailsAdminPluginHtmlRendererService.renderListLine(attrs.className, attrs.object)
+    }
+
+    def listLineActions = { attrs ->
+        def domain = adminConfigHolder.getDomainConfig(attrs.object)
+        out << g.render(template:"/grailsAdmin/listActions", model:["domainSlug":domain.slug, "domainId": attrs.object.id])
     }
 
     def listTitles = { attrs ->

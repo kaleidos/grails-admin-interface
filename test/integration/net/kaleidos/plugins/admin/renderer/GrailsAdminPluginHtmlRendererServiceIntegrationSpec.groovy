@@ -61,7 +61,7 @@ class GrailsAdminPluginHtmlRendererServiceIntegrationSpec extends Specification 
             def adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
 
         when:
-            def html = grailsAdminPluginHtmlRendererService.renderListLine(adminDomainTest)
+            def html = grailsAdminPluginHtmlRendererService.renderListLine("admin.test.AdminDomainTest", adminDomainTest)
             def result = slurper.parseText(html)
 
         then:
@@ -74,7 +74,7 @@ class GrailsAdminPluginHtmlRendererServiceIntegrationSpec extends Specification 
 
         when:
             adminDomainTest.name = "<td>0</td>"
-            def html = grailsAdminPluginHtmlRendererService.renderListLine(adminDomainTest)
+            def html = grailsAdminPluginHtmlRendererService.renderListLine("admin.test.AdminDomainTest", adminDomainTest)
             def result = slurper.parseText(html)
 
         then:

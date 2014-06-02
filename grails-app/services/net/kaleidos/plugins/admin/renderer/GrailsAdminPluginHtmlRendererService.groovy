@@ -85,8 +85,12 @@ class GrailsAdminPluginHtmlRendererService {
 
     //list
 
-    String renderListLine(Object object){
-        def config = adminConfigHolder.getDomainConfig(object)
+    String renderListLine(String objClass, Object object){
+        def config = adminConfigHolder.getDomainConfig(objClass)
+
+        if (!config) {
+            adminConfigHolder.getDomainConfig(object)
+        }
 
         List properties = config.getDefinedProperties("list")
         StringBuilder html = new StringBuilder()
@@ -117,10 +121,7 @@ class GrailsAdminPluginHtmlRendererService {
     }
 
     String renderListTitle(String className, String sort, String sortOrder){
-        def objectClass = this.getClass().classLoader.loadClass(className)
-        def object = objectClass?.newInstance()
-
-        def domain = adminConfigHolder.getDomainConfig(object)
+        def domain = adminConfigHolder.getDomainConfig(className)
         List properties = domain.getDefinedProperties("list")
         List sortable = domain.getSortableProperties("list")
 

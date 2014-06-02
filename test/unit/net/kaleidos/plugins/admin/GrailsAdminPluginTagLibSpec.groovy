@@ -118,7 +118,7 @@ class GrailsAdminPluginTagLibSpec extends Specification {
             def object = new TestDomain(name:"ROW")
 
         when:
-            def html = applyTemplate('<gap:listLine object="${object}"/>', ["object":object])
+            def html = applyTemplate('<gap:listLine className="admin.test.TestDomain" object="${object}"/>', ["object":object])
 
         then:
             html != null
