@@ -22,6 +22,9 @@ abstract class Widget {
     }
 
     def updateValue(value) {
+        if (internalAttrs['emptyIsNull'] && value == "") {
+            value = null
+        }
         internalAttrs["domainObject"]."${internalAttrs['propertyName']}" = value
     }
 

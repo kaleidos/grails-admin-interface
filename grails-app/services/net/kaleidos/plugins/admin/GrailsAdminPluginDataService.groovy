@@ -116,7 +116,7 @@ class GrailsAdminPluginDataService {
 
     def _setValue(def object, def customWidget, def propertyName, def val){
         def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidget)
-        widget.value = val?:null
+        widget.value = val
         widget.updateValue()
     }
 }
