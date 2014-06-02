@@ -26,6 +26,9 @@
             <div class="table-container">
                 <table class="table table-bordered">
                     <thead>
+                        <th class="list-actions-head">
+                            <g:message code="grailsAdminPlugin.list.actions" />
+                        </th>
                         <gap:listTitles className="${domain.classFullName}" sort="${sort}" sortOrder="${sortOrder}" />
                         <th class="list-actions-head">
                             <g:message code="grailsAdminPlugin.list.actions" />
@@ -34,8 +37,9 @@
                     <tbody>
                     <g:each in="${objs}">
                         <tr>
-                        <gap:listLine className="${domain.classFullName}" object="${it}" />
-                        <gap:listLineActions object="${it}" />
+                            <gap:listLineActions object="${it}" />
+                            <gap:listLine className="${domain.classFullName}" object="${it}" />
+                            <gap:listLineActions object="${it}" />
                         </tr>
                     </g:each>
                     </tbody>
