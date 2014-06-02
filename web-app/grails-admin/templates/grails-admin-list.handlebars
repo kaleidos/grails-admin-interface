@@ -1,14 +1,16 @@
-<table class="table table-bordered">
-    {{#each list}}
-    <tr>
-        <td>
-            <input {{#if exclude}}disabled{{/if}} class="relationpopup-radio" type="radio" name="elementId" value="{{id}}" data-txt="{{__text__}}"></input>
-        </td>
-        {{#each this}}
-        <td>
-            {{this}}
-        </td>
+<div class="table-container">
+    <table class="table table-bordered">
+        {{#each list}}
+        <tr>
+            <td>
+                <input {{#if exclude}}disabled{{/if}} class="relationpopup-radio" type="radio" name="elementId" value="{{id}}" data-txt="{{__text__}}"></input>
+            </td>
+            {{#each this}}
+            <td>
+                {{this}}
+            </td>
+            {{/each}}
+        </tr>
         {{/each}}
-    </tr>
-    {{/each}}
-</table>
+    </table>
+</div>

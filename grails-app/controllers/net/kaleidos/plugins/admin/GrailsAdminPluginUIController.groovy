@@ -5,7 +5,7 @@ import grails.validation.ValidationException
 import grails.converters.JSON
 
 class GrailsAdminPluginUIController {
-    static final int ITEMS_BY_PAGE = 20
+    static final int ITEMS_BY_PAGE = 10
 
     def adminConfigHolder
     def grailsAdminPluginDataService

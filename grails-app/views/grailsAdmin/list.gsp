@@ -23,22 +23,24 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-bordered">
-                <thead>
-                    <gap:listTitles className="${domain.classFullName}" sort="${sort}" sortOrder="${sortOrder}" />
-                    <th class="list-actions-head">
-                        <g:message code="grailsAdminPlugin.list.actions" />
-                    </th>
-                </thead>
-                <tbody>
-                <g:each in="${objs}">
-                    <tr>
+            <div class="table-container">
+                <table class="table table-bordered">
+                    <thead>
+                        <gap:listTitles className="${domain.classFullName}" sort="${sort}" sortOrder="${sortOrder}" />
+                        <th class="list-actions-head">
+                            <g:message code="grailsAdminPlugin.list.actions" />
+                        </th>
+                    </thead>
+                    <tbody>
+                    <g:each in="${objs}">
+                        <tr>
                         <gap:listLine className="${domain.classFullName}" object="${it}" />
                         <gap:listLineActions object="${it}" />
-                    </tr>
-                </g:each>
-                </tbody>
-            </table>
+                        </tr>
+                    </g:each>
+                    </tbody>
+                </table>
+            </div>
 
             <gap:pagination domain="${domain}" totalPages="${totalPages}" currentPage="${currentPage}"/>
         </div>

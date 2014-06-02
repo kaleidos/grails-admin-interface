@@ -17,7 +17,7 @@ body {
 .main-form input:not([type='button']), .main-form select, .main-form .select2-container {
   display: block;
   width: 650px;
-  max-width: 100%;}
+  max-width: 100%; }
 
 .form-options .btn-group {
   margin-right: 10px; }
@@ -40,3 +40,8 @@ thead a {
   thead a:hover {
     color: #000;
     text-decoration: none; }
+
+.table-container {
+    width: 100%;
+    overflow-x: scroll;
+}
