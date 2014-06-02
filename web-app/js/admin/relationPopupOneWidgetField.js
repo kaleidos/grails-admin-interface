@@ -1,33 +1,3 @@
-app.view('relationPopupOneWidgetNew', ['$el'], function ($el) {
-    "use strict";
-
-    var form = $el.find('form');
-    var saveButton = $el.find(".js-relationtablewidget-save-action");
-
-    function open () {
-        var deferred = $.Deferred();
-
-        form
-            .off('grailsadmin:validated')
-            .on('grailsadmin:validated', function (event, result) {
-                form.trigger("reset");
-                $el.modal('toggle');
-
-                deferred.resolve(result.id, result.__text__);
-            });
-
-        return deferred.promise();
-    }
-
-    $el.on('grailsadmin:relationPopupOneWidgetNew', function (event, fn) {
-        open().done(fn);
-    });
-
-    saveButton.on('click', function () {
-        form.submit();
-    });
-});
-
 app.view('relationPopupOneWidgetField', ['$el', 'relationPopupWidgetList'], function ($el, relationPopupWidgetList) {
     "use strict";
 

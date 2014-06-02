@@ -23,8 +23,16 @@ class RelationTableWidget extends RelationPopupWidget{
             def otherSideProperty = internalAttrs["grailsDomainClass"].getPropertyByName(internalAttrs['propertyName']).getOtherSide()
             def optional = otherSideProperty?otherSideProperty.isOptional():true
 
-            def listUrl = grailsLinkGenerator.link(mapping: 'grailsAdminApiAction', params:[ 'slug': _getSlug(domainClass) ])
-            def countUrl = grailsLinkGenerator.link(mapping:"grailsAdminCountApiAction", method:"get", params:[slug:_getSlug(domainClass)])
+            def relationConfig = adminConfigHolder.getDomainConfig(domainClass)
+            def slug
+            def listUrl
+            def countUrl
+
+            if (relationConfig) {
+                slug = relationConfig?.slug
+                listUrl = grailsLinkGenerator.link(mapping: 'grailsAdminApiAction', params:[ 'slug': slug ])
+                countUrl = grailsLinkGenerator.link(mapping:"grailsAdminCountApiAction", method:"get", params:[slug:slug])
+            }
 
             value.each {id ->
                 def element = domainClass.get(id)
@@ -35,14 +43,22 @@ class RelationTableWidget extends RelationPopupWidget{
                 options.each { key, value ->
                     input type: "hidden", name:htmlAttrs['name'], value: key
                 }
-                _elementsTable(delegate, domainClass, options, optional)
+                _elementsTable(delegate, domainClass, options, optional, slug)
                 div {
-                    a class:"btn btn-default js-relationtablewidget-list", "data-url": listUrl, href:"#", {
+                    def attrs = [class:"btn btn-default js-relationtablewidget-list", "data-url": listUrl, href:"#"]
+                    if (! relationConfig){
+                        attrs['disabled'] = 'disabled'
+                    }
+                    a (attrs) {
                         span(class:"glyphicon glyphicon-list", "")
                         mkp.yield " List"
                     }
-                    a class:"btn btn-default js-relationtablewidget-new", "data-url": listUrl, "data-url-count": countUrl, href:"#", "data-toggle":"modal","data-target":"#new-$uuid", {
 
+                    attrs = [class:"btn btn-default js-relationtablewidget-new", "data-url": listUrl, "data-url-count": countUrl, href:"#", "data-toggle":"modal","data-target":"#new-$uuid"]
+                    if (! relationConfig){
+                        attrs['disabled'] = 'disabled'
+                    }
+                    a (attrs) {
                         span(class:"glyphicon glyphicon-plus", "")
                         mkp.yield " New"
                     }
@@ -53,20 +69,31 @@ class RelationTableWidget extends RelationPopupWidget{
         return writer.toString()
     }
 
-    def _elementsTable(builder, domainClass, options, isOptional) {
-        def detailUrl = grailsLinkGenerator.link(mapping: 'grailsAdminEdit', params:['slug':_getSlug(domainClass), 'id':0])
+    def _elementsTable(builder, domainClass, options, isOptional, slug) {
+
+        def detailUrl
+        if (slug) {
+            detailUrl = grailsLinkGenerator.link(mapping: 'grailsAdminEdit', params:['slug':slug, 'id':0])
+        }
 
         builder.table "data-detailurl":detailUrl, "data-property-name":internalAttrs["propertyName"], "data-optional":isOptional, class:"table table-bordered elements-table", {
             // We need an empty element so grails doesn't construct <table/> when there is no elements (it's not valid html)
             mkp.yield ""
             options.each { key, value ->
-                def url = grailsLinkGenerator.link(mapping: 'grailsAdminEdit', params:['slug':_getSlug(domainClass), 'id':key])
+                def url
+                if (slug) {
+                    url = grailsLinkGenerator.link(mapping: 'grailsAdminEdit', params:['slug':slug, 'id':key])
+                }
                 tr {
                     td {
-                        a href: url, { mkp.yield value }
+                        if (slug) {
+                            a href: url, { mkp.yield value }
+                        } else {
+                            label { mkp.yield value }
+                        }
                     }
 
-                    if (isOptional) {
+                    if (isOptional && slug) {
                         td class: "list-actions", {
                             a class: "btn btn-default btn-sm js-relationtablewidget-delete", "data-value":key, "href":"#", {
                                 span class:"glyphicon glyphicon-trash", {mkp.yield " "}
@@ -78,6 +105,7 @@ class RelationTableWidget extends RelationPopupWidget{
                 }
             }
         }
+
     }
 
     @Override
@@ -143,7 +171,4 @@ class RelationTableWidget extends RelationPopupWidget{
     }
 
 
-    String _getSlug(domainClass){
-        return DomainInspector.getSlug(domainClass)
-    }
 }

@@ -17,6 +17,7 @@ class RelationPopupOneWidget extends RelationPopupWidget{
         def relationObject = internalAttrs.domainObject?."${internalAttrs.propertyName}"
         def relationConfig = adminConfigHolder.getDomainConfigForProperty(internalAttrs.domainClass, internalAttrs.propertyName)
         def slug = relationConfig?.slug
+
         def action = grailsLinkGenerator.link(mapping:"grailsAdminApiAction", method: "put", params:[slug:slug])
 
         // Links
@@ -43,15 +44,24 @@ class RelationPopupOneWidget extends RelationPopupWidget{
         def editLink = ''
         if (slug) {
             editLink = grailsLinkGenerator.link(mapping:"grailsAdminEdit", params:[slug:slug, id: (relationObject?.id)?:0])
-        }
-
-        builder.a href:editLink, class:'js-one-rel-text', name:"${internalAttrs.propertyName}", {
-            if (value) {
-                mkp.yield "${relationObject}".encodeAsHTML()
-            } else {
-                mkp.yield "<< empty >>"
+            builder.a href:editLink, class:'js-one-rel-text', name:"${internalAttrs.propertyName}", {
+                if (value) {
+                    mkp.yield "${relationObject}".encodeAsHTML()
+                } else {
+                    mkp.yield "<< empty >>"
+                }
+            }
+        } else {
+            builder.label {
+                if (value) {
+                    mkp.yield "${relationObject}".encodeAsHTML()
+                } else {
+                    mkp.yield "<< empty >>"
+                }
             }
         }
+
+
     }
 
     def _buttons(slug, relationObject, builder) {
@@ -66,17 +76,32 @@ class RelationPopupOneWidget extends RelationPopupWidget{
         String display = (relationObject)?"block":"none"
 
         builder.div class:"btn-group", {
-            a href:"#", class:"btn btn-default js-relationpopuponewidget-list", "data-toggle":"modal", "data-url":listApi, "data-url-count": countApi, {
+            def attrs = [href:"#", class:"btn btn-default js-relationpopuponewidget-list", "data-toggle":"modal", "data-url":listApi, "data-url-count": countApi]
+            if (!slug) {
+                attrs['disabled']='disabled'
+            }
+            a (attrs) {
                 span class:"glyphicon glyphicon-list", { mkp.yield " "}
                 mkp.yield " List"
 
             }
-            a href:"#", class:"btn btn-default js-relationpopuponewidget-new", "data-toggle":"modal", "data-target":"#new-$uuid", {
+
+
+            attrs = [href:"#", class:"btn btn-default js-relationpopuponewidget-new", "data-toggle":"modal", "data-target":"#new-$uuid"]
+            if (!slug) {
+                attrs['disabled']='disabled'
+            }
+            a (attrs) {
                 span class:"glyphicon glyphicon-plus", { mkp.yield " "}
                 mkp.yield " New"
 
             }
-            a href:"#", class:"btn btn-default js-relationpopuponewidget-delete", style:"display:${display};",{
+
+            attrs = [href:"#", class:"btn btn-default js-relationpopuponewidget-delete", style:"display:${display};"]
+            if (!slug) {
+                attrs['disabled']='disabled'
+            }
+            a (attrs) {
                 span class:"glyphicon glyphicon-trash", { mkp.yield " "}
                 mkp.yield " Delete"
 

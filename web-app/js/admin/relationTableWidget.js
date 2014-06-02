@@ -49,8 +49,9 @@ app.view('relationTableWidget', ['$el', 'relationPopupWidgetList', 'templateServ
         }
     }
 
-    function addRelation (event) {
-        event.preventDefault();
+    function addRelation (page) {
+        page = page || 0;
+
         var target = $(this).data("target");
 
 
@@ -62,7 +63,7 @@ app.view('relationTableWidget', ['$el', 'relationPopupWidgetList', 'templateServ
             }).toArray();
 
         relationPopupWidgetList
-            .open("Add", excludeValues, url_list, url_count)
+            .open("Select", excludeValues, url_list, url_count)
             .done(addItem);
     }
 
