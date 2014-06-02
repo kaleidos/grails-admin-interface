@@ -2,6 +2,7 @@ package net.kaleidos.plugins.admin.renderer
 
 import groovy.json.JsonBuilder
 import net.kaleidos.plugins.admin.DomainInspector
+import net.kaleidos.plugins.admin.config.DomainConfig
 
 class GrailsAdminPluginHtmlRendererService {
     def adminConfigHolder
@@ -9,44 +10,46 @@ class GrailsAdminPluginHtmlRendererService {
     def grailsLinkGenerator
 
     String renderEditFormFields(Object object, Map editWidgetProperties=[:]){
-        return _renderFormFields("edit", object, editWidgetProperties)
+        def domainConfig = adminConfigHolder.getDomainConfig(object)
+        return _renderFormFields("edit", domainConfig, object, editWidgetProperties)
     }
 
     String renderCreateFormFields(String className, Map createWidgetProperties=[:]){
-        def objectClass = Class.forName(className, true, Thread.currentThread().contextClassLoader)
-        def object = objectClass?.newInstance()
-        return _renderFormFields("create", object, createWidgetProperties)
+        def domainConfig = adminConfigHolder.getDomainConfig(className)
+        return _renderFormFields("create", domainConfig, null, createWidgetProperties)
     }
 
-    String _renderFormFields(String formType, Object object, Map widgetProperties){
+    String _renderFormFields(String formType, DomainConfig domainConfig, Object object, Map widgetProperties){
         def writer = new StringWriter()
         def builder = new groovy.xml.MarkupBuilder(writer)
 
-        if (object) {
-            def domainConfig = adminConfigHolder.getDomainConfig(object)
-            List properties = domainConfig.getDefinedProperties(formType)
-            Map customWidgets = domainConfig.getCustomWidgets(formType)
+        List properties = domainConfig.getDefinedProperties(formType)
+        Map customWidgets = domainConfig.getCustomWidgets(formType)
 
+        properties.each{propertyName ->
+            def widget
+            if (object != null) {
+                widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidgets?."$propertyName", widgetProperties)
+            } else {
+                widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName", widgetProperties)
+            }
 
-            properties.each{propertyName ->
-                def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidgets?."$propertyName", widgetProperties)
-
-                builder.div class:"form-group", {
-                    label for:"${propertyName.encodeAsHTML()}", {
-                        mkp.yieldUnescaped propertyName.capitalize().encodeAsHTML()
-                        if (widget.htmlAttrs.required == 'true') {
-                            mkp.yield " *"
-                        }
+            builder.div class:"form-group", {
+                label for:"${propertyName.encodeAsHTML()}", {
+                    mkp.yieldUnescaped propertyName.capitalize().encodeAsHTML()
+                    if (widget.htmlAttrs.required == 'true') {
+                        mkp.yield " *"
                     }
-                    try {
-                        mkp.yieldUnescaped widget.render()
-                    } catch (Throwable t) {
-                        log.error t.message
-                        mkp.yieldUnescaped widget.renderError(t)
-                    }
+                }
+                try {
+                    mkp.yieldUnescaped widget.render()
+                } catch (Throwable t) {
+                    log.error t.message
+                    mkp.yieldUnescaped widget.renderError(t)
                 }
             }
         }
+
         return writer
     }
 
@@ -73,7 +76,7 @@ class GrailsAdminPluginHtmlRendererService {
                 toRender = widget."$method"()
             } catch (Throwable t) {
                 log.error t.message
-                toRender = widget.renderError()
+                toRender = widget.renderError(t)
             }
 
             if (toRender) {

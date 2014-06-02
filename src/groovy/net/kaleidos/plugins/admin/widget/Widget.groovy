@@ -29,6 +29,7 @@ abstract class Widget {
     }
 
     public String renderError(Throwable t) {
+        log.error t.message
         return "<p style='color:red'>${t?t.message:'ERROR'}</p>"
     }
 }
