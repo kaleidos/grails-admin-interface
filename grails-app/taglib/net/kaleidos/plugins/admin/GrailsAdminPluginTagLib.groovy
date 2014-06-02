@@ -63,7 +63,11 @@ class GrailsAdminPluginTagLib {
 
     def listLineActions = { attrs ->
         def domain = adminConfigHolder.getDomainConfig(attrs.object)
-        out << g.render(template:"/grailsAdmin/listActions", model:["domainSlug":domain.slug, "domainId": attrs.object.id])
+        if (attrs.object.id) {
+            out << g.render(template:"/grailsAdmin/listActions", model:["domainSlug":domain.slug, "domainId": attrs.object.id])
+        } else {
+            out << "<td>Null id. Is composite key?</td>"
+        }
     }
 
     def listTitles = { attrs ->

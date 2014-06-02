@@ -111,7 +111,13 @@ class GrailsAdminPluginHtmlRendererService {
                 html.append(val.encodeAsHTML())
                 html.append("</span>")
             } else {
-                html.append(val?val.encodeAsHTML():'&nbsp;')
+                if (isCollectionOrArray(val)){
+                    html.append(val.join(", "))
+                } else if (val && val.respondsTo("encodeAsHTML")) {
+                    html.append(val.encodeAsHTML())
+                } else {
+                    html.append(val?:'&nbsp;')
+                }
             }
 
 
@@ -121,6 +127,10 @@ class GrailsAdminPluginHtmlRendererService {
             html.append("</td>")
         }
         return html
+    }
+
+    boolean isCollectionOrArray(object) {
+        [Collection, Object[]].any { it.isAssignableFrom(object.getClass()) }
     }
 
     String renderListTitle(String className, String sort, String sortOrder){

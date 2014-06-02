@@ -11,6 +11,7 @@ class DomainConfigSpec extends Specification {
         Holders.grailsApplication.configureLoadedClasses([
             Test.class,
             Test2.class,
+            Test3.class,
         ] as Class[])
     }
 
@@ -24,6 +25,18 @@ class DomainConfigSpec extends Specification {
         then:
             result != null
             result == ['t1', 't2', 't3', 't4', 't5']
+    }
+
+    void "Get properties on hierarchy"(){
+        setup:
+            def domainConfig = new DomainConfig(Test3.class)
+
+        when:
+            def result = domainConfig.getDefinedProperties("list")
+
+        then:
+            result != null
+            result == ['other', 't1', 't2', 't3', 't4', 't5' ]
     }
 
     void "Get properties. Exclude some"(){
@@ -122,3 +135,6 @@ class Test2 {
     String t3
 }
 
+class Test3 extends Test {
+    String other
+}
