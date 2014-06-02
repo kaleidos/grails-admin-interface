@@ -85,7 +85,7 @@ class GrailsAdminPluginUIControllerSpec extends Specification {
             model.objs.size() == 1
             model.domain == domain
             model.currentPage == 3
-            model.totalPages == 2
+            model.totalPages == 3
 
     }
 

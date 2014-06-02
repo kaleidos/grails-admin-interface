@@ -58,6 +58,8 @@ class RelationTableWidgetSpec extends Specification {
             widget.internalAttrs.domainClass = TestDomainRelation.class
             widget.internalAttrs.propertyName = 'testDomain'
             widget.internalAttrs.grailsDomainClass =  new DefaultGrailsDomainClass(TestDomainRelation.class)
+            widget.adminConfigHolder = Mock(AdminConfigHolder)
+            widget.adminConfigHolder.getDomainConfig(_) >> { return new DomainConfig(TestDomain.class) }
 
         when:
             def html = widget.render()
@@ -71,6 +73,34 @@ class RelationTableWidgetSpec extends Specification {
 
             result.BODY.DIV.DIV.size() == 1
             result.BODY.DIV.DIV.A.size() == 2
+    }
+
+    void 'create relation select widget - no domain config'() {
+        setup:
+            def widget = new RelationTableWidget()
+            widget.metaClass._getSlug = { return "testdomainrelation" }
+            widget.grailsLinkGenerator = Mock(LinkGenerator)
+            widget.internalAttrs.relatedDomainClass = new DefaultGrailsDomainClass(TestDomain.class).clazz
+            widget.internalAttrs.domainClass = TestDomainRelation.class
+            widget.internalAttrs.propertyName = 'testDomain'
+            widget.internalAttrs.grailsDomainClass =  new DefaultGrailsDomainClass(TestDomainRelation.class)
+            widget.adminConfigHolder = Mock(AdminConfigHolder)
+            widget.adminConfigHolder.getDomainConfig(_) >> { return null }
+
+        when:
+            def html = widget.render()
+            def result = slurper.parseText(html)
+
+        then:
+            result.BODY.DIV.size() == 1
+            result.BODY.DIV.TABLE.size() == 1
+            result.BODY.DIV.TABLE.@"data-property-name".text() == 'testDomain'
+            result.BODY.DIV.TABLE.children().size() == 0
+
+            result.BODY.DIV.DIV.size() == 1
+            result.BODY.DIV.DIV.A.size() == 2
+            result.BODY.DIV.DIV.A[0].@disabled.text() == 'disabled'
+            result.BODY.DIV.DIV.A[1].@disabled.text() == 'disabled'
     }
 
 
@@ -87,8 +117,8 @@ class RelationTableWidgetSpec extends Specification {
             widget.internalAttrs.propertyName = 'testDomain'
             widget.internalAttrs.domainObject = object
             widget.internalAttrs.grailsDomainClass =  new DefaultGrailsDomainClass(TestDomainRelation.class)
-
-
+            widget.adminConfigHolder = Mock(AdminConfigHolder)
+            widget.adminConfigHolder.getDomainConfig(_) >> { return new DomainConfig(TestDomain.class) }
 
         when:
             def html = widget.render()
@@ -107,6 +137,43 @@ class RelationTableWidgetSpec extends Specification {
 
             result.BODY.DIV.DIV.size() == 1
             result.BODY.DIV.DIV.A.size() == 2
+    }
+
+    void 'create relation select widget with value - no domain config'() {
+        setup:
+            def object = new TestDomainRelation()
+            object.addToTestDomain (td1)
+            object.addToTestDomain (td2)
+            def widget = new RelationTableWidget(value:[td1.id, td2.id])
+            widget.metaClass._getSlug = { return "testdomainrelation" }
+            widget.grailsLinkGenerator = Mock(LinkGenerator)
+            widget.internalAttrs.relatedDomainClass = new DefaultGrailsDomainClass(TestDomain.class).clazz
+            widget.internalAttrs.domainClass = TestDomainRelation.class
+            widget.internalAttrs.propertyName = 'testDomain'
+            widget.internalAttrs.domainObject = object
+            widget.internalAttrs.grailsDomainClass =  new DefaultGrailsDomainClass(TestDomainRelation.class)
+            widget.adminConfigHolder = Mock(AdminConfigHolder)
+            widget.adminConfigHolder.getDomainConfig(_) >> { return null }
+
+        when:
+            def html = widget.render()
+            def result = slurper.parseText(html)
+
+        then:
+            result.BODY.DIV.size() == 1
+            result.BODY.DIV.TABLE.size() == 1
+            result.BODY.DIV.TABLE.@"data-property-name".text() == 'testDomain'
+            result.BODY.DIV.TABLE.TR.size() == 2
+            result.BODY.DIV.TABLE.TR[0].TD.size() == 1
+            result.BODY.DIV.TABLE.TR[0].TD[0].LABEL.text() == td1.name
+
+            result.BODY.DIV.TABLE.TR[1].TD.size() == 1
+            result.BODY.DIV.TABLE.TR[1].TD[0].LABEL.text() == td2.name
+
+            result.BODY.DIV.DIV.size() == 1
+            result.BODY.DIV.DIV.A.size() == 2
+            result.BODY.DIV.DIV.A[0].@disabled.text() == 'disabled'
+            result.BODY.DIV.DIV.A[1].@disabled.text() == 'disabled'
     }
 
 

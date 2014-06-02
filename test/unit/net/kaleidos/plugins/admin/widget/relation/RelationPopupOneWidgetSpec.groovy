@@ -82,6 +82,42 @@ class RelationPopupOneWidgetSpec extends Specification {
     }
 
 
+    void 'create relation select widget - no domain config'() {
+        setup:
+            def widget = new RelationPopupOneWidget()
+            widget.grailsLinkGenerator = Mock(LinkGenerator)
+            widget.adminConfigHolder = Mock(AdminConfigHolder)
+            widget.adminConfigHolder.getDomainConfigForProperty(_,_) >> { return null }
+            widget.internalAttrs.relatedDomainClass = new DefaultGrailsDomainClass(TestDomain.class)
+            widget.internalAttrs.domainClass = TestDomainRelationOne.class
+            widget.internalAttrs.propertyName = 'testDomain'
+
+        when:
+            def html = widget.render()
+            def result = slurper.parseText(html)
+
+        then:
+            result.BODY.DIV.size() == 1
+            result.BODY.DIV.DIV.size() == 2
+            result.BODY.DIV.DIV[0].LABEL.size() == 1
+            result.BODY.DIV.DIV[0].LABEL.text() == '<< empty >>'
+
+            result.BODY.DIV.DIV[0].DIV.size() == 1
+            result.BODY.DIV.DIV[0].DIV.A.size() == 3
+            result.BODY.DIV.DIV[0].DIV.A[0].@disabled.text() == 'disabled'
+            result.BODY.DIV.DIV[0].DIV.A[1].@disabled.text() == 'disabled'
+            result.BODY.DIV.DIV[0].DIV.A[2].@disabled.text() == 'disabled'
+
+            result.BODY.DIV.DIV[1].INPUT.size() == 1
+            result.BODY.DIV.DIV[1].INPUT.@type.text() == 'text'
+            result.BODY.DIV.DIV[1].INPUT.@name.text() == 'testDomain'
+            result.BODY.DIV.DIV[1].INPUT.@value.text() == ''
+            result.BODY.DIV.DIV[1].INPUT.@class.text().contains('hidden')
+
+
+    }
+
+
     void 'create relation select widget with value'() {
         setup:
             def object = new TestDomainRelationOne()
@@ -109,6 +145,44 @@ class RelationPopupOneWidgetSpec extends Specification {
             result.BODY.DIV.DIV[0].A.text() == td2.name
             result.BODY.DIV.DIV[0].DIV.size() == 1
             result.BODY.DIV.DIV[0].DIV.A.size() == 3
+
+            result.BODY.DIV.DIV[1].INPUT.size() == 1
+            result.BODY.DIV.DIV[1].INPUT.@type.text() == 'text'
+            result.BODY.DIV.DIV[1].INPUT.@name.text() == 'testDomain'
+            result.BODY.DIV.DIV[1].INPUT.@value.text() == "${td2.id}"
+            result.BODY.DIV.DIV[1].INPUT.@class.text().contains('hidden')
+    }
+
+
+    void 'create relation select widget with value - no domain config'() {
+        setup:
+            def object = new TestDomainRelationOne()
+            object.testDomain = td2
+            def widget = new RelationPopupOneWidget(value:td2.id)
+            widget.grailsLinkGenerator = Mock(LinkGenerator)
+            widget.adminConfigHolder = Mock(AdminConfigHolder)
+            widget.adminConfigHolder.getDomainConfigForProperty(_,_) >> { return null }
+            widget.internalAttrs.relatedDomainClass = new DefaultGrailsDomainClass(TestDomain.class)
+            widget.internalAttrs.domainClass = TestDomainRelationOne.class
+            widget.internalAttrs.propertyName = 'testDomain'
+            widget.internalAttrs['domainObject'] = object
+
+
+
+        when:
+            def html = widget.render()
+            def result = slurper.parseText(html)
+
+        then:
+            result.BODY.DIV.size() == 1
+            result.BODY.DIV.DIV.size() == 2
+            result.BODY.DIV.DIV[0].LABEL.size() == 1
+            result.BODY.DIV.DIV[0].LABEL.text() == td2.name
+            result.BODY.DIV.DIV[0].DIV.size() == 1
+            result.BODY.DIV.DIV[0].DIV.A.size() == 3
+            result.BODY.DIV.DIV[0].DIV.A[0].@disabled.text() == 'disabled'
+            result.BODY.DIV.DIV[0].DIV.A[1].@disabled.text() == 'disabled'
+            result.BODY.DIV.DIV[0].DIV.A[2].@disabled.text() == 'disabled'
 
             result.BODY.DIV.DIV[1].INPUT.size() == 1
             result.BODY.DIV.DIV[1].INPUT.@type.text() == 'text'
