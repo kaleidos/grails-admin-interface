@@ -45,7 +45,7 @@ class RelationTableWidget extends RelationPopupWidget{
                 }
                 _elementsTable(delegate, domainClass, options, optional, slug)
                 div {
-                    def attrs = [class:"btn btn-default js-relationtablewidget-list", "data-url": listUrl, href:"#"]
+                    def attrs = [class:"btn btn-default js-relationtablewidget-list", "data-url": listUrl, "data-url-count": countUrl, href:"#"]
                     if (! relationConfig){
                         attrs['disabled'] = 'disabled'
                     }
