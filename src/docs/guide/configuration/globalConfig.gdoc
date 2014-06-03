@@ -16,6 +16,25 @@ grails.plugin.admin.domains = [
 ]
 {code}
 
+Optionaly, you can group your domains so they are divided into logical groups.
+
+{code}
+grails.plugin.admin.domains."Conference Management" = [
+    "conferences.Conference",
+    "conferences.Talk"
+]
+
+grails.plugin.admin.domains."People" = [
+    "conferences.Attendee",
+    "conferences.Speaker"
+]
+
+grails.plugin.admin.domains."Infrastructures" = [
+    "conferences.Building",
+    "conferences.Room"
+]
+{code}
+
 h4. Admin URL Access Root
 
 _Optional_

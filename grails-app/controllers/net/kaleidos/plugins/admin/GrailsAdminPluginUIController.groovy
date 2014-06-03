@@ -16,11 +16,11 @@ class GrailsAdminPluginUIController {
     }
 
     def menu(String slug) {
-        render view:'/grailsAdmin/includes/menu',  model:[domainClasses: adminConfigHolder.domains.values(), slug: slug]
+        render view:'/grailsAdmin/includes/menu',  model:[config:adminConfigHolder]
     }
 
     def dashboard() {
-        render view:'/grailsAdmin/dashboard',  model:[domainClasses: adminConfigHolder.domains.values()]
+        render view:'/grailsAdmin/dashboard',  model:[config:adminConfigHolder]
     }
 
     def list(String slug, int page) {

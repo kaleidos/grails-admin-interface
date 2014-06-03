@@ -49,8 +49,7 @@ class GrailsAdminPluginUIControllerSpec extends Specification {
         then:
             response.status == 200
             view == '/grailsAdmin/includes/menu'
-            model.domainClasses.size() == 1
-            model.slug == 'slug'
+            model.config == adminConfigHolder
     }
 
     void 'dashboard'() {
@@ -59,6 +58,7 @@ class GrailsAdminPluginUIControllerSpec extends Specification {
 
         then:
             response.status == 200
+            model.config == adminConfigHolder
             view == '/grailsAdmin/dashboard'
     }
 

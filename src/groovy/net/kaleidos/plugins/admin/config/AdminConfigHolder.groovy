@@ -17,7 +17,10 @@ import net.kaleidos.plugins.admin.DomainInspector
 
 @Log4j
 class AdminConfigHolder {
+    private static final String DEFAULT_GROUP = "Domains"
+
     Map<String, DomainConfig> domains = [:]
+    Map<String, List<DomainConfig>> domainGroups = [:]
 
     void initialize() {
         _mergeConfiguration()
@@ -103,6 +106,20 @@ class AdminConfigHolder {
         return config
     }
 
+    public List getGroups() {
+        if (this.domainGroups.isEmpty()) {
+            return [DEFAULT_GROUP]
+        }
+        return this.domainGroups.keySet() as List
+    }
+
+    public List getGroup(String groupName=null) {
+        if (!groupName || groupName == "" || groupName == DEFAULT_GROUP) {
+            return this.domains.values() as List
+        }
+        return this.domainGroups[groupName]
+    }
+
     def _mergeConfiguration() {
         def userConfiguration = Holders.config.grails.plugin.admin
         def configSlurper = new ConfigSlurper(Environment.getCurrent().getName())
@@ -130,30 +147,52 @@ class AdminConfigHolder {
         log.debug "Configuring domain classes"
 
         this.domains = [:]
-        domainList.each { name ->
-            def inspector = DomainInspector.find(name)
+        this.domainGroups = [:]
 
-            if (!inspector) {
-                throw new RuntimeException("Configured class ${name} is not a domain class")
-            }
+        domainList.each { element ->
+            if (element instanceof String) {
+                def name = element as String
+                domains[name] = _processsDomainConfig(name)
+            } else { // It's a nested map
+                def groupName = element.key as String
+                def groupDomainsList = element.value as List
 
-            def domainConfig = Holders.config.grails.plugin.admin.domain."${inspector.className}"
-
-            if (domainConfig && domainConfig instanceof Closure) {
-                def dsl = new DomainConfigurationDsl(inspector.clazz, domainConfig)
-                domains[name] = dsl.execute()
-            } else if (domainConfig && domainConfig instanceof String) {
-                def clazz = Class.forName(domainConfig)
-                if (!clazz.metaClass.respondsTo(clazz, "getOptions")) {
-                    throw new RuntimeException("Class $domainConfig doesn't have a static attribute 'options'")
+                groupDomainsList.each { name ->
+                    def domainConfig = _processsDomainConfig(name)
+                    domains[name] = domainConfig
+                    if (!this.domainGroups[groupName]) {
+                        this.domainGroups[groupName] = []
+                    }
+                    println ">> $domainConfig"
+                    this.domainGroups[groupName].add(domainConfig)
                 }
-                def dsl = new DomainConfigurationDsl(inspector.clazz, clazz.options)
-                domains[name] = dsl.execute()
-            } else {
-                domains[name] = new DomainConfig(inspector.clazz)
             }
         }
         log.debug "DOMAIN: ${this.domains}"
+    }
+
+    def DomainConfig _processsDomainConfig(String name) {
+        def inspector = DomainInspector.find(name)
+
+        if (!inspector) {
+            throw new RuntimeException("Configured class ${name} is not a domain class")
+        }
+
+        def domainConfig = Holders.config.grails.plugin.admin.domain."${inspector.className}"
+
+        if (domainConfig && domainConfig instanceof Closure) {
+            def dsl = new DomainConfigurationDsl(inspector.clazz, domainConfig)
+            return dsl.execute()
+        } else if (domainConfig && domainConfig instanceof String) {
+            def clazz = Class.forName(domainConfig)
+            if (!clazz.metaClass.respondsTo(clazz, "getOptions")) {
+                throw new RuntimeException("Class $domainConfig doesn't have a static attribute 'options'")
+            }
+            def dsl =new DomainConfigurationDsl(inspector.clazz, clazz.options)
+            return dsl.execute()
+        } else {
+            return new DomainConfig(inspector.clazz)
+        }
     }
 
     def _configureAdminRole() {

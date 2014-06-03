@@ -45,6 +45,41 @@ class AdminConfigHolderSpec extends Specification {
             ]
     }
 
+    void "Obtain domain configuration"(){
+        setup: "configuration"
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains.group1 = testDomainsGroup1
+            Holders.config.grails.plugin.admin.domains.group2 = testDomainsGroup2
+
+        and: "Config holder"
+            def configHolder = new AdminConfigHolder()
+
+        when:
+            configHolder.initialize()
+
+        then:
+            configHolder.domains != null
+            configHolder.domains.size() == 2
+            configHolder.groups != null
+            configHolder.groups.size() == 2
+            configHolder.groups.containsAll(["group1", "group2"])
+
+            configHolder.getGroup("group1") != null
+            configHolder.getGroup("group1").size() == 1
+
+            configHolder.getGroup("group2") != null
+            configHolder.getGroup("group2").size() == 1
+
+        where:
+            testDomainsGroup1 = [
+                "admin.test.TestDomain"
+            ]
+
+            testDomainsGroup2 = [
+                "admin.test.TestOtherDomain"
+            ]
+    }
+
     void "Obtain configuration (Domain closure configuration)"(){
         setup: "configuration"
             Holders.config = new ConfigObject()
