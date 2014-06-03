@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>4 Plugin Configuration 0.1</title>
+    <title>4 Plugin Configuration 0.6.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -100,7 +100,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
-                    <p><strong>Version:</strong> 0.1</p>
+                    <p><strong>Version:</strong> 0.6.1</p>
 
                     
                 </div>
@@ -140,6 +140,15 @@ with it you have to set some properties.<p class="paragraph"/>Your <code>Config.
 The property is a list of strings containing the full class name of your domains.<p class="paragraph"/>By default it contains an empty list.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#91;
     <span class="java&#45;quote">"conferences.Speaker"</span>,
     <span class="java&#45;quote">"conferences.Talk"</span>
+&#93;</pre></div><p class="paragraph"/>Optionaly, you can group your domains so they are divided into logical groups.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains.<span class="java&#45;quote">"Conference Management"</span> = &#91;
+    <span class="java&#45;quote">"conferences.Conference"</span>,
+    <span class="java&#45;quote">"conferences.Talk"</span>
+&#93;<p class="paragraph"/>grails.plugin.admin.domains.<span class="java&#45;quote">"People"</span> = &#91;
+    <span class="java&#45;quote">"conferences.Attendee"</span>,
+    <span class="java&#45;quote">"conferences.Speaker"</span>
+&#93;<p class="paragraph"/>grails.plugin.admin.domains.<span class="java&#45;quote">"Infrastructures"</span> = &#91;
+    <span class="java&#45;quote">"conferences.Building"</span>,
+    <span class="java&#45;quote">"conferences.Room"</span>
 &#93;</pre></div><p class="paragraph"/><h4>Admin URL Access Root</h4><p class="paragraph"/> <em class="italic">Optional</em> <p class="paragraph"/>A good security practice is not to use a "standard" URI to access your administration backend.<p class="paragraph"/>Grails-Admin allows you to customize the endpoint so it uses a custom one.<p class="paragraph"/>By default the value is /admin<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.accessRoot = <span class="java&#45;quote">"/admin"</span></pre></div><p class="paragraph"/><h4>Allow Default Configuration</h4><p class="paragraph"/>When a domain has a relationship with another domain (i.e. 1-1 relationship) if the related object
 has not been defined in the managed domains list you will not be able to interact with it by default.<p class="paragraph"/>You can explicitely activate default configuration on objects that are not defined in your domain list
 by using this property.<p class="paragraph"/> <em class="italic">Optional</em> 

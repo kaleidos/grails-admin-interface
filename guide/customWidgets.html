@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>6 Custom Widgets. Guide to Widget developers 0.1</title>
+    <title>6 Custom Widgets. Guide to Widget developers 0.6.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -100,7 +100,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
-                    <p><strong>Version:</strong> 0.1</p>
+                    <p><strong>Version:</strong> 0.6.1</p>
 
                     
                 </div>
@@ -151,7 +151,11 @@ is GrailsAdminPlugin who assign the values. You should use this properties as re
 <li>domainClass: This is the class of that object.</li>
 <li>relatedDomainClass: If the property is a relation with another domain class, this is that domain</li>
 </ul></ul><p class="paragraph"/>class. It could be null.<p class="paragraph"/>
-<h3>Sample</h3><p class="paragraph"/>With all this, lets make a sample Widget. We will create a custom widget that show an addres on a map. It will be used for properties of type String.<p class="paragraph"/><strong class="bold">Create the Widget Class</strong><p class="paragraph"/>We will create our widget on the file src/groovy/sample/MapWidget.groovy<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> sample<p class="paragraph"/><span class="java&#45;keyword">import</span> net.kaleidos.plugins.admin.widget.Widget<p class="paragraph"/>class MapWidget <span class="java&#45;keyword">extends</span> Widget &#123;<p class="paragraph"/>    @Override
+<h3>Error handling</h3><p class="paragraph"/>If you want you can handle errors (expected or unspected) thrown by your widget. You should extend
+the method.<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> renderError(Throwable t)</pre></div><p class="paragraph"/>This method will be called after any exception thrown by your widget. So you can render your custom
+information.<p class="paragraph"/>When the widget throws an exception on the method "updateValue" (which parsers the form input to your
+custom types inside the widget) any error will be displayed in the form as if a validation error was
+displayed.<p class="paragraph"/><h3>Sample</h3><p class="paragraph"/>With all this, lets make a sample Widget. We will create a custom widget that show an addres on a map. It will be used for properties of type String.<p class="paragraph"/><strong class="bold">Create the Widget Class</strong><p class="paragraph"/>We will create our widget on the file src/groovy/sample/MapWidget.groovy<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> sample<p class="paragraph"/><span class="java&#45;keyword">import</span> net.kaleidos.plugins.admin.widget.Widget<p class="paragraph"/>class MapWidget <span class="java&#45;keyword">extends</span> Widget &#123;<p class="paragraph"/>    @Override
     <span class="java&#45;object">String</span> render() &#123;
         <span class="java&#45;keyword">return</span> <span class="java&#45;quote">""</span>
     &#125;

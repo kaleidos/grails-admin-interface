@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5.3.7 LabelWidget 0.1</title>
+    <title>5.3.7 LabelWidget 0.6.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -100,7 +100,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
-                    <p><strong>Version:</strong> 0.1</p>
+                    <p><strong>Version:</strong> 0.6.1</p>
 
                     
                 </div>
@@ -110,7 +110,9 @@ function addJsClass() {
                 
 
 <h2 id="labelWidget">5.3.7 LabelWidget</h2>
-<strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of classes not knwown for the Grails Admin Plugin<p class="paragraph"/><div class="code"><pre>File photo</pre></div><p class="paragraph"/>
+<strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of classes not knwown for the Grails Admin Plugin. Also, on "internal" properties, such as "id", "version", "dateCreated" or "lastUpdated"<p class="paragraph"/><div class="code"><pre>File photo
+Date dateCreated
+Date lastUpdated</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
     widget <span class="java&#45;quote">"ok"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.LabelWidget"</span>
 &#125;</pre></div><p class="paragraph"/>

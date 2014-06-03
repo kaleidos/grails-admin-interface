@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Grails Admin 0.1</title>
+        <title>Grails Admin 0.6.1</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -79,7 +79,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Grails Admin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Kaleidos Open Source</p>
-                            <p><strong>Version:</strong> 0.1</p>
+                            <p><strong>Version:</strong> 0.6.1</p>
                             
                         </div>
 
@@ -265,6 +265,15 @@ with it you have to set some properties.<p class="paragraph"/>Your <code>Config.
 The property is a list of strings containing the full class name of your domains.<p class="paragraph"/>By default it contains an empty list.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#91;
     <span class="java&#45;quote">"conferences.Speaker"</span>,
     <span class="java&#45;quote">"conferences.Talk"</span>
+&#93;</pre></div><p class="paragraph"/>Optionaly, you can group your domains so they are divided into logical groups.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains.<span class="java&#45;quote">"Conference Management"</span> = &#91;
+    <span class="java&#45;quote">"conferences.Conference"</span>,
+    <span class="java&#45;quote">"conferences.Talk"</span>
+&#93;<p class="paragraph"/>grails.plugin.admin.domains.<span class="java&#45;quote">"People"</span> = &#91;
+    <span class="java&#45;quote">"conferences.Attendee"</span>,
+    <span class="java&#45;quote">"conferences.Speaker"</span>
+&#93;<p class="paragraph"/>grails.plugin.admin.domains.<span class="java&#45;quote">"Infrastructures"</span> = &#91;
+    <span class="java&#45;quote">"conferences.Building"</span>,
+    <span class="java&#45;quote">"conferences.Room"</span>
 &#93;</pre></div><p class="paragraph"/><h4>Admin URL Access Root</h4><p class="paragraph"/> <em class="italic">Optional</em> <p class="paragraph"/>A good security practice is not to use a "standard" URI to access your administration backend.<p class="paragraph"/>Grails-Admin allows you to customize the endpoint so it uses a custom one.<p class="paragraph"/>By default the value is /admin<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.accessRoot = <span class="java&#45;quote">"/admin"</span></pre></div><p class="paragraph"/><h4>Allow Default Configuration</h4><p class="paragraph"/>When a domain has a relationship with another domain (i.e. 1-1 relationship) if the related object
 has not been defined in the managed domains list you will not be able to interact with it by default.<p class="paragraph"/>You can explicitely activate default configuration on objects that are not defined in your domain list
 by using this property.<p class="paragraph"/> <em class="italic">Optional</em> 
@@ -325,7 +334,7 @@ stylingWidgets
 
 
 <h2 id="builtInWidgets">5.3 Built in widgets</h2>
-Grails Admin Plugin brings to you several built in widgets, that you can use. The complete list of Built in widgets is this:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Built in Widgets</th></tr><tr class="table-odd"><td><a href="../guide/single.html#checkboxInputWidget" class="guide">CheckboxInputWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#dateInputWidget" class="guide">DateInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#decimalInputWidget" class="guide">DecimalInputWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#emailInputWidget" class="guide">EmailInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#enumWidget" class="guide">EnumWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#hiddenInputWidget" class="guide">HiddenInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#localeInputWidget" class="guide">LocaleInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#mapWidget" class="guide">MapWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#passwordInputWidget" class="guide">PasswordInputWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#relationPopupOneWidget" class="guide">RelationPopupOneWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#relationSelectMultipleWidget" class="guide">RelationSelectMultipleWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#relationSelectWidget" class="guide">RelationSelectWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#relationTableWidget" class="guide">RelationTableWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#selectWidget" class="guide">SelectWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#textAreaWidget" class="guide">TextAreaWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#textInputWidget" class="guide">TextInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#urlInputWidget" class="guide">UrlInputWidget</a></td></tr></table><p class="paragraph"/><p class="paragraph"/>If you not specify otherwise on configuration, Grails Admin will select a built-in widget by the type of the attribute(sometimes modified by constraints):<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Type</strong></th><th><strong class="bold">Constraint</strong></th><th><strong class="bold">Widget</strong></th></tr><tr class="table-odd"><td>-</td><td><code>inList</code></td><td><a href="../guide/single.html#relationSelectWidget" class="guide">RelationSelectWidget</a></td></tr><tr class="table-even"><td><code>Byte</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-odd"><td><code>Short</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-even"><td><code>Integer</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-odd"><td><code>Long</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-even"><td><code>Float</code></td><td>-</td><td><a href="../guide/single.html#decimalInputWidget" class="guide">DecimalInputWidget</a></td></tr><tr class="table-odd"><td><code>Double</code></td><td>-</td><td><a href="../guide/single.html#decimalInputWidget" class="guide">DecimalInputWidget</a></td></tr><tr class="table-even"><td><code>Character</code></td><td>-</td><td><a href="../guide/single.html#textInputWidget" class="guide">TextInputWidget</a></td></tr><tr class="table-odd"><td><code>String</code></td><td>-</td><td><a href="../guide/single.html#textInputWidget" class="guide">TextInputWidget</a></td></tr><tr class="table-even"><td>-</td><td><code>email</code></td><td><a href="../guide/single.html#emailInputWidget" class="guide">EmailInputWidget</a></td></tr><tr class="table-odd"><td>-</td><td><code>url</code></td><td><a href="../guide/single.html#urlInputWidget" class="guide">UrlInputWidget</a></td></tr><tr class="table-even"><td><code>Date</code></td><td>-</td><td><a href="../guide/single.html#dateInputWidget" class="guide">DateInputWidget</a></td></tr><tr class="table-odd"><td><code>Boolean</code></td><td>-</td><td><a href="../guide/single.html#checkboxInputWidget" class="guide">CheckboxInputWidget</a></td></tr><tr class="table-even"><td><code>Enum</code></td><td>-</td><td><a href="../guide/single.html#enumWidget" class="guide">EnumWidget</a></td></tr><tr class="table-odd"><td><code>Locale</code></td><td>-</td><td><a href="../guide/single.html#localeInputWidget" class="guide">LocaleInputWidget</a></td></tr><tr class="table-even"><td><code>File</code></td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-odd"><td><code>Collection of other Domain Class</code></td><td>-</td><td><a href="../guide/single.html#relationTableWidget" class="guide">RelationTableWidget</a></td></tr><tr class="table-even"><td><code>Collection</code></td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-odd"><td>&#60;Other Domain Class&#62;</td><td>-</td><td><a href="../guide/single.html#relationPopupOneWidget" class="guide">RelationPopupOneWidget</a></td></tr><tr class="table-even"><td> <em class="italic">Unknown</em> </td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr></table><p class="paragraph"/><p class="paragraph"/><code>LabelWidget</code> is used when we don't know how to handle a type or his value, like <code>Currency</code>, <code>File</code> or <code>Collection</code> types, in order to don't scramble your data
+Grails Admin Plugin brings to you several built in widgets, that you can use. The complete list of Built in widgets is this:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Built in Widgets</th></tr><tr class="table-odd"><td><a href="../guide/single.html#checkboxInputWidget" class="guide">CheckboxInputWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#dateInputWidget" class="guide">DateInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#decimalInputWidget" class="guide">DecimalInputWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#emailInputWidget" class="guide">EmailInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#enumWidget" class="guide">EnumWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#hiddenInputWidget" class="guide">HiddenInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#localeInputWidget" class="guide">LocaleInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#mapWidget" class="guide">MapWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#passwordInputWidget" class="guide">PasswordInputWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#relationPopupOneWidget" class="guide">RelationPopupOneWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#relationSelectMultipleWidget" class="guide">RelationSelectMultipleWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#relationSelectWidget" class="guide">RelationSelectWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#relationTableWidget" class="guide">RelationTableWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#selectWidget" class="guide">SelectWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#textAreaWidget" class="guide">TextAreaWidget</a></td></tr><tr class="table-even"><td><a href="../guide/single.html#textInputWidget" class="guide">TextInputWidget</a></td></tr><tr class="table-odd"><td><a href="../guide/single.html#urlInputWidget" class="guide">UrlInputWidget</a></td></tr></table><p class="paragraph"/><p class="paragraph"/>If you not specify otherwise on configuration, Grails Admin will select a built-in widget by the type of the attribute(sometimes modified by constraints or by name):<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">name</strong></th><th><strong class="bold">Type</strong></th><th><strong class="bold">Constraint</strong></th><th><strong class="bold">Widget</strong></th></tr><tr class="table-odd"><td>-</td><td>-</td><td><code>inList</code></td><td><a href="../guide/single.html#relationSelectWidget" class="guide">RelationSelectWidget</a></td></tr><tr class="table-even"><td>-</td><td><code>Byte</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-odd"><td>-</td><td><code>Short</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-even"><td>-</td><td><code>Integer</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-odd"><td>-</td><td><code>Long</code></td><td>-</td><td><a href="../guide/single.html#numberInputWidget" class="guide">NumberInputWidget</a></td></tr><tr class="table-even"><td>-</td><td><code>Float</code></td><td>-</td><td><a href="../guide/single.html#decimalInputWidget" class="guide">DecimalInputWidget</a></td></tr><tr class="table-odd"><td>-</td><td><code>Double</code></td><td>-</td><td><a href="../guide/single.html#decimalInputWidget" class="guide">DecimalInputWidget</a></td></tr><tr class="table-even"><td>-</td><td><code>Character</code></td><td>-</td><td><a href="../guide/single.html#textInputWidget" class="guide">TextInputWidget</a></td></tr><tr class="table-odd"><td>-</td><td><code>String</code></td><td>-</td><td><a href="../guide/single.html#textInputWidget" class="guide">TextInputWidget</a></td></tr><tr class="table-even"><td>-</td><td>-</td><td><code>email</code></td><td><a href="../guide/single.html#emailInputWidget" class="guide">EmailInputWidget</a></td></tr><tr class="table-odd"><td>-</td><td>-</td><td><code>url</code></td><td><a href="../guide/single.html#urlInputWidget" class="guide">UrlInputWidget</a></td></tr><tr class="table-even"><td>-</td><td><code>Date</code></td><td>-</td><td><a href="../guide/single.html#dateInputWidget" class="guide">DateInputWidget</a></td></tr><tr class="table-odd"><td>-</td><td><code>Boolean</code></td><td>-</td><td><a href="../guide/single.html#checkboxInputWidget" class="guide">CheckboxInputWidget</a></td></tr><tr class="table-even"><td>-</td><td><code>Enum</code></td><td>-</td><td><a href="../guide/single.html#enumWidget" class="guide">EnumWidget</a></td></tr><tr class="table-odd"><td>-</td><td><code>Locale</code></td><td>-</td><td><a href="../guide/single.html#localeInputWidget" class="guide">LocaleInputWidget</a></td></tr><tr class="table-even"><td>-</td><td><code>File</code></td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-odd"><td>-</td><td><code>Collection of other Domain Class</code></td><td>-</td><td><a href="../guide/single.html#relationTableWidget" class="guide">RelationTableWidget</a></td></tr><tr class="table-even"><td>-</td><td><code>Collection</code></td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-odd"><td>-</td><td>&#60;Other Domain Class&#62;</td><td>-</td><td><a href="../guide/single.html#relationPopupOneWidget" class="guide">RelationPopupOneWidget</a></td></tr><tr class="table-even"><td>-</td><td> <em class="italic">Unknown</em> </td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-odd"><td>id</td><td>-</td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-even"><td>dateCreated</td><td>-</td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-odd"><td>dateCreated</td><td>-</td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr><tr class="table-even"><td>version</td><td>-</td><td>-</td><td><a href="../guide/single.html#labelWidget" class="guide">LabelWidget</a></td></tr></table><p class="paragraph"/><p class="paragraph"/><code>LabelWidget</code> is used when we don't know how to handle a type or his value, like <code>Currency</code>, <code>File</code> or <code>Collection</code> types, in order to don't scramble your data
 
 
 
@@ -394,7 +403,9 @@ Grails Admin Plugin brings to you several built in widgets, that you can use. Th
 
 
 <h2 id="labelWidget">5.3.7 LabelWidget</h2>
-<strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of classes not knwown for the Grails Admin Plugin<p class="paragraph"/><div class="code"><pre>File photo</pre></div><p class="paragraph"/>
+<strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes of classes not knwown for the Grails Admin Plugin. Also, on "internal" properties, such as "id", "version", "dateCreated" or "lastUpdated"<p class="paragraph"/><div class="code"><pre>File photo
+Date dateCreated
+Date lastUpdated</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>There are several ways, described on the <a href="../guide/single.html#configuration" class="guide">configuration</a> section.<p class="paragraph"/>One of the easies ways is on the file Config.groovy<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Test = &#123;
     widget <span class="java&#45;quote">"ok"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.LabelWidget"</span>
 &#125;</pre></div><p class="paragraph"/>
@@ -457,7 +468,7 @@ This widget is used for model a relation between the current domain object, and 
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>You should not configure this widget<p class="paragraph"/>
 <strong class="bold">Sample of html render</strong><p class="paragraph"/><div class="code"><pre>&#60;div action=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> data&#45;method=<span class="java&#45;quote">"put"</span> view=<span class="java&#45;quote">"relationPopupOneWidgetField"</span> class=<span class="java&#45;quote">"relation&#45;popupone&#45;widget "</span>&#62;
   &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"6"</span> name=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"js&#45;one&#45;rel&#45;value"</span>&#62;
-  &#60;a name=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"js&#45;one&#45;rel&#45;text"</span> href=<span class="java&#45;quote">"/conferences/myadmin/edit/room/6"</span>&#62;Room5&#60;/a&#62;
+  &#60;a name=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"js&#45;one&#45;rel&#45;text"</span> href=<span class="java&#45;quote">"/conferences/myadmin/edit/room/6"</span>&#62;Room6&#60;/a&#62;
   &#60;div class=<span class="java&#45;quote">"btn&#45;group"</span>&#62;
     &#60;a data&#45;url=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> data&#45;toggle=<span class="java&#45;quote">"modal"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationpopuponewidget&#45;list"</span> href=<span class="java&#45;quote">"&#35;"</span>&#62;
       &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;list"</span>&#62; &#60;/span&#62; List
@@ -470,39 +481,41 @@ This widget is used for model a relation between the current domain object, and 
     &#60;/a&#62;
   &#60;/div&#62;
 &#60;/div&#62;</pre></div><p class="paragraph"/>
-<strong class="bold">Sample of render after form</strong><p class="paragraph"/><div class="code"><pre>&#60;div data&#45;field=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"modal fade"</span> grailsadmin&#45;remote=<span class="java&#45;quote">"enabled"</span> aria&#45;hidden=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> aria&#45;labelledby=<span class="java&#45;quote">"confirmLabel"</span> role=<span class="java&#45;quote">"dialog"</span> view=<span class="java&#45;quote">"relationPopupOneWidgetNew"</span> tabindex=<span class="java&#45;quote">"&#45;1"</span> id=<span class="java&#45;quote">"<span class="java&#45;keyword">new</span>&#45;conferences_test_room"</span> style=<span class="java&#45;quote">"display: none;"</span>&#62;
-  &#60;div class=<span class="java&#45;quote">"modal&#45;dialog"</span>&#62;
-    &#60;div class=<span class="java&#45;quote">"modal&#45;content"</span>&#62;
-      &#60;div class=<span class="java&#45;quote">"modal&#45;header"</span>&#62;
-        &#60;buton class=<span class="java&#45;quote">"close"</span> aria&#45;hidden=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> data&#45;dismiss=<span class="java&#45;quote">"modal"</span> type=<span class="java&#45;quote">"button"</span>&#62;x&#60;/buton&#62;
-        &#60;h4 class=<span class="java&#45;quote">"modal&#45;title"</span> id=<span class="java&#45;quote">"confirmLabel"</span>&#62;Add room&#60;/h4&#62;
-      &#60;/div&#62;
-      &#60;div class=<span class="java&#45;quote">"modal&#45;body"</span>&#62;
-        &#60;form grailsadmin&#45;remote=<span class="java&#45;quote">"enabled"</span> class=<span class="java&#45;quote">"validate&#45;form main&#45;form"</span> data&#45;method=<span class="java&#45;quote">"PUT"</span> view=<span class="java&#45;quote">"formView"</span> method=<span class="java&#45;quote">"post"</span> action=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> novalidate=<span class="java&#45;quote">""</span>&#62;
-            &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
-                &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"board"</span>&#62;Board &#42;&#60;/label&#62;
-                &#60;input type=<span class="java&#45;quote">"checkbox"</span> name=<span class="java&#45;quote">"board"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span> data&#45;parsley&#45;multiple=<span class="java&#45;quote">"board"</span> /&#62;
+<strong class="bold">Sample of render after form</strong><p class="paragraph"/><div class="code"><pre>&#60;div data&#45;field=<span class="java&#45;quote">"room"</span> class=<span class="java&#45;quote">"modal fade"</span> grailsadmin&#45;remote=<span class="java&#45;quote">"enabled"</span>
+    aria&#45;hidden=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> aria&#45;labelledby=<span class="java&#45;quote">"confirmLabel"</span> role=<span class="java&#45;quote">"dialog"</span>
+    view=<span class="java&#45;quote">"relationPopupWidgetNew"</span> tabindex=<span class="java&#45;quote">"&#45;1"</span> id=<span class="java&#45;quote">"<span class="java&#45;keyword">new</span>&#45;conferences_test_room"</span>&#62;
+    &#60;div class=<span class="java&#45;quote">"modal&#45;dialog"</span>&#62;
+        &#60;div class=<span class="java&#45;quote">"modal&#45;content"</span>&#62;
+            &#60;div class=<span class="java&#45;quote">"modal&#45;header"</span>&#62;
+                &#60;buton class=<span class="java&#45;quote">"close"</span> aria&#45;hidden=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> data&#45;dismiss=<span class="java&#45;quote">"modal"</span> type=<span class="java&#45;quote">"button"</span>&#62;x&#60;/buton&#62;
+                &#60;h4 class=<span class="java&#45;quote">"modal&#45;title"</span> id=<span class="java&#45;quote">"confirmLabel"</span>&#62;Add room&#60;/h4&#62;
             &#60;/div&#62;
-            &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
-                &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"name"</span>&#62;Name &#42;&#60;/label&#62;
-                &#60;input type=<span class="java&#45;quote">"text"</span> value=<span class="java&#45;quote">""</span> required=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> name=<span class="java&#45;quote">"name"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span> /&#62;
+            &#60;div class=<span class="java&#45;quote">"modal&#45;body"</span>&#62;
+                &#60;form grailsadmin&#45;remote=<span class="java&#45;quote">"enabled"</span> class=<span class="java&#45;quote">"validate&#45;form main&#45;form"</span> data&#45;method=<span class="java&#45;quote">"PUT"</span> view=<span class="java&#45;quote">"formView"</span> method=<span class="java&#45;quote">"post"</span> action=<span class="java&#45;quote">"/conferences/myadmin/api/room"</span> novalidate=<span class="java&#45;quote">""</span>&#62;
+                    &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                        &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"board"</span>&#62;Board &#42;&#60;/label&#62;
+                        &#60;input type=<span class="java&#45;quote">"checkbox"</span> name=<span class="java&#45;quote">"board"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span> /&#62;
+                    &#60;/div&#62;
+                    &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                        &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"name"</span>&#62;Name &#42;&#60;/label&#62;
+                        &#60;input type=<span class="java&#45;quote">"text"</span> value=<span class="java&#45;quote">""</span> name=<span class="java&#45;quote">"name"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span> required=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> /&#62;
+                    &#60;/div&#62;
+                    &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                        &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"photo"</span>&#62;Photo&#60;/label&#62;
+                        &#60;label name=<span class="java&#45;quote">"photo"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span>&#62;&#60;/label&#62;
+                    &#60;/div&#62;
+                    &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                        &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"talk"</span>&#62;Talk&#60;/label&#62;
+                        &#60;p&#62;Disabled relationship due to be inside an embedded dialog&#60;/p&#62;
+                    &#60;/div&#62;
+                &#60;/form&#62;
             &#60;/div&#62;
-            &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
-                &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"photo"</span>&#62;Photo&#60;/label&#62;
-                &#60;label name=<span class="java&#45;quote">"photo"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span>&#62;&#60;/label&#62;
+            &#60;div class=<span class="java&#45;quote">"modal&#45;footer"</span>&#62;
+                &#60;button class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span>"</span> data&#45;dismiss=<span class="java&#45;quote">"modal"</span> type=<span class="java&#45;quote">"button"</span>&#62;Close&#60;/button&#62;
+                &#60;button class=<span class="java&#45;quote">"btn btn&#45;plus btn&#45;success js&#45;relation&#45;popup&#45;widget&#45;<span class="java&#45;keyword">new</span>&#45;save&#45;action"</span> type=<span class="java&#45;quote">"button"</span>&#62;Save&#60;/button&#62;
             &#60;/div&#62;
-            &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
-                &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"talk"</span>&#62;Talk&#60;/label&#62;
-                &#60;p&#62;Disabled relationship due to be inside an embedded dialog&#60;/p&#62;
-            &#60;/div&#62;
-        &#60;/form&#62;
-      &#60;/div&#62;
-      &#60;div class=<span class="java&#45;quote">"modal&#45;footer"</span>&#62;
-        &#60;button class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span>"</span> data&#45;dismiss=<span class="java&#45;quote">"modal"</span> type=<span class="java&#45;quote">"button"</span>&#62;Close&#60;/button&#62;
-        &#60;button class=<span class="java&#45;quote">"btn btn&#45;plus btn&#45;success js&#45;relationtablewidget&#45;save&#45;action"</span> type=<span class="java&#45;quote">"button"</span>&#62;Save&#60;/button&#62;
-      &#60;/div&#62;
+        &#60;/div&#62;
     &#60;/div&#62;
-  &#60;/div&#62;
 &#60;/div&#62;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Sample image</th></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/RelationPopupOneWidget.png"></img></td></tr><tr class="table-even"><td><img border="0" class="center" src="../img/Widgets/RelationPopupOneWidget1.png"></img></td></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/RelationPopupOneWidget2.png"></img></td></tr></table>
 
 
@@ -528,37 +541,83 @@ This widget loads <strong class="bold">all</strong> the posible related domain o
 <h2 id="relationTableWidget">5.3.14 RelationTableWidget</h2>
 This widget is used for model a relation between the current domain object and a collection of other domains objects. This relation can be a many-to-many relation, or the strong side of an one-to-many relation.<p class="paragraph"/><strong class="bold">How would the plugin select automatically this widget?</strong><p class="paragraph"/>On domain class attributes which type is a collection of other domain class<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">static</span> hasMany=&#91;talks:Talk&#93;</pre></div><p class="paragraph"/>
 <strong class="bold">How can I configure this widget?</strong><p class="paragraph"/>You should not configure this widget<p class="paragraph"/>
-<strong class="bold">Sample of html render</strong><p class="paragraph"/><div class="code"><pre>&#60;div view=<span class="java&#45;quote">"relationtablewidget"</span> class=<span class="java&#45;quote">"relationtablewidget clearfix"</span>&#62;
-  &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"6"</span> name=<span class="java&#45;quote">"talks"</span>&#62;
-  &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"9"</span> name=<span class="java&#45;quote">"talks"</span>&#62;
-  &#60;table class=<span class="java&#45;quote">"table table&#45;bordered elements&#45;table"</span> data&#45;optional=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> data&#45;property&#45;name=<span class="java&#45;quote">"talks"</span> data&#45;detailurl=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/0"</span>&#62;
-    &#60;tbody&#62;&#60;tr&#62;
-      &#60;td&#62;
-        &#60;a href=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/6"</span>&#62;Talk5&#60;/a&#62;
-      &#60;/td&#62;
-      &#60;td class=<span class="java&#45;quote">"list&#45;actions"</span>&#62;
-        &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;value=<span class="java&#45;quote">"6"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> btn&#45;sm js&#45;relationtablewidget&#45;delete"</span>&#62;
-          &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;trash"</span>&#62; &#60;/span&#62; Delete
+<strong class="bold">Sample of html render</strong><p class="paragraph"/><div class="code"><pre>&#60;div view=<span class="java&#45;quote">"relationTableWidget"</span> class=<span class="java&#45;quote">"relationtablewidget clearfix"</span>&#62;
+    &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"12"</span> name=<span class="java&#45;quote">"talks"</span>&#62;
+    &#60;input type=<span class="java&#45;quote">"hidden"</span> value=<span class="java&#45;quote">"6"</span> name=<span class="java&#45;quote">"talks"</span>&#62;
+    &#60;table class=<span class="java&#45;quote">"table table&#45;bordered elements&#45;table"</span> data&#45;optional=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> data&#45;property&#45;name=<span class="java&#45;quote">"talks"</span> data&#45;detailurl=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/0"</span>&#62;
+        &#60;tbody&#62;
+            &#60;tr&#62;
+                &#60;td&#62;
+                    &#60;a href=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/12"</span>&#62;New talk&#60;/a&#62;
+                &#60;/td&#62;
+                &#60;td class=<span class="java&#45;quote">"list&#45;actions"</span>&#62;
+                    &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;value=<span class="java&#45;quote">"12"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> btn&#45;sm js&#45;relationtablewidget&#45;delete"</span>&#62;
+                    &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;trash"</span>&#62; &#60;/span&#62; Delete
+                    &#60;/a&#62;
+                &#60;/td&#62;
+            &#60;/tr&#62;
+            &#60;tr&#62;
+                &#60;td&#62;
+                    &#60;a href=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/6"</span>&#62;Talk6&#60;/a&#62;
+                &#60;/td&#62;
+                &#60;td class=<span class="java&#45;quote">"list&#45;actions"</span>&#62;
+                    &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;value=<span class="java&#45;quote">"6"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> btn&#45;sm js&#45;relationtablewidget&#45;delete"</span>&#62;
+                        &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;trash"</span>&#62; &#60;/span&#62; Delete
+                    &#60;/a&#62;
+                &#60;/td&#62;
+            &#60;/tr&#62;
+        &#60;/tbody&#62;
+    &#60;/table&#62;
+    &#60;div&#62;
+        &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;url=<span class="java&#45;quote">"/conferences/myadmin/api/talk"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationtablewidget&#45;list"</span>&#62;
+            &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;list"</span>&#62;&#60;/span&#62; List
         &#60;/a&#62;
-      &#60;/td&#62;
-    &#60;/tr&#62;
-    &#60;tr&#62;
-      &#60;td&#62;
-        &#60;a href=<span class="java&#45;quote">"/conferences/myadmin/edit/talk/9"</span>&#62;Talk8&#60;/a&#62;
-      &#60;/td&#62;
-      &#60;td class=<span class="java&#45;quote">"list&#45;actions"</span>&#62;
-        &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;value=<span class="java&#45;quote">"9"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> btn&#45;sm js&#45;relationtablewidget&#45;delete"</span>&#62;
-          &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;trash"</span>&#62; &#60;/span&#62; Delete
+        &#60;a data&#45;target=<span class="java&#45;quote">"&#35;<span class="java&#45;keyword">new</span>&#45;conferences_test_talks"</span> data&#45;toggle=<span class="java&#45;quote">"modal"</span> href=<span class="java&#45;quote">"&#35;"</span> data&#45;url=<span class="java&#45;quote">"/conferences/myadmin/api/talk"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationtablewidget&#45;<span class="java&#45;keyword">new</span>"</span>&#62;
+            &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;plus"</span>&#62;&#60;/span&#62; New
         &#60;/a&#62;
-      &#60;/td&#62;
-    &#60;/tr&#62;
-  &#60;/tbody&#62;&#60;/table&#62;
-  &#60;div&#62;
-    &#60;a href=<span class="java&#45;quote">"&#35;"</span> data&#45;url=<span class="java&#45;quote">"/conferences/myadmin/api/talk"</span> class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span> js&#45;relationtablewidget&#45;add"</span>&#62;
-      &#60;span class=<span class="java&#45;quote">"glyphicon glyphicon&#45;plus"</span>&#62;&#60;/span&#62; Add
-    &#60;/a&#62;
-  &#60;/div&#62;
-&#60;/div&#62;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Sample image</th></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/RelationTableWidget.png"></img></td></tr><tr class="table-even"><td><img border="0" class="center" src="../img/Widgets/RelationTableWidget1.png"></img></td></tr></table>
+    &#60;/div&#62;
+&#60;/div&#62;</pre></div><p class="paragraph"/><strong class="bold">Sample of render after form</strong><p class="paragraph"/><div class="code"><pre>&#60;div data&#45;field=<span class="java&#45;quote">"talks"</span> class=<span class="java&#45;quote">"modal fade"</span> grailsadmin&#45;remote=<span class="java&#45;quote">"enabled"</span> aria&#45;hidden=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> aria&#45;labelledby=<span class="java&#45;quote">"confirmLabel"</span> role=<span class="java&#45;quote">"dialog"</span> view=<span class="java&#45;quote">"relationPopupWidgetNew"</span> tabindex=<span class="java&#45;quote">"&#45;1"</span> id=<span class="java&#45;quote">"<span class="java&#45;keyword">new</span>&#45;conferences_test_talks"</span>&#62;
+    &#60;div class=<span class="java&#45;quote">"modal&#45;dialog"</span>&#62;
+        &#60;div class=<span class="java&#45;quote">"modal&#45;content"</span>&#62;
+            &#60;div class=<span class="java&#45;quote">"modal&#45;header"</span>&#62;
+                &#60;buton class=<span class="java&#45;quote">"close"</span> aria&#45;hidden=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> data&#45;dismiss=<span class="java&#45;quote">"modal"</span> type=<span class="java&#45;quote">"button"</span>&#62;x&#60;/buton&#62;
+                &#60;h4 class=<span class="java&#45;quote">"modal&#45;title"</span> id=<span class="java&#45;quote">"confirmLabel"</span>&#62;Add talks&#60;/h4&#62;
+            &#60;/div&#62;
+            &#60;div class=<span class="java&#45;quote">"modal&#45;body"</span>&#62;
+                &#60;form grailsadmin&#45;remote=<span class="java&#45;quote">"enabled"</span> class=<span class="java&#45;quote">"validate&#45;form main&#45;form"</span> data&#45;method=<span class="java&#45;quote">"PUT"</span> view=<span class="java&#45;quote">"formView"</span> method=<span class="java&#45;quote">"post"</span> action=<span class="java&#45;quote">"/conferences/myadmin/api/talk"</span> novalidate=<span class="java&#45;quote">""</span>&#62;
+                    &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                        &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"locale"</span>&#62;Locale &#42;&#60;/label&#62;
+                        &#60;input type=<span class="java&#45;quote">"text"</span> value=<span class="java&#45;quote">"es"</span> name=<span class="java&#45;quote">"locale"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span> required=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> /&#62;
+                    &#60;/div&#62;
+                    &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                        &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"name"</span>&#62;Name &#42;&#60;/label&#62;
+                        &#60;input type=<span class="java&#45;quote">"text"</span> value=<span class="java&#45;quote">""</span> name=<span class="java&#45;quote">"name"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span> required=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> /&#62;
+                    &#60;/div&#62;
+                    &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                        &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"room"</span>&#62;Room&#60;/label&#62;
+                        &#60;p&#62;Disabled relationship due to be inside an embedded dialog&#60;/p&#62;
+                    &#60;/div&#62;
+                    &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                        &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"speaker"</span>&#62;Speaker&#60;/label&#62;
+                        &#60;p&#62;Disabled relationship due to be inside an embedded dialog&#60;/p&#62;
+                    &#60;/div&#62;
+                    &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                        &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"talkDate"</span>&#62;TalkDate &#42;&#60;/label&#62;
+                        &#60;input type=<span class="java&#45;quote">"text"</span> value=<span class="java&#45;quote">""</span> data&#45;date&#45;format=<span class="java&#45;quote">"dd/mm/yyyy"</span> name=<span class="java&#45;quote">"talkDate"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"date form&#45;control"</span> required=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> /&#62;
+                    &#60;/div&#62;
+                    &#60;div class=<span class="java&#45;quote">"form&#45;group"</span>&#62;
+                        &#60;label <span class="java&#45;keyword">for</span>=<span class="java&#45;quote">"talkTime"</span>&#62;TalkTime &#42;&#60;/label&#62;
+                        &#60;input type=<span class="java&#45;quote">"text"</span> value=<span class="java&#45;quote">""</span> name=<span class="java&#45;quote">"talkTime"</span> disallowrelationships=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> class=<span class="java&#45;quote">"form&#45;control"</span> required=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> /&#62;
+                    &#60;/div&#62;
+                &#60;/form&#62;
+            &#60;/div&#62;
+            &#60;div class=<span class="java&#45;quote">"modal&#45;footer"</span>&#62;
+                &#60;button class=<span class="java&#45;quote">"btn btn&#45;<span class="java&#45;keyword">default</span>"</span> data&#45;dismiss=<span class="java&#45;quote">"modal"</span> type=<span class="java&#45;quote">"button"</span>&#62;Close&#60;/button&#62;
+                &#60;button class=<span class="java&#45;quote">"btn btn&#45;plus btn&#45;success js&#45;relation&#45;popup&#45;widget&#45;<span class="java&#45;keyword">new</span>&#45;save&#45;action"</span> type=<span class="java&#45;quote">"button"</span>&#62;Save&#60;/button&#62;
+            &#60;/div&#62;
+        &#60;/div&#62;
+    &#60;/div&#62;
+&#60;/div&#62;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Sample image</th></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/RelationTableWidget.png"></img></td></tr><tr class="table-even"><td><img border="0" class="center" src="../img/Widgets/RelationTableWidget1.png"></img></td></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/RelationTableWidget2.png"></img></td></tr></table>
 
 
 
@@ -667,7 +726,11 @@ is GrailsAdminPlugin who assign the values. You should use this properties as re
 <li>domainClass: This is the class of that object.</li>
 <li>relatedDomainClass: If the property is a relation with another domain class, this is that domain</li>
 </ul></ul><p class="paragraph"/>class. It could be null.<p class="paragraph"/>
-<h3>Sample</h3><p class="paragraph"/>With all this, lets make a sample Widget. We will create a custom widget that show an addres on a map. It will be used for properties of type String.<p class="paragraph"/><strong class="bold">Create the Widget Class</strong><p class="paragraph"/>We will create our widget on the file src/groovy/sample/MapWidget.groovy<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> sample<p class="paragraph"/><span class="java&#45;keyword">import</span> net.kaleidos.plugins.admin.widget.Widget<p class="paragraph"/>class MapWidget <span class="java&#45;keyword">extends</span> Widget &#123;<p class="paragraph"/>    @Override
+<h3>Error handling</h3><p class="paragraph"/>If you want you can handle errors (expected or unspected) thrown by your widget. You should extend
+the method.<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> renderError(Throwable t)</pre></div><p class="paragraph"/>This method will be called after any exception thrown by your widget. So you can render your custom
+information.<p class="paragraph"/>When the widget throws an exception on the method "updateValue" (which parsers the form input to your
+custom types inside the widget) any error will be displayed in the form as if a validation error was
+displayed.<p class="paragraph"/><h3>Sample</h3><p class="paragraph"/>With all this, lets make a sample Widget. We will create a custom widget that show an addres on a map. It will be used for properties of type String.<p class="paragraph"/><strong class="bold">Create the Widget Class</strong><p class="paragraph"/>We will create our widget on the file src/groovy/sample/MapWidget.groovy<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> sample<p class="paragraph"/><span class="java&#45;keyword">import</span> net.kaleidos.plugins.admin.widget.Widget<p class="paragraph"/>class MapWidget <span class="java&#45;keyword">extends</span> Widget &#123;<p class="paragraph"/>    @Override
     <span class="java&#45;object">String</span> render() &#123;
         <span class="java&#45;keyword">return</span> <span class="java&#45;quote">""</span>
     &#125;
