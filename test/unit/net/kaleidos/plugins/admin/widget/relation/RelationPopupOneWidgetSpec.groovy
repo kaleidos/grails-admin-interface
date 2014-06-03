@@ -18,6 +18,8 @@ import net.kaleidos.plugins.admin.config.DomainConfig
 
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
+import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
+import grails.util.Holders
 
 
 @Mock([TestDomain, TestDomainRelationOne])
@@ -29,7 +31,22 @@ class RelationPopupOneWidgetSpec extends Specification {
     @Shared
     def slurper
 
-    void setupSpec() {
+    @Shared
+    def adminConfigHolder
+
+    def setupSpec() {
+        Holders.grailsApplication = new DefaultGrailsApplication()
+        Holders.grailsApplication.configureLoadedClasses([
+            admin.test.TestDomainRelationOne.class,
+            admin.test.TestDomain.class,
+        ] as Class[])
+
+        Holders.config = new ConfigObject()
+        Holders.config.grails.plugin.admin.domains = [ "admin.test.TestDomain" ]
+
+        adminConfigHolder = new AdminConfigHolder()
+        adminConfigHolder.initialize()
+
         def parser = new org.cyberneko.html.parsers.SAXParser()
         parser.setFeature('http://xml.org/sax/features/namespaces', false)
         slurper = new XmlSlurper(parser)
@@ -205,8 +222,26 @@ class RelationPopupOneWidgetSpec extends Specification {
             object.testDomain == td2
     }
 
+    void 'after form render'(){
+        setup:
+            def object = new TestDomainRelationOne()
+            def widget = new RelationPopupOneWidget()
+
+            widget.value = new TestDomain()
+            widget.adminConfigHolder = adminConfigHolder
+            widget.groovyPageRenderer = Mock(grails.gsp.PageRenderer)
+            widget.groovyPageRenderer.render(_) >> ""
 
 
+            widget.internalAttrs['relatedDomainClass'] = new DefaultGrailsDomainClass(TestDomain.class).clazz
+            widget.internalAttrs['domainObject'] = object
+            widget.internalAttrs['domainClass'] = TestDomainRelationOne.class
+            widget.internalAttrs['propertyName'] = 'testDomain'
 
+        when:
+            def html = widget.renderAfterForm()
 
+        then:
+            html != null
+    }
 }
