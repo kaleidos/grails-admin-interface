@@ -76,11 +76,12 @@ app.configure.addConfiguration(function () {
 
                     if (grailsadminRemote && grailsadminRemote === 'enabled') {
                         that.reset();
+                        var url = form.attr('action');
 
                         //ajax submit
                         $.ajax({
                             method: form.data('method'),
-                            url: form.attr('action'),
+                            url: url,
                             dataType: "JSON",
                             contentType: 'application/json; charset=utf-8',
                             data: JSON.stringify(form.serializeObject())
@@ -89,10 +90,25 @@ app.configure.addConfiguration(function () {
                                 deferred.resolve(result);
                             })
                             .fail(function (result) {
-                                var errors = result.responseJSON.errors;
+                                if (result.responseJSON && result.responseJSON.errors) {
+                                    var errors = result.responseJSON.errors;
+                                    for(var i = 0; i < errors.length; i++) {
+                                        window.ParsleyUI.addError(searchFieldInstance(that, errors[i].field), errors[i].field, errors[i].message);
+                                    }
+                                } else {
+                                    var errorMsg = "There vas a problem when request: " + url + ". ";
 
-                                for(var i = 0; i < errors.length; i++) {
-                                    window.ParsleyUI.addError(searchFieldInstance(that, errors[i].field), errors[i].field, errors[i].message);
+                                    if (result.responseJSON && result.responseJSON.error) {
+                                        errorMsg = result.responseJSON.error;
+                                    }
+
+                                    // TODO: show flash
+                                    console.log(errorMsg);
+                                    $("#confirm").modal("hide");
+
+                                    $("#msg-error .alert-text").text(errorMsg);
+                                    $("#msg-error").fadeIn(100);
+
                                 }
 
                                 deferred.fail();

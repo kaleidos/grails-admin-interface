@@ -19,6 +19,14 @@
             </div>
         </g:if>
 
+        <div id="msg-error" class="container" style="display:none;">
+          <div class="alert alert-danger">
+             <p>ERROR</p>
+             <hr>
+             <div class="alert-text"></div>
+          </div>
+        </div>
+
         <g:layoutBody/>
 
         <gap:layoutHandlebers formType="${formType}" className="${className}"/>
