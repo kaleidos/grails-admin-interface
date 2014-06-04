@@ -1,7 +1,7 @@
 package net.kaleidos.plugins.admin.config
 
 import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
-import spock.lang.Specification
+import spock.lang.*
 
 import grails.util.Holders
 
@@ -87,7 +87,39 @@ class DomainConfigurationDslSpec extends Specification {
             formType << ['create', 'edit']
     }
 
+    void "Customize attribute groups"() {
+        setup:
+            def config = new DomainConfigurationDsl(NameYearDomain.class, {
+                groups {
+                    "First group" ( style:"collapse", fields: [ 'other', 'another', 'yetanother' ] )
+                    "Second group" ( style:"tab", fields: [ 'year' ])
+                }
+            })
+        when:
+            def result = config.execute()
+            def groupNames = result.getGroupNames()
+            def defaultGroupFields = result.getDefinedPropertiesForGroup(method) // default
 
+            def group1GroupFields = result.getDefinedPropertiesForGroup(method,"First group")
+            def group1GroupStyle = result.getStylePropertiesForGroup("First group")
+
+            def group2GroupFields = result.getDefinedPropertiesForGroup(method,"Second group")
+            def group2GroupStyle = result.getStylePropertiesForGroup("Second group")
+
+        then:
+            result != null
+            groupNames == ["First group", "Second group"]
+
+            defaultGroupFields == ['name']
+            group1GroupFields == ['other', 'another', 'yetanother']
+            group2GroupFields == ['year']
+
+            group1GroupStyle == "collapse"
+            group2GroupStyle == "tab"
+
+        where:
+            method << ['create','edit']
+    }
 }
 
 
@@ -97,4 +129,7 @@ class NameYearDomain {
     Long version
     String name
     String year
+    String other
+    String another
+    String yetanother
 }

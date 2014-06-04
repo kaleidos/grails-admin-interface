@@ -23,10 +23,51 @@ class GrailsAdminPluginHtmlRendererService {
         def writer = new StringWriter()
         def builder = new groovy.xml.MarkupBuilder(writer)
 
-        List properties = domainConfig.getDefinedProperties(formType)
         Map customWidgets = domainConfig.getCustomWidgets(formType)
+        List properties = domainConfig.getDefinedPropertiesForGroup(formType)
+        if (properties) {
+            _renderProperties(object, properties, customWidgets, domainConfig, widgetProperties, builder)
+        }
 
-        properties.each{propertyName ->
+        domainConfig.groupNames.each { groupName ->
+            properties = domainConfig.getDefinedPropertiesForGroup(formType, groupName)
+            def style = domainConfig.getStylePropertiesForGroup(groupName)
+
+            if (style == "collapse") {
+                def groupSlug = groupName.replaceAll(" ", "_")
+
+                builder.div class:"panel panel-default",  {
+                    div class:"panel-heading", {
+                        h3 class:"panel-title", {
+                            a "data-toggle":"collapse", "data-target":"#${groupSlug}Panel", "href":"#${groupSlug}Panel", class: "collapsed", {
+                                mkp.yield groupName
+                            }
+                        }
+                    }
+                    div id:"${groupSlug}Panel", class:"panel-collapse collapse", {
+                        div class:"panel-body", {
+                            _renderProperties(object,properties, customWidgets, domainConfig, widgetProperties, builder)
+                        }
+                    }
+                }
+            } else {
+                builder.div class:"panel panel-default",  {
+                    div class:"panel-heading", {
+                        h3 class:"panel-title", {
+                            mkp.yield groupName
+                        }
+                    }
+                    div class:"panel-body", {
+                        _renderProperties(object,properties, customWidgets, domainConfig, widgetProperties, builder)
+                    }
+                }
+            }
+        }
+        return writer
+    }
+
+    void _renderProperties(object, properties, customWidgets, domainConfig, widgetProperties, builder) {
+        properties.each { propertyName ->
             def widget
             if (object != null) {
                 widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidgets?."$propertyName", widgetProperties)
@@ -49,8 +90,6 @@ class GrailsAdminPluginHtmlRendererService {
                 }
             }
         }
-
-        return writer
     }
 
     String renderBeforeForm(String className, Map createWidgetProperties=[:]){

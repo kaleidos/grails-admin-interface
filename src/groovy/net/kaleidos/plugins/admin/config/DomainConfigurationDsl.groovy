@@ -37,6 +37,10 @@ class DomainConfigurationDsl {
                 if (properties['customWidgets']) {
                     domainConfig.customWidgets[method] = properties['customWidgets']
                 }
+
+                if (properties['groups']) {
+                    domainConfig.fieldGroups = properties['groups']
+                }
             }
         }
         return domainConfig
@@ -50,8 +54,20 @@ class DomainConfigurationDsl {
         }
     }
 
+    def groups(Closure cls) {
+        def groupDsl = new DomainConfigGroupDsl()
+        cls.resolveStrategy = Closure.DELEGATE_ONLY
+        cls.delegate = groupDsl
+        cls()
+
+        ['create','edit'].each{
+            this.params[it] = this.params[it] ?: [:]
+            this.params[it]['groups'] = groupDsl.groups
+        }
+    }
+
     def methodMissing(String name, args) {
-        assert ['list', 'create', 'edit', 'widget'].contains(name), "$name is not a valid property"
+        assert [ 'list', 'create', 'edit' ].contains(name), "$name is not a valid property"
         if (['list', 'create', 'edit'].contains(name)) {
             assert args.size() == 1, "$args is not valid"
             assert args[0] instanceof Map, "${ args[0] } is not valid"
@@ -59,4 +75,15 @@ class DomainConfigurationDsl {
             this.params[name] = args[0]
         }
     }
+
+
 }
+
+class DomainConfigGroupDsl {
+    Map groups = [:]
+
+    def methodMissing(String name, args) {
+        groups[name] = args.first()
+    }
+}
+

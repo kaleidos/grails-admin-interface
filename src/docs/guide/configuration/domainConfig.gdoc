@@ -66,6 +66,22 @@ grails.plugin.admin.domain.Speaker = {
 }
 {code}
 
+h4. Properties Groups
+
+All the properties for a domain can be visually grouped so they have a logic structure.
+
+{code}
+grails.plugin.admin.domain.Talk = {
+    groups {
+        "Speaker" fields: [ 'speaker' ]
+        "Talk Info" style:"collapse", fields: [ 'talkDate', 'talkTime', 'room' ]
+    }
+}
+{code}
+
+If you don't put a property inside a group it will be displayed at the beginning of the form without
+any group.
+
 h4. Custom widgets
 
 For some properties the default editor/renderer may not be enough. You can customize this
