@@ -1,9 +1,19 @@
-Grails Admin Plugin comes with a set of built-in plugins but you can specify your own custom
-widget for a specific domain class and property in your app @Config.groovy@
+For basic widget configuration, please see [Per Domain Configuration|guide:domainConfig] section.
+
+
+h3. Special properties
+
+*help*
+
+If you add a 'help' string property to a widget, it will be displayed on the GUI.
 
 {code}
-grails.plugin.admin.domain.Speaker = {
-    widget "birthDate", "net.kaleidos.plugins.admin.widget.DateInputWidget", dateFormat: "yyyyMMdd"
+grails.plugin.admin.domain.Room = {
+    widget "board", help:"Has the room a blackboard?"
 }
 {code}
 
+{table}
+Sample image
+!Widgets/WidgetHelp.png!
+{table}

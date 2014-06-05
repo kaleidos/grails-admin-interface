@@ -54,6 +54,11 @@ class DomainConfigurationDsl {
         }
     }
 
+
+    def widget(Map attributes=[:], String property) {
+        return widget(attributes, property, null)
+    }
+
     def groups(Closure cls) {
         def groupDsl = new DomainConfigGroupDsl()
         cls.resolveStrategy = Closure.DELEGATE_ONLY
