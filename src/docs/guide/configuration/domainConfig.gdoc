@@ -82,15 +82,46 @@ grails.plugin.admin.domain.Talk = {
 If you don't put a property inside a group it will be displayed at the beginning of the form without
 any group.
 
+h4. Passing properties to widgets
+
+Some widgets need some internal properties. Also, there are properties that you can pass to any widget.
+In order to do so, you must specify them on the configuration
+
+{code}
+grails.plugin.admin.domain.Conference = {
+    widget "name",  help:"This is a help text"
+}
+{code}
+
+
+{code}
+grails.plugin.admin.domain.Talk = {
+    widget "talkDate", dateFormat:"dd/MM/yyyy"
+}
+{code}
+
+
+h4. Specify a widget
+
+If you want to select a specific widget for a property (for example, to use the
+PasswordInputWidget instead of the default TextInputWidget) you can use this configuration.
+Further documentation and a list of all the builtin widgets on the [Built In Widgets|guide:builtInWidgets] section.
+
+{code}
+grails.plugin.admin.domain.User = {
+    widget "password", "PasswordInputWidget"
+}
+{code}
+
+
 h4. Custom widgets
 
 For some properties the default editor/renderer may not be enough. You can customize this
 behaviour writing your own widget.
-Further documentation on the [Custom Widgets] section.
+Further documentation on the [Custom Widgets|guide:customWidgets] section.
 
 {code}
 grails.plugin.admin.domain.Conference = {
     widget "coordinates", "sample.MapWidget", height:400, width:600
 }
 {code}
-

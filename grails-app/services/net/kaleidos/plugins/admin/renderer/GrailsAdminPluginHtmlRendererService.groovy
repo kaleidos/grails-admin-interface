@@ -81,6 +81,9 @@ class GrailsAdminPluginHtmlRendererService {
                     if (widget.htmlAttrs.required == 'true') {
                         mkp.yield " *"
                     }
+                    if (widget.internalAttrs.help) {
+                        span(class:"glyphicon glyphicon-question-sign", title:"${widget.internalAttrs.help}")
+                    }
                 }
                 try {
                     mkp.yieldUnescaped widget.render()

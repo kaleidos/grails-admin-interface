@@ -8,7 +8,14 @@ class GrailsAdminPluginWidgetService {
         def inspector = new DomainInspector(clazz)
         def widget = null
         if (customWidget) {
-            widget = _instanciateCustomWidget(customWidget['class'], customWidget.attributes)
+            if (customWidget['class']) {
+                widget = _instanciateCustomWidget(customWidget['class'], customWidget.attributes)
+            } else {
+                widget = GrailsAdminPluginDefaultWidgetSelector.getDefaultWidgetForProperty(clazz, propertyName)
+                if (customWidget.attributes) {
+                    widget.internalAttrs.putAll(customWidget.attributes)
+                }
+            }
         } else {
             widget = GrailsAdminPluginDefaultWidgetSelector.getDefaultWidgetForProperty(clazz, propertyName)
         }
