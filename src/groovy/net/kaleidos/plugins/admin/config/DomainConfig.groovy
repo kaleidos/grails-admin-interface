@@ -11,6 +11,7 @@ class DomainConfig {
     Map excludes = [:]
     Map includes = [:]
     Map customWidgets = [:]
+    Map fieldGroups = [:]
 
     public DomainConfig(Class domainClass) {
         this.domainClass = domainClass
@@ -59,5 +60,21 @@ class DomainConfig {
 
     public String getSlug() {
         return this.domainInspector.getSlug()
+    }
+
+    public List getGroupNames() {
+        return fieldGroups.keySet() as List
+    }
+
+    public List getDefinedPropertiesForGroup(String method, String groupName=null) {
+        def properties = this.getDefinedProperties(method)
+        if (!groupName) {
+            def propertiesWithGroup = fieldGroups.collect{ it.value.fields }.flatten()
+            return properties - propertiesWithGroup
+        }
+        return fieldGroups[groupName]?.fields
+    }
+    public String getStylePropertiesForGroup(String groupName=null){
+        return fieldGroups[groupName]?.style
     }
 }

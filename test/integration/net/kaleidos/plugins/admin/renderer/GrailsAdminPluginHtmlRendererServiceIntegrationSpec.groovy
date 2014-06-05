@@ -56,6 +56,56 @@ class GrailsAdminPluginHtmlRendererServiceIntegrationSpec extends Specification 
             }
     }
 
+    void "test renderCreateForm with normal groups"() {
+        setup:
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = [ "admin.test.AdminDomainTest" ]
+            Holders.config.grails.plugin.admin.domain.AdminDomainTest = {
+                groups {
+                    "Group 1" fields: ['name','surname','age','email']
+                    "Group 2" fields: ['web','longNumber','year']
+                }
+            }
+            adminConfigHolder.initialize()
+
+            def adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
+
+        when:
+            def html = grailsAdminPluginHtmlRendererService.renderCreateFormFields("admin.test.AdminDomainTest")
+            def result = slurper.parseText(html)
+
+        then:
+            result.BODY.DIV.size() ==  9
+            result.BODY.DIV.each { div ->
+                div.LABEL.@for.text() !=  null
+            }
+    }
+
+    void "test renderCreateForm with collapsible groups"() {
+        setup:
+            def adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
+
+            Holders.config = new ConfigObject()
+            Holders.config.grails.plugin.admin.domains = [ "admin.test.AdminDomainTest" ]
+            Holders.config.grails.plugin.admin.domain.AdminDomainTest = {
+                groups {
+                    "Group 1" style:"collapse", fields: ['name','surname','age','email']
+                    "Group 2" style:"collapse", fields: ['web','longNumber','year']
+                }
+            }
+            adminConfigHolder.initialize()
+
+        when:
+            def html = grailsAdminPluginHtmlRendererService.renderCreateFormFields("admin.test.AdminDomainTest")
+            def result = slurper.parseText(html)
+
+        then:
+            result.BODY.DIV.size() ==  9
+            result.BODY.DIV.each { div ->
+                div.LABEL.@for.text() !=  null
+            }
+    }
+
     void "test render list line"() {
         setup:
             def adminDomainTest = new AdminDomainTest(name:'Paul', age:25, email:'paul@example.com')
