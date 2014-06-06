@@ -131,12 +131,27 @@ class GrailsAdminPluginApiController {
             return
         }
 
-        try {
-            grailsAdminPluginDataService.deleteDomain(config.domainClass, params?.id)
-        } catch (RuntimeException e) {
-            log.debug e.message, e
+        if (params?.id) {
+            def errorMessages = ""
+            def ids = params.id.split(",")
+
+            ids.each {
+                try {
+                    grailsAdminPluginDataService.deleteDomain(config.domainClass, Long.parseLong(it))
+                } catch (RuntimeException e) {
+                    log.debug e.message, e
+                    errorMessages += "${g.message(code:'grailsAdminPlugin.action.delete.error', args:[config.domainClass.simpleName, it])}. \n"
+                }
+            }
+            if (errorMessages) {
+                response.status = 500
+                def result = [error:errorMessages]
+                render result as JSON
+                return
+            }
+        } else {
             response.status = 500
-            def result = [error: e.message]
+            def result = [error:g.message(code:'grailsAdminPlugin.action.delete.error.none')]
             render result as JSON
             return
         }

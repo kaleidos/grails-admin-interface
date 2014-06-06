@@ -7,7 +7,7 @@
         <meta name="layout" content="grailsAdmin/main" />
     </head>
     <body>
-        <div class="main-container container">
+        <div class="main-container container" view="listView">
             <div class="row">
                 <div class="col-md-7">
                     <ol class="breadcrumb">
@@ -20,27 +20,24 @@
                         <g:link mapping="grailsAdminAdd" params="[slug: domain.slug]" class="btn btn-default">
                             <span class="glyphicon glyphicon-plus"></span> <g:message code='grailsAdminPlugin.add.title' />
                         </g:link>
+                        <a data-url="${createLink(mapping: 'grailsAdminApiAction', params: [slug: domain.slug, id: 0])}"
+                            data-toggle="modal" data-target="#confirm" class="btn btn-default">
+                            <span class="glyphicon glyphicon-trash"></span> <g:message code="grailsAdminPlugin.action.delete" />
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="table-container">
+            <div class="table-container grails-admin-list-table">
                 <table class="table table-bordered">
                     <thead>
-                        <th class="list-actions-head">
-                            <g:message code="grailsAdminPlugin.list.actions" />
+                        <th class="list-select-head">
+                            &nbsp;
                         </th>
                         <gap:listTitles className="${domain.classFullName}" sort="${sort}" sortOrder="${sortOrder}" />
-                        <th class="list-actions-head">
-                            <g:message code="grailsAdminPlugin.list.actions" />
-                        </th>
                     </thead>
                     <tbody>
                     <g:each in="${objs}">
-                        <tr>
-                            <gap:listLineActions object="${it}" />
-                            <gap:listLine className="${domain.classFullName}" object="${it}" />
-                            <gap:listLineActions object="${it}" />
-                        </tr>
+                        <gap:listLine className="${domain.classFullName}" object="${it}" />
                     </g:each>
                     </tbody>
                 </table>

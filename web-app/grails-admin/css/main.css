@@ -1,8 +1,8 @@
 body {
   padding-top: 70px; }
 
-.list-actions-head {
-  width: 180px; }
+.list-select-head {
+  width: 30px; }
 
 .list-actions .btn {
   margin-right: 10px; }
@@ -42,16 +42,19 @@ thead a {
     text-decoration: none; }
 
 .table-container {
-    width: 100%;
-    overflow-x: scroll;
-}
+  width: 100%;
+  overflow-x: scroll; }
+
 .panel-heading a:after {
-    font-family: 'Glyphicons Halflings';
-    content: "\e114";
-    float: right;
-    color: grey;
-}
+  font-family: 'Glyphicons Halflings';
+  content: "\e114";
+  float: right;
+  color: grey; }
 
 .panel-heading a.collapsed:after {
-    content: "\e080";
-}
+  content: "\e080"; }
+
+.grails-admin-list-table tr {
+  cursor: pointer; }
+  .grails-admin-list-table tr:hover {
+    background-color: #F5F5F5; }

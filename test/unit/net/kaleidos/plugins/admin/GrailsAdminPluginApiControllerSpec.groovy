@@ -254,7 +254,7 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
     void 'Delete domain'() {
         setup:
             controller.grailsAdminPluginDataService = Mock(GrailsAdminPluginDataService)
-            controller.params.id = 1
+            controller.params.id = "1"
 
         when:
             controller.deleteAdminAction(domain)
@@ -267,10 +267,27 @@ class GrailsAdminPluginApiControllerSpec extends Specification {
             domain = 'testdomain'
     }
 
+    void 'Batch delete domain'() {
+        setup:
+            controller.grailsAdminPluginDataService = Mock(GrailsAdminPluginDataService)
+            controller.params.id = "1,2"
+
+        when:
+            controller.deleteAdminAction(domain)
+
+        then:
+            1 * controller.grailsAdminPluginDataService.deleteDomain(TestDomain.class, 1)
+            1 * controller.grailsAdminPluginDataService.deleteDomain(TestDomain.class, 2)
+            response.status == 204
+
+        where:
+            domain = 'testdomain'
+    }
+
     void 'Delete domain (runtime exception)'() {
         setup:
             controller.grailsAdminPluginDataService = Mock(GrailsAdminPluginDataService)
-            controller.params.id = 1
+            controller.params.id = "1"
 
         when:
             controller.deleteAdminAction(domain)
