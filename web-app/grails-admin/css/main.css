@@ -14,10 +14,14 @@ body {
 .dashboard tr td:first-child {
   font-weight: bold; }
 
-.main-form input:not([type='button']), .main-form select, .main-form .select2-container {
+.main-form input:not([type='button']):not([type='checkbox']), .main-form select, .main-form .select2-container {
   display: block;
   width: 650px;
   max-width: 100%; }
+
+input.form-control[type='checkbox'] {
+  width: auto;
+  height: auto; }
 
 .form-options .btn-group {
   margin-right: 10px; }

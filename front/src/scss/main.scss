@@ -29,11 +29,16 @@ body {
 }
 
 .main-form {
-  input:not([type='button']), select, .select2-container {
+  input:not([type='button']):not([type='checkbox']), select, .select2-container {
     display: block;
     width: 650px;
     max-width: 100%;
   }
+}
+
+input.form-control[type='checkbox'] {
+  width: auto;
+  height: auto;
 }
 
 .form-options {
