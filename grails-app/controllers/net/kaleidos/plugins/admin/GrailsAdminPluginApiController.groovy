@@ -131,17 +131,27 @@ class GrailsAdminPluginApiController {
             return
         }
 
-        try {
-            grailsAdminPluginDataService.deleteDomain(config.domainClass, params?.id)
-        } catch (RuntimeException e) {
-            log.debug e.message, e
+        if (params?.id) {
+            def errorMessages = ""
+            def ids = params.id.split(",")
 
-            /* Message sample:
-             * Referential integrity constraint violation: "FK_CF8UJ8BOSP3IOXUH6C1M36SV7: PUBLIC.ROOM FOREIGN KEY(BUILDING_ID) REFERENCES PUBLIC.BUILDING(ID) (2)"; SQL statement:delete from building where id=? and version=? [23503-173]
-             */
-            def msg = e.message.split("\"")[1]
+            ids.each {
+                try {
+                    grailsAdminPluginDataService.deleteDomain(config.domainClass, Long.parseLong(it))
+                } catch (RuntimeException e) {
+                    log.debug e.message, e
+                    errorMessages += "${g.message(code:'grailsAdminPlugin.action.delete.error', args:[config.domainClass.simpleName, it])}. \n"
+                }
+            }
+            if (errorMessages) {
+                response.status = 500
+                def result = [error:errorMessages]
+                render result as JSON
+                return
+            }
+        } else {
             response.status = 500
-            def result = [error:g.message(code:'grailsAdminPlugin.action.delete.error', args:[config.domainClass.simpleName, params?.id, msg])]
+            def result = [error:g.message(code:'grailsAdminPlugin.action.delete.error.none')]
             render result as JSON
             return
         }

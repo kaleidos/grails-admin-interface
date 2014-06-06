@@ -58,17 +58,24 @@ class GrailsAdminPluginTagLib {
     }
 
     def listLine = { attrs ->
+        def domain = adminConfigHolder.getDomainConfig(attrs.object)
+        def dataUrl = ""
+        if (attrs.object.id) {
+            dataUrl = g.createLink(absolute:true, mapping:"grailsAdminEdit", params:[slug: domain.slug, id: attrs.object.id])
+        }
+
+        out << "<tr data-url='$dataUrl'>"
+
+        out << "<td class=\"js-list-delete\">"
+        if (attrs.object.id) {
+            out << "<input type=\"checkbox\" class=\"js-list-delete\" data-element-id=\"${attrs.object.id}\"/>"
+        }
+        out << "</td>"
+
         out << grailsAdminPluginHtmlRendererService.renderListLine(attrs.className, attrs.object)
+        out << "</tr>"
     }
 
-    def listLineActions = { attrs ->
-        def domain = adminConfigHolder.getDomainConfig(attrs.object)
-        if (attrs.object.id) {
-            out << g.render(template:"/grailsAdmin/listActions", model:["domainSlug":domain.slug, "domainId": attrs.object.id])
-        } else {
-            out << "<td>Null id. Is composite key?</td>"
-        }
-    }
 
     def listTitles = { attrs ->
         out << grailsAdminPluginHtmlRendererService.renderListTitle(attrs.className, attrs.sort, attrs.sortOrder)
@@ -190,6 +197,7 @@ class GrailsAdminPluginTagLib {
             result << 'grails-admin/js/services/templateService.js'
             result << 'grails-admin/js/views/formView.js'
             result << 'grails-admin/js/views/deleteModalView.js'
+            result << 'grails-admin/js/views/listView.js'
             result << 'grails-admin/js/general.js'
         }
 
