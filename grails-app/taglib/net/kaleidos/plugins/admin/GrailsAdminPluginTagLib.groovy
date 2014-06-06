@@ -195,6 +195,7 @@ class GrailsAdminPluginTagLib {
             result << 'grails-admin/libs/handlebars-v1.3.0.js'
             result << 'grails-admin/js/main.js'
             result << 'grails-admin/js/services/templateService.js'
+            result << 'grails-admin/js/services/paginationService.js'
             result << 'grails-admin/js/views/formView.js'
             result << 'grails-admin/js/views/deleteModalView.js'
             result << 'grails-admin/js/views/listView.js'
