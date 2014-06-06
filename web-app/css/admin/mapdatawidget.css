@@ -1,0 +1,22 @@
+.mapdata .add{
+    float:right;
+}
+.mapdata table{
+    clear:right;
+    /* background-color:red;*/
+}
+.mapdata .styleInputs{
+    padding-top:10px; 
+    width:1141px;
+}
+.mapdata .key input, .mapdata .value input{
+    width:502px;
+   /* margin-right:10px; */
+}
+/*
+.mapdata .delete .btn{
+    position:relative;
+    top:-5px;
+       
+}
+* */
