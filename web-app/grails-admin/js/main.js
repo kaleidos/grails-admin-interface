@@ -57,7 +57,7 @@ app.configure.addConfiguration = function (fn) {
 app.load = {};
 app.load.fns = [];
 app.load.exec = function () {
-    for (var i = 0; i < app.configure.fns.length; i++) {
+    for (var i = 0; i < app.load.fns.length; i++) {
         app.load.fns[i]();
     }
 };
