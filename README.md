@@ -14,7 +14,7 @@ Please visit the complete documentation here: https://kaleidos.github.io/grails-
 To install you should include in your `BuildConfig.groovy`
 
     plugins {
-        runtime "\:admin-interface\:<version>.<minorVersion>"
+        runtime ":admin-interface:<version>.<minorVersion>"
     }
 
 It's recommended that you include a Spring Security Core plugin to secure the administration.
@@ -22,14 +22,14 @@ It's recommended that you include a Spring Security Core plugin to secure the ad
 ```
 plugins {
     // Spring Security v1.X , example:
-    compile "\:spring-security-core\:1.2.7.3"
+    compile ":spring-security-core:1.2.7.3"
 }
 ```
 
 ```
 plugins {
     // ... or v2.X , example:
-    compile "\:spring-security-core\:2.0-RC3"
+    compile ":spring-security-core:2.0-RC3"
 }
 ```
 
