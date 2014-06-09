@@ -1,5 +1,5 @@
 {
-  "name": "front grails admin",
+  "name": "Grails Admin Interface Front",
   "private": true,
   "ignore": [
     "**/.*",

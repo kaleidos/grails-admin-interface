@@ -1,12 +1,12 @@
-grails-admin
+grails-admin-interface
 ============
-[![Build Status](https://travis-ci.org/grails-admin/grails-admin.svg?branch=master)](https://travis-ci.org/grails-admin/grails-admin)
-[![Coverage Status](https://coveralls.io/repos/grails-admin/grails-admin/badge.png?branch=master)](https://coveralls.io/r/grails-admin/grails-admin?branch=master)
+[![Build Status](https://travis-ci.org/kaleidos/grails-admin-interface.svg?branch=master)](https://travis-ci.org/kaleidos/grails-admin-interface)
+[![Coverage Status](https://coveralls.io/repos/kaleidos/grails-admin-interface/badge.png?branch=master)](https://coveralls.io/r/kaleidos/grails-admin-interface?branch=master)
 
 
-**An awesomic Grails Admin Plugin for Grails**
+**An awesomic Grails Admin Interface Plugin for Grails**
 
-Please visit the complete documentation here: https://grails-admin.github.io/grails-admin/
+Please visit the complete documentation here: https://kaleidos.github.io/grails-admin-interface/
 
 
 ## Installation
@@ -14,7 +14,7 @@ Please visit the complete documentation here: https://grails-admin.github.io/gra
 To install you should include in your `BuildConfig.groovy`
 
     plugins {
-        runtime "\:admin\:<version>.<minorVersion>"
+        runtime "\:admin-interface\:<version>.<minorVersion>"
     }
 
 It's recommended that you include a Spring Security Core plugin to secure the administration.
@@ -39,7 +39,7 @@ grails.plugin.admin.domains = [ "conferences.Talk", "conferences.Speaker" ]
 ```
 
 You can also extend the default behaviour creating your own custom widgets.
-See [Custom Widgets](https://grails-admin.github.io/grails-admin/guide/customWidgets.html) section to learn more about.
+See [Custom Widgets](https://kaleidos.github.io/grails-admin-interface/guide/customWidgets.html) section to learn more about.
 
 ```
 grails.plugin.admin.domain.Conference = {
@@ -47,6 +47,6 @@ grails.plugin.admin.domain.Conference = {
 }
 ```
 
-## Contribution 
+## Contribution
 
-To learn more about how to contribute to this project please visit [Contribution](https://grails-admin.github.io/grails-admin/guide/contributing.html) section.
+To learn more about how to contribute to this project please visit [Contribution](https://kaleidos.github.io/grails-admin-interface/guide/contributing.html) section.

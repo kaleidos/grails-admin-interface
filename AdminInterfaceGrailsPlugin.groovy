@@ -1,7 +1,7 @@
 import net.kaleidos.plugins.admin.config.AdminConfigHolder
 
 @groovy.util.logging.Log4j
-class AdminGrailsPlugin {
+class AdminInterfaceGrailsPlugin {
     def version = "0.6.1"
 
     def grailsVersion = "2.0.0 > *"
@@ -19,9 +19,9 @@ class AdminGrailsPlugin {
         "grails-app/domain/**"
     ]
 
-    def title = "Grails Admin"
+    def title = "Grails Admin Interface"
     def author = "Kaleidos Open Source"
-    def authorEmail = "hello@kaleidos.net"
+    def authorEmail = "grails-admin@kaleidos.net"
 
     def description = """
     Grails Admin allows you to easily create an administration back-office with default styles and
@@ -36,7 +36,7 @@ class AdminGrailsPlugin {
     Sonata Admin or Rails Active Admin.
     """
 
-    def documentation = "http://grails.org/plugin/admin"
+    def documentation = "http://kaleidos.github.io/grails-admin-interface"
 
     def license = "APACHE"
 
@@ -51,9 +51,9 @@ class AdminGrailsPlugin {
         [ name: "Sandra Alarcon", email: "alejandra.alarconh@gmail.com" ]
     ]
 
-    def issueManagement = [ system: "Github", url: "https://github.com/grails-admin/grails-admin" ]
+    def issueManagement = [ system: "Github", url: "https://github.com/kaleidos/grails-admin-interface" ]
 
-    def scm = [ url: "https://github.com/grails-admin/grails-admin.git" ]
+    def scm = [ url: "https://github.com/kaleidos/grails-admin-interface.git" ]
 
     def doWithSpring = {
         adminConfigHolder(AdminConfigHolder)
