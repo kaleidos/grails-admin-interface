@@ -241,7 +241,43 @@ WEB-APP/js/admin/map.js<p class="paragraph"/><div class="code"><pre>$(<span clas
     $(<span class="java&#45;keyword">this</span>).closest(<span class="java&#45;quote">".map&#45;widget"</span>).find(<span class="java&#45;quote">".map&#45;container"</span>).html(html);
 &#125;);</pre></div><p class="paragraph"/><blockquote class="note">
 NOTE: GrailsAdminPlugin uses jquery, so it is available for your custom widgets also
-</blockquote>
+</blockquote><p class="paragraph"/><h2>More Frotend features</h2><p class="paragraph"/>To customize the widget resources you must override the getAssets method<p class="paragraph"/><div class="code"><pre>@Override
+List&#60;<span class="java&#45;object">String</span>&#62; getAssets() &#123;
+    &#91; 'mywidget/exaple1.js',
+      'mywidget/example2.js',
+      'mywidget/example1.css',
+      'mywidget/example2.css',
+      'mywidget/templates/template1.handlebars',
+      'mywidget/templates/template2.handlebars'
+    &#93;
+&#125;</pre></div><p class="paragraph"/><h3>GrailsAdmin Javascript utils</h3><p class="paragraph"/>GrailsAdmin has views &#38; services that you can use in your widget if you want<p class="paragraph"/><strong class="bold">Views</strong><p class="paragraph"/><div class="code"><pre>//js file
+//creating view
+app.view('formView', &#91;'$el'&#93;, function ($el) &#123;
+    //view code
+&#125;);<p class="paragraph"/>//html file
+// call view
+&#60;div view='deleteModal'&#62;&#60;/div&#62;</pre></div><p class="paragraph"/>The `$el` is a Jquery object with the dom element.<p class="paragraph"/><strong class="bold">Services</strong><p class="paragraph"/><div class="code"><pre>//create
+app.service('paginationService', &#91;&#93;, function () &#123;
+    //service code<p class="paragraph"/>    <span class="java&#45;keyword">return</span> &#123;
+        method: function () &#123;
+            //method code
+        &#125;
+    &#125;;
+&#125;);<p class="paragraph"/>//use
+app.view('formView', &#91;'$el', 'paginationService'&#93;, function ($el, paginationService) &#123;
+   paginationService.method();
+&#125;);</pre></div><p class="paragraph"/><h3>Javascript libraries</h3><p class="paragraph"/><a href="https://github.com/guillaumepotier/Parsley.js" target="blank">parsley</a>
+<a href="https://github.com/twbs/bootstrap" target="blank">bootstrap</a>
+<a href="http://www.eyecon.ro/bootstrap-datepicker/" target="blank">bootstrap-datepicker</a>
+<a href="http://handlebarsjs.com/" target="blank">handlebars</a>
+<a href="http://jquery.com/" target="blank">jQuery</a>
+<a href="http://lodash.com/" target="blank">lodash</a>
+<a href="http://ivaynberg.github.io/select2/" target="blank">select2</a><p class="paragraph"/><strong class="bold">Handlebars</strong><p class="paragraph"/>If you add handlebars in your assets grailsAdmin creates a script tag at the end of page with the content of the handlebars file. The id of the script tag is the filename without the extension<p class="paragraph"/><div class="code"><pre>&#60;script id=<span class="java&#45;quote">"filename"</span> type=<span class="java&#45;quote">"text/x&#45;handlebars&#45;template"</span>&#62;
+        &#60;h1&#62;handlebars template&#60;/h1&#62;<p class="paragraph"/>        &#60;p&#62;&#123;&#123;text&#125;&#125;&#60;/p&#62;
+&#60;/script&#62;</pre></div><p class="paragraph"/>You can use templateService to get the compiled html<p class="paragraph"/><div class="code"><pre>app.view('formView', &#91;'$el', 'templateService'&#93;, function ($el, templateService) &#123;
+     <span class="java&#45;keyword">var</span> templateVars = &#123;title: 'exaple <span class="java&#45;keyword">var</span>'&#125;;
+     <span class="java&#45;keyword">var</span> html = templateService.get('filename', templateVars);
+&#125;);</pre></div>
 
 
 

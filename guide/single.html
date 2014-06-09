@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Grails Admin 0.6.1</title>
+        <title>Grails Admin Interface 0.6.1</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -77,7 +77,7 @@ function addJsClass(el) {
                         <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                         <div class="project">
-                            <h1>Grails Admin - Reference Documentation</h1>
+                            <h1>Grails Admin Interface - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Kaleidos Open Source</p>
                             <p><strong>Version:</strong> 0.6.1</p>
                             
@@ -167,7 +167,7 @@ function addJsClass(el) {
                         
 
 <h1 id="introduction">1 Introduction</h1>
-The Grails Admin plugin provides and easy and secure backend to administer out-of-the-box your Grails applications.
+The Grails Admin Interface plugin provides and easy and secure interface to administer out-of-the-box your Grails applications.
 Absolute functional from scratch, gives much more power with his extensible widget system.<p class="paragraph"/>The information in this guide is for three developer profiles:
 <ul class="star">
 <li><strong class="bold">Plugin users</strong>: installation and configuration.</li>
@@ -306,11 +306,30 @@ methods.<p class="paragraph"/><h3>Configuration on <code>Config.groovy</code> fi
     list excludes: &#91;<span class="java&#45;quote">"startDate"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
     create excludes: &#91;<span class="java&#45;quote">"startDate"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
     edit excludes: &#91;<span class="java&#45;quote">"startDate"</span>, <span class="java&#45;quote">"endDate"</span>&#93;
-&#125;</pre></div><p class="paragraph"/><h4>Custom widgets</h4><p class="paragraph"/>For some properties the default editor/renderer may not be enough. You can customize this
-behaviour writing your own widget.
-Further documentation on the Custom Widgets section.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Conference = &#123;
-    widget <span class="java&#45;quote">"coordinates"</span>, <span class="java&#45;quote">"sample.MapWidget"</span>, height:400, width:600
+&#125;</pre></div><p class="paragraph"/><h4>Properties Groups</h4><p class="paragraph"/>All the properties for a domain can be visually grouped so they have a logic structure.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Talk = &#123;
+    groups &#123;
+        <span class="java&#45;quote">"Speaker"</span> fields: &#91; 'speaker' &#93;
+        <span class="java&#45;quote">"Talk Info"</span> style:<span class="java&#45;quote">"collapse"</span>, fields: &#91; 'talkDate', 'talkTime', 'room' &#93;
+    &#125;
+&#125;</pre></div><p class="paragraph"/>If you don't put a property inside a group it will be displayed at the beginning of the form without
+any group.<p class="paragraph"/><h4>Passing properties to widgets</h4><p class="paragraph"/>Some widgets need some internal properties. Also, there are properties that you can pass to any widget.
+In order to do so, you must specify them on the configuration<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Conference = &#123;
+    widget <span class="java&#45;quote">"name"</span>,  help:<span class="java&#45;quote">"This is a help text"</span>
 &#125;</pre></div><p class="paragraph"/>
+<div class="code"><pre>grails.plugin.admin.domain.Talk = &#123;
+    widget <span class="java&#45;quote">"talkDate"</span>, dateFormat:<span class="java&#45;quote">"dd/MM/yyyy"</span>
+&#125;</pre></div><p class="paragraph"/>
+<h4>Specify a widget</h4><p class="paragraph"/>If you want to select a specific widget for a property (for example, to use the
+PasswordInputWidget instead of the default TextInputWidget) you can use this configuration.
+Further documentation and a list of all the builtin widgets on the <a href="../guide/single.html#builtInWidgets" class="guide">Built In Widgets</a> section.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.User = &#123;
+    widget <span class="java&#45;quote">"password"</span>, <span class="java&#45;quote">"PasswordInputWidget"</span>
+&#125;</pre></div><p class="paragraph"/>
+<h4>Custom widgets</h4><p class="paragraph"/>For some properties the default editor/renderer may not be enough. You can customize this
+behaviour writing your own widget.
+Further documentation on the <a href="../guide/single.html#customWidgets" class="guide">Custom Widgets</a> section.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Conference = &#123;
+    widget <span class="java&#45;quote">"coordinates"</span>, <span class="java&#45;quote">"sample.MapWidget"</span>, height:400, width:600
+&#125;</pre></div>
+
 
 
 <h1 id="widgets">5 Widgets</h1>
@@ -322,10 +341,11 @@ own custom widgets.<p class="paragraph"/>
 
 
 <h2 id="configureWidgets">5.1 Configure widgets</h2>
-Grails Admin Plugin comes with a set of built-in plugins but you can specify your own custom
-widget for a specific domain class and property in your app <code>Config.groovy</code><p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Speaker = &#123;
-    widget <span class="java&#45;quote">"birthDate"</span>, <span class="java&#45;quote">"net.kaleidos.plugins.admin.widget.DateInputWidget"</span>, dateFormat: <span class="java&#45;quote">"yyyyMMdd"</span>
-&#125;</pre></div><p class="paragraph"/>
+For basic widget configuration, please see <a href="../guide/single.html#domainConfig" class="guide">Per Domain Configuration</a> section.<p class="paragraph"/>
+<h3>Special properties</h3><p class="paragraph"/><strong class="bold">help</strong><p class="paragraph"/>If you add a 'help' string property to a widget, it will be displayed on the GUI.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Room = &#123;
+    widget <span class="java&#45;quote">"board"</span>, help:<span class="java&#45;quote">"Has the room a blackboard?"</span>
+&#125;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Sample image</th></tr><tr class="table-odd"><td><img border="0" class="center" src="../img/Widgets/WidgetHelp.png"></img></td></tr></table>
+
 
 
 <h2 id="stylingWidgets">5.2 Styling widget instances</h2>
@@ -816,7 +836,43 @@ WEB-APP/js/admin/map.js<p class="paragraph"/><div class="code"><pre>$(<span clas
     $(<span class="java&#45;keyword">this</span>).closest(<span class="java&#45;quote">".map&#45;widget"</span>).find(<span class="java&#45;quote">".map&#45;container"</span>).html(html);
 &#125;);</pre></div><p class="paragraph"/><blockquote class="note">
 NOTE: GrailsAdminPlugin uses jquery, so it is available for your custom widgets also
-</blockquote>
+</blockquote><p class="paragraph"/><h2>More Frotend features</h2><p class="paragraph"/>To customize the widget resources you must override the getAssets method<p class="paragraph"/><div class="code"><pre>@Override
+List&#60;<span class="java&#45;object">String</span>&#62; getAssets() &#123;
+    &#91; 'mywidget/exaple1.js',
+      'mywidget/example2.js',
+      'mywidget/example1.css',
+      'mywidget/example2.css',
+      'mywidget/templates/template1.handlebars',
+      'mywidget/templates/template2.handlebars'
+    &#93;
+&#125;</pre></div><p class="paragraph"/><h3>GrailsAdmin Javascript utils</h3><p class="paragraph"/>GrailsAdmin has views &#38; services that you can use in your widget if you want<p class="paragraph"/><strong class="bold">Views</strong><p class="paragraph"/><div class="code"><pre>//js file
+//creating view
+app.view('formView', &#91;'$el'&#93;, function ($el) &#123;
+    //view code
+&#125;);<p class="paragraph"/>//html file
+// call view
+&#60;div view='deleteModal'&#62;&#60;/div&#62;</pre></div><p class="paragraph"/>The `$el` is a Jquery object with the dom element.<p class="paragraph"/><strong class="bold">Services</strong><p class="paragraph"/><div class="code"><pre>//create
+app.service('paginationService', &#91;&#93;, function () &#123;
+    //service code<p class="paragraph"/>    <span class="java&#45;keyword">return</span> &#123;
+        method: function () &#123;
+            //method code
+        &#125;
+    &#125;;
+&#125;);<p class="paragraph"/>//use
+app.view('formView', &#91;'$el', 'paginationService'&#93;, function ($el, paginationService) &#123;
+   paginationService.method();
+&#125;);</pre></div><p class="paragraph"/><h3>Javascript libraries</h3><p class="paragraph"/><a href="https://github.com/guillaumepotier/Parsley.js" target="blank">parsley</a>
+<a href="https://github.com/twbs/bootstrap" target="blank">bootstrap</a>
+<a href="http://www.eyecon.ro/bootstrap-datepicker/" target="blank">bootstrap-datepicker</a>
+<a href="http://handlebarsjs.com/" target="blank">handlebars</a>
+<a href="http://jquery.com/" target="blank">jQuery</a>
+<a href="http://lodash.com/" target="blank">lodash</a>
+<a href="http://ivaynberg.github.io/select2/" target="blank">select2</a><p class="paragraph"/><strong class="bold">Handlebars</strong><p class="paragraph"/>If you add handlebars in your assets grailsAdmin creates a script tag at the end of page with the content of the handlebars file. The id of the script tag is the filename without the extension<p class="paragraph"/><div class="code"><pre>&#60;script id=<span class="java&#45;quote">"filename"</span> type=<span class="java&#45;quote">"text/x&#45;handlebars&#45;template"</span>&#62;
+        &#60;h1&#62;handlebars template&#60;/h1&#62;<p class="paragraph"/>        &#60;p&#62;&#123;&#123;text&#125;&#125;&#60;/p&#62;
+&#60;/script&#62;</pre></div><p class="paragraph"/>You can use templateService to get the compiled html<p class="paragraph"/><div class="code"><pre>app.view('formView', &#91;'$el', 'templateService'&#93;, function ($el, templateService) &#123;
+     <span class="java&#45;keyword">var</span> templateVars = &#123;title: 'exaple <span class="java&#45;keyword">var</span>'&#125;;
+     <span class="java&#45;keyword">var</span> html = templateService.get('filename', templateVars);
+&#125;);</pre></div>
 
 
 
