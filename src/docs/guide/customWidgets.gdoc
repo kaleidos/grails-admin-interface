@@ -240,3 +240,91 @@ $(".map-widget").on( "click", ".js-map-widget-refresh", function(event) {
 {note}
 NOTE: GrailsAdminPlugin uses jquery, so it is available for your custom widgets also
 {note}
+
+h2. More Frotend features
+
+To customize the widget resources you must override the getAssets method
+
+{code}
+@Override
+List<String> getAssets() {
+    [ 'mywidget/exaple1.js',
+      'mywidget/example2.js',
+      'mywidget/example1.css',
+      'mywidget/example2.css',
+      'mywidget/templates/template1.handlebars',
+      'mywidget/templates/template2.handlebars'
+    ]
+}
+{code}
+
+h3. GrailsAdmin Javascript utils
+
+GrailsAdmin has views & services that you can use in your widget if you want
+
+*Views*
+
+{code}
+//js file
+//creating view
+app.view('formView', ['$el'], function ($el) {
+    //view code
+});
+
+//html file
+// call view
+<div view='deleteModal'></div>
+{code}
+
+The `$el` is a Jquery object with the dom element.
+
+*Services*
+
+{code}
+//create
+app.service('paginationService', [], function () {
+    //service code
+
+    return {
+        method: function () {
+            //method code
+        }
+    };
+});
+
+//use
+app.view('formView', ['$el', 'paginationService'], function ($el, paginationService) {
+   paginationService.method();
+});
+{code}
+
+h3. Javascript libraries
+
+[parsley|https://github.com/guillaumepotier/Parsley.js]
+[bootstrap|https://github.com/twbs/bootstrap]
+[bootstrap-datepicker|http://www.eyecon.ro/bootstrap-datepicker/]
+[handlebars|http://handlebarsjs.com/]
+[jQuery|http://jquery.com/]
+[lodash|http://lodash.com/]
+[select2|http://ivaynberg.github.io/select2/]
+
+*Handlebars*
+
+If you add handlebars in your assets grailsAdmin creates a script tag at the end of page with the content of the handlebars file. The id of the script tag is the filename without the extension
+
+{code}
+<script id="filename" type="text/x-handlebars-template">
+        <h1>handlebars template</h1>
+
+        <p>{{text}}</p>
+</script>
+{code}
+
+You can use templateService to get the compiled html
+
+{code}
+app.view('formView', ['$el', 'templateService'], function ($el, templateService) {
+     var templateVars = {title: 'exaple var'};
+     var html = templateService.get('filename', templateVars);
+});
+{code}
