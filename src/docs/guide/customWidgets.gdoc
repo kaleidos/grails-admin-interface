@@ -24,32 +24,32 @@ an abstract class, that has only one methods that you must implement:
 
 * String render(): The method to render your widget as html
 
-Also, Widget define sever methods that you can overwrite if yo need them
+Also, Widget define sever methods that you can overwrite if you need them
 
 * String renderBeforeForm(): Render code html *before* the form that contains all the widgets
 * String renderAfterForm(): Render code html *after* the form that contains all the widgets
-* Object getValueForJson(): Returns an object (usually an string) that whould be used in order to
+* Object getValueForJson(): Returns an object (usually an string) that whould be used in order to\
 represent the current value of the widget when the widget is represented as JSON.
-* List<String> getAssets(): Returns the list of assets (css and js) needed for the html
-representation of this widget. GrailsAdminPlugin uses the convention-over-configuration paradigm,
-so if you don't implement this method, it will try to load one js file and one css file with the
+* List<String> getAssets(): Returns the list of assets (css and js) needed for the html\
+representation of this widget. GrailsAdminPlugin uses the convention-over-configuration paradigm,\
+so if you don't implement this method, it will try to load one js file and one css file with the\
 same name that the widget.
 
 
-Last, there are several properties that you can use. Note that you don't write this properties, it
+Last, there are several properties that you can use. Note that you don't write this properties, it\
 is GrailsAdminPlugin who assign the values. You should use this properties as read-only.
 
-* Object value: The current value of the widget. Its type will depend on the actual widget. For
+* Object value: The current value of the widget. Its type will depend on the actual widget. For\
 example, on a TextInputWidget will be a String, and on DateInputWidget will be a Date.
-* Map htmlAttrs: A map of properties to be rendered on the html representation, like the name, if
+* Map htmlAttrs: A map of properties to be rendered on the html representation, like the name, if\
 it is required, etc.
-* Map internalAttrs: A map of properties internal for the widget. Remember that the widget
+* Map internalAttrs: A map of properties internal for the widget. Remember that the widget\
 represents a property of a domain object, so:
-** domainObject: This is that domain object. Note that it could be null (for example, on the
+** domainObject: This is that domain object. Note that it could be null (for example, on the\
 create screen)
 ** propertyName: This is the name of that property.
 ** domainClass: This is the class of that object.
-** relatedDomainClass: If the property is a relation with another domain class, this is that domain
+** relatedDomainClass: If the property is a relation with another domain class, this is that domain\
 class. It could be null.
 
 
