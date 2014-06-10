@@ -39,10 +39,12 @@ class EnumWidget extends Widget {
 
     @Override
     List<String> getAssets() {
-        [ 'libs/select2/select2.css',
-          'libs/select2/select2-bootstrap.css',
-          'libs/select2/select2.js'
+        def results = [
+            'libs/select2/select2.css',
+            'libs/select2/select2-bootstrap.css',
+            'libs/select2/select2.js'
         ]
+        return results.collect { ["plugin":"admin-interface", "absolute":true, "file":it]  }
     }
 
     def updateValue(value) {

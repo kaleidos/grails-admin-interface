@@ -22,35 +22,25 @@ h3. Inherit from Widget
 Your custom widget should inherit from the class net.kaleidos.plugins.admin.widget.Widget. That is
 an abstract class, that has only one methods that you must implement:
 
-* String render(): The method to render your widget as html
+* *String render()*: The method to render your widget as html
 
 Also, Widget define sever methods that you can overwrite if you need them
 
-* String renderBeforeForm(): Render code html *before* the form that contains all the widgets
-* String renderAfterForm(): Render code html *after* the form that contains all the widgets
-* Object getValueForJson(): Returns an object (usually an string) that whould be used in order to\
-represent the current value of the widget when the widget is represented as JSON.
-* List<String> getAssets(): Returns the list of assets (css and js) needed for the html\
-representation of this widget. GrailsAdminPlugin uses the convention-over-configuration paradigm,\
-so if you don't implement this method, it will try to load one js file and one css file with the\
-same name that the widget.
-
+* *String renderBeforeForm()*: Render code html *before* the form that contains all the widgets
+* *String renderAfterForm()*: Render code html *after* the form that contains all the widgets
+* *Object getValueForJson()*: Returns an object (usually an string) that whould be used in order to represent the current value of the widget when the widget is represented as JSON.
+* *List<Map> getAssets()*: Returns the list of assets (css and js) needed for the html representation of this widget. The list should be a Map containing the same elements that the tag "g:resource" accepts [http://grails.org/doc/latest/ref/Tags/resource.html|http://grails.org/doc/latest/ref/Tags/resource.html] GrailsAdminPlugin uses the convention-over-configuration paradigm, so if you don't implement this method, it will try to load one js file and one css file with the same name that the widget.
 
 Last, there are several properties that you can use. Note that you don't write this properties, it\
 is GrailsAdminPlugin who assign the values. You should use this properties as read-only.
 
-* Object value: The current value of the widget. Its type will depend on the actual widget. For\
-example, on a TextInputWidget will be a String, and on DateInputWidget will be a Date.
-* Map htmlAttrs: A map of properties to be rendered on the html representation, like the name, if\
-it is required, etc.
-* Map internalAttrs: A map of properties internal for the widget. Remember that the widget\
-represents a property of a domain object, so:
-** domainObject: This is that domain object. Note that it could be null (for example, on the\
-create screen)
-** propertyName: This is the name of that property.
-** domainClass: This is the class of that object.
-** relatedDomainClass: If the property is a relation with another domain class, this is that domain\
-class. It could be null.
+* *Object value*: The current value of the widget. Its type will depend on the actual widget. For example, on a TextInputWidget will be a String, and on DateInputWidget will be a Date.
+* *Map htmlAttrs*: A map of properties to be rendered on the html representation, like the name, if it is required, etc.
+* *Map internalAttrs*: A map of properties internal for the widget. Remember that the widget represents a property of a domain object, so:
+** *domainObject*: This is that domain object. Note that it could be null (for example, on the create screen)
+** *propertyName*: This is the name of that property.
+** *domainClass*: This is the class of that object.
+** *relatedDomainClass*: If the property is a relation with another domain class, this is that domain class. It could be null.
 
 
 h3. Error handling
@@ -169,9 +159,10 @@ to do so, we will use a js and a css file. For the sake of the sample, we wont u
 so we need to override the getAssets method of the plugin
 
 {code}
-List<String> getAssets() {
-    [ 'js/admin/map.js',
-      'css/admin/map.css'
+List<Map> getAssets() {
+    return [
+        [ dir: "js", file: "admin/map.js", absolute: true ],
+        [ dir: "css", file: "admin/map.css", absolute: true ]
     ]
 }
 {code}
@@ -247,13 +238,14 @@ To customize the widget resources you must override the getAssets method
 
 {code}
 @Override
-List<String> getAssets() {
-    [ 'mywidget/exaple1.js',
-      'mywidget/example2.js',
-      'mywidget/example1.css',
-      'mywidget/example2.css',
-      'mywidget/templates/template1.handlebars',
-      'mywidget/templates/template2.handlebars'
+List<Map> getAssets() {
+    return [
+        [ dir: "mywidget", file: "example1.js", absolute: true ],
+        [ dir: "mywidget", file: "example2.js", absolute: true ],
+        [ dir: "mywidget", file: "example1.css", absolute: true ],
+        [ dir: "mywidget", file: "example2.css", absolute: true ],
+        [ dir: "mywidget/templates", file: "template1.handlebars", absolute: true ],
+        [ dir: "mywidget/templates", file: "template2.handlebars", absolute: true ],
     ]
 }
 {code}
