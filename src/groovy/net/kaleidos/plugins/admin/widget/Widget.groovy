@@ -13,7 +13,7 @@ abstract class Widget {
     def getValueForJson() {
         return ((value!=null)?value.toString():'')
     }
-    List<String> getAssets() {
+    List<Map> getAssets() {
         return []
     }
 

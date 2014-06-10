@@ -32,10 +32,12 @@ class DateInputWidget extends Widget{
 
 
     List<String> getAssets() {
-        return [
+        def results = [
             'grails-admin/libs/bootstrap-datepicker/css/datepicker3.css',
             'grails-admin/libs/bootstrap-datepicker/js/bootstrap-datepicker.js',
-            'grails-admin/js/datepicker.js']
+            'grails-admin/js/datepicker.js'
+        ]
+        return results.collect { ["plugin":"admin-interface", "absolute":true, "file":it]  }
     }
 
 

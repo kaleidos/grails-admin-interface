@@ -8,6 +8,10 @@ grails-admin-interface
 
 Please visit the complete documentation here: https://kaleidos.github.io/grails-admin-interface/
 
+You can test a sample application here: http://grails-admin-interface-sample.herokuapp.com/
+
+You can get the sample application source here: https://github.com/kaleidos/grails-admin-interface-sample
+
 
 ## Installation
 

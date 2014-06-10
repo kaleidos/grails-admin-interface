@@ -120,7 +120,7 @@ class RelationPopupOneWidget extends RelationPopupWidget{
 
     @Override
     List<String> getAssets() {
-        [ 'js/admin/relationpopup.js',
+        def results = [ 'js/admin/relationpopup.js',
           'js/admin/relationPopupOneWidgetField.js',
           'js/admin/relationPopupWidgetNew.js',
           'js/admin/relationPopupWidgetList.js',
@@ -128,6 +128,7 @@ class RelationPopupOneWidget extends RelationPopupWidget{
           'grails-admin/templates/grails-admin-list.handlebars',
           'grails-admin/templates/grails-admin-pagination.handlebars'
         ]
+        return results.collect { ["plugin":"admin-interface", "absolute":true, "file":it]  }
     }
 
 

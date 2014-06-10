@@ -82,39 +82,37 @@ class GrailsAdminPluginTagLib {
     }
 
     def layoutCss = { attrs ->
-        def buildClosure = {
-            def resource = grailsResourceLocator.findResourceForURI(it)
-            if (resource) {
-                out << "<link href=\"${request.contextPath}${_locateResource(resource)}\" rel=\"stylesheet\"></link>"
+        def buildClosure = { Map assetProperties->
+            def assetUrl = g.resource(assetProperties)
+            if (assetUrl) {
+                out << "<link href=\"${assetUrl}\" rel=\"stylesheet\"></link>"
             }
         }
         getViewResources("css").each(buildClosure)
         grailsAdminPluginHtmlRendererService.doWithAssetType(attrs.formType, attrs.className, "css", buildClosure)
     }
 
+    def layoutJs = { attrs->
+        def buildClosure = { Map assetProperties->
+            def assetUrl = g.resource(assetProperties)
+            if (assetUrl) {
+                out << "<script src=\"${assetUrl}\"></script>"
+            }
+        }
+        getViewResources("js").each(buildClosure)
+        grailsAdminPluginHtmlRendererService.doWithAssetType(attrs.formType, attrs.className, "js", buildClosure)
+    }
+
     def layoutHandlebers = { attrs->
-        def buildClosure = {
-            if (grailsResourceLocator.findResourceForURI(it)) {
-                def file = grailsResourceLocator.findResourceForURI(it).getFile()
-
+        def buildClosure = { Map assetProperties->
+            if (grailsResourceLocator.findResourceForURI(assetProperties.file)) {
+                def file = grailsResourceLocator.findResourceForURI(assetProperties.file).getFile()
                 def id = org.apache.commons.io.FilenameUtils.removeExtension(file.getName())
-
                 out << "<script id=\"${id}\" type=\"text/x-handlebars-template\">${file.getText()}</script>"
             }
         }
 
         grailsAdminPluginHtmlRendererService.doWithAssetType(attrs.formType, attrs.className, "handlebars", buildClosure)
-    }
-
-    def layoutJs = { attrs->
-        def buildClosure = {
-            def resource = grailsResourceLocator.findResourceForURI(it)
-            if (resource) {
-                out << "<script src=\"${request.contextPath}${_locateResource(resource)}\"></script>"
-            }
-        }
-        getViewResources("js").each(buildClosure)
-        grailsAdminPluginHtmlRendererService.doWithAssetType(attrs.formType, attrs.className, "js", buildClosure)
     }
 
     def pagination = { attrs->
@@ -177,7 +175,7 @@ class GrailsAdminPluginTagLib {
         out << "</ul>"
     }
 
-    List<String> getViewResources(String type){
+    List<Map> getViewResources(String type){
         def result = []
         if (type == "css") {
             result << 'grails-admin/libs/bootstrap/css/bootstrap.css'
@@ -201,16 +199,6 @@ class GrailsAdminPluginTagLib {
             result << 'grails-admin/js/views/listView.js'
             result << 'grails-admin/js/general.js'
         }
-
-        return result
-    }
-
-    private String _locateResource(def resource) {
-        if (resource instanceof org.springframework.web.context.support.ServletContextResource) {
-            return resource.path
-        } else {
-            def filePath = resource.file.path
-            return filePath.substring(filePath.indexOf("work/")+4).replaceAll("web-app/","")
-        }
+        return result.collect { ["plugin":"admin-interface", "absolute":true, "file":it]  }
     }
 }

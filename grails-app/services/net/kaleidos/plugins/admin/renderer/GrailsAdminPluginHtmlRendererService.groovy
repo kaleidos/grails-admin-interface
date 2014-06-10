@@ -239,12 +239,12 @@ class GrailsAdminPluginHtmlRendererService {
             properties.each{ propertyName ->
                 def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName")
                 if (widget) {
-                    def currentWidgetAssets = widget.assets.findAll { it.endsWith(".$type")}
+                    def currentWidgetAssets = widget.assets.findAll { it.file.endsWith(".$type")}
                     if (currentWidgetAssets) {
                         widgetAssets.addAll(currentWidgetAssets)
                     } else {
                         def slug = DomainInspector.getSlug(widget.class)
-                        widgetAssets << "$type/admin/$slug.$type"
+                        widgetAssets << [file:"$type/admin/$slug.$type"]
                     }
                 }
             }
