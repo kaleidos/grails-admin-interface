@@ -16,6 +16,7 @@ class AdminInterfaceGrailsPlugin {
     ]
 
     def pluginExcludes = [
+        "grails-app/admin/**",
         "grails-app/domain/**"
     ]
 

@@ -163,7 +163,6 @@ class AdminConfigHolder {
                     if (!this.domainGroups[groupName]) {
                         this.domainGroups[groupName] = []
                     }
-                    println ">> $domainConfig"
                     this.domainGroups[groupName].add(domainConfig)
                 }
             }
@@ -201,7 +200,6 @@ class AdminConfigHolder {
             if (Environment.current == Environment.PRODUCTION && Holders.config.grails.plugin.admin.security.forbidUnsecureProduction) {
                 String message = "You have not configured Spring Security. You can deactivate this feature setting 'grails.plugin.admin.security.forbidUnsecureProduction=false' in your configuration file"
                 log.error message
-                System.err.println message
                 throw new RuntimeException(message)
             }
         }
