@@ -186,13 +186,13 @@ class GrailsAdminPluginTagLib {
         }
 
         if (type == "js") {
-            result << 'grails-admin/libs/jquery/jquery.js'
+            result << 'grails-admin/libs/jquery.js'
             result << 'grails-admin/libs/lodash.js'
             result << 'grails-admin/libs/bootstrap/js/bootstrap.js'
-            result << 'grails-admin/libs/injectorJS/injector.js'
-            result << 'grails-admin/libs/parsleyjs/parsley.remote.js'
-            result << 'grails-admin/libs/serializeObject.js'
-            result << 'grails-admin/libs/handlebars-v1.3.0.js'
+            result << 'grails-admin/libs/injector.js'
+            result << 'grails-admin/libs/parsley.remote.js'
+            result << 'grails-admin/libs/jquery.serializeObject.js'
+            result << 'grails-admin/libs/handlebars.js'
             result << 'grails-admin/js/main.js'
             result << 'grails-admin/js/services/templateService.js'
             result << 'grails-admin/js/services/paginationService.js'
