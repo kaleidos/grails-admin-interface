@@ -94,7 +94,6 @@ class GrailsAdminPluginTagLib {
 
     def layoutJs = { attrs->
         def buildClosure = { Map assetProperties->
-            println ">> $assetProperties"
             def assetUrl = g.resource(assetProperties)
             if (assetUrl) {
                 out << "<script src=\"${assetUrl}\"></script>"
