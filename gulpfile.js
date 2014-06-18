@@ -33,7 +33,7 @@ gulp.task('libs', function () {
               ])
         .pipe(gulp.dest(path.libsDir + 'select2/'));
     gulp.src(['front/dist/lib/lodash/dist/lodash.js',
-              'front/dist/lib/handlebars.js/lib/handlebars.js',
+              'front/dist/lib/handlebars/handlebars.js',
               'front/dist/lib/jQuery.serializeObject/jquery.serializeObject.js',
               'front/dist/lib/jquery/dist/jquery.js',
               'front/dist/lib/injectorJS/src/injector.js',
