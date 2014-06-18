@@ -8,3 +8,4 @@ plugin.xml
 bower_components
 node_modules
 .sass-cache
+front/dist
