@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Grails Admin Interface 0.6.1</title>
+        <title>Grails Admin Interface 0.6.3</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -79,7 +79,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Grails Admin Interface - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Kaleidos Open Source</p>
-                            <p><strong>Version:</strong> 0.6.1</p>
+                            <p><strong>Version:</strong> 0.6.3</p>
                             
                         </div>
 
@@ -96,6 +96,8 @@ function addJsClass(el) {
                             <div class="toc-item" style="margin-left:10px"><a href="#dependencies"><strong>1.3</strong><span>Dependencies</span></a></div>
                             
                             <div class="toc-item" style="margin-left:10px"><a href="#installation"><strong>1.4</strong><span>Installation</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#sample"><strong>1.5</strong><span>Sample</span></a></div>
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#screenshots"><strong>2</strong><span>Screenshots</span></a></div>
                             
@@ -178,13 +180,21 @@ Absolute functional from scratch, gives much more power with his extensible widg
 
 <h2 id="versions">1.1 Release history and changelog</h2>
 <ul class="star">
-<li>9th May 2014</li>
+<li>18th June 2014</li>
 <ul class="star">
-<li>0.1.1: First internal release</li>
+<li>0.6.3: Fixed problem with 404 and resources. Javascript cleanup</li>
+</ul>
+<li>11th May 2014</li>
+<ul class="star">
+<li>0.6.2: Fixed resources bug</li>
 </ul>
 <li>23rd May 2014</li>
 <ul class="star">
 <li>0.6.1: First ready for world testing release</li>
+</ul>
+<li>9th May 2014</li>
+<ul class="star">
+<li>0.1.1: First internal release</li>
 </ul></ul><p class="paragraph"/>
 
 
@@ -221,6 +231,12 @@ list of domains to start working with:
 See Custom Widgets section for more information.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Conference = &#123;
     widget <span class="java&#45;quote">"coordinates"</span>, <span class="java&#45;quote">"sample.MapWidget"</span>, height:400, width:600
 &#125;</pre></div>
+
+
+
+<h2 id="sample">1.5 Sample</h2>
+<h4>Sample Application</h4><p class="paragraph"/>There is a sample application that you can checkout at github:<p class="paragraph"/><a href="https://github.com/kaleidos/grails-admin-interface-sample" target="blank">https://github.com/kaleidos/grails-admin-interface-sample</a><p class="paragraph"/>
+Also, you cant test the sample application online at:<p class="paragraph"/><a href="http://grails-admin-interface-sample.herokuapp.com/" target="blank">http://grails-admin-interface-sample.herokuapp.com/</a>
 
 
 
@@ -713,40 +729,24 @@ the custom widget class and some properties to configure.<p class="paragraph"/>E
 <h2>Groovy side</h2><p class="paragraph"/><h3>Inherit from Widget</h3><p class="paragraph"/>Your custom widget should inherit from the class net.kaleidos.plugins.admin.widget.Widget. That is
 an abstract class, that has only one methods that you must implement:
 <ul class="star">
-<li>String render(): The method to render your widget as html</li>
-</ul><p class="paragraph"/>Also, Widget define sever methods that you can overwrite if yo need them
+<li><strong class="bold">String render()</strong>: The method to render your widget as html</li>
+</ul><p class="paragraph"/>Also, Widget define sever methods that you can overwrite if you need them
 <ul class="star">
-<li>String renderBeforeForm(): Render code html <strong class="bold">before</strong> the form that contains all the widgets</li>
-<li>String renderAfterForm(): Render code html <strong class="bold">after</strong> the form that contains all the widgets</li>
-<li>Object getValueForJson(): Returns an object (usually an string) that whould be used in order to</li>
-</ul><p class="paragraph"/>represent the current value of the widget when the widget is represented as JSON.
+<li><strong class="bold">String renderBeforeForm()</strong>: Render code html <strong class="bold">before</strong> the form that contains all the widgets</li>
+<li><strong class="bold">String renderAfterForm()</strong>: Render code html <strong class="bold">after</strong> the form that contains all the widgets</li>
+<li><strong class="bold">Object getValueForJson()</strong>: Returns an object (usually an string) that whould be used in order to represent the current value of the widget when the widget is represented as JSON.</li>
+<li><strong class="bold">List&#60;Map&#62; getAssets()</strong>: Returns the list of assets (css and js) needed for the html representation of this widget. The list should be a Map containing the same elements that the tag "g:resource" accepts <a href="http://grails.org/doc/latest/ref/Tags/resource.html" target="blank">http://grails.org/doc/latest/ref/Tags/resource.html</a> GrailsAdminPlugin uses the convention-over-configuration paradigm, so if you don't implement this method, it will try to load one js file and one css file with the same name that the widget.</li>
+</ul><p class="paragraph"/>Last, there are several properties that you can use. Note that you don't write this properties, it&#10;is GrailsAdminPlugin who assign the values. You should use this properties as read-only.
 <ul class="star">
-<li>List&#60;String&#62; getAssets(): Returns the list of assets (css and js) needed for the html</li>
-</ul><p class="paragraph"/>representation of this widget. GrailsAdminPlugin uses the convention-over-configuration paradigm,
-so if you don't implement this method, it will try to load one js file and one css file with the
-same name that the widget.<p class="paragraph"/>
-Last, there are several properties that you can use. Note that you don't write this properties, it
-is GrailsAdminPlugin who assign the values. You should use this properties as read-only.
+<li><strong class="bold">Object value</strong>: The current value of the widget. Its type will depend on the actual widget. For example, on a TextInputWidget will be a String, and on DateInputWidget will be a Date.</li>
+<li><strong class="bold">Map htmlAttrs</strong>: A map of properties to be rendered on the html representation, like the name, if it is required, etc.</li>
+<li><strong class="bold">Map internalAttrs</strong>: A map of properties internal for the widget. Remember that the widget represents a property of a domain object, so:</li>
 <ul class="star">
-<li>Object value: The current value of the widget. Its type will depend on the actual widget. For</li>
-</ul><p class="paragraph"/>example, on a TextInputWidget will be a String, and on DateInputWidget will be a Date.
-<ul class="star">
-<li>Map htmlAttrs: A map of properties to be rendered on the html representation, like the name, if</li>
-</ul><p class="paragraph"/>it is required, etc.
-<ul class="star">
-<li>Map internalAttrs: A map of properties internal for the widget. Remember that the widget</li>
-</ul><p class="paragraph"/>represents a property of a domain object, so:
-<ul class="star">
-<ul class="star">
-<li>domainObject: This is that domain object. Note that it could be null (for example, on the</li>
-</ul></ul><p class="paragraph"/>create screen)
-<ul class="star">
-<ul class="star">
-<li>propertyName: This is the name of that property.</li>
-<li>domainClass: This is the class of that object.</li>
-<li>relatedDomainClass: If the property is a relation with another domain class, this is that domain</li>
-</ul></ul><p class="paragraph"/>class. It could be null.<p class="paragraph"/>
-<h3>Error handling</h3><p class="paragraph"/>If you want you can handle errors (expected or unspected) thrown by your widget. You should extend
+<li><strong class="bold">domainObject</strong>: This is that domain object. Note that it could be null (for example, on the create screen)</li>
+<li><strong class="bold">propertyName</strong>: This is the name of that property.</li>
+<li><strong class="bold">domainClass</strong>: This is the class of that object.</li>
+<li><strong class="bold">relatedDomainClass</strong>: If the property is a relation with another domain class, this is that domain class. It could be null.</li>
+</ul></ul><p class="paragraph"/><h3>Error handling</h3><p class="paragraph"/>If you want you can handle errors (expected or unspected) thrown by your widget. You should extend
 the method.<p class="paragraph"/><div class="code"><pre><span class="java&#45;object">String</span> renderError(Throwable t)</pre></div><p class="paragraph"/>This method will be called after any exception thrown by your widget. So you can render your custom
 information.<p class="paragraph"/>When the widget throws an exception on the method "updateValue" (which parsers the form input to your
 custom types inside the widget) any error will be displayed in the form as if a validation error was
@@ -795,9 +795,10 @@ load one js file and one css file with the same name that the widget. The plugin
 this files on WEB-APP/js/admin/ and WEB-APP/css/admin/.<p class="paragraph"/>If you need something diferent, you can specify a custom method getAssets on the widget.<p class="paragraph"/>
 <h3>Sample</h3><p class="paragraph"/>We will upgrade our MapWidget with a button that refresh the map with the current address. In order
 to do so, we will use a js and a css file. For the sake of the sample, we wont use the convention,
-so we need to override the getAssets method of the plugin<p class="paragraph"/><div class="code"><pre>List&#60;<span class="java&#45;object">String</span>&#62; getAssets() &#123;
-    &#91; 'js/admin/map.js',
-      'css/admin/map.css'
+so we need to override the getAssets method of the plugin<p class="paragraph"/><div class="code"><pre>List&#60;Map&#62; getAssets() &#123;
+    <span class="java&#45;keyword">return</span> &#91;
+        &#91; dir: <span class="java&#45;quote">"js"</span>, file: <span class="java&#45;quote">"admin/map.js"</span>, absolute: <span class="java&#45;keyword">true</span> &#93;,
+        &#91; dir: <span class="java&#45;quote">"css"</span>, file: <span class="java&#45;quote">"admin/map.css"</span>, absolute: <span class="java&#45;keyword">true</span> &#93;
     &#93;
 &#125;</pre></div><p class="paragraph"/>
 Also, we will modify the render method with the code to show the button, and also with some divs to
@@ -837,13 +838,14 @@ WEB-APP/js/admin/map.js<p class="paragraph"/><div class="code"><pre>$(<span clas
 &#125;);</pre></div><p class="paragraph"/><blockquote class="note">
 NOTE: GrailsAdminPlugin uses jquery, so it is available for your custom widgets also
 </blockquote><p class="paragraph"/><h2>More Frotend features</h2><p class="paragraph"/>To customize the widget resources you must override the getAssets method<p class="paragraph"/><div class="code"><pre>@Override
-List&#60;<span class="java&#45;object">String</span>&#62; getAssets() &#123;
-    &#91; 'mywidget/exaple1.js',
-      'mywidget/example2.js',
-      'mywidget/example1.css',
-      'mywidget/example2.css',
-      'mywidget/templates/template1.handlebars',
-      'mywidget/templates/template2.handlebars'
+List&#60;Map&#62; getAssets() &#123;
+    <span class="java&#45;keyword">return</span> &#91;
+        &#91; dir: <span class="java&#45;quote">"mywidget"</span>, file: <span class="java&#45;quote">"example1.js"</span>, absolute: <span class="java&#45;keyword">true</span> &#93;,
+        &#91; dir: <span class="java&#45;quote">"mywidget"</span>, file: <span class="java&#45;quote">"example2.js"</span>, absolute: <span class="java&#45;keyword">true</span> &#93;,
+        &#91; dir: <span class="java&#45;quote">"mywidget"</span>, file: <span class="java&#45;quote">"example1.css"</span>, absolute: <span class="java&#45;keyword">true</span> &#93;,
+        &#91; dir: <span class="java&#45;quote">"mywidget"</span>, file: <span class="java&#45;quote">"example2.css"</span>, absolute: <span class="java&#45;keyword">true</span> &#93;,
+        &#91; dir: <span class="java&#45;quote">"mywidget/templates"</span>, file: <span class="java&#45;quote">"template1.handlebars"</span>, absolute: <span class="java&#45;keyword">true</span> &#93;,
+        &#91; dir: <span class="java&#45;quote">"mywidget/templates"</span>, file: <span class="java&#45;quote">"template2.handlebars"</span>, absolute: <span class="java&#45;keyword">true</span> &#93;,
     &#93;
 &#125;</pre></div><p class="paragraph"/><h3>GrailsAdmin Javascript utils</h3><p class="paragraph"/>GrailsAdmin has views &#38; services that you can use in your widget if you want<p class="paragraph"/><strong class="bold">Views</strong><p class="paragraph"/><div class="code"><pre>//js file
 //creating view
