@@ -6,6 +6,7 @@ class GrailsAdminPluginTagLib {
     def grailsAdminPluginHtmlRendererService
     def adminConfigHolder
     def grailsResourceLocator
+    def grailsLinkGenerator
 
 
     def editFormFields = { attrs ->
@@ -83,8 +84,8 @@ class GrailsAdminPluginTagLib {
 
     def layoutCss = { attrs ->
         def buildClosure = { Map assetProperties->
-            def assetUrl = g.resource(assetProperties)
-            if (assetUrl) {
+            def assetUrl = grailsLinkGenerator.resource(assetProperties)
+            if (grailsResourceLocator.findResourceForURI(assetUrl)) {
                 out << "<link href=\"${assetUrl}\" rel=\"stylesheet\"></link>"
             }
         }
@@ -94,8 +95,8 @@ class GrailsAdminPluginTagLib {
 
     def layoutJs = { attrs->
         def buildClosure = { Map assetProperties->
-            def assetUrl = g.resource(assetProperties)
-            if (assetUrl) {
+            def assetUrl = grailsLinkGenerator.resource(assetProperties)
+            if (grailsResourceLocator.findResourceForURI(assetUrl)) {
                 out << "<script src=\"${assetUrl}\"></script>"
             }
         }
