@@ -26,4 +26,11 @@ class MapWidget extends Widget {
         html.append("</div>")
         return html
     }
+
+    List getAssets() {
+        return [
+            [ plugin:"admin-interface", file: "grails-admin/css/widgets/mapwidget.css" ],
+            [ plugin:"admin-interface", file: "grails-admin/js/widgets/mapwidget.js" ],
+        ]
+    }
 }

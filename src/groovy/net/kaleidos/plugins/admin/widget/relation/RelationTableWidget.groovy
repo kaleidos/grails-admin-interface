@@ -117,14 +117,16 @@ class RelationTableWidget extends RelationPopupWidget{
     }
 
     List<String> getAssets() {
-        def results = [ 'js/admin/relationpopup.js',
-          'js/admin/relationPopupWidgetNew.js',
-          'js/admin/relationTableWidget.js',
-          'js/admin/relationPopupWidgetList.js',
-          'grails-admin/templates/grails-admin-modal.handlebars',
-          'grails-admin/templates/grails-admin-list.handlebars',
-          'grails-admin/templates/grails-admin-selected-item.handlebars',
-          'grails-admin/templates/grails-admin-pagination.handlebars'
+        def results = [
+            'grails-admin/css/widgets/relationtablewidget.css',
+            'grails-admin/js/widgets/relationpopup.js',
+            'grails-admin/js/widgets/relationPopupWidgetNew.js',
+            'grails-admin/js/widgets/relationTableWidget.js',
+            'grails-admin/js/widgets/relationPopupWidgetList.js',
+            'grails-admin/templates/grails-admin-modal.handlebars',
+            'grails-admin/templates/grails-admin-list.handlebars',
+            'grails-admin/templates/grails-admin-selected-item.handlebars',
+            'grails-admin/templates/grails-admin-pagination.handlebars'
         ]
         return results.collect { ["plugin":"admin-interface", "absolute":true, "file":it]  }
     }
