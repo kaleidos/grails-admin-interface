@@ -85,9 +85,7 @@ class GrailsAdminPluginTagLib {
     def layoutCss = { attrs ->
         def buildClosure = { Map assetProperties->
             def assetUrl = grailsLinkGenerator.resource(assetProperties)
-            if (grailsResourceLocator.findResourceForURI(assetUrl)) {
-                out << "<link href=\"${assetUrl}\" rel=\"stylesheet\"></link>"
-            }
+            out << "<link href=\"${assetUrl}\" rel=\"stylesheet\"></link>"
         }
         getViewResources("css").each(buildClosure)
         grailsAdminPluginHtmlRendererService.doWithAssetType(attrs.formType, attrs.className, "css", buildClosure)
@@ -96,9 +94,7 @@ class GrailsAdminPluginTagLib {
     def layoutJs = { attrs->
         def buildClosure = { Map assetProperties->
             def assetUrl = grailsLinkGenerator.resource(assetProperties)
-            if (grailsResourceLocator.findResourceForURI(assetUrl)) {
-                out << "<script src=\"${assetUrl}\"></script>"
-            }
+            out << "<script src=\"${assetUrl}\"></script>"
         }
         getViewResources("js").each(buildClosure)
         grailsAdminPluginHtmlRendererService.doWithAssetType(attrs.formType, attrs.className, "js", buildClosure)
