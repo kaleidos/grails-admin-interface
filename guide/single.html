@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Grails Admin Interface 0.6.3</title>
+        <title>Grails Admin Interface 0.6.4</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -79,7 +79,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Grails Admin Interface - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Kaleidos Open Source</p>
-                            <p><strong>Version:</strong> 0.6.3</p>
+                            <p><strong>Version:</strong> 0.6.4</p>
                             
                         </div>
 
@@ -180,6 +180,10 @@ Absolute functional from scratch, gives much more power with his extensible widg
 
 <h2 id="versions">1.1 Release history and changelog</h2>
 <ul class="star">
+<li>20th June 2014</li>
+<ul class="star">
+<li>0.6.4: Changed default widget assets location</li>
+</ul>
 <li>18th June 2014</li>
 <ul class="star">
 <li>0.6.3: Fixed problem with 404 and resources. Javascript cleanup</li>
@@ -735,7 +739,7 @@ an abstract class, that has only one methods that you must implement:
 <li><strong class="bold">String renderBeforeForm()</strong>: Render code html <strong class="bold">before</strong> the form that contains all the widgets</li>
 <li><strong class="bold">String renderAfterForm()</strong>: Render code html <strong class="bold">after</strong> the form that contains all the widgets</li>
 <li><strong class="bold">Object getValueForJson()</strong>: Returns an object (usually an string) that whould be used in order to represent the current value of the widget when the widget is represented as JSON.</li>
-<li><strong class="bold">List&#60;Map&#62; getAssets()</strong>: Returns the list of assets (css and js) needed for the html representation of this widget. The list should be a Map containing the same elements that the tag "g:resource" accepts <a href="http://grails.org/doc/latest/ref/Tags/resource.html" target="blank">http://grails.org/doc/latest/ref/Tags/resource.html</a> GrailsAdminPlugin uses the convention-over-configuration paradigm, so if you don't implement this method, it will try to load one js file and one css file with the same name that the widget.</li>
+<li><strong class="bold">List&#60;Map&#62; getAssets()</strong>: Returns the list of assets (css and js) needed for the html representation of this widget. The list should be a Map containing the same elements that the tag "g:resource" accepts <a href="http://grails.org/doc/latest/ref/Tags/resource.html" target="blank">http://grails.org/doc/latest/ref/Tags/resource.html</a>.</li>
 </ul><p class="paragraph"/>Last, there are several properties that you can use. Note that you don't write this properties, it&#10;is GrailsAdminPlugin who assign the values. You should use this properties as read-only.
 <ul class="star">
 <li><strong class="bold">Object value</strong>: The current value of the widget. Its type will depend on the actual widget. For example, on a TextInputWidget will be a String, and on DateInputWidget will be a Date.</li>
@@ -789,13 +793,9 @@ value directly, you should write it as value.encodeAsHTML(). Also, you should be
 null values.<p class="paragraph"/>So you can write rhe values as
 <div class="code"><pre>$&#123;value?:value.encodeAsHTML():''&#125;</pre></div>
 </blockquote><p class="paragraph"/>
-<h2>Frontend side</h2><p class="paragraph"/>Most widgets won't need special css nor js. But if you need them, you can use them.
-GrailsAdminPlugin uses the convention-over-configuration paradigm, so by default it will try to
-load one js file and one css file with the same name that the widget. The plugin will search for
-this files on WEB-APP/js/admin/ and WEB-APP/css/admin/.<p class="paragraph"/>If you need something diferent, you can specify a custom method getAssets on the widget.<p class="paragraph"/>
+<h2>Frontend side</h2><p class="paragraph"/>Most widgets won't need special css nor js. But if you need them, you can use them you can specify a custom method getAssets on the widget.<p class="paragraph"/>
 <h3>Sample</h3><p class="paragraph"/>We will upgrade our MapWidget with a button that refresh the map with the current address. In order
-to do so, we will use a js and a css file. For the sake of the sample, we wont use the convention,
-so we need to override the getAssets method of the plugin<p class="paragraph"/><div class="code"><pre>List&#60;Map&#62; getAssets() &#123;
+to do so, we will use a js and a css file.<p class="paragraph"/><div class="code"><pre>List&#60;Map&#62; getAssets() &#123;
     <span class="java&#45;keyword">return</span> &#91;
         &#91; dir: <span class="java&#45;quote">"js"</span>, file: <span class="java&#45;quote">"admin/map.js"</span>, absolute: <span class="java&#45;keyword">true</span> &#93;,
         &#91; dir: <span class="java&#45;quote">"css"</span>, file: <span class="java&#45;quote">"admin/map.css"</span>, absolute: <span class="java&#45;keyword">true</span> &#93;
