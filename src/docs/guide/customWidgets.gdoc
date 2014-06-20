@@ -29,7 +29,7 @@ Also, Widget define sever methods that you can overwrite if you need them
 * *String renderBeforeForm()*: Render code html *before* the form that contains all the widgets
 * *String renderAfterForm()*: Render code html *after* the form that contains all the widgets
 * *Object getValueForJson()*: Returns an object (usually an string) that whould be used in order to represent the current value of the widget when the widget is represented as JSON.
-* *List<Map> getAssets()*: Returns the list of assets (css and js) needed for the html representation of this widget. The list should be a Map containing the same elements that the tag "g:resource" accepts [http://grails.org/doc/latest/ref/Tags/resource.html|http://grails.org/doc/latest/ref/Tags/resource.html] GrailsAdminPlugin uses the convention-over-configuration paradigm, so if you don't implement this method, it will try to load one js file and one css file with the same name that the widget.
+* *List<Map> getAssets()*: Returns the list of assets (css and js) needed for the html representation of this widget. The list should be a Map containing the same elements that the tag "g:resource" accepts [http://grails.org/doc/latest/ref/Tags/resource.html|http://grails.org/doc/latest/ref/Tags/resource.html].
 
 Last, there are several properties that you can use. Note that you don't write this properties, it\
 is GrailsAdminPlugin who assign the values. You should use this properties as read-only.
@@ -144,19 +144,13 @@ ${value?:value.encodeAsHTML():''}
 
 h2. Frontend side
 
-Most widgets won't need special css nor js. But if you need them, you can use them.
-GrailsAdminPlugin uses the convention-over-configuration paradigm, so by default it will try to
-load one js file and one css file with the same name that the widget. The plugin will search for
-this files on WEB-APP/js/admin/ and WEB-APP/css/admin/.
-
-If you need something diferent, you can specify a custom method getAssets on the widget.
+Most widgets won't need special css nor js. But if you need them, you can use them you can specify a custom method getAssets on the widget.
 
 
 h3. Sample
 
 We will upgrade our MapWidget with a button that refresh the map with the current address. In order
-to do so, we will use a js and a css file. For the sake of the sample, we wont use the convention,
-so we need to override the getAssets method of the plugin
+to do so, we will use a js and a css file.
 
 {code}
 List<Map> getAssets() {
