@@ -126,7 +126,7 @@ class GrailsAdminPluginTagLib {
         }
 
         if (totalPages < 20) {
-            totalPages.times {
+            (1..totalPages).each {
                 out << "<li ${htmlclass(it)}>${g.link("$it",mapping:'grailsAdminList', params: [slug: domain.slug, page: it])}</li>"
             }
         } else {
@@ -150,14 +150,13 @@ class GrailsAdminPluginTagLib {
                 (currentPage-2 .. currentPage +2).each {
                     out << "<li ${htmlclass(it)}>${g.link("$it",mapping:'grailsAdminList', params: [slug: domain.slug, page: it])}</li>"
                 }
+                out << "<li><a>...</a></li>"
             }
 
             if (currentPage >= totalPages -8 && currentPage <= totalPages -4) {
                 (currentPage-2 .. totalPages -5).each {
                     out << "<li ${htmlclass(it)}>${g.link("$it",mapping:'grailsAdminList', params: [slug: domain.slug, page: it])}</li>"
                 }
-            } else if (currentPage <= totalPages-4) {
-                out << "<li><a>...</a></li>"
             }
 
             // Print last 5 pages
