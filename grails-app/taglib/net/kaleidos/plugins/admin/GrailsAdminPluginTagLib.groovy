@@ -118,6 +118,7 @@ class GrailsAdminPluginTagLib {
         def currentPage = attrs.currentPage
 
         def htmlclass = { (it == currentPage)?"class='active'":"" }
+        def pages = (1..totalPages).toList()
 
         out << "<ul class='pagination'>"
 
@@ -125,43 +126,24 @@ class GrailsAdminPluginTagLib {
             out << "<li>${g.link('«', mapping:'grailsAdminList', params: [slug: domain.slug, page: currentPage - 1])}</li>"
         }
 
-        if (totalPages < 20) {
-            (1..totalPages).each {
-                out << "<li ${htmlclass(it)}>${g.link("$it",mapping:'grailsAdminList', params: [slug: domain.slug, page: it])}</li>"
-            }
-        } else {
-            // Print first 5 pages
-            (1..5).each {
-                out << "<li ${htmlclass(it)}>${g.link("$it",mapping:'grailsAdminList', params: [slug: domain.slug, page: it])}</li>"
-            }
-
-            if (currentPage >= 5 && currentPage <= 7) {
-                (6 .. currentPage +2).each {
-                    out << "<li ${htmlclass(it)}>${g.link("$it",mapping:'grailsAdminList', params: [slug: domain.slug, page: it])}</li>"
+        if (totalPages >= 20) {
+            pages = (1..5).toList() + (currentPage-2 .. currentPage+2).toList() + (totalPages-4 .. totalPages).toList()
+            pages.unique()
+            pages = pages.findAll { it > 0 }
+            pages = pages.inject([]) { result, i ->
+                if (result.size() > 0 && i - result[-1] > 1) {
+                    result + ['...', i]
+                } else {
+                    result + [i]
                 }
-                out << "<li><a>...</a></li>"
+            }
+        }
+
+        pages.each {
+            if(it instanceof Integer) {
+                out << "<li ${htmlclass(it)}>${g.link("$it",mapping:'grailsAdminList', params: [slug: domain.slug, page: it])}</li>"
             } else {
-                out << "<li><a>...</a></li>"
-            }
-
-            // Print current and two before and two after
-
-            if (currentPage > 7 && currentPage < totalPages - 8) {
-                (currentPage-2 .. currentPage +2).each {
-                    out << "<li ${htmlclass(it)}>${g.link("$it",mapping:'grailsAdminList', params: [slug: domain.slug, page: it])}</li>"
-                }
-                out << "<li><a>...</a></li>"
-            }
-
-            if (currentPage >= totalPages -8 && currentPage <= totalPages -4) {
-                (currentPage-2 .. totalPages -5).each {
-                    out << "<li ${htmlclass(it)}>${g.link("$it",mapping:'grailsAdminList', params: [slug: domain.slug, page: it])}</li>"
-                }
-            }
-
-            // Print last 5 pages
-            (totalPages-4 .. totalPages).each {
-                out << "<li ${htmlclass(it)}>${g.link("$it",mapping:'grailsAdminList', params: [slug: domain.slug, page: it])}</li>"
+                out << "<li><a>$it</a></li>"
             }
         }
 
