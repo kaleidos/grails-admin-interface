@@ -127,8 +127,10 @@ class GrailsAdminPluginTagLib {
         }
 
         if (totalPages >= 20) {
-            pages = (1..5).toList() + (currentPage-2 .. currentPage+2).toList() + (totalPages-4 .. totalPages).toList()
-            pages.unique()
+            pages = (1..5).toList()
+            pages = pages + (currentPage-2 .. ((currentPage + 2 > totalPages)?totalPages:(currentPage + 2))).toList()
+            pages = pages + (((totalPages-4 < 0)?0:(totalPages-4)) .. totalPages).toList()
+            pages.sort().unique()
             pages = pages.findAll { it > 0 }
             pages = pages.inject([]) { result, i ->
                 if (result.size() > 0 && i - result[-1] > 1) {
