@@ -1,5 +1,7 @@
 package net.kaleidos.plugins.admin.widget
 
+import groovy.xml.MarkupBuilder
+
 class CheckboxInputWidget extends InputWidget{
 
     CheckboxInputWidget() {
@@ -8,20 +10,24 @@ class CheckboxInputWidget extends InputWidget{
 
     @Override
     String render() {
-        StringBuilder html = new StringBuilder()
-        html.append("<input type=\"${inputType.encodeAsHTML()}\"")
+        def writer = new StringWriter()
+        def builder = new MarkupBuilder(writer)
+        def attrs = htmlAttrs.clone()
+
+        attrs << ["type": inputType]
         if (value) {
-            html.append(" checked=\"checked\"")
+            attrs << ["checked": "checked"]
         }
-        htmlAttrs.each {key, value ->
-            if (key != "required") {
-                html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
-            }
+
+        attrs.remove("required")
+
+        if(internalAttrs["text"]) {
+            builder.input(attrs, internalAttrs["text"])
+        } else {
+            builder.input(attrs)
         }
-        html.append(">")
-        html.append(internalAttrs["text"]?internalAttrs["text"].encodeAsHTML():"")
-        html.append("</input>")
-        return html
+
+        return writer
     }
 
     public void updateValue() {

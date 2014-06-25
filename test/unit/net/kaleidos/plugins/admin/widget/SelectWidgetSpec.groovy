@@ -18,9 +18,18 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class SelectWidgetSpec extends Specification {
+    @Shared
+    def slurper
+
+    void setupSpec() {
+        def parser = new org.cyberneko.html.parsers.SAXParser()
+        parser.setFeature('http://xml.org/sax/features/namespaces', false)
+        slurper = new XmlSlurper(parser)
+    }
 
     void setup() {
-        Object.metaClass.encodeAsHTML = { def encoder = new HTMLCodec().getEncoder()
+        Object.metaClass.encodeAsHTML = {
+            def encoder = new HTMLCodec().getEncoder()
             return encoder.encode(delegate)
         }
     }
@@ -30,9 +39,12 @@ class SelectWidgetSpec extends Specification {
             def widget = new SelectWidget()
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select><option value=\"\">--</option></select>"
+            result.BODY.SELECT.OPTION.size() == 1
+            result.BODY.SELECT.OPTION[0].@value.text() == ""
+            result.BODY.SELECT.OPTION[0].text() == "--"
     }
 
 
@@ -42,9 +54,11 @@ class SelectWidgetSpec extends Specification {
             widget.htmlAttrs.required = "true"
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select required=\"true\"></select>"
+            result.BODY.SELECT.OPTION.size() == 0
+            result.BODY.SELECT.@required.text() == "true"
     }
 
 
@@ -54,9 +68,12 @@ class SelectWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select><option value=\"\">--</option></select>"
+            result.BODY.SELECT.OPTION.size() == 1
+            result.BODY.SELECT.OPTION[0].@value.text() == ""
+            result.BODY.SELECT.OPTION[0].text() == "--"
 
         where:
             value = "Saab"
@@ -68,9 +85,20 @@ class SelectWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            result.BODY.SELECT.OPTION.size() == 5
+            result.BODY.SELECT.OPTION[0].@value.text() == ""
+            result.BODY.SELECT.OPTION[0].text() == "--"
+            result.BODY.SELECT.OPTION[1].@value.text() == "Volvo"
+            result.BODY.SELECT.OPTION[1].text() == "Volvo"
+            result.BODY.SELECT.OPTION[2].@value.text() == "Saab"
+            result.BODY.SELECT.OPTION[2].text() == "Saab"
+            result.BODY.SELECT.OPTION[3].@value.text() == "Opel"
+            result.BODY.SELECT.OPTION[3].text() == "Opel"
+            result.BODY.SELECT.OPTION[4].@value.text() == "Audi"
+            result.BODY.SELECT.OPTION[4].text() == "Audi"
 
         where:
             options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
@@ -85,9 +113,20 @@ class SelectWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            result.BODY.SELECT.OPTION.size() == 5
+            result.BODY.SELECT.OPTION[0].@value.text() == ""
+            result.BODY.SELECT.OPTION[0].text() == "--"
+            result.BODY.SELECT.OPTION[1].@value.text() == "Volvo"
+            result.BODY.SELECT.OPTION[1].text() == "Volvo"
+            result.BODY.SELECT.OPTION[2].@value.text() == "Saab"
+            result.BODY.SELECT.OPTION[2].text() == "Saab"
+            result.BODY.SELECT.OPTION[3].@value.text() == "Opel"
+            result.BODY.SELECT.OPTION[3].text() == "Opel"
+            result.BODY.SELECT.OPTION[4].@value.text() == "Audi"
+            result.BODY.SELECT.OPTION[4].text() == "Audi"
 
         where:
             value = "Saab"
@@ -102,9 +141,14 @@ class SelectWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select name=\"selectName\" disabled=\"true\"><option value=\"\">--</option></select>"
+            result.BODY.SELECT.@name.text() == "selectName"
+            result.BODY.SELECT.@disabled.text() == "true"
+            result.BODY.SELECT.OPTION.size() == 1
+            result.BODY.SELECT.OPTION[0].@value.text() == ""
+            result.BODY.SELECT.OPTION[0].text() == "--"
 
         where:
             value = "Saab"
@@ -117,9 +161,20 @@ class SelectWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            result.BODY.SELECT.OPTION.size() == 5
+            result.BODY.SELECT.OPTION[0].@value.text() == ""
+            result.BODY.SELECT.OPTION[0].text() == "--"
+            result.BODY.SELECT.OPTION[1].@value.text() == "Volvo"
+            result.BODY.SELECT.OPTION[1].text() == "Volvo"
+            result.BODY.SELECT.OPTION[2].@value.text() == "Saab"
+            result.BODY.SELECT.OPTION[2].text() == "Saab"
+            result.BODY.SELECT.OPTION[3].@value.text() == "Opel"
+            result.BODY.SELECT.OPTION[3].text() == "Opel"
+            result.BODY.SELECT.OPTION[4].@value.text() == "Audi"
+            result.BODY.SELECT.OPTION[4].text() == "Audi"
 
         where:
             options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
@@ -132,9 +187,20 @@ class SelectWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select><option value=\"\">--</option><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            result.BODY.SELECT.OPTION.size() == 5
+            result.BODY.SELECT.OPTION[0].@value.text() == ""
+            result.BODY.SELECT.OPTION[0].text() == "--"
+            result.BODY.SELECT.OPTION[1].@value.text() == "Volvo"
+            result.BODY.SELECT.OPTION[1].text() == "Volvo"
+            result.BODY.SELECT.OPTION[2].@value.text() == "Saab"
+            result.BODY.SELECT.OPTION[2].text() == "Saab"
+            result.BODY.SELECT.OPTION[3].@value.text() == "Opel"
+            result.BODY.SELECT.OPTION[3].text() == "Opel"
+            result.BODY.SELECT.OPTION[4].@value.text() == "Audi"
+            result.BODY.SELECT.OPTION[4].text() == "Audi"
 
         where:
             value = "Saab"

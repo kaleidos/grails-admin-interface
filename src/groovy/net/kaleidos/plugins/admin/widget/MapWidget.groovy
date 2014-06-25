@@ -1,30 +1,39 @@
 package net.kaleidos.plugins.admin.widget
+
 import groovy.xml.MarkupBuilder
 
 class MapWidget extends Widget {
 
     String render() {
-        def html = new StringBuilder()
-        html.append("<div class='map-widget' view='mapwidget'>")
-        html.append("<div>")
-        html.append("<span class='map-container'>")
-        html.append("<iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'")
-        html.append("src='https://maps.google.com/maps?f=q&amp;q=${value}&amp;output=embed'")
-        html.append("></iframe>")
-        html.append("</span>")
-        html.append("<input type='button' class='map-widget-refresh js-map-widget-refresh' value='Refresh' />")
-        html.append("</div>")
+        def writer = new StringWriter()
+        def builder = new MarkupBuilder(writer)
+        def attrs = htmlAttrs.clone()
 
-        html.append("<div>")
+        attrs << ["type": "text"]
+        attrs << ["value": value]
+        attrs << ["class": "form-control map-widget-text js-map-widget-text"]
 
-        html.append("<input type='text' class='form-control map-widget-text js-map-widget-text' ")
-        htmlAttrs.each{key, value ->
-            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
+        builder.div(class: 'map-widget', view: "mapwidget") {
+            div {
+                span(class:'map-container') {
+                    def iframeOptions = [:]
+                    iframeOptions << ["width": 425]
+                    iframeOptions << ["height": 350]
+                    iframeOptions << ["frameborder": 0]
+                    iframeOptions << ["scrolling": "no"]
+                    iframeOptions << ["marginheight": 0]
+                    iframeOptions << ["marginwidth": 0]
+                    iframeOptions << ["src": "https://maps.google.com/maps?f=q&q=${value}&output=embed"]
+
+                    iframe(iframeOptions, "")
+                }
+                input(type:'button', class:'map-widget-refresh js-map-widget-refresh', value:'Refresh')
+            }
+            div {
+                input(attrs)
+            }
         }
-        html.append("value='${(value!=null)?value.encodeAsHTML():''}' />")
-        html.append("</div>")
-        html.append("</div>")
-        return html
+        return writer
     }
 
     List getAssets() {

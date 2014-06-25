@@ -17,6 +17,14 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 
 
 class SelectMultipleWidgetSpec extends Specification {
+    @Shared
+    def slurper
+
+    void setupSpec() {
+        def parser = new org.cyberneko.html.parsers.SAXParser()
+        parser.setFeature('http://xml.org/sax/features/namespaces', false)
+        slurper = new XmlSlurper(parser)
+    }
 
     void setup() {
         Object.metaClass.encodeAsHTML = {
@@ -31,9 +39,11 @@ class SelectMultipleWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select multiple></select>"
+            result.BODY.SELECT.OPTION.size() == 0
+            result.BODY.SELECT.@multiple.size() == 1
     }
 
     void 'create non nullable element without value without options without attribs'() {
@@ -43,9 +53,12 @@ class SelectMultipleWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select multiple required=\"true\"></select>"
+            result.BODY.SELECT.OPTION.size() == 0
+            result.BODY.SELECT.@multiple.size() == 1
+            result.BODY.SELECT.@required.text() == "true"
     }
 
 
@@ -55,9 +68,11 @@ class SelectMultipleWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select multiple></select>"
+            result.BODY.SELECT.OPTION.size() == 0
+            result.BODY.SELECT.@multiple.size() == 1
 
         where:
             value = ["Saab"]
@@ -70,9 +85,19 @@ class SelectMultipleWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select multiple><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            result.BODY.SELECT.@multiple.size() == 1
+            result.BODY.SELECT.OPTION.size() == 4
+            result.BODY.SELECT.OPTION[0].@value.text() == "Volvo"
+            result.BODY.SELECT.OPTION[0].text() == "Volvo"
+            result.BODY.SELECT.OPTION[1].@value.text() == "Saab"
+            result.BODY.SELECT.OPTION[1].text() == "Saab"
+            result.BODY.SELECT.OPTION[2].@value.text() == "Opel"
+            result.BODY.SELECT.OPTION[2].text() == "Opel"
+            result.BODY.SELECT.OPTION[3].@value.text() == "Audi"
+            result.BODY.SELECT.OPTION[3].text() == "Audi"
 
         where:
             options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
@@ -87,9 +112,20 @@ class SelectMultipleWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select multiple><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            result.BODY.SELECT.@multiple.size() == 1
+            result.BODY.SELECT.OPTION.size() == 4
+            result.BODY.SELECT.OPTION[0].@value.text() == "Volvo"
+            result.BODY.SELECT.OPTION[0].text() == "Volvo"
+            result.BODY.SELECT.OPTION[1].@value.text() == "Saab"
+            result.BODY.SELECT.OPTION[1].text() == "Saab"
+            result.BODY.SELECT.OPTION[1].@selected.text() == "selected"
+            result.BODY.SELECT.OPTION[2].@value.text() == "Opel"
+            result.BODY.SELECT.OPTION[2].text() == "Opel"
+            result.BODY.SELECT.OPTION[3].@value.text() == "Audi"
+            result.BODY.SELECT.OPTION[3].text() == "Audi"
 
         where:
             value = ["Saab"]
@@ -102,9 +138,21 @@ class SelectMultipleWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select multiple><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\" selected=\"selected\">Audi</option></select>"
+            result.BODY.SELECT.@multiple.size() == 1
+            result.BODY.SELECT.OPTION.size() == 4
+            result.BODY.SELECT.OPTION[0].@value.text() == "Volvo"
+            result.BODY.SELECT.OPTION[0].text() == "Volvo"
+            result.BODY.SELECT.OPTION[1].@value.text() == "Saab"
+            result.BODY.SELECT.OPTION[1].text() == "Saab"
+            result.BODY.SELECT.OPTION[1].@selected.text() == "selected"
+            result.BODY.SELECT.OPTION[2].@value.text() == "Opel"
+            result.BODY.SELECT.OPTION[2].text() == "Opel"
+            result.BODY.SELECT.OPTION[3].@value.text() == "Audi"
+            result.BODY.SELECT.OPTION[3].text() == "Audi"
+            result.BODY.SELECT.OPTION[3].@selected.text() == "selected"
 
         where:
             value = ["Saab", "Audi"]
@@ -119,9 +167,13 @@ class SelectMultipleWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select multiple name=\"selectName\" disabled=\"true\"></select>"
+            result.BODY.SELECT.@multiple.size() == 1
+            result.BODY.SELECT.@name.text() == "selectName"
+            result.BODY.SELECT.@disabled.text() == "true"
+            result.BODY.SELECT.OPTION.size() == 0
 
         where:
             value = ["Saab"]
@@ -134,9 +186,19 @@ class SelectMultipleWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select multiple><option value=\"Volvo\">Volvo</option><option value=\"Saab\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            result.BODY.SELECT.@multiple.size() == 1
+            result.BODY.SELECT.OPTION.size() == 4
+            result.BODY.SELECT.OPTION[0].@value.text() == "Volvo"
+            result.BODY.SELECT.OPTION[0].text() == "Volvo"
+            result.BODY.SELECT.OPTION[1].@value.text() == "Saab"
+            result.BODY.SELECT.OPTION[1].text() == "Saab"
+            result.BODY.SELECT.OPTION[2].@value.text() == "Opel"
+            result.BODY.SELECT.OPTION[2].text() == "Opel"
+            result.BODY.SELECT.OPTION[3].@value.text() == "Audi"
+            result.BODY.SELECT.OPTION[3].text() == "Audi"
 
         where:
             options = ["Volvo":"Volvo", "Saab":"Saab", "Opel":"Opel", "Audi":"Audi"]
@@ -149,9 +211,20 @@ class SelectMultipleWidgetSpec extends Specification {
 
         when:
             def html = widget.render()
+            def result = slurper.parseText(html)
 
         then:
-            html == "<select multiple><option value=\"Volvo\">Volvo</option><option value=\"Saab\" selected=\"selected\">Saab</option><option value=\"Opel\">Opel</option><option value=\"Audi\">Audi</option></select>"
+            result.BODY.SELECT.@multiple.size() == 1
+            result.BODY.SELECT.OPTION.size() == 4
+            result.BODY.SELECT.OPTION[0].@value.text() == "Volvo"
+            result.BODY.SELECT.OPTION[0].text() == "Volvo"
+            result.BODY.SELECT.OPTION[1].@value.text() == "Saab"
+            result.BODY.SELECT.OPTION[1].text() == "Saab"
+            result.BODY.SELECT.OPTION[1].@selected.text() == "selected"
+            result.BODY.SELECT.OPTION[2].@value.text() == "Opel"
+            result.BODY.SELECT.OPTION[2].text() == "Opel"
+            result.BODY.SELECT.OPTION[3].@value.text() == "Audi"
+            result.BODY.SELECT.OPTION[3].text() == "Audi"
 
         where:
             value = ["Saab"]

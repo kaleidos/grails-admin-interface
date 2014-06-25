@@ -1,37 +1,39 @@
 package net.kaleidos.plugins.admin.widget
 
+import groovy.xml.MarkupBuilder
+
 class SelectMultipleWidget extends Widget {
 
     @Override
 
     String render() {
-        StringBuilder html = new StringBuilder()
-        html.append("<select multiple")
-        htmlAttrs.each {key, value ->
-            html.append(" ${key.encodeAsHTML()}=\"${value.encodeAsHTML()}\"")
-        }
-        html.append(">")
+        def writer = new StringWriter()
+        def builder = new MarkupBuilder(writer)
+        def attrs = htmlAttrs.clone()
 
-        // draw options values
-        if (internalAttrs.options) {
-            internalAttrs.options.each {val, text ->
-                html.append("<option value=\"${val.encodeAsHTML()}\"")
-                if (val in value) {
-                    html.append(" selected=\"selected\"")
+        attrs << ['multiple': '']
+
+        builder.select(attrs) {
+            if (internalAttrs.options) {
+                internalAttrs.options.each {val, text ->
+                    def optionAttrs = ["value": val]
+                    if (val in value) {
+                        optionAttrs << ["selected": "selected"]
+                    }
+                    option(optionAttrs, text)
                 }
-                html.append(">${text.encodeAsHTML()}</option>")
+            } else {
+                mkp.yield("")
             }
         }
-
-        html.append("</select>")
-        return html
+        return writer
     }
 
     List<String> getAssets() {
-        def results =[
-            'libs/select2/select2.css',
-            'libs/select2/select2-bootstrap.css',
-            'libs/select2/select2.js'
+        def results = [
+            'grails-admin/libs/select2/select2.css',
+            'grails-admin/libs/select2/select2-bootstrap.css',
+            'grails-admin/libs/select2/select2.js'
         ]
         return results.collect { ["plugin":"admin-interface", "absolute":true, "file":it]  }
     }
