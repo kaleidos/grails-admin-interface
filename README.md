@@ -17,20 +17,22 @@ You can get the sample application source here: https://github.com/kaleidos/grai
 
 To install you should include in your `BuildConfig.groovy`
 
-    plugins {
-        runtime ":admin-interface:<version>.<minorVersion>"
-    }
+```groovy
+plugins {
+    runtime ":admin-interface:<version>.<minorVersion>"
+}
+```
 
 It's recommended that you include a Spring Security Core plugin to secure the administration.
 
-```
+```groovy
 plugins {
     // Spring Security v1.X , example:
     compile ":spring-security-core:1.2.7.3"
 }
 ```
 
-```
+```groovy
 plugins {
     // ... or v2.X , example:
     compile ":spring-security-core:2.0-RC3"
@@ -38,14 +40,15 @@ plugins {
 ```
 
 and edit your app `Config.groovy` and include the list of domains to start working with:
-```
+
+```groovy
 grails.plugin.admin.domains = [ "conferences.Talk", "conferences.Speaker" ]
 ```
 
 You can also extend the default behaviour creating your own custom widgets.
 See [Custom Widgets](https://kaleidos.github.io/grails-admin-interface/guide/customWidgets.html) section to learn more about.
 
-```
+```groovy
 grails.plugin.admin.domain.Conference = {
     widget "coordinates", "sample.MapWidget", height:400, width:600
 }
