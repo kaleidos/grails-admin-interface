@@ -1,0 +1,43 @@
+h4. Static assets filters
+
+Spring security by default doesn't allow the static resources from the plugin to be served.
+
+You should add the following rules to your Config.groovy in order to allow these:
+
+{code}
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+    '/**/libs/**':                    ['permitAll'],
+    '/**/js/**':                      ['permitAll'],
+    '/**/css/**':                     ['permitAll'],
+    '/**/images/**':                  ['permitAll']
+]
+{code}
+
+h4. API Basic Authentication
+
+In order to use Basic Authentication for the Grails Admin API you have to configure the following parameters for Spring Security:
+
+* Activate Spring security:
+
+{code}
+grails.plugin.springsecurity.active = true
+{code}
+
+* Activate the Basi Authorization filter
+{code}
+grails.plugin.springsecurity.useBasicAuth = true
+{code}
+
+* Only apply the filter for the admin API endpoints:
+{note}
+Be careful because "admin" could be replaced with the property "grails.plugin.admin.accessRoot"
+{note}
+
+{code}
+grails.plugin.springsecurity.filterChain.chainMap = [
+   "/admin/api/**": 'JOINED_FILTERS,-exceptionTranslationFilter',
+   '/**': 'JOINED_FILTERS,-basicAuthenticationFilter,-basicExceptionTranslationFilter'
+]
+{code}
+
+

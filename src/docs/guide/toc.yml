@@ -15,6 +15,7 @@ structure:
 
 configuration:
     title: Plugin Configuration
+    springSecurityConfig: Integration with Spring Security
     globalConfig: Global Configuration
     domainConfig: Per Domain Configuration
 
