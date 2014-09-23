@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>1.1 Release history and changelog 0.6.4</title>
+    <title>4.1 Integration with Spring Security 0.6.4</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -85,16 +85,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
+                    <div class="toc-item prev-left"><a href="../../guide/structure.html">&lt;&lt; <strong>3</strong><span>Plugin Structure</span></a></div>
+                
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../../guide/screenshots.html"><strong>2</strong><span>Screenshots</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/widgets.html"><strong>5</strong><span>Widgets</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>1.1 Release history and changelog - Reference Documentation</h1>
+                    <h1>4.1 Integration with Spring Security - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Kaleidos Open Source</p>
 
@@ -107,37 +109,35 @@ function addJsClass() {
 
                 
 
-<h2 id="versions">1.1 Release history and changelog</h2>
+<h2 id="springSecurityConfig">4.1 Integration with Spring Security</h2>
+<h4>Static assets filters</h4><p class="paragraph"/>Spring security by default doesn't allow the static resources from the plugin to be served.<p class="paragraph"/>You should add the following rules to your Config.groovy in order to allow these:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.controllerAnnotations.staticRules = &#91;
+    '/&#42;&#42;/libs/&#42;&#42;':                    &#91;'permitAll'&#93;,
+    '/&#42;&#42;/js/&#42;&#42;':                      &#91;'permitAll'&#93;,
+    '/&#42;&#42;/css/&#42;&#42;':                     &#91;'permitAll'&#93;,
+    '/&#42;&#42;/images/&#42;&#42;':                  &#91;'permitAll'&#93;
+&#93;</pre></div><p class="paragraph"/><h4>API Basic Authentication</h4><p class="paragraph"/>In order to use Basic Authentication for the Grails Admin API you have to configure the following parameters for Spring Security:
 <ul class="star">
-<li>23th September 2014</li>
+<li>Activate Spring security:</li>
+</ul><p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.active = <span class="java&#45;keyword">true</span></pre></div>
 <ul class="star">
-<li>0.6.5: Updated bootstrap and fixed static resources</li>
-</ul>
-<li>20th June 2014</li>
+<li>Activate the Basi Authorization filter</li>
+</ul><p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.useBasicAuth = <span class="java&#45;keyword">true</span></pre></div>
 <ul class="star">
-<li>0.6.4: Changed default widget assets location</li>
-</ul>
-<li>18th June 2014</li>
-<ul class="star">
-<li>0.6.3: Fixed problem with 404 and resources. Javascript cleanup</li>
-</ul>
-<li>11th May 2014</li>
-<ul class="star">
-<li>0.6.2: Fixed resources bug</li>
-</ul>
-<li>23rd May 2014</li>
-<ul class="star">
-<li>0.6.1: First ready for world testing release</li>
-</ul>
-<li>9th May 2014</li>
-<ul class="star">
-<li>0.1.1: First internal release</li>
-</ul></ul><p class="paragraph"/>
+<li>Only apply the filter for the admin API endpoints:</li>
+</ul><p class="paragraph"/><blockquote class="note">
+Be careful because "admin" could be replaced with the property "grails.plugin.admin.accessRoot"
+</blockquote><p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.filterChain.chainMap = &#91;
+   <span class="java&#45;quote">"/admin/api/&#42;&#42;"</span>: 'JOINED_FILTERS,&#45;exceptionTranslationFilter',
+   '/&#42;&#42;': 'JOINED_FILTERS,&#45;basicAuthenticationFilter,&#45;basicExceptionTranslationFilter'
+&#93;</pre></div><p class="paragraph"/>
+
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item next-right"><a href="../../guide/screenshots.html"><strong>2</strong><span>Screenshots</span> >></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/structure.html">&lt;&lt; <strong>3</strong><span>Plugin Structure</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../../guide/widgets.html"><strong>5</strong><span>Widgets</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

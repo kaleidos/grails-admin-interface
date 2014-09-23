@@ -109,10 +109,13 @@ function addJsClass() {
                 <div id="table-of-content">
                     <h2>Table of Contents</h2>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#globalConfig"><strong>4.1</strong><span>Global Configuration</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#springSecurityConfig"><strong>4.1</strong><span>Integration with Spring Security</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#domainConfig"><strong>4.2</strong><span>Per Domain Configuration</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#globalConfig"><strong>4.2</strong><span>Global Configuration</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#domainConfig"><strong>4.3</strong><span>Per Domain Configuration</span></a>
                     </div>
                     
                 </div>
@@ -135,7 +138,31 @@ with it you have to set some properties.<p class="paragraph"/>Your <code>Config.
 
 
 
-<h2 id="globalConfig">4.1 Global Configuration</h2>
+<h2 id="springSecurityConfig">4.1 Integration with Spring Security</h2>
+<h4>Static assets filters</h4><p class="paragraph"/>Spring security by default doesn't allow the static resources from the plugin to be served.<p class="paragraph"/>You should add the following rules to your Config.groovy in order to allow these:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.controllerAnnotations.staticRules = &#91;
+    '/&#42;&#42;/libs/&#42;&#42;':                    &#91;'permitAll'&#93;,
+    '/&#42;&#42;/js/&#42;&#42;':                      &#91;'permitAll'&#93;,
+    '/&#42;&#42;/css/&#42;&#42;':                     &#91;'permitAll'&#93;,
+    '/&#42;&#42;/images/&#42;&#42;':                  &#91;'permitAll'&#93;
+&#93;</pre></div><p class="paragraph"/><h4>API Basic Authentication</h4><p class="paragraph"/>In order to use Basic Authentication for the Grails Admin API you have to configure the following parameters for Spring Security:
+<ul class="star">
+<li>Activate Spring security:</li>
+</ul><p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.active = <span class="java&#45;keyword">true</span></pre></div>
+<ul class="star">
+<li>Activate the Basi Authorization filter</li>
+</ul><p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.useBasicAuth = <span class="java&#45;keyword">true</span></pre></div>
+<ul class="star">
+<li>Only apply the filter for the admin API endpoints:</li>
+</ul><p class="paragraph"/><blockquote class="note">
+Be careful because "admin" could be replaced with the property "grails.plugin.admin.accessRoot"
+</blockquote><p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.filterChain.chainMap = &#91;
+   <span class="java&#45;quote">"/admin/api/&#42;&#42;"</span>: 'JOINED_FILTERS,&#45;exceptionTranslationFilter',
+   '/&#42;&#42;': 'JOINED_FILTERS,&#45;basicAuthenticationFilter,&#45;basicExceptionTranslationFilter'
+&#93;</pre></div><p class="paragraph"/>
+
+
+
+<h2 id="globalConfig">4.2 Global Configuration</h2>
 <h4>Domains List</h4><p class="paragraph"/> <em class="italic"><strong class="bold">Necessary</strong></em> <p class="paragraph"/>Not mandatory, but necessary to start working with admin<p class="paragraph"/>You have to explicitely set the domains that your application is going to manage.
 The property is a list of strings containing the full class name of your domains.<p class="paragraph"/>By default it contains an empty list.<p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domains = &#91;
     <span class="java&#45;quote">"conferences.Speaker"</span>,
@@ -160,7 +187,7 @@ on production environments.<p class="paragraph"/>You can override this behaviour
 
 
 
-<h2 id="domainConfig">4.2 Per Domain Configuration</h2>
+<h2 id="domainConfig">4.3 Per Domain Configuration</h2>
 You can configure the administration screens with a specific DSL that can be configure either in
 your <code>Config.groovy</code> or in classes of type "Admin" that also allows the redefinition of some
 methods.<p class="paragraph"/><h3>Configuration on <code>Config.groovy</code> file</h3><p class="paragraph"/><div class="code"><pre>grails.plugin.admin.domain.Speaker = &#123;
