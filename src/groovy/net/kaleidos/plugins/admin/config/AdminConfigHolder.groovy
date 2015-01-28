@@ -183,11 +183,11 @@ class AdminConfigHolder {
             def dsl = new DomainConfigurationDsl(inspector.clazz, domainConfig)
             return dsl.execute()
         } else if (domainConfig && domainConfig instanceof String) {
-            def clazz = Class.forName(domainConfig)
+            def clazz = Class.forName(domainConfig, true, Thread.currentThread().contextClassLoader)
             if (!clazz.metaClass.respondsTo(clazz, "getOptions")) {
                 throw new RuntimeException("Class $domainConfig doesn't have a static attribute 'options'")
             }
-            def dsl =new DomainConfigurationDsl(inspector.clazz, clazz.options)
+            def dsl = new DomainConfigurationDsl(inspector.clazz, clazz.options)
             return dsl.execute()
         } else {
             return new DomainConfig(inspector.clazz)
