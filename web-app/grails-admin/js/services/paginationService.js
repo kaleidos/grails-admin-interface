@@ -7,6 +7,7 @@ app.service('paginationService', ['templateService'], function (templateService)
         var leftPoints = currentPage - max_left_right - 1
         var rightPoints = currentPage + max_left_right + 1;
         var result = [];
+        totalPages++; //Pages count from 1
 
         if (totalPages > 1) {
             for (var i = 1; i <= totalPages; i++) {
