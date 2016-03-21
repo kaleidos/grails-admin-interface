@@ -44,6 +44,22 @@ class AdminConfigHolder {
         return getDomainConfig(Holders.grailsApplication.getClassForName(objClass))
     }
 
+
+    public String getDisplayLabel(Object objectClass, String propertyName) {
+        def domainClass
+        if (objectClass instanceof String || objectClass instanceof GString) {
+         domainClass = Holders.grailsApplication.getClassForName(objectClass).getSimpleName()
+        }
+        else if (objectClass instanceof DomainConfig) {
+         domainClass = (objectClass as DomainConfig).domainClass.getSimpleName()
+        }
+        else{
+          domainClass = objectClass.class.getSimpleName()
+        }
+        def displayLabel = Holders.config.grails.plugin.admin.label."$domainClass"."$propertyName" ?: propertyName
+        return displayLabel
+    }
+
     public DomainConfig getDomainConfig(Object object) {
         if (!object) {
             return null
