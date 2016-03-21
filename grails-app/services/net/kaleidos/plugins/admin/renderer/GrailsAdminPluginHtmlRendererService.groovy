@@ -69,15 +69,18 @@ class GrailsAdminPluginHtmlRendererService {
     void _renderProperties(object, properties, customWidgets, domainConfig, widgetProperties, builder) {
         properties.each { propertyName ->
             def widget
+            def displayLabel
             if (object != null) {
+                displayLabel = adminConfigHolder.getDisplayLabel(object, propertyName)
                 widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidgets?."$propertyName", widgetProperties)
             } else {
+                displayLabel = adminConfigHolder.getDisplayLabel(domainConfig, propertyName)
                 widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName", widgetProperties)
             }
 
             builder.div class:"form-group", {
                 label for:"${propertyName.encodeAsHTML()}", {
-                    mkp.yieldUnescaped propertyName.capitalize().encodeAsHTML()
+                    mkp.yieldUnescaped displayLabel.capitalize().encodeAsHTML()
                     if (widget.htmlAttrs.required == 'true') {
                         mkp.yield " *"
                     }
@@ -212,7 +215,8 @@ class GrailsAdminPluginHtmlRendererService {
             if (sortLink) {
                 html.append("<a href='${sortLink}'>")
             }
-            html.append(propertyName)
+            def displayLabel = adminConfigHolder.getDisplayLabel className, propertyName
+            html.append(displayLabel)
             html.append("<span></span>")
             if (sortLink) {
                 html.append("</a>")
