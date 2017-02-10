@@ -1,9 +1,5 @@
 package net.kaleidos.plugins.admin
 
-import org.codehaus.groovy.grails.web.sitemesh.GroovyPageLayoutFinder
-import grails.validation.ValidationException
-import grails.converters.JSON
-
 class GrailsAdminPluginCallbackApiController {
     def successSave(String slug) {
         flash.success = g.message(code:"grailsAdminPlugin.add.success")

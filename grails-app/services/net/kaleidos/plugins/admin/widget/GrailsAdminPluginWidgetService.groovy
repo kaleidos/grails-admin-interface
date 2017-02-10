@@ -1,7 +1,14 @@
 package net.kaleidos.plugins.admin.widget
 
+import grails.validation.AbstractConstraint
 import net.kaleidos.plugins.admin.DomainInspector
 import org.codehaus.groovy.grails.validation.*
+import org.grails.datastore.gorm.validation.constraints.InListConstraint
+import org.grails.datastore.gorm.validation.constraints.MaxConstraint
+import org.grails.datastore.gorm.validation.constraints.MaxSizeConstraint
+import org.grails.datastore.gorm.validation.constraints.MinConstraint
+import org.grails.datastore.gorm.validation.constraints.NullableConstraint
+import org.grails.datastore.gorm.validation.constraints.RangeConstraint
 
 class GrailsAdminPluginWidgetService {
     Widget getWidgetForClass(Class clazz, String propertyName, Map customWidget=null, Map attributes=[:]) {

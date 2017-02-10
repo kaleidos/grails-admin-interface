@@ -9,3 +9,8 @@ bower_components
 node_modules
 .sass-cache
 front/dist
+build/*
+.gradle/*
+.idea/*
+*.ipr
+*.iws

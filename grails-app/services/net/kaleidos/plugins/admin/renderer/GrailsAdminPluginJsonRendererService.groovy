@@ -1,7 +1,6 @@
 package net.kaleidos.plugins.admin.renderer
 
 import groovy.json.JsonBuilder
-import net.kaleidos.plugins.admin.DomainInspector
 
 class GrailsAdminPluginJsonRendererService {
     def adminConfigHolder
