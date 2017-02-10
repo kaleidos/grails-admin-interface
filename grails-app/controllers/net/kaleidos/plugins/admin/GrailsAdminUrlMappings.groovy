@@ -1,3 +1,5 @@
+package net.kaleidos.plugins.admin
+
 class GrailsAdminUrlMappings {
     static mappings = getDynamicUrlMapping()
 

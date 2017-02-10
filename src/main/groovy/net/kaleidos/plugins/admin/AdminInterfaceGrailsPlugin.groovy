@@ -1,7 +1,8 @@
+import grails.plugins.Plugin
 import net.kaleidos.plugins.admin.config.AdminConfigHolder
 
 @groovy.util.logging.Log4j
-class AdminInterfaceGrailsPlugin {
+class AdminInterfaceGrailsPlugin extends Plugin {
     def version = "0.7.1"
 
     def grailsVersion = "2.0.0 > *"
@@ -56,19 +57,21 @@ class AdminInterfaceGrailsPlugin {
 
     def scm = [ url: "https://github.com/kaleidos/grails-admin-interface.git" ]
 
-    def doWithSpring = {
-        adminConfigHolder(AdminConfigHolder)
+    Closure doWithSpring() {
+        { ->
+            adminConfigHolder(AdminConfigHolder)
+        }
     }
 
-    def doWithApplicationContext = { ctx ->
-        ctx.adminConfigHolder.initialize()
+    void doWithApplicationContext () {
+        applicationContext.adminConfigHolder.initialize()
     }
 
-    def onChange = { event->
+    void onChange(Map<String, Object> event) {
         event.ctx.adminConfigHolder.initialize()
     }
 
-    def onConfigChange = { event->
+    void onConfigChange(Map<String, Object> event){
         event.ctx.adminConfigHolder.initialize()
     }
 }

@@ -3,7 +3,7 @@ package net.kaleidos.plugins.admin
 import grails.util.Holders
 import grails.core.GrailsDomainClassProperty
 import org.grails.core.exceptions.InvalidPropertyException
-import grails.gorm.validation.ConstrainedProperty
+import grails.validation.ConstrainedProperty
 import org.springframework.util.ClassUtils
 
 @groovy.util.logging.Log4j

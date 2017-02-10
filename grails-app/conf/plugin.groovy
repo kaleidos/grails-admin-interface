@@ -1,5 +1,5 @@
 // Default configuration: grails.plugin.admin
-defaultAdminConfig {
+admin {
     domains = []
     accessRoot = "/admin"
 

@@ -14,7 +14,7 @@ class AdminConfigHolder {
     Map<String, List<DomainConfig>> domainGroups = [:]
 
     void initialize() {
-        _mergeConfiguration()
+       // _mergeConfiguration()
         _configureAdminRole()
         _configureDomains()
     }

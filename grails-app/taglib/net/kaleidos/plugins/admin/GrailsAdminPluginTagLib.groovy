@@ -1,5 +1,7 @@
 package net.kaleidos.plugins.admin
 
+
+
 class GrailsAdminPluginTagLib {
     static namespace = 'gap'
 
@@ -104,7 +106,7 @@ class GrailsAdminPluginTagLib {
         def buildClosure = { Map assetProperties->
             if (grailsResourceLocator.findResourceForURI(assetProperties.file)) {
                 def file = grailsResourceLocator.findResourceForURI(assetProperties.file).getFile()
-                def id = org.apache.commons.io.FilenameUtils.removeExtension(file.getName())
+                def id = file.name.substring(file.name.lastIndexOf("."), file.name.length())
                 out << "<script id=\"${id}\" type=\"text/x-handlebars-template\">${file.getText()}</script>"
             }
         }
