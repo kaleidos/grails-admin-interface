@@ -106,7 +106,7 @@ class GrailsAdminPluginTagLib {
         def buildClosure = { Map assetProperties->
             if (grailsResourceLocator.findResourceForURI(assetProperties.file)) {
                 def file = grailsResourceLocator.findResourceForURI(assetProperties.file).getFile()
-                def id = file.name.substring(file.name.lastIndexOf("."), file.name.length())
+                def id = file.name.substring(0, file.name.lastIndexOf("."))
                 out << "<script id=\"${id}\" type=\"text/x-handlebars-template\">${file.getText()}</script>"
             }
         }

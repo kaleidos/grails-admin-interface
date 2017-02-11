@@ -115,7 +115,7 @@ class RelationTableWidget extends RelationPopupWidget{
     List<String> getAssets() {
         def results = [
             'grails-admin/css/widgets/relationtablewidget.css',
-            'grails-admin/js/widgets/relationpopup.js',
+            //'grails-admin/js/widgets/relationpopup.js',
             'grails-admin/js/widgets/relationPopupWidgetNew.js',
             'grails-admin/js/widgets/relationTableWidget.js',
             'grails-admin/js/widgets/relationPopupWidgetList.js',

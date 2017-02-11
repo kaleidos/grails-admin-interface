@@ -38,7 +38,7 @@ class GrailsAdminPluginApiController {
         }
 
         def result
-        def renderedResult
+        String renderedResult
         if (params?.id) {
             result = grailsAdminPluginDataService.retrieveDomain(config.domainClass, params?.id)
             if (!result) {
@@ -68,7 +68,7 @@ class GrailsAdminPluginApiController {
             renderedResult = grailsAdminPluginJsonRendererService.renderListAsJson(result)
         }
 
-        render renderedResult
+        render text:renderedResult
     }
 
     def putAdminAction(String slug) {
