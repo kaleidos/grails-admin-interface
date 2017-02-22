@@ -2,7 +2,7 @@ package net.kaleidos.plugins.admin.widget.relation
 
 import groovy.xml.MarkupBuilder
 
-class RelationPopupOneWidget extends RelationPopupWidget{
+class RelationPopupOneWidget extends RelationPopupWidget {
 
     @Override
     String render() {
@@ -10,14 +10,14 @@ class RelationPopupOneWidget extends RelationPopupWidget{
             return "<p>Disabled relationship due to be inside an embedded dialog</p>"
         }
 
-        def writer = new StringWriter()
-        def builder = new MarkupBuilder(writer)
+        Writer writer = new StringWriter()
+        MarkupBuilder builder = new MarkupBuilder(writer)
 
         def relationObject = internalAttrs.domainObject?."${internalAttrs.propertyName}"
         def relationConfig = adminConfigHolder.getDomainConfigForProperty(internalAttrs.domainClass, internalAttrs.propertyName)
         def slug = relationConfig?.slug
 
-        def action = grailsLinkGenerator.link(mapping:"grailsAdminApiAction", method: "put", params:[slug:slug])
+        String action = grailsLinkGenerator.link(mapping:"grailsAdminApiAction", method: "put", params:[slug:slug])
 
         // Links
 

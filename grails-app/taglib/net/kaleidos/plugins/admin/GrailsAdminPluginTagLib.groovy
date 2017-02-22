@@ -1,15 +1,17 @@
 package net.kaleidos.plugins.admin
 
+import grails.web.mapping.LinkGenerator
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.renderer.GrailsAdminPluginHtmlRendererService
 
 
 class GrailsAdminPluginTagLib {
     static namespace = 'gap'
 
-    def grailsAdminPluginHtmlRendererService
-    def adminConfigHolder
+    GrailsAdminPluginHtmlRendererService grailsAdminPluginHtmlRendererService
+    AdminConfigHolder adminConfigHolder
     def grailsResourceLocator
-    def grailsLinkGenerator
-
+    LinkGenerator grailsLinkGenerator
 
     def editFormFields = { attrs ->
         def editWidgetProperties = [:]
@@ -23,7 +25,7 @@ class GrailsAdminPluginTagLib {
     }
 
     def createFormFields = { attrs ->
-        def createWidgetProperties = [:]
+        Map createWidgetProperties = [:]
 
         if (attrs.createWidgetProperties instanceof Map) {
             createWidgetProperties = attrs.createWidgetProperties

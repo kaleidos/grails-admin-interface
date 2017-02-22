@@ -21,8 +21,8 @@ abstract class RelationPopupWidget extends Widget{
     }
 
     String renderAfterForm(relationConfig) {
-        def writer = new StringWriter()
-        def builder = new MarkupBuilder(writer)
+        Writer writer = new StringWriter()
+        MarkupBuilder builder = new MarkupBuilder(writer)
 
         builder.div id:"new-$uuid", tabindex:"-1", view: "relationPopupWidgetNew", role:"dialog", "aria-labelledby":"confirmLabel", "aria-hidden":"true",  "grailsadmin-remote": "enabled", class:"modal fade", "data-field":"${internalAttrs.propertyName}", {
             div class:"modal-dialog", {

@@ -1,6 +1,8 @@
 package net.kaleidos.plugins.admin.renderer
 
+import groovy.xml.MarkupBuilder
 import net.kaleidos.plugins.admin.config.DomainConfig
+import net.kaleidos.plugins.admin.widget.Widget
 
 class GrailsAdminPluginHtmlRendererService {
     def adminConfigHolder
@@ -18,8 +20,8 @@ class GrailsAdminPluginHtmlRendererService {
     }
 
     String _renderFormFields(String formType, DomainConfig domainConfig, Object object, Map widgetProperties){
-        def writer = new StringWriter()
-        def builder = new groovy.xml.MarkupBuilder(writer)
+        Writer writer = new StringWriter()
+        MarkupBuilder builder = new groovy.xml.MarkupBuilder(writer)
 
         Map customWidgets = domainConfig.getCustomWidgets(formType)
         List properties = domainConfig.getDefinedPropertiesForGroup(formType)
@@ -66,7 +68,7 @@ class GrailsAdminPluginHtmlRendererService {
 
     void _renderProperties(object, properties, customWidgets, domainConfig, widgetProperties, builder) {
         properties.each { propertyName ->
-            def widget
+            Widget widget
             if (object != null) {
                 widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidgets?."$propertyName", widgetProperties)
             } else {
@@ -102,7 +104,7 @@ class GrailsAdminPluginHtmlRendererService {
     }
 
     String _genericRenderMethod(String method, String formType, String className, Map widgetProperties){
-        def result = new StringBuilder()
+        StringBuilder result = new StringBuilder()
 
         def domainConfig = adminConfigHolder.getDomainConfig(className)
         List properties = domainConfig.getDefinedProperties("create")

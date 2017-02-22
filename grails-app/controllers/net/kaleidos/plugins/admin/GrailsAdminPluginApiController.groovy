@@ -2,11 +2,15 @@ package net.kaleidos.plugins.admin
 
 import grails.converters.JSON
 import grails.validation.ValidationException
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.renderer.GrailsAdminPluginJsonRendererService
 
 class GrailsAdminPluginApiController {
-    def adminConfigHolder
-    def grailsAdminPluginDataService
-    def grailsAdminPluginJsonRendererService
+    static namespace = "admin"
+
+    AdminConfigHolder adminConfigHolder
+    GrailsAdminPluginDataService grailsAdminPluginDataService
+    GrailsAdminPluginJsonRendererService grailsAdminPluginJsonRendererService
 
     private static int ITEMS_BY_PAGE = 20
 

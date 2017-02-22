@@ -1,10 +1,15 @@
 package net.kaleidos.plugins.admin
 
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.config.DomainConfig
+
 class GrailsAdminPluginUIController {
+    static namespace = "admin"
+
     static final int ITEMS_BY_PAGE = 10
 
-    def adminConfigHolder
-    def grailsAdminPluginDataService
+    AdminConfigHolder adminConfigHolder
+    GrailsAdminPluginDataService grailsAdminPluginDataService
 
     def adminMethod() {
         log.debug ">> Execute: ${params}"
@@ -54,7 +59,7 @@ class GrailsAdminPluginUIController {
     }
 
     def edit(String slug) {
-        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        DomainConfig domain = adminConfigHolder.getDomainConfigBySlug(slug)
 
         if (!domain) {
             response.status = 404
@@ -64,7 +69,7 @@ class GrailsAdminPluginUIController {
         def object = domain.domainClass.get(params?.id)
 
         if (object) {
-            def model = [:]
+            Map model = [:]
             model << [domain:domain]
             model << [object:object]
             model << [formType:"edit"]

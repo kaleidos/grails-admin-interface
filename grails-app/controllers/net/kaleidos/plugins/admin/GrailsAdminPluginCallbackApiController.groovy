@@ -1,6 +1,8 @@
 package net.kaleidos.plugins.admin
 
 class GrailsAdminPluginCallbackApiController {
+    static namespace = "admin"
+
     def successSave(String slug) {
         flash.success = g.message(code:"grailsAdminPlugin.add.success")
         redirect(mapping: 'grailsAdminEdit', params: [slug: slug, id: params.id] )

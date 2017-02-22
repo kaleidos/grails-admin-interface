@@ -1,5 +1,6 @@
 package net.kaleidos.plugins.admin.widget
 
+import grails.validation.Constraint
 import net.kaleidos.plugins.admin.DomainInspector
 import net.kaleidos.plugins.admin.widget.relation.RelationPopupOneWidget
 import net.kaleidos.plugins.admin.widget.relation.RelationTableWidget
@@ -8,14 +9,14 @@ import org.grails.datastore.gorm.validation.constraints.InListConstraint
 import org.grails.datastore.gorm.validation.constraints.UrlConstraint
 
 class GrailsAdminPluginDefaultWidgetSelector {
-    static String[] FORBIDEN_PROPERTIES = ['id','version', 'dateCreated', 'lastUpdated']
+    private final static String[] FORBIDEN_PROPERTIES = ['id','version', 'dateCreated', 'lastUpdated']
 
     static Widget getDefaultWidgetForProperty(Class clazz, String propertyName){
-        def widget
-        def inspector = new DomainInspector(clazz)
-        def constraints = inspector.getPropertyConstraints(propertyName)
-        def constraintsClasses = constraints*.class
-        def type = inspector.getPropertyClass(propertyName)
+        Widget widget
+        DomainInspector inspector = new DomainInspector(clazz)
+        Collection<Constraint> constraints = inspector.getPropertyConstraints(propertyName)
+        Collection<Class> constraintsClasses = constraints*.class
+        Class type = inspector.getPropertyClass(propertyName)
 
         if (propertyName in FORBIDEN_PROPERTIES){
             widget = new LabelWidget()

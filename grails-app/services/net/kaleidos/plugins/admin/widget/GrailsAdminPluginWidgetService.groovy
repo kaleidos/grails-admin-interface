@@ -2,18 +2,12 @@ package net.kaleidos.plugins.admin.widget
 
 import grails.validation.AbstractConstraint
 import net.kaleidos.plugins.admin.DomainInspector
-import org.codehaus.groovy.grails.validation.*
-import org.grails.datastore.gorm.validation.constraints.InListConstraint
-import org.grails.datastore.gorm.validation.constraints.MaxConstraint
-import org.grails.datastore.gorm.validation.constraints.MaxSizeConstraint
-import org.grails.datastore.gorm.validation.constraints.MinConstraint
-import org.grails.datastore.gorm.validation.constraints.NullableConstraint
-import org.grails.datastore.gorm.validation.constraints.RangeConstraint
+import org.grails.validation.*
 
 class GrailsAdminPluginWidgetService {
     Widget getWidgetForClass(Class clazz, String propertyName, Map customWidget=null, Map attributes=[:]) {
-        def inspector = new DomainInspector(clazz)
-        def widget = null
+        DomainInspector inspector = new DomainInspector(clazz)
+        Widget widget = null
         if (customWidget) {
             if (customWidget['class']) {
                 widget = _instanciateCustomWidget(customWidget['class'], customWidget.attributes)
@@ -32,7 +26,7 @@ class GrailsAdminPluginWidgetService {
         widget.internalAttrs["propertyName"] = propertyName
 
         _setAttrsForRelations(widget, inspector, propertyName)
-        def constraints = inspector.getPropertyConstraints(propertyName)
+        Collection constraints = inspector.getPropertyConstraints(propertyName)
         _setAttrsFromConstraints(widget, constraints)
 
         if (attributes) {
@@ -44,9 +38,9 @@ class GrailsAdminPluginWidgetService {
         return widget
     }
 
-    def _instanciateCustomWidget(String clazz, Map attributes) {
-        def widget
-        def widgetClass
+    Widget _instanciateCustomWidget(String clazz, Map attributes) {
+        Widget widget
+        Class widgetClass
 
         try {
             widgetClass = Class.forName(clazz, true, Thread.currentThread().contextClassLoader)
@@ -63,7 +57,7 @@ class GrailsAdminPluginWidgetService {
     }
 
     Widget getWidget(Object object, String propertyName, Map customWidget=null, Map attributes=[:]) {
-        def widget = getWidgetForClass(object.class, propertyName, customWidget, attributes)
+        Widget widget = getWidgetForClass(object.class, propertyName, customWidget, attributes)
 
         widget.internalAttrs["domainObject"] = object
         widget.value = _getValueForWidget(object, propertyName)
