@@ -5,21 +5,21 @@ class DomainConfigurationDsl {
     Closure closure
     Map params = [:]
 
-    public DomainConfigurationDsl(Class clazz, Closure closure) {
+    DomainConfigurationDsl(Class clazz, Closure closure) {
         closure.resolveStrategy = Closure.DELEGATE_ONLY
         closure.delegate = this
         this.closure = closure
         this.clazz = clazz
     }
 
-    public DomainConfig execute() {
+    DomainConfig execute() {
         this.params = [:]
         this.closure()
         return _buildDomainConfig(this.params)
     }
 
     private _buildDomainConfig(Map params) {
-        def domainConfig = new DomainConfig(clazz)
+        DomainConfig domainConfig = new DomainConfig(clazz)
         params.each { method, properties ->
             if (['list', 'create', 'edit'].contains(method)) {
                 if (properties['excludes'] && properties['includes']) {
@@ -46,8 +46,8 @@ class DomainConfigurationDsl {
         return domainConfig
     }
 
-    def widget(Map attributes=[:], String property, String clazz) {
-        ['create','edit'].each{
+    void widget(Map attributes=[:], String property, String clazz) {
+        ['create','edit'].each {
             this.params[it] = this.params[it] ?: [:]
             this.params[it]['customWidgets'] = this.params[it]['customWidgets'] ?: [:]
             this.params[it]['customWidgets'][property] = ["class":clazz, attributes:attributes]
@@ -55,12 +55,12 @@ class DomainConfigurationDsl {
     }
 
 
-    def widget(Map attributes=[:], String property) {
-        return widget(attributes, property, null)
+    void widget(Map attributes=[:], String property) {
+        widget(attributes, property, null)
     }
 
-    def groups(Closure cls) {
-        def groupDsl = new DomainConfigGroupDsl()
+    void groups(Closure cls) {
+        DomainConfigGroupDsl groupDsl = new DomainConfigGroupDsl()
         cls.resolveStrategy = Closure.DELEGATE_ONLY
         cls.delegate = groupDsl
         cls()
@@ -71,7 +71,7 @@ class DomainConfigurationDsl {
         }
     }
 
-    def methodMissing(String name, args) {
+    void methodMissing(String name, args) {
         assert [ 'list', 'create', 'edit' ].contains(name), "$name is not a valid property"
         if (['list', 'create', 'edit'].contains(name)) {
             assert args.size() == 1, "$args is not valid"
@@ -87,7 +87,7 @@ class DomainConfigurationDsl {
 class DomainConfigGroupDsl {
     Map groups = [:]
 
-    def methodMissing(String name, args) {
+    void methodMissing(String name, args) {
         groups[name] = args.first()
     }
 }

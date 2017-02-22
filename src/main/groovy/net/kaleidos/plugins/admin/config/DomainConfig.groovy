@@ -8,7 +8,7 @@ class DomainConfig {
 
     Map excludes = [:]
     Map includes = [:]
-    Map customWidgets = [:]
+    Map<String, Map> customWidgets = [:]
     Map fieldGroups = [:]
 
     public DomainConfig(Class domainClass) {
@@ -16,10 +16,10 @@ class DomainConfig {
         this.domainInspector = new DomainInspector(domainClass)
     }
 
-    List getDefinedProperties(String method) {
-        def defaultExclude = []
+    List<String> getDefinedProperties(String method) {
+        List defaultExclude = []
 
-        def result = this.domainInspector.getPropertyNames()
+        List<String> result = this.domainInspector.getPropertyNames()
 
         if (includes[method]) {
             result = includes[method].findAll { result.contains(it) }

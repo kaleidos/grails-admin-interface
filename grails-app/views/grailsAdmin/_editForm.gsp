@@ -1,8 +1,6 @@
 <%@ page defaultCodec="HTML" %>
 
-<gap:widgetBeforeForm
-    className="${domain.classFullName}"
-    disallowRelationships="${embedded}"/>
+<gap:widgetBeforeForm className="${domain.classFullName}" disallowRelationships="${embedded}"/>
 
 <g:form view="formView" data-method="POST" data-url="${createLink(mapping: 'grailsAdminSuccess', params: [slug: domain.slug])}" class="validate-form main-form" grailsadmin-remote="enabled" mapping="grailsAdminApiAction" params="[slug: domain.slug, id:object.id]">
     <gap:editFormFields

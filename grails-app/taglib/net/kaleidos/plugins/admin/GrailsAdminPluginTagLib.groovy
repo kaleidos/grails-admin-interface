@@ -36,13 +36,14 @@ class GrailsAdminPluginTagLib {
     }
 
     def widgetBeforeForm = { attrs ->
-        def createWidgetProperties = [:]
+        Map createWidgetProperties = [:]
         if (attrs.createWidgetProperties instanceof Map) {
             createWidgetProperties = attrs.createWidgetProperties
         }
         createWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
 
-        def result = grailsAdminPluginHtmlRendererService.renderBeforeForm(attrs.className, createWidgetProperties)
+        String result = grailsAdminPluginHtmlRendererService.renderBeforeForm(attrs.className, createWidgetProperties)
+
         if (result) {
             out << result
         }
