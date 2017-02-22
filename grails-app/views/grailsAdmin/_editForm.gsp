@@ -22,6 +22,4 @@
     </div>
 </g:form>
 
-<gap:widgetAfterForm
-    className="${domain.classFullName}"
-    disallowRelationships="${embedded}"/>
+<gap:widgetAfterForm className="${domain.classFullName}" disallowRelationships="${embedded}"/>

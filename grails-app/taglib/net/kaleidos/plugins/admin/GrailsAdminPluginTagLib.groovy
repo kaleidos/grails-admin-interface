@@ -13,8 +13,8 @@ class GrailsAdminPluginTagLib {
     def grailsResourceLocator
     LinkGenerator grailsLinkGenerator
 
-    def editFormFields = { attrs ->
-        def editWidgetProperties = [:]
+    Closure editFormFields = {Map attrs ->
+        Map editWidgetProperties = [:]
 
         if (attrs.editWidgetProperties instanceof Map) {
             editWidgetProperties = attrs.editWidgetProperties
@@ -35,7 +35,7 @@ class GrailsAdminPluginTagLib {
         out << grailsAdminPluginHtmlRendererService.renderCreateFormFields(attrs.className, createWidgetProperties)
     }
 
-    def widgetBeforeForm = { attrs ->
+    Closure widgetBeforeForm = { attrs ->
         Map createWidgetProperties = [:]
         if (attrs.createWidgetProperties instanceof Map) {
             createWidgetProperties = attrs.createWidgetProperties
@@ -49,7 +49,7 @@ class GrailsAdminPluginTagLib {
         }
     }
 
-    def widgetAfterForm = { attrs ->
+    Closure widgetAfterForm = { attrs ->
         def createWidgetProperties = [:]
 
         if (attrs.createWidgetProperties instanceof Map) {

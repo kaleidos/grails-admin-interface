@@ -13,7 +13,7 @@ class GrailsAdminPluginHtmlRendererService {
     LinkGenerator grailsLinkGenerator
 
     String renderEditFormFields(Object object, Map editWidgetProperties=[:]){
-        def domainConfig = adminConfigHolder.getDomainConfig(object)
+        DomainConfig domainConfig = adminConfigHolder.getDomainConfig(object)
         return _renderFormFields("edit", domainConfig, object, editWidgetProperties)
     }
 
@@ -28,6 +28,7 @@ class GrailsAdminPluginHtmlRendererService {
 
         Map customWidgets = domainConfig.getCustomWidgets(formType)
         List properties = domainConfig.getDefinedPropertiesForGroup(formType)
+
         if (properties) {
             _renderProperties(object, properties, customWidgets, domainConfig, widgetProperties, builder)
         }
@@ -69,8 +70,8 @@ class GrailsAdminPluginHtmlRendererService {
         return writer
     }
 
-    void _renderProperties(object, properties, customWidgets, domainConfig, widgetProperties, builder) {
-        properties.each { propertyName ->
+    void _renderProperties(object, List<String>properties, Map<String, Map> customWidgets, DomainConfig domainConfig, Map widgetProperties, MarkupBuilder builder) {
+        properties.each {String propertyName ->
             Widget widget
             if (object != null) {
                 widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidgets?."$propertyName", widgetProperties)
@@ -135,14 +136,16 @@ class GrailsAdminPluginHtmlRendererService {
     //list
 
     String renderListLine(String objClass, Object object){
-        def config = adminConfigHolder.getDomainConfig(objClass)
+        DomainConfig config = adminConfigHolder.getDomainConfig(objClass)
 
         if (!config) {
             adminConfigHolder.getDomainConfig(object)
         }
 
         List properties = config.getDefinedProperties("list")
+
         StringBuilder html = new StringBuilder()
+
         properties.each{propertyName ->
             html.append("<td>")
             def val = object."${propertyName}"
@@ -168,11 +171,10 @@ class GrailsAdminPluginHtmlRendererService {
 
 
             // TODO: Who has to decide how to encode? Widget or this method?
-
-
             html.append("</td>")
         }
-        return html
+
+        return html.toString()
     }
 
     boolean isCollectionOrArray(object) {
@@ -180,19 +182,19 @@ class GrailsAdminPluginHtmlRendererService {
     }
 
     String renderListTitle(String className, String sort, String sortOrder){
-        def domain = adminConfigHolder.getDomainConfig(className)
+        DomainConfig domain = adminConfigHolder.getDomainConfig(className)
         List properties = domain.getDefinedProperties("list")
         List sortable = domain.getSortableProperties("list")
 
         StringBuilder html = new StringBuilder()
 
-        properties.each{ propertyName ->
-            def sortLink = ''
-            def theClassName = ''
+        properties.each{String propertyName ->
+            String sortLink = ''
+            String theClassName = ''
 
             if (propertyName in sortable) {
                 theClassName = 'sortable'
-                def order = 'desc'
+                String order = 'desc'
 
                 if (propertyName == sort) {
                     if (sortOrder == 'asc') {
@@ -224,7 +226,7 @@ class GrailsAdminPluginHtmlRendererService {
             html.append("</th>")
         }
 
-        return html
+        return html.toString()
     }
 
     void doWithAssetType(String formType, String className, String type, Closure closure) {
