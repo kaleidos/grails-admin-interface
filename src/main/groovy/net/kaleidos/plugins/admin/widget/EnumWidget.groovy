@@ -38,7 +38,7 @@ class EnumWidget extends Widget {
 
     @Override
     List<String> getAssets() {
-        def results = [
+        List results = [
             'libs/select2/select2.css',
             'libs/select2/select2-bootstrap.css',
             'libs/select2/select2.js'
@@ -46,9 +46,9 @@ class EnumWidget extends Widget {
         return results.collect { ["plugin":"admin-interface", "absolute":true, "file":it]  }
     }
 
-    def updateValue(value) {
-        def inspector = new DomainInspector(internalAttrs.domainClass)
-        def type = inspector.getPropertyClass(internalAttrs.propertyName)
-        internalAttrs["domainObject"]."${internalAttrs['propertyName']}" = (value)?Enum.valueOf(type, value):null
+    void updateValue(value) {
+        DomainInspector inspector = new DomainInspector(domainClass)
+        Class type = inspector.getPropertyClass(propertyName)
+        domainInstance[propertyName] = (value) ? Enum.valueOf(type, value) : null
     }
 }

@@ -1,10 +1,12 @@
 package net.kaleidos.plugins.admin.widget
 
-class HiddenInputWidget extends InputWidget{
+import groovy.transform.CompileStatic
+
+@CompileStatic
+class HiddenInputWidget extends InputWidget {
 
     HiddenInputWidget() {
         inputType = "hidden"
     }
-
 
 }

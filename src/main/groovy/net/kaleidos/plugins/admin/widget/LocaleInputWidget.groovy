@@ -1,13 +1,16 @@
 package net.kaleidos.plugins.admin.widget
 
-class LocaleInputWidget extends InputWidget{
+import groovy.transform.CompileStatic
+
+@CompileStatic
+class LocaleInputWidget extends InputWidget {
 
     LocaleInputWidget() {
         inputType = "text"
     }
 
     public void updateValue() {
-        updateValue(new Locale(value))
+        updateValue(new Locale((String)value))
     }
 
 

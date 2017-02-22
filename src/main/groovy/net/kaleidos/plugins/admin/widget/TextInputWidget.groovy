@@ -1,6 +1,9 @@
 package net.kaleidos.plugins.admin.widget
 
-class TextInputWidget extends InputWidget{
+import groovy.transform.CompileStatic
+
+@CompileStatic
+class TextInputWidget extends InputWidget {
     TextInputWidget() {
         inputType = "text"
     }

@@ -61,12 +61,12 @@ class GrailsAdminPluginUIController {
     def edit(String slug) {
         DomainConfig domain = adminConfigHolder.getDomainConfigBySlug(slug)
 
-        if (!domain) {
+        if (!domain || !params.id) {
             response.status = 404
             return
         }
 
-        def object = domain.domainClass.get(params?.id)
+        def object = domain.domainClass.get(params.id)
 
         if (object) {
             Map model = [:]

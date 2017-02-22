@@ -2,23 +2,24 @@ package net.kaleidos.plugins.admin.widget
 
 import groovy.xml.MarkupBuilder
 
-class DateInputWidget extends Widget{
+class DateInputWidget extends Widget {
     static String DEFAULT_DATE_FORMAT = "dd/MM/yyyy"
 
     def getValueForJson() {
-        def format = _getFormat()
-        return value?value.format(format):""
+        String format = _getFormat()
+        Date date = (Date)value
+        return date ? date.format(format) : ""
     }
 
 
     @Override
     String render() {
-        def writer = new StringWriter()
-        def builder = new MarkupBuilder(writer)
+        String writer = new StringWriter()
+        MarkupBuilder builder = new MarkupBuilder(writer)
 
-        def format = _getFormat()
+        String format = _getFormat()
 
-        def attrs = htmlAttrs.clone()
+        Map attrs = htmlAttrs.clone()
         attrs << ["type": "text"]
         attrs << ["data-date-format": format.toLowerCase()]
         attrs << ["class": "date form-control"]
@@ -32,7 +33,7 @@ class DateInputWidget extends Widget{
 
 
     List<String> getAssets() {
-        def results = [
+        List results = [
             'grails-admin/libs/bootstrap-datepicker/css/datepicker3.css',
             'grails-admin/libs/bootstrap-datepicker/js/bootstrap-datepicker.js',
             'grails-admin/js/datepicker.js'
@@ -41,9 +42,9 @@ class DateInputWidget extends Widget{
     }
 
 
-    public void updateValue() {
+    void updateValue() {
         if (value) {
-            def format = _getFormat()
+            String format = _getFormat()
             updateValue(Date.parse(format, value))
         } else {
             value = null
@@ -51,6 +52,6 @@ class DateInputWidget extends Widget{
     }
 
     String _getFormat(){
-        return internalAttrs["dateFormat"]?:DEFAULT_DATE_FORMAT
+        return internalAttrs["dateFormat"] ?: DEFAULT_DATE_FORMAT
     }
 }

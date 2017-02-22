@@ -1,6 +1,9 @@
 package net.kaleidos.plugins.admin.widget
 
-class PasswordInputWidget extends InputWidget{
+import groovy.transform.CompileStatic
+
+@CompileStatic
+class PasswordInputWidget extends InputWidget {
 
     PasswordInputWidget() {
         inputType = "password"

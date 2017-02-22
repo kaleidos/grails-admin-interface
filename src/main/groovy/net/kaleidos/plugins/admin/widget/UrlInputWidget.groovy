@@ -1,6 +1,9 @@
 package net.kaleidos.plugins.admin.widget
 
-class UrlInputWidget extends InputWidget{
+import groovy.transform.CompileStatic
+
+@CompileStatic
+class UrlInputWidget extends InputWidget {
 
     UrlInputWidget() {
         inputType = "url"

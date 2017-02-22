@@ -5,10 +5,10 @@ import groovy.xml.MarkupBuilder
 class DecimalInputWidget extends Widget{
     @Override
     String render() {
-        def writer = new StringWriter()
-        def builder = new MarkupBuilder(writer)
+        String writer = new StringWriter()
+        MarkupBuilder builder = new MarkupBuilder(writer)
 
-        def attrs = htmlAttrs.clone()
+        Map attrs = htmlAttrs.clone()
 
         attrs << ["data-parsley-type": "number"]
         attrs << ["value": (value!=null)?value:""]
@@ -19,7 +19,7 @@ class DecimalInputWidget extends Widget{
     }
 
     @Override
-    def getValueForJson() {
+    String getValueForJson() {
         return value
     }
 

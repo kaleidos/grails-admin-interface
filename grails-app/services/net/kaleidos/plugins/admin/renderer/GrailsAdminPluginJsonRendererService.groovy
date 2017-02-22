@@ -1,6 +1,8 @@
 package net.kaleidos.plugins.admin.renderer
 
 import groovy.json.JsonBuilder
+import net.kaleidos.plugins.admin.config.DomainConfig
+import net.kaleidos.plugins.admin.widget.Widget
 
 class GrailsAdminPluginJsonRendererService {
     def adminConfigHolder
@@ -16,8 +18,8 @@ class GrailsAdminPluginJsonRendererService {
     }
 
     def _getInfoForJson(object) {
-        def config = adminConfigHolder.getDomainConfig(object)
-        def result = [:]
+        DomainConfig config = adminConfigHolder.getDomainConfig(object)
+        Map result = [:]
 
         if (config) {
             def properties = config.getDefinedProperties("list")
@@ -33,8 +35,8 @@ class GrailsAdminPluginJsonRendererService {
             properties.each { propertyName ->
                 def val = object."${propertyName}"
                 if (val) {
-                    def widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
-                    result << ["$propertyName":widget.getValueForJson()]
+                    Widget widget = grailsAdminPluginWidgetService.getWidget(object, propertyName)
+                    result << ["$propertyName": widget.getValueForJson()]
                 } else {
                     result << ["$propertyName": val]
                 }
