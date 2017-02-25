@@ -2,7 +2,7 @@ package net.kaleidos.plugins.admin.widget
 
 import groovy.xml.MarkupBuilder
 
-class CheckboxInputWidget extends InputWidget{
+class CheckboxInputWidget extends InputWidget {
 
     CheckboxInputWidget() {
         inputType = "checkbox"
@@ -31,7 +31,7 @@ class CheckboxInputWidget extends InputWidget{
     }
 
     public void updateValue() {
-        updateValue(value?true:false)
+        updateValue(value ? true :false)
     }
 
 

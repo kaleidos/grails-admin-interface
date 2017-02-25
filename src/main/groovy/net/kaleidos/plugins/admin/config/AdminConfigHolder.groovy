@@ -85,7 +85,7 @@ class AdminConfigHolder {
     }
 
     public DomainConfig getDomainConfigBySlug(String slug) {
-        def config = this.domains.find { it.value.slug == slug }?.value
+        DomainConfig config = this.domains.find { it.value.slug == slug }?.value
 
         if (!config) {
             def clazz = DomainInspector.getClassWithSlug(slug)

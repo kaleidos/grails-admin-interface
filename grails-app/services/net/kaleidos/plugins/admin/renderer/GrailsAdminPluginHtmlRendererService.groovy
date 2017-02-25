@@ -70,7 +70,7 @@ class GrailsAdminPluginHtmlRendererService {
         return writer
     }
 
-    void _renderProperties(object, List<String>properties, Map<String, Map> customWidgets, DomainConfig domainConfig, Map widgetProperties, MarkupBuilder builder) {
+    void _renderProperties(object, List<String> properties, Map<String, Map> customWidgets, DomainConfig domainConfig, Map widgetProperties, MarkupBuilder builder) {
         properties.each {String propertyName ->
             Widget widget
             if (object != null) {
