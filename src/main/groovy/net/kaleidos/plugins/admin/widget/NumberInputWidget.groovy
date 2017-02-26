@@ -8,7 +8,7 @@ class NumberInputWidget extends InputWidget {
     @Override
     public void updateValue() {
         if (value) {
-            super.updateValue(parse("$value"))
+            Object.updateValue(parse("$value"))
         }
     }
 

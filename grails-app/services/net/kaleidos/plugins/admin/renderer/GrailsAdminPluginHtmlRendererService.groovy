@@ -3,9 +3,9 @@ package net.kaleidos.plugins.admin.renderer
 import grails.web.mapping.LinkGenerator
 import groovy.xml.MarkupBuilder
 import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.widget.Widget
 import net.kaleidos.plugins.admin.config.DomainConfig
 import net.kaleidos.plugins.admin.widget.GrailsAdminPluginWidgetService
-import net.kaleidos.plugins.admin.widget.Widget
 
 class GrailsAdminPluginHtmlRendererService {
     AdminConfigHolder adminConfigHolder

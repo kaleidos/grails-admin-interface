@@ -113,7 +113,7 @@ class RelationPopupOneWidget extends RelationPopupWidget {
         def relationConfig = adminConfigHolder.getDomainConfigForProperty(internalAttrs.domainClass, internalAttrs.propertyName)
 
         if (relationConfig && !htmlAttrs.disallowRelationships) {
-            return super.renderAfterForm(relationConfig)
+            return Object.renderAfterForm(relationConfig)
         }
     }
 

@@ -1,4 +1,5 @@
 package net.kaleidos.plugins.admin.widget.relation
+
 import net.kaleidos.plugins.admin.widget.SelectWidget
 
 class RelationSelectWidget extends SelectWidget {

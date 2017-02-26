@@ -108,7 +108,7 @@ class RelationTableWidget extends RelationPopupWidget{
     String renderAfterForm() {
         def relationConfig = adminConfigHolder.getDomainConfig(internalAttrs["relatedDomainClass"])
         if (relationConfig && !htmlAttrs.disallowRelationships) {
-            return super.renderAfterForm(relationConfig)
+            return Object.renderAfterForm(relationConfig)
         }
     }
 

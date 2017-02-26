@@ -1,9 +1,9 @@
 package net.kaleidos.plugins.admin.widget
 
 import grails.validation.Constraint
+import net.kaleidos.plugins.admin.widget.relation.RelationTableWidget
 import net.kaleidos.plugins.admin.DomainInspector
 import net.kaleidos.plugins.admin.widget.relation.RelationPopupOneWidget
-import net.kaleidos.plugins.admin.widget.relation.RelationTableWidget
 import org.grails.datastore.gorm.validation.constraints.EmailConstraint
 import org.grails.datastore.gorm.validation.constraints.InListConstraint
 import org.grails.datastore.gorm.validation.constraints.UrlConstraint

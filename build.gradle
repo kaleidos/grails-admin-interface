@@ -10,7 +10,7 @@ buildscript {
     }
 }
 
-version "0.1"
+version "3.0.1.RC1"
 group "grails.plugin.admin-interface"
 
 apply plugin:"eclipse"
@@ -37,7 +37,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
     compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    provided "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
     compile "org.grails.plugins:cache"
@@ -49,14 +49,12 @@ dependencies {
 
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.8.2"
 
-    compile "org.grails.plugins:hibernate4"
-    compile "org.hibernate:hibernate-core:4.3.10.Final"
-    compile "org.hibernate:hibernate-ehcache:4.3.10.Final"
+    provided "org.grails.plugins:hibernate4"
+    provided "org.hibernate:hibernate-core:4.3.10.Final"
+    provided "org.hibernate:hibernate-ehcache:4.3.10.Final"
 
-    //testCompile "org.grails:grails-plugin-testing"
-    //testCompile "org.grails.plugins:geb"
-    //testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
-    //testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+    testCompile "org.grails:grails-plugin-testing"
+
 }
 
 bootRun {
@@ -64,19 +62,27 @@ bootRun {
 }
 // enable if you wish to package this plugin as a standalone application
 bootRepackage.enabled = false
+
 grailsPublish {
-    // TODO: Provide values here
-    user = 'user'
-    key = 'key'
-    githubSlug = 'foo/bar'
+    user = System.getenv("BINTRAY_USER") ?: project.bintrayUser
+    key = System.getenv("BINTRAY_KEY") ?: project.bintrayKey
+
+    repo = 'grails-plugins'
+
+    vcsUrl = "https://github.com/snimavat/grails-admin-interface"
+    githubSlug = 'snimavat/grails-admin-interface'
+
     license {
         name = 'Apache-2.0'
     }
-    title = "My Plugin"
-    desc = "Full plugin description"
-    developers = [johndoe:"John Doe"]
-    portalUser = ""
-    portalPassword = ""    
+
+    title = "Grails Admin Interface"
+    desc = "Grails Admin Interface"
+    developers = [snimavat:"Sudhir Nimavat"]
+
+    portalUser = System.getenv("GRAILS_PORTAL_USER") ?: project.grailsPortalUser
+    portalPassword = System.getenv("GRAILS_PORTAL_PASSWORD") ?: project.grailsPortalPassword
+
 }
 
 

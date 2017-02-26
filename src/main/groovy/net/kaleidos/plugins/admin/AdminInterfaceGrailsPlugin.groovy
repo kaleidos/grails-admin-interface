@@ -1,11 +1,16 @@
+package net.kaleidos.plugins.admin
+
 import grails.plugins.Plugin
+import groovy.util.logging.Slf4j
 import net.kaleidos.plugins.admin.config.AdminConfigHolder
 
-@groovy.util.logging.Log4j
+@Slf4j
 class AdminInterfaceGrailsPlugin extends Plugin {
-    def version = "0.7.1"
-
-    def grailsVersion = "2.0.0 > *"
+    def version = "3.0.1.RC1"
+    def grailsVersion = "3.0.0 > *"
+    def title = "Grails Admin Interface"
+    def author = "Sudhir Nimavat, Kaleidos Open Source"
+    def authorEmail = "sudhir@nimavat.me"
 
     def loadAfter = ["springSecurityCore"]
 
@@ -21,9 +26,6 @@ class AdminInterfaceGrailsPlugin extends Plugin {
         "grails-app/domain/**"
     ]
 
-    def title = "Grails Admin Interface"
-    def author = "Kaleidos Open Source"
-    def authorEmail = "grails-admin@kaleidos.net"
 
     def description = """
     Grails Admin allows you to easily create an administration back-office with default styles and
@@ -53,9 +55,9 @@ class AdminInterfaceGrailsPlugin extends Plugin {
         [ name: "Sandra Alarcon", email: "alejandra.alarconh@gmail.com" ]
     ]
 
-    def issueManagement = [ system: "Github", url: "https://github.com/kaleidos/grails-admin-interface" ]
+    def issueManagement = [ system: "Github", url: "https://github.com/snimavat/grails-admin-interface" ]
 
-    def scm = [ url: "https://github.com/kaleidos/grails-admin-interface.git" ]
+    def scm = [ url: "https://github.com/snimavat/grails-admin-interface" ]
 
     Closure doWithSpring() {
         { ->
