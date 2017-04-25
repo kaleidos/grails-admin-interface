@@ -2,11 +2,15 @@ package net.kaleidos.plugins.admin
 
 import grails.converters.JSON
 import grails.validation.ValidationException
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.renderer.GrailsAdminPluginJsonRendererService
 
 class GrailsAdminPluginApiController {
-    def adminConfigHolder
-    def grailsAdminPluginDataService
-    def grailsAdminPluginJsonRendererService
+    static namespace = "admin"
+
+    AdminConfigHolder adminConfigHolder
+    GrailsAdminPluginDataService grailsAdminPluginDataService
+    GrailsAdminPluginJsonRendererService grailsAdminPluginJsonRendererService
 
     private static int ITEMS_BY_PAGE = 20
 
@@ -38,7 +42,7 @@ class GrailsAdminPluginApiController {
         }
 
         def result
-        def renderedResult
+        String renderedResult
         if (params?.id) {
             result = grailsAdminPluginDataService.retrieveDomain(config.domainClass, params?.id)
             if (!result) {
@@ -68,7 +72,7 @@ class GrailsAdminPluginApiController {
             renderedResult = grailsAdminPluginJsonRendererService.renderListAsJson(result)
         }
 
-        render renderedResult
+        render text:renderedResult
     }
 
     def putAdminAction(String slug) {

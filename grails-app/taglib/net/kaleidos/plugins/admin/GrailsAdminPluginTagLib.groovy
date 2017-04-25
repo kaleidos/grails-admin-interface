@@ -1,16 +1,20 @@
 package net.kaleidos.plugins.admin
 
+import grails.web.mapping.LinkGenerator
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.renderer.GrailsAdminPluginHtmlRendererService
+
+
 class GrailsAdminPluginTagLib {
     static namespace = 'gap'
 
-    def grailsAdminPluginHtmlRendererService
-    def adminConfigHolder
+    GrailsAdminPluginHtmlRendererService grailsAdminPluginHtmlRendererService
+    AdminConfigHolder adminConfigHolder
     def grailsResourceLocator
-    def grailsLinkGenerator
+    LinkGenerator grailsLinkGenerator
 
-
-    def editFormFields = { attrs ->
-        def editWidgetProperties = [:]
+    Closure editFormFields = {Map attrs ->
+        Map editWidgetProperties = [:]
 
         if (attrs.editWidgetProperties instanceof Map) {
             editWidgetProperties = attrs.editWidgetProperties
@@ -21,7 +25,7 @@ class GrailsAdminPluginTagLib {
     }
 
     def createFormFields = { attrs ->
-        def createWidgetProperties = [:]
+        Map createWidgetProperties = [:]
 
         if (attrs.createWidgetProperties instanceof Map) {
             createWidgetProperties = attrs.createWidgetProperties
@@ -31,20 +35,21 @@ class GrailsAdminPluginTagLib {
         out << grailsAdminPluginHtmlRendererService.renderCreateFormFields(attrs.className, createWidgetProperties)
     }
 
-    def widgetBeforeForm = { attrs ->
-        def createWidgetProperties = [:]
+    Closure widgetBeforeForm = { attrs ->
+        Map createWidgetProperties = [:]
         if (attrs.createWidgetProperties instanceof Map) {
             createWidgetProperties = attrs.createWidgetProperties
         }
         createWidgetProperties << [disallowRelationships: attrs.disallowRelationships]
 
-        def result = grailsAdminPluginHtmlRendererService.renderBeforeForm(attrs.className, createWidgetProperties)
+        String result = grailsAdminPluginHtmlRendererService.renderBeforeForm(attrs.className, createWidgetProperties)
+
         if (result) {
             out << result
         }
     }
 
-    def widgetAfterForm = { attrs ->
+    Closure widgetAfterForm = { attrs ->
         def createWidgetProperties = [:]
 
         if (attrs.createWidgetProperties instanceof Map) {
@@ -104,7 +109,7 @@ class GrailsAdminPluginTagLib {
         def buildClosure = { Map assetProperties->
             if (grailsResourceLocator.findResourceForURI(assetProperties.file)) {
                 def file = grailsResourceLocator.findResourceForURI(assetProperties.file).getFile()
-                def id = org.apache.commons.io.FilenameUtils.removeExtension(file.getName())
+                def id = file.name.substring(0, file.name.lastIndexOf("."))
                 out << "<script id=\"${id}\" type=\"text/x-handlebars-template\">${file.getText()}</script>"
             }
         }

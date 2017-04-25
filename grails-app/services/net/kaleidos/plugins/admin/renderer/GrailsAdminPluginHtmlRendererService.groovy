@@ -1,16 +1,19 @@
 package net.kaleidos.plugins.admin.renderer
 
-import groovy.json.JsonBuilder
-import net.kaleidos.plugins.admin.DomainInspector
+import grails.web.mapping.LinkGenerator
+import groovy.xml.MarkupBuilder
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.widget.Widget
 import net.kaleidos.plugins.admin.config.DomainConfig
+import net.kaleidos.plugins.admin.widget.GrailsAdminPluginWidgetService
 
 class GrailsAdminPluginHtmlRendererService {
-    def adminConfigHolder
-    def grailsAdminPluginWidgetService
-    def grailsLinkGenerator
+    AdminConfigHolder adminConfigHolder
+    GrailsAdminPluginWidgetService grailsAdminPluginWidgetService
+    LinkGenerator grailsLinkGenerator
 
     String renderEditFormFields(Object object, Map editWidgetProperties=[:]){
-        def domainConfig = adminConfigHolder.getDomainConfig(object)
+        DomainConfig domainConfig = adminConfigHolder.getDomainConfig(object)
         return _renderFormFields("edit", domainConfig, object, editWidgetProperties)
     }
 
@@ -20,11 +23,12 @@ class GrailsAdminPluginHtmlRendererService {
     }
 
     String _renderFormFields(String formType, DomainConfig domainConfig, Object object, Map widgetProperties){
-        def writer = new StringWriter()
-        def builder = new groovy.xml.MarkupBuilder(writer)
+        Writer writer = new StringWriter()
+        MarkupBuilder builder = new groovy.xml.MarkupBuilder(writer)
 
         Map customWidgets = domainConfig.getCustomWidgets(formType)
         List properties = domainConfig.getDefinedPropertiesForGroup(formType)
+
         if (properties) {
             _renderProperties(object, properties, customWidgets, domainConfig, widgetProperties, builder)
         }
@@ -66,9 +70,9 @@ class GrailsAdminPluginHtmlRendererService {
         return writer
     }
 
-    void _renderProperties(object, properties, customWidgets, domainConfig, widgetProperties, builder) {
-        properties.each { propertyName ->
-            def widget
+    void _renderProperties(object, List<String> properties, Map<String, Map> customWidgets, DomainConfig domainConfig, Map widgetProperties, MarkupBuilder builder) {
+        properties.each {String propertyName ->
+            Widget widget
             if (object != null) {
                 widget = grailsAdminPluginWidgetService.getWidget(object, propertyName, customWidgets?."$propertyName", widgetProperties)
             } else {
@@ -104,16 +108,16 @@ class GrailsAdminPluginHtmlRendererService {
     }
 
     String _genericRenderMethod(String method, String formType, String className, Map widgetProperties){
-        def result = new StringBuilder()
+        StringBuilder result = new StringBuilder()
 
-        def domainConfig = adminConfigHolder.getDomainConfig(className)
+        DomainConfig domainConfig = adminConfigHolder.getDomainConfig(className)
         List properties = domainConfig.getDefinedProperties("create")
         Map customWidgets = domainConfig.getCustomWidgets(formType)
 
-        properties.each { propertyName ->
-            def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName", widgetProperties)
+        properties.each {String propertyName ->
+            Widget widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName", widgetProperties)
 
-            def toRender
+            String toRender
             try {
                 toRender = widget."$method"()
             } catch (Throwable t) {
@@ -125,20 +129,23 @@ class GrailsAdminPluginHtmlRendererService {
                 result << toRender
             }
         }
+
         return result
     }
 
     //list
 
     String renderListLine(String objClass, Object object){
-        def config = adminConfigHolder.getDomainConfig(objClass)
+        DomainConfig config = adminConfigHolder.getDomainConfig(objClass)
 
         if (!config) {
             adminConfigHolder.getDomainConfig(object)
         }
 
         List properties = config.getDefinedProperties("list")
+
         StringBuilder html = new StringBuilder()
+
         properties.each{propertyName ->
             html.append("<td>")
             def val = object."${propertyName}"
@@ -164,11 +171,10 @@ class GrailsAdminPluginHtmlRendererService {
 
 
             // TODO: Who has to decide how to encode? Widget or this method?
-
-
             html.append("</td>")
         }
-        return html
+
+        return html.toString()
     }
 
     boolean isCollectionOrArray(object) {
@@ -176,19 +182,19 @@ class GrailsAdminPluginHtmlRendererService {
     }
 
     String renderListTitle(String className, String sort, String sortOrder){
-        def domain = adminConfigHolder.getDomainConfig(className)
+        DomainConfig domain = adminConfigHolder.getDomainConfig(className)
         List properties = domain.getDefinedProperties("list")
         List sortable = domain.getSortableProperties("list")
 
         StringBuilder html = new StringBuilder()
 
-        properties.each{ propertyName ->
-            def sortLink = ''
-            def theClassName = ''
+        properties.each{String propertyName ->
+            String sortLink = ''
+            String theClassName = ''
 
             if (propertyName in sortable) {
                 theClassName = 'sortable'
-                def order = 'desc'
+                String order = 'desc'
 
                 if (propertyName == sort) {
                     if (sortOrder == 'asc') {
@@ -220,21 +226,21 @@ class GrailsAdminPluginHtmlRendererService {
             html.append("</th>")
         }
 
-        return html
+        return html.toString()
     }
 
     void doWithAssetType(String formType, String className, String type, Closure closure) {
         if (!formType || !className) {
             return
         }
-        def domainConfig = adminConfigHolder.getDomainConfig(className)
+
+        DomainConfig domainConfig = adminConfigHolder.getDomainConfig(className)
 
         if (domainConfig) {
             List properties = domainConfig.getDefinedProperties(formType)
             Map customWidgets = domainConfig.getCustomWidgets(formType)
 
-            def builder = new StringBuilder()
-            def widgetAssets = []
+            List widgetAssets = []
 
             properties.each{ propertyName ->
                 def widget = grailsAdminPluginWidgetService.getWidgetForClass(domainConfig.domainClass, propertyName, customWidgets?."$propertyName")

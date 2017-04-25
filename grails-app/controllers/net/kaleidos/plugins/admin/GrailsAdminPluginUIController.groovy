@@ -1,14 +1,15 @@
 package net.kaleidos.plugins.admin
 
-import org.codehaus.groovy.grails.web.sitemesh.GroovyPageLayoutFinder
-import grails.validation.ValidationException
-import grails.converters.JSON
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
+import net.kaleidos.plugins.admin.config.DomainConfig
 
 class GrailsAdminPluginUIController {
+    static namespace = "admin"
+
     static final int ITEMS_BY_PAGE = 10
 
-    def adminConfigHolder
-    def grailsAdminPluginDataService
+    AdminConfigHolder adminConfigHolder
+    GrailsAdminPluginDataService grailsAdminPluginDataService
 
     def adminMethod() {
         log.debug ">> Execute: ${params}"
@@ -58,17 +59,17 @@ class GrailsAdminPluginUIController {
     }
 
     def edit(String slug) {
-        def domain = adminConfigHolder.getDomainConfigBySlug(slug)
+        DomainConfig domain = adminConfigHolder.getDomainConfigBySlug(slug)
 
-        if (!domain) {
+        if (!domain || !params.id) {
             response.status = 404
             return
         }
 
-        def object = domain.domainClass.get(params?.id)
+        def object = domain.domainClass.get(params.id)
 
         if (object) {
-            def model = [:]
+            Map model = [:]
             model << [domain:domain]
             model << [object:object]
             model << [formType:"edit"]

@@ -1,13 +1,16 @@
 package net.kaleidos.plugins.admin
 
+import grails.core.GrailsApplication
+import grails.transaction.Transactional
+import net.kaleidos.plugins.admin.config.AdminConfigHolder
 import net.kaleidos.plugins.admin.config.DomainConfig
+import net.kaleidos.plugins.admin.widget.GrailsAdminPluginWidgetService
 
+@Transactional
 class GrailsAdminPluginDataService {
-    static transactional = true
-
-    def grailsApplication
-    def grailsAdminPluginWidgetService
-    def adminConfigHolder
+    GrailsApplication grailsApplication
+    GrailsAdminPluginWidgetService grailsAdminPluginWidgetService
+    AdminConfigHolder adminConfigHolder
 
     List listDomain(Class domainClass){
         return domainClass.list()

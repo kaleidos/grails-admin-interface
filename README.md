@@ -57,3 +57,9 @@ grails.plugin.admin.domain.Conference = {
 ## Contribution
 
 To learn more about how to contribute to this project please visit [Contribution](https://kaleidos.github.io/grails-admin-interface/guide/contributing.html) section.
+
+
+Thanks to JetBrains for Awesome IntelliJ Idea
+
+<img src="https://cdn.rawgit.com/snimavat/repo-bin/master/assets/jetbrains/icon_IntelliJIDEA.svg" width="48">
+
